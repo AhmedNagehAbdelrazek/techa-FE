@@ -42,10 +42,10 @@ export default function RootLayout({
         >
           <QueryProvider>
             <TooltipProvider>
-              {/* <AuthProvider> */}
+              <AuthProvider>
                 {children}
                 <Toaster />
-              {/* </AuthProvider> */}
+              </AuthProvider>
             </TooltipProvider>
           </QueryProvider>
         </ThemeProvider>

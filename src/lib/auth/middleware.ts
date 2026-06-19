@@ -5,5 +5,11 @@ export function isAuthenticated(request: NextRequest): boolean {
 }
 
 export function isAuthPage(pathname: string): boolean {
-  return pathname.startsWith("/login") || pathname.startsWith("/register");
+  return (
+    pathname.startsWith("/login") ||
+    pathname.startsWith("/register") ||
+    pathname.startsWith("/verify-email") ||
+    pathname.startsWith("/forgot-password") ||
+    pathname.startsWith("/reset-password")
+  );
 }

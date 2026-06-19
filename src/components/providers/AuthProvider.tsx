@@ -1,12 +1,20 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import { setTokenGetter } from '@/services/client';
-import { useAuthStore } from '@/stores/auth';
+import { useEffect } from "react";
+import { setOnUnauthorized } from "@/services/client";
+import { useAuthStore } from "@/lib/stores/auth.store";
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
-    setTokenGetter(() => useAuthStore.getState().token);
+    useAuthStore.getState().hydrateFromStorage();
+
+    setOnUnauthorized(() => {
+      useAuthStore.getState().logout();
+    });
+
+    return () => {
+      setOnUnauthorized(null);
+    };
   }, []);
 
   return <>{children}</>;

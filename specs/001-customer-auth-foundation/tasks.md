@@ -37,8 +37,8 @@ description: "Task list for Customer Auth Foundation implementation"
 
 **Purpose**: Project directories and environment alignment
 
-- [ ] T001 Create `src/app/(store)/` route group directories: login, register, verify-email, forgot-password, reset-password, account
-- [ ] T002 Rename `NEXT_PUBLIC_BACKEND_URL` to `NEXT_PUBLIC_API_URL` in `.env.local` to match `src/lib/api/endpoints.ts`
+- [X] T001 Create `src/app/(store)/` route group directories: login, register, verify-email, forgot-password, reset-password, account
+- [X] T002 Rename `NEXT_PUBLIC_BACKEND_URL` to `NEXT_PUBLIC_API_URL` in `.env.local` to match `src/lib/api/endpoints.ts`
 
 ---
 
@@ -48,14 +48,14 @@ description: "Task list for Customer Auth Foundation implementation"
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T003 [P] Create TypeScript auth interfaces in `src/lib/types/auth.ts` — AuthResponse, User, RegisterPayload, LoginPayload, VerifyEmailPayload, ResendVerificationPayload, ForgotPasswordPayload, ResetPasswordPayload, UpdateProfilePayload, ApiError
-- [ ] T004 [P] Extend Zustand auth store in `src/lib/stores/auth.store.ts` — add `isAuthenticated`, `isLoading`, `error` state; add `setToken`, `hydrateFromStorage`, `logout` actions; remove `status` field in favor of `isAuthenticated` boolean
-- [ ] T005 [P] Create typed auth API wrapper in `src/lib/api/auth.ts` — functions: register, verifyEmail, resendVerification, login, getMe, updateMe, logout, forgotPassword, resetPassword; all use existing `request` from `Request.ts`
-- [ ] T006 Fix AuthProvider import path in `src/components/providers/AuthProvider.tsx` — change `@/stores/auth` to `@/lib/stores/auth`
-- [ ] T007 Update AuthProvider in `src/components/providers/AuthProvider.tsx` — replace `setTokenGetter` with `hydrateFromStorage` call on mount; wire `onUnauthorized` callback to call `logout` action
-- [ ] T008 Uncomment `<AuthProvider>` wrapper in `src/app/layout.tsx` to enable auth hydration on app boot
-- [ ] T009 [P] Update Next.js middleware in `src/middleware.ts` — add auth redirect logic: check for `access_token` cookie, redirect unauthenticated users from `/account` to `/login?next=<path>`
-- [ ] T010 [P] Wire sonner toast in `src/services/client.ts` response interceptor to show auth errors as toasts
+- [X] T003 [P] Create TypeScript auth interfaces in `src/lib/types/auth.ts` — AuthResponse, User, RegisterPayload, LoginPayload, VerifyEmailPayload, ResendVerificationPayload, ForgotPasswordPayload, ResetPasswordPayload, UpdateProfilePayload, ApiError
+- [X] T004 [P] Extend Zustand auth store in `src/lib/stores/auth.store.ts` — add `isAuthenticated`, `isLoading`, `error` state; add `setToken`, `hydrateFromStorage`, `logout` actions; remove `status` field in favor of `isAuthenticated` boolean
+- [X] T005 [P] Create typed auth API wrapper in `src/lib/api/auth.ts` — functions: register, verifyEmail, resendVerification, login, getMe, updateMe, logout, forgotPassword, resetPassword; all use existing `request` from `Request.ts`
+- [X] T006 Fix AuthProvider import path in `src/components/providers/AuthProvider.tsx` — change `@/stores/auth` to `@/lib/stores/auth`
+- [X] T007 Update AuthProvider in `src/components/providers/AuthProvider.tsx` — replace `setTokenGetter` with `hydrateFromStorage` call on mount; wire `onUnauthorized` callback to call `logout` action
+- [X] T008 Uncomment `<AuthProvider>` wrapper in `src/app/layout.tsx` to enable auth hydration on app boot
+- [X] T009 [P] Update Next.js middleware in `src/middleware.ts` — add auth redirect logic: check for `access_token` cookie, redirect unauthenticated users from `/account` to `/login?next=<path>`
+- [X] T010 [P] Wire sonner toast in `src/services/client.ts` response interceptor to show auth errors as toasts
 
 **Checkpoint**: Foundation ready — user story implementation can now begin in parallel
 
@@ -69,9 +69,9 @@ description: "Task list for Customer Auth Foundation implementation"
 
 ### Implementation for User Story 1
 
-- [ ] T011 [US1] Create RegisterForm component in `src/components/auth/RegisterForm.tsx` — fields: full_name, email, phone, password, confirm_password; uses react-hook-form with zod validation schema; submits to `register()` API; shows inline field errors; disables button with spinner on submit
-- [ ] T012 [US1] Create registration page in `src/app/(store)/register/page.tsx` — renders RegisterForm component, simple centered layout with branding
-- [ ] T013 [US1] Handle server error responses in RegisterForm — map 409 (duplicate email) to inline email field error; show toast for 429 (rate limited) and network errors; handle 422 validation errors inline
+- [X] T011 [US1] Create RegisterForm component in `src/components/auth/RegisterForm.tsx` — fields: full_name, email, phone, password, confirm_password; uses react-hook-form with zod validation schema; submits to `register()` API; shows inline field errors; disables button with spinner on submit
+- [X] T012 [US1] Create registration page in `src/app/(store)/register/page.tsx` — renders RegisterForm component, simple centered layout with branding
+- [X] T013 [US1] Handle server error responses in RegisterForm — map 409 (duplicate email) to inline email field error; show toast for 429 (rate limited) and network errors; handle 422 validation errors inline
 
 **Checkpoint**: Registration flow works end-to-end — user fills form, submits, sees validation, succeeds with redirect to /verify-email
 
@@ -85,9 +85,9 @@ description: "Task list for Customer Auth Foundation implementation"
 
 ### Implementation for User Story 2
 
-- [ ] T014 [US2] Create VerifyEmailForm component in `src/components/auth/VerifyEmailForm.tsx` — 6-digit code input (single input or 6 individual digit inputs), "Resend code" button with 60s countdown timer; submits to `verifyEmail()` API; shows inline error for invalid/expired code
-- [ ] T015 [US2] Create verify-email page in `src/app/(store)/verify-email/page.tsx` — renders VerifyEmailForm, includes email query param pre-fill from registration flow; redirect to `/login` on success
-- [ ] T016 [US2] Handle resend verification flow — "Resend code" button calls `resendVerification()` API; 60s countdown disables button with visual timer; toast on success/error
+- [X] T014 [US2] Create VerifyEmailForm component in `src/components/auth/VerifyEmailForm.tsx` — 6-digit code input (single input or 6 individual digit inputs), "Resend code" button with 60s countdown timer; submits to `verifyEmail()` API; shows inline error for invalid/expired code
+- [X] T015 [US2] Create verify-email page in `src/app/(store)/verify-email/page.tsx` — renders VerifyEmailForm, includes email query param pre-fill from registration flow; redirect to `/login` on success
+- [X] T016 [US2] Handle resend verification flow — "Resend code" button calls `resendVerification()` API; 60s countdown disables button with visual timer; toast on success/error
 
 **Checkpoint**: Email verification works end-to-end — user enters code, sees validation, succeeds with redirect to /login
 
@@ -101,9 +101,9 @@ description: "Task list for Customer Auth Foundation implementation"
 
 ### Implementation for User Story 3
 
-- [ ] T017 [US3] Create LoginForm component in `src/components/auth/LoginForm.tsx` — fields: email, password; "Forgot password?" link below form; submits to `login()` API; reads `next` query param for post-login redirect; shows inline error for invalid credentials; distinguishes unverified email error (with link to /verify-email) from invalid credentials
-- [ ] T018 [US3] Create login page in `src/app/(store)/login/page.tsx` — renders LoginForm, centered layout with branding; reads `next` query param from URL
-- [ ] T019 [US3] Create ProtectedRoute component in `src/components/auth/ProtectedRoute.tsx` — client component that checks `useAuthStore.isAuthenticated`; if not authenticated, redirects to `/login?next=<current_path>`; renders children when authenticated; handles loading state during hydration
+- [X] T017 [US3] Create LoginForm component in `src/components/auth/LoginForm.tsx` — fields: email, password; "Forgot password?" link below form; submits to `login()` API; reads `next` query param for post-login redirect; shows inline error for invalid credentials; distinguishes unverified email error (with link to /verify-email) from invalid credentials
+- [X] T018 [US3] Create login page in `src/app/(store)/login/page.tsx` — renders LoginForm, centered layout with branding; reads `next` query param from URL
+- [X] T019 [US3] Create ProtectedRoute component in `src/components/auth/ProtectedRoute.tsx` — client component that checks `useAuthStore.isAuthenticated`; if not authenticated, redirects to `/login?next=<current_path>`; renders children when authenticated; handles loading state during hydration
 
 **Checkpoint**: Login flow works end-to-end — user enters credentials, sees validation, succeeds with redirect to target page
 
@@ -117,10 +117,10 @@ description: "Task list for Customer Auth Foundation implementation"
 
 ### Implementation for User Story 4
 
-- [ ] T020 [US4] Create ForgotPasswordForm component in `src/components/auth/ForgotPasswordForm.tsx` — email input only; submits to `forgotPassword()` API; always shows success message (prevents email enumeration); "Back to login" link
-- [ ] T021 [US4] Create forgot-password page in `src/app/(store)/forgot-password/page.tsx` — renders ForgotPasswordForm, centered layout
-- [ ] T022 [US4] Create ResetPasswordForm component in `src/components/auth/ResetPasswordForm.tsx` — fields: 6-digit code input, new_password, confirm_password; submits to `resetPassword()` API; shows inline error for expired/incorrect code
-- [ ] T023 [US4] Create reset-password page in `src/app/(store)/reset-password/page.tsx` — renders ResetPasswordForm, centered layout; accepts email query param to pre-fill
+- [X] T020 [US4] Create ForgotPasswordForm component in `src/components/auth/ForgotPasswordForm.tsx` — email input only; submits to `forgotPassword()` API; always shows success message (prevents email enumeration); "Back to login" link
+- [X] T021 [US4] Create forgot-password page in `src/app/(store)/forgot-password/page.tsx` — renders ForgotPasswordForm, centered layout
+- [X] T022 [US4] Create ResetPasswordForm component in `src/components/auth/ResetPasswordForm.tsx` — fields: 6-digit code input, new_password, confirm_password; submits to `resetPassword()` API; shows inline error for expired/incorrect code
+- [X] T023 [US4] Create reset-password page in `src/app/(store)/reset-password/page.tsx` — renders ResetPasswordForm, centered layout; accepts email query param to pre-fill
 
 **Checkpoint**: Password reset flow works end-to-end — user requests reset, enters code and new password, succeeds with redirect to /login
 
@@ -134,8 +134,8 @@ description: "Task list for Customer Auth Foundation implementation"
 
 ### Implementation for User Story 5
 
-- [ ] T024 [US5] Create ProfileForm component in `src/components/auth/ProfileForm.tsx` — pre-populated fields: full_name (mapped from `name`), phone, email (read-only), avatar display; submits to `updateMe()` API via PATCH; shows inline validation errors; loading state on save
-- [ ] T025 [US5] Create account page in `src/app/(store)/account/page.tsx` — wraps content in ProtectedRoute; renders ProfileForm; fetches user data via `getMe()` API on mount if store isn't hydrated; handles session expiry (401 → redirect to login)
+- [X] T024 [US5] Create ProfileForm component in `src/components/auth/ProfileForm.tsx` — pre-populated fields: full_name (mapped from `name`), phone, email (read-only), avatar display; submits to `updateMe()` API via PATCH; shows inline validation errors; loading state on save
+- [X] T025 [US5] Create account page in `src/app/(store)/account/page.tsx` — wraps content in ProtectedRoute; renders ProfileForm; fetches user data via `getMe()` API on mount if store isn't hydrated; handles session expiry (401 → redirect to login)
 
 **Checkpoint**: Profile viewing and editing works — user sees data, edits fields, saves, and changes persist
 
@@ -149,9 +149,9 @@ description: "Task list for Customer Auth Foundation implementation"
 
 ### Implementation for User Story 6
 
-- [ ] T026 [US6] Add logout action to auth store in `src/lib/stores/auth.store.ts` — clear `user`, set `isAuthenticated` to false, reset `isLoading`
-- [ ] T027 [US6] Create logout handler — can be a simple button or link that calls `logout()` API then store's `logout()` action; redirects to `/` on success
-- [ ] T028 [US6] Add logout button to ProtectedRoute or account page — visible only when authenticated; calls logout flow on click
+- [X] T026 [US6] Add logout action to auth store in `src/lib/stores/auth.store.ts` — clear `user`, set `isAuthenticated` to false, reset `isLoading`
+- [X] T027 [US6] Create logout handler — can be a simple button or link that calls `logout()` API then store's `logout()` action; redirects to `/` on success
+- [X] T028 [US6] Add logout button to ProtectedRoute or account page — visible only when authenticated; calls logout flow on click
 
 **Checkpoint**: Logout works — authenticated user clicks logout, redirected to home, protected routes redirect to /login
 
@@ -161,11 +161,11 @@ description: "Task list for Customer Auth Foundation implementation"
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [ ] T029 Normalize email to lowercase before sending in all auth API calls (register, login, forgot-password, reset-password)
-- [ ] T030 Add loading skeleton states to all auth pages while initial data loads
-- [ ] T031 Ensure all auth pages are responsive at 375px width (test all form layouts)
-- [ ] T032 Add aria-labels to all interactive elements in auth forms for accessibility
-- [ ] T033 Run quickstart.md validation steps and fix any issues found
+- [X] T029 Normalize email to lowercase before sending in all auth API calls (register, login, forgot-password, reset-password)
+- [X] T030 Add loading skeleton states to all auth pages while initial data loads
+- [X] T031 Ensure all auth pages are responsive at 375px width (test all form layouts)
+- [X] T032 Add aria-labels to all interactive elements in auth forms for accessibility
+- [X] T033 Run quickstart.md validation steps and fix any issues found
 
 ---
 

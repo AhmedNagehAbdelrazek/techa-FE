@@ -1,4 +1,5 @@
-import axios from 'axios';
+import axios from "axios";
+import { toast } from "sonner";
 
 // Create Axios instance - uses Next.js rewrite proxy to avoid CORS
 const client = axios.create({
@@ -59,19 +60,29 @@ client.interceptors.request.use(
 client.interceptors.response.use(
   (response) => {
     // Extract CSRF token from response if present
-    const newCsrfToken = response.headers['x-csrf-token'];
+    const newCsrfToken = response.headers["x-csrf-token"];
     if (newCsrfToken) {
       setCsrfToken(newCsrfToken);
     }
     return response;
   },
   (error) => {
-    if (error.response?.status === 401) {
+    const status = error.response?.status;
+
+    if (status === 401) {
       // Call unauthorized callback if set
       if (onUnauthorizedCallback) {
         onUnauthorizedCallback();
       }
     }
+
+    // Show toast for auth-related errors
+    if (status === 401 || status === 403 || status === 429) {
+      const message =
+        error.response?.data?.message || "An unexpected error occurred";
+      toast.error(message);
+    }
+
     return Promise.reject(error);
   }
 );
