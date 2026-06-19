@@ -1,5 +1,5 @@
 import { request } from "./Request";
-import type { ProductListItem, ProductListResponse } from "@/lib/types/product";
+import type { ProductDetail, ProductListItem, ProductListResponse } from "@/lib/types/product";
 
 interface ApiProductImage {
   url: string;
@@ -75,4 +75,12 @@ export async function getProducts(params?: Record<string, string | number | bool
       totalPages: data.meta.totalPages,
     },
   };
+}
+
+export async function getProductBySlug(slug: string): Promise<ProductDetail | null> {
+  try {
+    return await request.get<ProductDetail>(`/api/products/${slug}`);
+  } catch {
+    return null;
+  }
 }

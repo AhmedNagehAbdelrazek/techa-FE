@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { ProductListItem } from "@/lib/types/product";
+import { WishlistButton } from "./WishlistButton";
 
 interface ProductCardProps {
   product: ProductListItem;
@@ -35,9 +36,7 @@ function RatingStars({ average, count }: { average: number; count: number }) {
           );
         })}
       </div>
-      {count > 0 && (
-        <span className="text-xs text-muted-foreground">({count})</span>
-      )}
+      {count > 0 && <span className="text-muted-foreground text-xs">({count})</span>}
     </div>
   );
 }
@@ -49,50 +48,43 @@ export function ProductCard({ product }: ProductCardProps) {
     : product.base_price;
 
   return (
-    <div className="group relative flex flex-col overflow-hidden rounded-lg border bg-card">
+    <div className="group bg-card relative flex flex-col overflow-hidden rounded-lg border">
       <div className="relative aspect-square overflow-hidden">
         {product.primary_image ? (
           <Image
-            src={product.primary_image.url}
-            alt={product.primary_image.alt_text ?? product.name}
+          // src={product.primary_image.url}
+          src={"https://m.media-amazon.com/images/I/31+szXly4tL._MCnd_AC_.jpg"}
+          alt={product.primary_image.alt_text ?? product.name}
             fill
             className="object-cover transition-transform group-hover:scale-105"
             loading="lazy"
           />
         ) : (
-          <div className="flex h-full items-center justify-center bg-muted">
-            <span className="text-sm text-muted-foreground">No image</span>
+          <div className="bg-muted flex h-full items-center justify-center">
+            <span className="text-muted-foreground text-sm">No image</span>
           </div>
         )}
-        {hasDiscount && (
-          <span className="absolute left-2 top-2 rounded bg-destructive px-1.5 py-0.5 text-xs font-semibold text-destructive-foreground">
-            -{product.discount_percent}%
-          </span>
-        )}
-        <button
-          type="button"
-          className="absolute right-2 top-2 rounded-full bg-background/80 p-1.5 opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100"
-          aria-label="Toggle wishlist"
-        >
-          <Heart className="h-4 w-4" />
-        </button>
+        <div className="absolute top-2 right-2 flex flex-row justify-between w-full px-2 box-border">
+          {hasDiscount && (
+            <span className="bg-destructive text-destructive-foreground absolute top-2 left-2 rounded px-1.5 py-0.5 text-xs font-semibold">
+              -{product.discount_percent}%
+            </span>
+          )}
+          <WishlistButton productId={product.id} className={"z-99 border-0 shadow-none"} />
+        </div>
       </div>
       <div className="flex flex-1 flex-col gap-1.5 p-3">
-        {product.brand && (
-          <p className="text-xs text-muted-foreground">{product.brand.name}</p>
-        )}
-        <Link href={`/products/${product.slug}`}>
-          <h3 className="line-clamp-2 text-sm font-medium leading-tight hover:underline">
+        {product.brand && <p className="text-muted-foreground text-xs">{product.brand.name}</p>}
+        <Link href={`/product/${product.slug}`}>
+          <h3 className="line-clamp-2 text-sm leading-tight font-medium hover:underline">
             {product.name}
           </h3>
         </Link>
         <RatingStars average={product.rating_avg} count={product.rating_count} />
         <div className="mt-auto flex items-baseline gap-2 pt-1">
-          <span className="text-base font-bold">
-            {formatPrice(discountedPrice)}
-          </span>
+          <span className="text-base font-bold">{formatPrice(discountedPrice)}</span>
           {hasDiscount && (
-            <span className="text-sm text-muted-foreground line-through">
+            <span className="text-muted-foreground text-sm line-through">
               {formatPrice(product.base_price)}
             </span>
           )}

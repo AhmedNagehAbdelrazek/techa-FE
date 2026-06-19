@@ -29,8 +29,12 @@ function mapBanner(api: ApiBanner): Banner {
   };
 }
 
+interface ApiBannersResponse {
+  data: ApiBanner[];
+}
+
 export async function getBanners(position?: string): Promise<Banner[]> {
   const params = position ? `?position=${position}` : "";
-  const data = await request.get<ApiBanner[]>(`/api/banners${params}`);
+  const data = await request.get<ApiBannersResponse>(`/api/banners${params}`);
   return data.data.map(mapBanner);
 }
