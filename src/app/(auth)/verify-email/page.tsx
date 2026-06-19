@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { VerifyEmailForm } from "@/components/auth/VerifyEmailForm";
 
 export default function VerifyEmailPage() {
@@ -10,7 +11,9 @@ export default function VerifyEmailPage() {
             Enter the 6-digit code sent to your email
           </p>
         </div>
-        <VerifyEmailForm />
+        <Suspense fallback={null}>
+          <VerifyEmailForm />
+        </Suspense>
       </div>
     </div>
   );
