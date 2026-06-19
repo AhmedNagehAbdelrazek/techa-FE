@@ -15,6 +15,7 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
   const isLoading = useAuthStore((state) => state.isLoading);
 
   useEffect(() => {
+    console.log("isAuthenticated", isAuthenticated);
     if (!isLoading && !isAuthenticated) {
       const loginUrl = `/login?next=${encodeURIComponent(pathname)}`;
       router.replace(loginUrl);

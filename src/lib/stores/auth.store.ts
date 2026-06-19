@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import type { User } from "@/lib/types/auth";
-import { AUTH_COOKIE_NAME } from "@/lib/auth/constants";
+
+const AUTH_FLAG_KEY = "auth_logged_in";
 
 interface AuthState {
   user: User | null;
@@ -24,20 +25,26 @@ export const useAuthStore = create<AuthState>((set) => ({
   setIsLoading: (isLoading) => set({ isLoading }),
   setError: (error) => set({ error }),
   hydrateFromStorage: () => {
-    const hasCookie =
-      typeof document !== "undefined" &&
-      document.cookie
-        .split(";")
-        .some((c) => c.trim().startsWith(`${AUTH_COOKIE_NAME}=`));
-    set({ isAuthenticated: hasCookie, isLoading: false });
+    const isLoggedIn =
+      typeof localStorage !== "undefined" &&
+      localStorage.getItem(AUTH_FLAG_KEY) === "true";
+    set({ isAuthenticated: isLoggedIn, isLoading: false });
   },
-  login: (user) =>
-    set({ user, isAuthenticated: true, isLoading: false, error: null }),
-  logout: () =>
+  login: (user) => {
+    if (typeof localStorage !== "undefined") {
+      localStorage.setItem(AUTH_FLAG_KEY, "true");
+    }
+    set({ user, isAuthenticated: true, isLoading: false, error: null });
+  },
+  logout: () => {
+    if (typeof localStorage !== "undefined") {
+      localStorage.removeItem(AUTH_FLAG_KEY);
+    }
     set({
       user: null,
       isAuthenticated: false,
       isLoading: false,
       error: null,
-    }),
+    });
+  },
 }));
