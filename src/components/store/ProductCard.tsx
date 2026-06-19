@@ -52,11 +52,11 @@ export function ProductCard({ product }: ProductCardProps) {
       <div className="relative aspect-square overflow-hidden">
         {product.primary_image ? (
           <Image
-          // src={product.primary_image.url}
-          src={"https://m.media-amazon.com/images/I/31+szXly4tL._MCnd_AC_.jpg"}
+          src={product.primary_image.url}
+          // src={"https://m.media-amazon.com/images/I/31+szXly4tL._MCnd_AC_.jpg"}
           alt={product.primary_image.alt_text ?? product.name}
             fill
-            className="object-cover transition-transform group-hover:scale-105"
+            className="object-contain transition-transform group-hover:scale-105"
             loading="lazy"
           />
         ) : (
@@ -64,7 +64,7 @@ export function ProductCard({ product }: ProductCardProps) {
             <span className="text-muted-foreground text-sm">No image</span>
           </div>
         )}
-        <div className="absolute top-2 right-2 flex flex-row justify-between w-full px-2 box-border">
+        <div className="absolute top-2 flex flex-row justify-between w-full px-2 box-border">
           {hasDiscount && (
             <span className="bg-destructive text-destructive-foreground absolute top-2 left-2 rounded px-1.5 py-0.5 text-xs font-semibold">
               -{product.discount_percent}%
