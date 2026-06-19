@@ -21,7 +21,7 @@ export function CategoryCard({ category, className }: CategoryCardProps) {
       <div className="relative aspect-square w-full max-w-[120px] overflow-hidden rounded-full">
         {category.image_url ? (
           <Image
-            src={category.image_url}
+            // src={category.image_url} // TODO: replace with optimized image
             alt={category.name}
             fill
             className="object-cover transition-transform group-hover:scale-110"

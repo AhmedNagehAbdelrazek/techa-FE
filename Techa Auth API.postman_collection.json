@@ -43,7 +43,52 @@
                   ]
                 }
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Created (201)",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\"name\":\"Electronics\",\"parent_id\":null,\"sort_order\":1,\"image_url\":\"https://example.com/electronics.jpg\"}"
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/categories",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "categories"
+                      ]
+                    }
+                  },
+                  "status": "Created",
+                  "code": 201,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"id\": \"uuid\",\n  \"name\": \"Electronics\",\n  \"slug\": \"electronics\",\n  \"parent_id\": null,\n  \"image_url\": \"https://example.com/electronics.jpg\",\n  \"sort_order\": 1,\n  \"is_active\": true\n}"
+                }
+              ]
             },
             {
               "name": "Update Category",
@@ -82,7 +127,53 @@
                   ]
                 }
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Success (200)",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\"name\":\"Electronics Updated\",\"sort_order\":2}"
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/categories/:id",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "categories",
+                        ":id"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"id\": \"uuid\",\n  \"name\": \"Electronics Updated\",\n  \"slug\": \"electronics\",\n  \"parent_id\": null,\n  \"image_url\": \"https://example.com/electronics.jpg\",\n  \"sort_order\": 2,\n  \"is_active\": true\n}"
+                }
+              ]
             },
             {
               "name": "Delete Category",
@@ -113,7 +204,44 @@
                   ]
                 }
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Success (200)",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/categories/:id",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "categories",
+                        ":id"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"message\": \"Category deactivated successfully.\"\n}"
+                }
+              ]
             }
           ]
         },
@@ -150,7 +278,52 @@
                   ]
                 }
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Created (201)",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\"name\":\"Samsung\",\"description\":\"South Korean electronics manufacturer\",\"logo_url\":\"https://example.com/samsung-logo.png\"}"
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/brands",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "brands"
+                      ]
+                    }
+                  },
+                  "status": "Created",
+                  "code": 201,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"id\": \"uuid\",\n  \"name\": \"Samsung\",\n  \"slug\": \"samsung\",\n  \"description\": \"South Korean electronics manufacturer\",\n  \"logo_url\": \"https://example.com/samsung-logo.png\",\n  \"is_active\": true\n}"
+                }
+              ]
             },
             {
               "name": "Update Brand",
@@ -189,7 +362,53 @@
                   ]
                 }
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Success (200)",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\"name\":\"Samsung Electronics\",\"description\":\"Updated description\"}"
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/brands/:id",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "brands",
+                        ":id"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"id\": \"uuid\",\n  \"name\": \"Samsung Electronics\",\n  \"slug\": \"samsung\",\n  \"description\": \"Updated description\",\n  \"logo_url\": \"https://example.com/samsung-logo.png\",\n  \"is_active\": true\n}"
+                }
+              ]
             },
             {
               "name": "Deactivate Brand",
@@ -220,7 +439,44 @@
                   ]
                 }
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Success (200)",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/brands/:id",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "brands",
+                        ":id"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"message\": \"Brand deactivated successfully.\"\n}"
+                }
+              ]
             }
           ]
         },
@@ -257,7 +513,52 @@
                   ]
                 }
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Created (201)",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\"name\":\"New Tag\"}"
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/tags",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "tags"
+                      ]
+                    }
+                  },
+                  "status": "Created",
+                  "code": 201,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"id\": \"uuid\",\n  \"name\": \"New Tag\",\n  \"slug\": \"new-tag\"\n}"
+                }
+              ]
             },
             {
               "name": "Update Tag",
@@ -296,7 +597,53 @@
                   ]
                 }
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Success (200)",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\"name\":\"Updated Tag\"}"
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/tags/:id",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "tags",
+                        ":id"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"id\": \"uuid\",\n  \"name\": \"Updated Tag\",\n  \"slug\": \"updated-tag\"\n}"
+                }
+              ]
             },
             {
               "name": "Delete Tag",
@@ -327,7 +674,44 @@
                   ]
                 }
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Success (200)",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/tags/:id",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "tags",
+                        ":id"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"message\": \"Tag deleted successfully.\"\n}"
+                }
+              ]
             }
           ]
         },
@@ -371,7 +755,53 @@
                   ]
                 }
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Success (200)",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/coupons?page=1&limit=20",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "coupons"
+                      ],
+                      "query": [
+                        {
+                          "key": "page",
+                          "value": "1"
+                        },
+                        {
+                          "key": "limit",
+                          "value": "20"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"data\": [\n    {\n      \"id\": \"uuid\",\n      \"product_id\": null,\n      \"product\": null,\n      \"code\": \"SAVE20\",\n      \"discount_type\": \"percentage\",\n      \"discount_value\": 20,\n      \"min_order_amount\": 0,\n      \"max_uses\": 100,\n      \"used_count\": 5,\n      \"expires_at\": \"2026-12-31T23:59:59Z\",\n      \"is_active\": true\n    }\n  ],\n  \"meta\": {\n    \"page\": 1,\n    \"limit\": 20,\n    \"total\": 1,\n    \"totalPages\": 1\n  }\n}"
+                }
+              ]
             },
             {
               "name": "Create Coupon",
@@ -403,7 +833,52 @@
                   ]
                 }
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Created (201)",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\"code\":\"SAVE20\",\"discount_type\":\"percentage\",\"discount_value\":20,\"product_id\":null,\"max_uses\":100,\"expires_at\":\"2026-12-31T23:59:59Z\"}"
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/coupons",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "coupons"
+                      ]
+                    }
+                  },
+                  "status": "Created",
+                  "code": 201,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"id\": \"uuid\",\n  \"product_id\": null,\n  \"code\": \"SAVE20\",\n  \"discount_type\": \"percentage\",\n  \"discount_value\": 20,\n  \"min_order_amount\": 0,\n  \"max_uses\": 100,\n  \"used_count\": 0,\n  \"expires_at\": \"2026-12-31T23:59:59Z\",\n  \"is_active\": true\n}"
+                }
+              ]
             },
             {
               "name": "Update Coupon",
@@ -442,7 +917,53 @@
                   ]
                 }
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Success (200)",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\"discount_value\":25,\"max_uses\":200}"
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/coupons/:id",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "coupons",
+                        ":id"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"id\": \"uuid\",\n  \"product_id\": null,\n  \"code\": \"SAVE20\",\n  \"discount_type\": \"percentage\",\n  \"discount_value\": 25,\n  \"min_order_amount\": 0,\n  \"max_uses\": 200,\n  \"used_count\": 0,\n  \"expires_at\": \"2026-12-31T23:59:59Z\",\n  \"is_active\": true\n}"
+                }
+              ]
             },
             {
               "name": "Deactivate Coupon",
@@ -473,7 +994,44 @@
                   ]
                 }
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Success (200)",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/coupons/:id",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "coupons",
+                        ":id"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"message\": \"Coupon deactivated successfully.\"\n}"
+                }
+              ]
             }
           ]
         },
@@ -611,7 +1169,84 @@
                   ]
                 }
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Success (200)",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\"email\":\"admin@techa.com\",\"password\":\"********\"}"
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/auth/login",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "auth",
+                        "login"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"token\": \"eyJhbGciOiJIUzI1NiIs...\",\n  \"admin\": {\n    \"id\": \"uuid\",\n    \"name\": \"Admin User\",\n    \"email\": \"admin@techa.com\",\n    \"role\": \"super_admin\",\n    \"permissions\": [\n      \"all\"\n    ]\n  }\n}"
+                },
+                {
+                  "name": "Invalid credentials (401)",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/auth/login",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "auth",
+                        "login"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"status\": \"error\",\n  \"message\": \"Invalid email or password\",\n  \"code\": \"UNAUTHORIZED\"\n}"
+                }
+              ]
             },
             {
               "name": "Get Profile",
@@ -636,7 +1271,44 @@
                   ]
                 }
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Success (200)",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/auth/me",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "auth",
+                        "me"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"id\": \"uuid\",\n  \"name\": \"Admin User\",\n  \"email\": \"admin@techa.com\",\n  \"role\": \"super_admin\",\n  \"permissions\": [\n    \"all\"\n  ],\n  \"is_active\": true,\n  \"created_at\": \"2026-01-01T00:00:00.000Z\"\n}"
+                }
+              ]
             },
             {
               "name": "Logout",
@@ -661,7 +1333,44 @@
                   ]
                 }
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Success (200)",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/auth/logout",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "auth",
+                        "logout"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"message\": \"Logged out successfully.\"\n}"
+                }
+              ]
             },
             {
               "name": "Create Admin",
@@ -693,7 +1402,52 @@
                   ]
                 }
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Created (201)",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\"name\":\"New Admin\",\"email\":\"newadmin@techa.com\",\"password\":\"********\",\"role_id\":1}"
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/admins",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "admins"
+                      ]
+                    }
+                  },
+                  "status": "Created",
+                  "code": 201,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"id\": \"uuid\",\n  \"name\": \"New Admin\",\n  \"email\": \"newadmin@techa.com\",\n  \"role\": {\n    \"id\": 1,\n    \"name\": \"admin\"\n  },\n  \"is_active\": true\n}"
+                }
+              ]
             },
             {
               "name": "List Admins",
@@ -717,7 +1471,43 @@
                   ]
                 }
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Success (200)",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/admins",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "admins"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "[\n  {\n    \"id\": \"uuid1\",\n    \"name\": \"Admin One\",\n    \"email\": \"admin1@techa.com\",\n    \"role\": \"super_admin\",\n    \"is_active\": true,\n    \"created_at\": \"2026-01-01T00:00:00.000Z\"\n  },\n  {\n    \"id\": \"uuid2\",\n    \"name\": \"Admin Two\",\n    \"email\": \"admin2@techa.com\",\n    \"role\": \"admin\",\n    \"is_active\": true,\n    \"created_at\": \"2026-02-01T00:00:00.000Z\"\n  }\n]"
+                }
+              ]
             },
             {
               "name": "Update Admin",
@@ -750,7 +1540,53 @@
                   ]
                 }
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Success (200)",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\"role_id\":1}"
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/admins/1",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "admins",
+                        "1"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"id\": 1,\n  \"name\": \"Updated Admin\",\n  \"email\": \"admin@techa.com\",\n  \"role\": {\n    \"id\": 1,\n    \"name\": \"super_admin\"\n  },\n  \"is_active\": true\n}"
+                }
+              ]
             },
             {
               "name": "Deactivate Admin",
@@ -775,7 +1611,44 @@
                   ]
                 }
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Success (200)",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/admins/1",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "admins",
+                        "1"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"message\": \"Admin deactivated successfully.\"\n}"
+                }
+              ]
             }
           ]
         },
@@ -805,7 +1678,43 @@
                 },
                 "description": "Returns all delivery zones (active and inactive)."
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Success (200)",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/delivery-zones",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "delivery-zones"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"zones\": [\n    {\n      \"id\": \"uuid\",\n      \"name\": \"Cairo\",\n      \"regions\": [\n        \"Cairo\",\n        \"Giza\",\n        \"Helwan\"\n      ],\n      \"is_active\": true\n    }\n  ]\n}"
+                }
+              ]
             },
             {
               "name": "Get Zone by ID",
@@ -831,7 +1740,44 @@
                 },
                 "description": "Returns a zone with its associated rates."
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Success (200)",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/delivery-zones/{{delivery_zone_id}}",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "delivery-zones",
+                        "{{delivery_zone_id}}"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"id\": \"uuid\",\n  \"name\": \"Cairo\",\n  \"regions\": [\n    \"Cairo\",\n    \"Giza\",\n    \"Helwan\"\n  ],\n  \"is_active\": true,\n  \"ShippingRates\": [\n    {\n      \"id\": \"rate-uuid\",\n      \"charge\": 65,\n      \"estimated_days_min\": 2,\n      \"estimated_days_max\": 5,\n      \"free_above_amount\": null,\n      \"is_active\": true\n    }\n  ]\n}"
+                }
+              ]
             },
             {
               "name": "Create Zone",
@@ -864,7 +1810,52 @@
                 },
                 "description": "Create a new delivery zone with a name and city/region list."
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Created (201)",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\"name\":\"Cairo\",\"regions\":[\"Cairo\",\"Giza\",\"Helwan\"]}"
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/delivery-zones",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "delivery-zones"
+                      ]
+                    }
+                  },
+                  "status": "Created",
+                  "code": 201,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"id\": \"uuid\",\n  \"name\": \"Cairo\",\n  \"regions\": [\n    \"Cairo\",\n    \"Giza\",\n    \"Helwan\"\n  ],\n  \"is_active\": true\n}"
+                }
+              ]
             },
             {
               "name": "Update Zone",
@@ -898,7 +1889,53 @@
                 },
                 "description": "Update a zone's name, regions, or active status."
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Success (200)",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\"name\":\"Cairo Updated\",\"regions\":[\"Cairo\",\"Giza\",\"Helwan\",\"New Cairo\"],\"is_active\":true}"
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/delivery-zones/{{delivery_zone_id}}",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "delivery-zones",
+                        "{{delivery_zone_id}}"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"id\": \"uuid\",\n  \"name\": \"Cairo Updated\",\n  \"regions\": [\n    \"Cairo\",\n    \"Giza\",\n    \"Helwan\",\n    \"New Cairo\"\n  ],\n  \"is_active\": true\n}"
+                }
+              ]
             },
             {
               "name": "Deactivate Zone",
@@ -924,7 +1961,44 @@
                 },
                 "description": "Soft-deletes a zone and deactivates all its shipping rates."
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Success (200)",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/delivery-zones/{{delivery_zone_id}}",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "delivery-zones",
+                        "{{delivery_zone_id}}"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"message\": \"Delivery zone deactivated successfully.\"\n}"
+                }
+              ]
             },
             {
               "name": "List Rates for Zone",
@@ -951,7 +2025,45 @@
                 },
                 "description": "Returns all shipping rates for a specific zone."
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Success (200)",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/delivery-zones/{{delivery_zone_id}}/rates",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "delivery-zones",
+                        "{{delivery_zone_id}}",
+                        "rates"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"rates\": [\n    {\n      \"id\": \"rate-uuid\",\n      \"charge\": 65,\n      \"estimated_days_min\": 2,\n      \"estimated_days_max\": 5,\n      \"free_above_amount\": null,\n      \"min_order_amount\": 0,\n      \"max_order_amount\": null,\n      \"is_active\": true\n    }\n  ]\n}"
+                }
+              ]
             },
             {
               "name": "Create Rate",
@@ -986,7 +2098,54 @@
                 },
                 "description": "Add a shipping rate to a zone."
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Created (201)",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\"charge\":65,\"estimated_days_min\":2,\"estimated_days_max\":5,\"free_above_amount\":null,\"min_order_amount\":0,\"max_order_amount\":null}"
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/delivery-zones/{{delivery_zone_id}}/rates",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "delivery-zones",
+                        "{{delivery_zone_id}}",
+                        "rates"
+                      ]
+                    }
+                  },
+                  "status": "Created",
+                  "code": 201,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"id\": \"rate-uuid\",\n  \"delivery_zone_id\": \"zone-uuid\",\n  \"charge\": 65,\n  \"estimated_days_min\": 2,\n  \"estimated_days_max\": 5,\n  \"free_above_amount\": null,\n  \"min_order_amount\": 0,\n  \"max_order_amount\": null,\n  \"is_active\": true\n}"
+                }
+              ]
             },
             {
               "name": "Update Rate",
@@ -1020,7 +2179,53 @@
                 },
                 "description": "Update a shipping rate's fields."
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Success (200)",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\"charge\":70,\"estimated_days_min\":2,\"free_above_amount\":500,\"is_active\":true}"
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/rates/{{shipping_rate_id}}",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "rates",
+                        "{{shipping_rate_id}}"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"id\": \"rate-uuid\",\n  \"delivery_zone_id\": \"zone-uuid\",\n  \"charge\": 70,\n  \"estimated_days_min\": 2,\n  \"estimated_days_max\": 5,\n  \"free_above_amount\": 500,\n  \"min_order_amount\": 0,\n  \"max_order_amount\": null,\n  \"is_active\": true\n}"
+                }
+              ]
             },
             {
               "name": "Deactivate Rate",
@@ -1046,7 +2251,44 @@
                 },
                 "description": "Soft-deletes a shipping rate."
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Success (200)",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/rates/{{shipping_rate_id}}",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "rates",
+                        "{{shipping_rate_id}}"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"message\": \"Shipping rate deactivated successfully.\"\n}"
+                }
+              ]
             }
           ]
         },
@@ -1096,7 +2338,52 @@
                 },
                 "description": "Returns paginated list of all orders. Supports filtering by status, payment_status, date range, and user ID."
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Success (200)",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{auth_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{base_url}}/api/orders?page=1&limit=20",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "orders"
+                      ],
+                      "query": [
+                        {
+                          "key": "page",
+                          "value": "1"
+                        },
+                        {
+                          "key": "limit",
+                          "value": "20"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"data\": [\n    {\n      \"id\": \"order-uuid\",\n      \"order_number\": \"ORD-001\",\n      \"status\": \"pending\",\n      \"payment_method\": \"cash_on_delivery\",\n      \"payment_status\": \"pending\",\n      \"total\": 164.98,\n      \"item_count\": 2,\n      \"created_at\": \"2026-06-01T10:00:00.000Z\"\n    }\n  ],\n  \"meta\": {\n    \"page\": 1,\n    \"limit\": 20,\n    \"total\": 1,\n    \"totalPages\": 1\n  }\n}"
+                }
+              ]
             },
             {
               "name": "Get Order Detail",
@@ -1128,7 +2415,44 @@
                 },
                 "description": "Returns full order detail with items, status history, customer info, and payment info."
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Success (200)",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/orders/:id",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "orders",
+                        ":id"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"id\": \"uuid\",\n  \"order_number\": \"ORD-001\",\n  \"status\": \"pending\",\n  \"payment_method\": \"cash_on_delivery\",\n  \"payment_status\": \"pending\",\n  \"subtotal\": 150,\n  \"discount\": 0,\n  \"shipping_charge\": 65,\n  \"total\": 215,\n  \"coupon\": null,\n  \"shipping_address\": {\n    \"id\": \"addr-uuid\",\n    \"full_name\": \"Ahmed Ali\",\n    \"phone\": \"+966501234567\",\n    \"street\": \"123 Main St\",\n    \"city\": \"Cairo\",\n    \"state\": \"\",\n    \"zip_code\": \"\",\n    \"country\": \"Egypt\",\n    \"zone_id\": \"zone-uuid\"\n  },\n  \"notes\": \"\",\n  \"items\": [\n    {\n      \"id\": \"item-uuid\",\n      \"product_id\": \"prod-uuid\",\n      \"product_name\": \"Product Name\",\n      \"variant_id\": null,\n      \"variant_label\": null,\n      \"qty\": 2,\n      \"unit_price\": 50,\n      \"total_price\": 100\n    }\n  ],\n  \"status_history\": [\n    {\n      \"from_status\": null,\n      \"to_status\": \"pending\",\n      \"changed_by\": null,\n      \"changed_at\": \"2026-06-01T10:00:00.000Z\"\n    }\n  ],\n  \"created_at\": \"2026-06-01T10:00:00.000Z\",\n  \"updated_at\": \"2026-06-01T10:00:00.000Z\",\n  \"customer\": {\n    \"id\": \"user-uuid\",\n    \"full_name\": \"Ahmed Ali\",\n    \"email\": \"ahmed@example.com\",\n    \"phone\": \"+966501234567\"\n  },\n  \"payments\": []\n}"
+                }
+              ]
             },
             {
               "name": "Update Order Status",
@@ -1169,7 +2493,54 @@
                 },
                 "description": "Updates order status. Valid transitions: pending→confirmed, confirmed→processing, processing→shipped, shipped→delivered. Cancellation and refund also supported."
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Success (200)",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\"status\":\"confirmed\"}"
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/orders/:id/status",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "orders",
+                        ":id",
+                        "status"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"id\": \"uuid\",\n  \"order_number\": \"ORD-001\",\n  \"status\": \"confirmed\",\n  \"payment_method\": \"cash_on_delivery\",\n  \"payment_status\": \"pending\",\n  \"subtotal\": 150,\n  \"discount\": 0,\n  \"shipping_charge\": 65,\n  \"total\": 215,\n  \"coupon\": null,\n  \"shipping_address\": {\n    \"id\": \"addr-uuid\",\n    \"full_name\": \"Ahmed Ali\",\n    \"phone\": \"+966501234567\",\n    \"street\": \"123 Main St\",\n    \"city\": \"Cairo\",\n    \"state\": \"\",\n    \"zip_code\": \"\",\n    \"country\": \"Egypt\",\n    \"zone_id\": \"zone-uuid\"\n  },\n  \"notes\": \"\",\n  \"items\": [\n    {\n      \"id\": \"item-uuid\",\n      \"product_id\": \"prod-uuid\",\n      \"product_name\": \"Product Name\",\n      \"variant_id\": null,\n      \"variant_label\": null,\n      \"qty\": 2,\n      \"unit_price\": 50,\n      \"total_price\": 100\n    }\n  ],\n  \"status_history\": [\n    {\n      \"from_status\": null,\n      \"to_status\": \"pending\",\n      \"changed_by\": null,\n      \"changed_at\": \"2026-06-01T10:00:00.000Z\"\n    },\n    {\n      \"from_status\": \"pending\",\n      \"to_status\": \"confirmed\",\n      \"changed_by\": \"Admin Name\",\n      \"changed_at\": \"2026-06-01T11:00:00.000Z\"\n    }\n  ],\n  \"created_at\": \"2026-06-01T10:00:00.000Z\",\n  \"updated_at\": \"2026-06-01T11:00:00.000Z\",\n  \"customer\": {\n    \"id\": \"user-uuid\",\n    \"full_name\": \"Ahmed Ali\",\n    \"email\": \"ahmed@example.com\",\n    \"phone\": \"+966501234567\"\n  },\n  \"payments\": []\n}"
+                }
+              ]
             },
             {
               "name": "Order Statistics",
@@ -1195,7 +2566,44 @@
                 },
                 "description": "Returns total orders, total revenue (excl. cancelled/refunded), and breakdown by status."
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Success (200)",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/orders/stats",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "orders",
+                        "stats"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"total_orders\": 150,\n  \"total_revenue\": 25000,\n  \"by_status\": {\n    \"pending\": 25,\n    \"confirmed\": 30,\n    \"processing\": 20,\n    \"shipped\": 15,\n    \"delivered\": 40,\n    \"cancelled\": 15,\n    \"refunded\": 5\n  },\n  \"pending_payments\": 10\n}"
+                }
+              ]
             }
           ]
         },
@@ -1236,7 +2644,54 @@
                 },
                 "description": "Returns paginated list of payments awaiting admin review, with order and customer info."
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Success (200)",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/payments/pending?page=1&limit=20",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "payments",
+                        "pending"
+                      ],
+                      "query": [
+                        {
+                          "key": "page",
+                          "value": "1"
+                        },
+                        {
+                          "key": "limit",
+                          "value": "20"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"data\": [\n    {\n      \"id\": \"pay-uuid\",\n      \"order_id\": \"order-uuid\",\n      \"payment_method\": \"instapay\",\n      \"amount\": 215,\n      \"status\": \"pending\",\n      \"proof_reference\": \"INSTAPAY-12345\",\n      \"proof_screenshot_url\": \"https://cdn.example.com/proof.jpg\",\n      \"created_at\": \"2026-06-01T10:00:00.000Z\",\n      \"Order\": {\n        \"id\": \"order-uuid\",\n        \"order_number\": \"ORD-001\",\n        \"status\": \"pending\",\n        \"payment_status\": \"pending\"\n      },\n      \"User\": {\n        \"id\": \"user-uuid\",\n        \"full_name\": \"Ahmed Ali\",\n        \"email\": \"ahmed@example.com\"\n      }\n    }\n  ],\n  \"meta\": {\n    \"page\": 1,\n    \"limit\": 20,\n    \"total\": 1,\n    \"totalPages\": 1\n  }\n}"
+                }
+              ]
             },
             {
               "name": "Approve Payment",
@@ -1273,7 +2728,45 @@
                 },
                 "description": "Approves a pending payment. Advances order to confirmed, sets payment_status to paid."
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Success (200)",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/payments/:id/approve",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "payments",
+                        ":id",
+                        "approve"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"payment\": {\n    \"id\": \"pay-uuid\",\n    \"status\": \"succeeded\",\n    \"paid_at\": \"2026-06-01T11:00:00.000Z\",\n    \"reviewed_by\": \"admin-uuid\",\n    \"reviewed_at\": \"2026-06-01T11:00:00.000Z\"\n  },\n  \"order\": {\n    \"id\": \"order-uuid\",\n    \"order_number\": \"ORD-001\",\n    \"status\": \"confirmed\",\n    \"payment_status\": \"paid\"\n  }\n}"
+                }
+              ]
             },
             {
               "name": "Reject Payment",
@@ -1314,7 +2807,54 @@
                 },
                 "description": "Rejects a pending payment. Sets payment_status to failed without changing order lifecycle status."
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Success (200)",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\"rejection_note\":\"Screenshot is illegible, please upload a clearer image\"}"
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/payments/:id/reject",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "payments",
+                        ":id",
+                        "reject"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"payment\": {\n    \"id\": \"pay-uuid\",\n    \"status\": \"failed\",\n    \"reviewed_by\": \"admin-uuid\",\n    \"reviewed_at\": \"2026-06-01T11:00:00.000Z\",\n    \"rejection_note\": \"Screenshot is illegible\"\n  },\n  \"order\": {\n    \"id\": \"order-uuid\",\n    \"order_number\": \"ORD-001\",\n    \"status\": \"pending\",\n    \"payment_status\": \"failed\"\n  }\n}"
+                }
+              ]
             }
           ]
         },
@@ -1353,7 +2893,47 @@
                 },
                 "description": "Creates a product with inline variants and images."
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Created (201)",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\"name\":\"New Product\",\"category_id\":\"{{category_id}}\",\"base_price\":49.99,\"description\":\"Product description\",\"about_points\":[\"Point one\",\"Point two\"],\"is_featured\":false,\"attributes\":[{\"section\":\"details\",\"label\":\"Material\",\"value\":\"Aluminum\",\"sort_order\":0}],\"tag_ids\":[],\"variants\":[{\"sku\":\"PRD-BLK\",\"price\":49.99,\"stock_qty\":100,\"discount_percent\":0,\"options\":[{\"option_name\":\"color\",\"option_value\":\"black\"}]}],\"images\":[{\"url\":\"https://cdn.example.com/product.jpg\",\"alt_text\":\"Product image\",\"is_primary\":true,\"sort_order\":0}]}"
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/products",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "products"
+                      ]
+                    }
+                  },
+                  "status": "Created",
+                  "code": 201,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"id\": \"uuid\",\n  \"name\": \"New Product\",\n  \"slug\": \"new-product\",\n  \"category_id\": \"cat-uuid\",\n  \"brand_id\": null,\n  \"description\": \"Product description\",\n  \"about_points\": [\n    \"Point one\",\n    \"Point two\"\n  ],\n  \"base_price\": 49.99,\n  \"discount_percent\": 0,\n  \"is_active\": true,\n  \"is_featured\": false,\n  \"version\": 1,\n  \"attributes\": [\n    {\n      \"section\": \"details\",\n      \"label\": \"Material\",\n      \"value\": \"Aluminum\",\n      \"sort_order\": 0\n    }\n  ],\n  \"images\": [\n    {\n      \"id\": \"img-uuid\",\n      \"url\": \"https://cdn.example.com/product.jpg\",\n      \"alt_text\": \"Product image\",\n      \"is_primary\": true,\n      \"sort_order\": 0\n    }\n  ],\n  \"variants\": [\n    {\n      \"id\": \"var-uuid\",\n      \"sku\": \"PRD-BLK\",\n      \"price\": 49.99,\n      \"discount_percent\": 0,\n      \"stock_qty\": 100,\n      \"is_active\": true,\n      \"options\": [\n        {\n          \"option_name\": \"color\",\n          \"option_value\": \"black\"\n        }\n      ]\n    }\n  ],\n  \"tags\": []\n}"
+                }
+              ]
             },
             {
               "name": "Update Product (inline variants & images)",
@@ -1388,7 +2968,48 @@
                 },
                 "description": "Updates product with inline variant create/update/destroy and image creation."
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Success (200)",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\"name\":\"Updated Product\",\"base_price\":39.99,\"description\":\"Updated description\"}"
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/products/{{product_id}}",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "products",
+                        "{{product_id}}"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"id\": \"uuid\",\n  \"name\": \"Updated Product\",\n  \"slug\": \"updated-product\",\n  \"category_id\": \"cat-uuid\",\n  \"brand_id\": null,\n  \"description\": \"Updated description\",\n  \"about_points\": [\n    \"Point one\",\n    \"Point two\"\n  ],\n  \"base_price\": 39.99,\n  \"discount_percent\": 0,\n  \"is_active\": true,\n  \"is_featured\": false,\n  \"version\": 2,\n  \"attributes\": [\n    {\n      \"section\": \"details\",\n      \"label\": \"Material\",\n      \"value\": \"Aluminum\",\n      \"sort_order\": 0\n    }\n  ],\n  \"images\": [\n    {\n      \"id\": \"img-uuid\",\n      \"url\": \"https://cdn.example.com/new-image.jpg\",\n      \"alt_text\": \"New image\",\n      \"is_primary\": true,\n      \"sort_order\": 0\n    }\n  ],\n  \"variants\": [\n    {\n      \"id\": \"var-uuid\",\n      \"sku\": \"PRD-BLK\",\n      \"price\": 39.99,\n      \"discount_percent\": 0,\n      \"stock_qty\": 200,\n      \"is_active\": true,\n      \"options\": [\n        {\n          \"option_name\": \"color\",\n          \"option_value\": \"black\"\n        }\n      ]\n    },\n    {\n      \"id\": \"var-uuid2\",\n      \"sku\": \"PRD-WHT\",\n      \"price\": 44.99,\n      \"discount_percent\": 0,\n      \"stock_qty\": 50,\n      \"is_active\": true,\n      \"options\": [\n        {\n          \"option_name\": \"color\",\n          \"option_value\": \"white\"\n        }\n      ]\n    }\n  ],\n  \"tags\": []\n}"
+                }
+              ]
             },
             {
               "name": "Soft Delete Product",
@@ -1414,7 +3035,44 @@
                 },
                 "description": "Soft-deletes (deactivates) a product."
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Success (200)",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/products/{{product_id}}",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "products",
+                        "{{product_id}}"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"message\": \"Product deactivated successfully.\"\n}"
+                }
+              ]
             }
           ]
         },
@@ -1455,7 +3113,49 @@
                 },
                 "description": "Adds a new variant to a product."
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Created (201)",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\"sku\":\"PRD-BLU\",\"price\":54.99,\"stock_qty\":75,\"discount_percent\":10,\"options\":[{\"option_name\":\"color\",\"option_value\":\"blue\"}]}"
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/products/{{product_id}}/variants",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "products",
+                        "{{product_id}}",
+                        "variants"
+                      ]
+                    }
+                  },
+                  "status": "Created",
+                  "code": 201,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"id\": \"var-uuid\",\n  \"product_id\": \"prod-uuid\",\n  \"sku\": \"PRD-BLU\",\n  \"price\": 54.99,\n  \"stock_qty\": 75,\n  \"discount_percent\": 10,\n  \"is_active\": true,\n  \"version\": 1,\n  \"options\": [\n    {\n      \"option_name\": \"color\",\n      \"option_value\": \"blue\"\n    }\n  ]\n}"
+                }
+              ]
             },
             {
               "name": "Update Variant",
@@ -1492,7 +3192,50 @@
                 },
                 "description": "Updates a variant (optimistic locking via version)."
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Success (200)",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\"version\":1,\"price\":44.99,\"stock_qty\":150,\"is_active\":true}"
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/products/{{product_id}}/variants/{{variant_id}}",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "products",
+                        "{{product_id}}",
+                        "variants",
+                        "{{variant_id}}"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"id\": \"var-uuid\",\n  \"product_id\": \"prod-uuid\",\n  \"sku\": \"PRD-BLK\",\n  \"price\": 44.99,\n  \"stock_qty\": 150,\n  \"discount_percent\": 0,\n  \"is_active\": true,\n  \"version\": 2,\n  \"options\": [\n    {\n      \"option_name\": \"color\",\n      \"option_value\": \"black\"\n    }\n  ]\n}"
+                }
+              ]
             },
             {
               "name": "Deactivate Variant",
@@ -1520,7 +3263,46 @@
                 },
                 "description": "Soft-deletes (deactivates) a variant."
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Success (200)",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/products/{{product_id}}/variants/{{variant_id}}",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "products",
+                        "{{product_id}}",
+                        "variants",
+                        "{{variant_id}}"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"message\": \"Variant deactivated successfully.\"\n}"
+                }
+              ]
             }
           ]
         },
@@ -1561,7 +3343,49 @@
                 },
                 "description": "Adds a new image to a product."
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Created (201)",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\"url\":\"https://cdn.example.com/image.jpg\",\"alt_text\":\"Product image\",\"is_primary\":false,\"sort_order\":0}"
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/products/{{product_id}}/images",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "products",
+                        "{{product_id}}",
+                        "images"
+                      ]
+                    }
+                  },
+                  "status": "Created",
+                  "code": 201,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"id\": \"img-uuid\",\n  \"product_id\": \"prod-uuid\",\n  \"url\": \"https://cdn.example.com/image.jpg\",\n  \"alt_text\": \"Product image\",\n  \"is_primary\": false,\n  \"sort_order\": 0\n}"
+                }
+              ]
             },
             {
               "name": "Remove Product Image",
@@ -1589,7 +3413,46 @@
                 },
                 "description": "Removes a product image."
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Success (200)",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/products/{{product_id}}/images/{{image_id}}",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "products",
+                        "{{product_id}}",
+                        "images",
+                        "{{image_id}}"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"message\": \"Image removed successfully.\"\n}"
+                }
+              ]
             }
           ]
         },
@@ -1632,7 +3495,51 @@
                 },
                 "description": "Adds an image to a specific variant."
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Created (201)",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\"url\":\"https://cdn.example.com/variant-image.jpg\",\"alt_text\":\"Variant image\",\"is_primary\":true,\"sort_order\":0}"
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/products/{{product_id}}/variants/{{variant_id}}/images",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "products",
+                        "{{product_id}}",
+                        "variants",
+                        "{{variant_id}}",
+                        "images"
+                      ]
+                    }
+                  },
+                  "status": "Created",
+                  "code": 201,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"id\": \"img-uuid\",\n  \"variant_id\": \"var-uuid\",\n  \"url\": \"https://cdn.example.com/variant-image.jpg\",\n  \"alt_text\": \"Variant image\",\n  \"is_primary\": true,\n  \"sort_order\": 0\n}"
+                }
+              ]
             },
             {
               "name": "Remove Variant Image",
@@ -1662,7 +3569,48 @@
                 },
                 "description": "Removes an image from a variant."
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Success (200)",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/products/{{product_id}}/variants/{{variant_id}}/images/{{image_id}}",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "products",
+                        "{{product_id}}",
+                        "variants",
+                        "{{variant_id}}",
+                        "images",
+                        "{{image_id}}"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"message\": \"Image removed successfully.\"\n}"
+                }
+              ]
             }
           ]
         },
@@ -1700,7 +3648,52 @@
                 },
                 "description": "Send a notification to a specific user (type cannot be order_*)."
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Created (201)",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\"user_id\":\"{{user_id}}\",\"type\":\"system\",\"title\":\"Welcome!\",\"message\":\"Your account has been created.\"}"
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/notifications",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "notifications"
+                      ]
+                    }
+                  },
+                  "status": "Created",
+                  "code": 201,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"id\": \"notif-uuid\",\n  \"user_id\": \"user-uuid\",\n  \"type\": \"system\",\n  \"title\": \"Welcome!\",\n  \"message\": \"Your account has been created.\",\n  \"is_read\": false,\n  \"created_at\": \"2026-06-01T10:00:00.000Z\"\n}"
+                }
+              ]
             },
             {
               "name": "Broadcast Notification",
@@ -1734,7 +3727,53 @@
                 },
                 "description": "Broadcast a system notification to all active users. Rate-limited to 1 per minute."
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Created (201)",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\"title\":\"System Maintenance\",\"message\":\"The site will be down for maintenance at midnight.\"}"
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/notifications/broadcast",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "notifications",
+                        "broadcast"
+                      ]
+                    }
+                  },
+                  "status": "Created",
+                  "code": 201,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"recipient_count\": 150\n}"
+                }
+              ]
             }
           ]
         },
@@ -1753,12 +3792,54 @@
                 ],
                 "url": {
                   "raw": "{{base_url}}/api/admin/settings",
-                  "host": ["{{base_url}}"],
-                  "path": ["api", "admin", "settings"]
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "settings"
+                  ]
                 },
                 "description": "Returns all site settings grouped by their `group` field. Requires settings.read permission."
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Success (200)",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/settings",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "settings"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"data\": {\n    \"general\": [\n      {\n        \"key\": \"site_name\",\n        \"value\": \"Techa Marketplace\",\n        \"type\": \"string\",\n        \"is_active\": true\n      },\n      {\n        \"key\": \"currency\",\n        \"value\": \"EGP\",\n        \"type\": \"string\",\n        \"is_active\": true\n      }\n    ],\n    \"payment\": [\n      {\n        \"key\": \"instapay_handle\",\n        \"value\": \"@techa\",\n        \"type\": \"string\",\n        \"is_active\": true\n      },\n      {\n        \"key\": \"vodafone_cash_number\",\n        \"value\": \"01000000000\",\n        \"type\": \"string\",\n        \"is_active\": true\n      }\n    ]\n  }\n}"
+                }
+              ]
             },
             {
               "name": "Bulk Update Settings",
@@ -1780,12 +3861,63 @@
                 },
                 "url": {
                   "raw": "{{base_url}}/api/admin/settings",
-                  "host": ["{{base_url}}"],
-                  "path": ["api", "admin", "settings"]
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "settings"
+                  ]
                 },
                 "description": "Bulk updates setting values. Only existing keys are updated; unknown keys are returned as not_found. Requires settings.update permission."
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Success (200)",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\"settings\":{\"site_name\":\"Techa Updated\",\"currency\":\"USD\"}}"
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/settings",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "settings"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"data\": {\n    \"updated\": [\n      \"site_name\",\n      \"currency\"\n    ],\n    \"not_found\": []\n  }\n}"
+                }
+              ]
             }
           ]
         },
@@ -1804,12 +3936,54 @@
                 ],
                 "url": {
                   "raw": "{{base_url}}/api/admin/banners",
-                  "host": ["{{base_url}}"],
-                  "path": ["api", "admin", "banners"]
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "banners"
+                  ]
                 },
                 "description": "Returns all banners (no date filtering). Requires content.read permission."
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Success (200)",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/banners",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "banners"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"data\": [\n    {\n      \"id\": \"banner-uuid\",\n      \"title\": \"Summer Sale\",\n      \"description\": \"Get 50% off\",\n      \"image_url\": \"https://cdn.example.com/banners/summer.jpg\",\n      \"link_url\": \"https://techa.com/sale\",\n      \"position\": \"hero\",\n      \"sort_order\": 1,\n      \"starts_at\": \"2026-06-01T00:00:00Z\",\n      \"ends_at\": \"2026-07-01T00:00:00Z\",\n      \"is_active\": true\n    }\n  ]\n}"
+                }
+              ]
             },
             {
               "name": "Create Banner",
@@ -1831,12 +4005,63 @@
                 },
                 "url": {
                   "raw": "{{base_url}}/api/admin/banners",
-                  "host": ["{{base_url}}"],
-                  "path": ["api", "admin", "banners"]
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "banners"
+                  ]
                 },
                 "description": "Creates a new banner. title, image_url, position are required. Requires content.create permission."
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Created (201)",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\"title\":\"Summer Sale\",\"description\":\"Get 50% off on all items\",\"image_url\":\"https://cdn.example.com/banners/summer.jpg\",\"link_url\":\"https://techa.com/sale\",\"position\":\"hero\",\"sort_order\":1,\"starts_at\":\"2026-06-01T00:00:00Z\",\"ends_at\":\"2026-07-01T00:00:00Z\",\"is_active\":true}"
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/banners",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "banners"
+                      ]
+                    }
+                  },
+                  "status": "Created",
+                  "code": 201,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"data\": {\n    \"id\": \"banner-uuid\",\n    \"title\": \"Summer Sale\",\n    \"description\": \"Get 50% off on all items\",\n    \"image_url\": \"https://cdn.example.com/banners/summer.jpg\",\n    \"link_url\": \"https://techa.com/sale\",\n    \"position\": \"hero\",\n    \"sort_order\": 1,\n    \"starts_at\": \"2026-06-01T00:00:00Z\",\n    \"ends_at\": \"2026-07-01T00:00:00Z\",\n    \"is_active\": true\n  }\n}"
+                }
+              ]
             },
             {
               "name": "Update Banner",
@@ -1858,8 +4083,15 @@
                 },
                 "url": {
                   "raw": "{{base_url}}/api/admin/banners/:id",
-                  "host": ["{{base_url}}"],
-                  "path": ["api", "admin", "banners", ":id"],
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "banners",
+                    ":id"
+                  ],
                   "variable": [
                     {
                       "key": "id",
@@ -1869,7 +4101,53 @@
                 },
                 "description": "Updates a banner. All fields are optional on update. Requires content.update permission."
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Success (200)",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\"title\":\"Summer Sale Updated\",\"sort_order\":2}"
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/banners/:id",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "banners",
+                        ":id"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"data\": {\n    \"id\": \"banner-uuid\",\n    \"title\": \"Summer Sale Updated\",\n    \"description\": \"Get 50% off on all items\",\n    \"image_url\": \"https://cdn.example.com/banners/summer.jpg\",\n    \"link_url\": \"https://techa.com/sale\",\n    \"position\": \"hero\",\n    \"sort_order\": 2,\n    \"starts_at\": \"2026-06-01T00:00:00Z\",\n    \"ends_at\": \"2026-07-01T00:00:00Z\",\n    \"is_active\": true\n  }\n}"
+                }
+              ]
             },
             {
               "name": "Delete Banner",
@@ -1883,8 +4161,15 @@
                 ],
                 "url": {
                   "raw": "{{base_url}}/api/admin/banners/:id",
-                  "host": ["{{base_url}}"],
-                  "path": ["api", "admin", "banners", ":id"],
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "banners",
+                    ":id"
+                  ],
                   "variable": [
                     {
                       "key": "id",
@@ -1894,7 +4179,44 @@
                 },
                 "description": "Hard-deletes a banner by ID. Requires content.delete permission."
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Success (200)",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/banners/:id",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "banners",
+                        ":id"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"message\": \"Banner deleted successfully.\"\n}"
+                }
+              ]
             }
           ]
         }
@@ -1944,12 +4266,48 @@
             "header": [],
             "url": {
               "raw": "{{base_url}}/api/settings/public",
-              "host": ["{{base_url}}"],
-              "path": ["api", "settings", "public"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "settings",
+                "public"
+              ]
             },
             "description": "Returns public site settings (site_name, logo_url, currency, instapay_handle, vodafone_cash_number). No authentication required."
           },
-          "response": []
+          "response": [
+            {
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/settings/public",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "settings",
+                    "public"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"data\": {\n    \"site_name\": \"Techa Marketplace\",\n    \"logo_url\": \"https://techa.com/logo.png\",\n    \"currency\": \"EGP\",\n    \"instapay_handle\": \"@techa\",\n    \"vodafone_cash_number\": \"01000000000\"\n  }\n}"
+            }
+          ]
         }
       ]
     },
@@ -1963,8 +4321,13 @@
             "header": [],
             "url": {
               "raw": "{{base_url}}/api/banners?position=hero",
-              "host": ["{{base_url}}"],
-              "path": ["api", "banners"],
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "banners"
+              ],
               "query": [
                 {
                   "key": "position",
@@ -1975,7 +4338,42 @@
             },
             "description": "Returns active banners (is_active=true, within schedule). Optional position query param to filter by location."
           },
-          "response": []
+          "response": [
+            {
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/banners?position=hero",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "banners"
+                  ],
+                  "query": [
+                    {
+                      "key": "position",
+                      "value": "hero"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"banner-uuid\",\n      \"title\": \"Summer Sale\",\n      \"description\": \"Get 50% off\",\n      \"image_url\": \"https://cdn.example.com/banners/summer.jpg\",\n      \"link_url\": \"https://techa.com/sale\",\n      \"position\": \"hero\",\n      \"sort_order\": 1,\n      \"starts_at\": \"2026-06-01T00:00:00Z\",\n      \"ends_at\": \"2026-07-01T00:00:00Z\"\n    }\n  ]\n}"
+            }
+          ]
         }
       ]
     },
@@ -2867,7 +5265,37 @@
             },
             "description": "Returns the full nested category tree (active categories only), ordered by sort_order."
           },
-          "response": []
+          "response": [
+            {
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/categories/tree",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "categories",
+                    "tree"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n  {\n    \"id\": \"cat-uuid\",\n    \"name\": \"Electronics\",\n    \"slug\": \"electronics\",\n    \"image_url\": \"https://example.com/electronics.jpg\",\n    \"sort_order\": 1,\n    \"children\": [\n      {\n        \"id\": \"sub-cat-uuid\",\n        \"name\": \"Phones\",\n        \"slug\": \"phones\",\n        \"image_url\": null,\n        \"sort_order\": 1,\n        \"children\": []\n      }\n    ]\n  },\n  {\n    \"id\": \"cat-uuid2\",\n    \"name\": \"Fashion\",\n    \"slug\": \"fashion\",\n    \"image_url\": null,\n    \"sort_order\": 2,\n    \"children\": []\n  }\n]"
+            }
+          ]
         },
         {
           "name": "Get Category By ID",
@@ -2893,7 +5321,37 @@
             },
             "description": "Returns a single category with its immediate active children."
           },
-          "response": []
+          "response": [
+            {
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/categories/:id",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "categories",
+                    ":id"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id\": \"cat-uuid\",\n  \"name\": \"Electronics\",\n  \"slug\": \"electronics\",\n  \"image_url\": \"https://example.com/electronics.jpg\",\n  \"sort_order\": 1,\n  \"parent_id\": null,\n  \"children\": [\n    {\n      \"id\": \"sub-cat-uuid\",\n      \"name\": \"Phones\",\n      \"slug\": \"phones\",\n      \"image_url\": null,\n      \"sort_order\": 1\n    }\n  ]\n}"
+            }
+          ]
         }
       ]
     },
@@ -2917,7 +5375,36 @@
             },
             "description": "Returns all active brands as a flat list, ordered by name."
           },
-          "response": []
+          "response": [
+            {
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/brands",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "brands"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n  {\n    \"id\": \"brand-uuid\",\n    \"name\": \"Samsung\",\n    \"slug\": \"samsung\",\n    \"description\": \"Electronics manufacturer\",\n    \"logo_url\": \"https://example.com/samsung-logo.png\"\n  },\n  {\n    \"id\": \"brand-uuid2\",\n    \"name\": \"Apple\",\n    \"slug\": \"apple\",\n    \"description\": \"Technology company\",\n    \"logo_url\": \"https://example.com/apple-logo.png\"\n  }\n]"
+            }
+          ]
         }
       ]
     },
@@ -2981,7 +5468,46 @@
             },
             "description": "Paginated product list with filtering and sorting."
           },
-          "response": []
+          "response": [
+            {
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/products?page=1&limit=20",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "products"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"prod-uuid\",\n      \"name\": \"Product Name\",\n      \"slug\": \"product-name\",\n      \"base_price\": 49.99,\n      \"discount_percent\": 10,\n      \"rating_avg\": 4.5,\n      \"rating_count\": 20,\n      \"is_featured\": true,\n      \"primary_image\": {\n        \"url\": \"https://cdn.example.com/product.jpg\",\n        \"alt_text\": \"Product image\"\n      },\n      \"category\": {\n        \"id\": \"cat-uuid\",\n        \"name\": \"Electronics\",\n        \"slug\": \"electronics\"\n      },\n      \"brand\": {\n        \"id\": \"brand-uuid\",\n        \"name\": \"Samsung\",\n        \"slug\": \"samsung\"\n      },\n      \"created_at\": \"2026-05-01T00:00:00.000Z\"\n    }\n  ],\n  \"meta\": {\n    \"page\": 1,\n    \"limit\": 20,\n    \"total\": 1,\n    \"totalPages\": 1\n  }\n}"
+            }
+          ]
         },
         {
           "name": "Get Product by Slug",
@@ -3001,7 +5527,37 @@
             },
             "description": "Returns full product details including attributes, variants, images, and reviews."
           },
-          "response": []
+          "response": [
+            {
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/products/{{product_slug}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "products",
+                    "{{product_slug}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id\": \"prod-uuid\",\n  \"name\": \"Product Name\",\n  \"slug\": \"product-name\",\n  \"description\": \"Product description\",\n  \"about_points\": [\n    \"Point one\",\n    \"Point two\"\n  ],\n  \"base_price\": 49.99,\n  \"discount_percent\": 10,\n  \"rating_avg\": 4.5,\n  \"rating_count\": 20,\n  \"is_featured\": true,\n  \"category\": {\n    \"id\": \"cat-uuid\",\n    \"name\": \"Electronics\",\n    \"slug\": \"electronics\"\n  },\n  \"brand\": {\n    \"id\": \"brand-uuid\",\n    \"name\": \"Samsung\",\n    \"slug\": \"samsung\",\n    \"logo_url\": \"https://example.com/samsung-logo.png\"\n  },\n  \"attributes\": {\n    \"details\": [\n      {\n        \"label\": \"Material\",\n        \"value\": \"Aluminum\"\n      }\n    ],\n    \"specs\": [\n      {\n        \"label\": \"Weight\",\n        \"value\": \"200g\"\n      }\n    ]\n  },\n  \"images\": [\n    {\n      \"id\": \"img-uuid\",\n      \"url\": \"https://cdn.example.com/product.jpg\",\n      \"alt_text\": \"Product image\",\n      \"is_primary\": true,\n      \"sort_order\": 0\n    }\n  ],\n  \"variants\": [\n    {\n      \"id\": \"var-uuid\",\n      \"sku\": \"PRD-BLK\",\n      \"price\": 49.99,\n      \"discount_percent\": 10,\n      \"stock_qty\": 100,\n      \"is_active\": true,\n      \"options\": [\n        {\n          \"option_name\": \"color\",\n          \"option_value\": \"black\"\n        }\n      ],\n      \"images\": []\n    }\n  ],\n  \"reviews\": [\n    {\n      \"id\": \"rev-uuid\",\n      \"rating\": 5,\n      \"comment\": \"Great!\",\n      \"created_at\": \"2026-05-15T00:00:00.000Z\"\n    }\n  ],\n  \"tags\": [\n    {\n      \"id\": \"tag-uuid\",\n      \"name\": \"New Tag\",\n      \"slug\": \"new-tag\"\n    }\n  ]\n}"
+            }
+          ]
         }
       ]
     },
@@ -3024,7 +5580,36 @@
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/tags",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tags"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n  {\n    \"id\": \"tag-uuid\",\n    \"name\": \"New Arrival\",\n    \"slug\": \"new-arrival\"\n  },\n  {\n    \"id\": \"tag-uuid2\",\n    \"name\": \"Sale\",\n    \"slug\": \"sale\"\n  }\n]"
+            }
+          ]
         }
       ]
     },
@@ -3061,7 +5646,52 @@
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{auth_token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"code\":\"SAVE20\",\"product_id\":\"{{product_id}}\"}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/coupons/validate",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "coupons",
+                    "validate"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"valid\": true,\n  \"discount_amount\": 10,\n  \"discount_type\": \"percentage\",\n  \"message\": null\n}"
+            }
+          ]
         }
       ]
     },
@@ -3087,7 +5717,38 @@
             },
             "description": "Returns paginated reviews for a product (public, no auth required)."
           },
-          "response": []
+          "response": [
+            {
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/products/{{review_product_id}}/reviews",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "products",
+                    "{{review_product_id}}",
+                    "reviews"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"rev-uuid\",\n      \"rating\": 5,\n      \"comment\": \"Excellent product!\",\n      \"reviewer_name\": \"Ahmed Ali\",\n      \"relative_date\": \"2 weeks ago\",\n      \"is_verified\": true\n    }\n  ],\n  \"meta\": {\n    \"page\": 1,\n    \"limit\": 10,\n    \"total\": 1,\n    \"totalPages\": 1\n  }\n}"
+            }
+          ]
         },
         {
           "name": "Create Review",
@@ -3121,7 +5782,53 @@
             },
             "description": "Create a review for a product. Requires a delivered order. Optionally link to an order_item_id for verified status."
           },
-          "response": []
+          "response": [
+            {
+              "name": "Created (201)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{auth_token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"rating\":5,\"comment\":\"Excellent product!\",\"order_item_id\":\"{{order_item_id}}\"}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/products/{{review_product_id}}/reviews",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "products",
+                    "{{review_product_id}}",
+                    "reviews"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id\": \"rev-uuid\",\n  \"product_id\": \"prod-uuid\",\n  \"rating\": 5,\n  \"comment\": \"Excellent product!\",\n  \"is_verified\": true,\n  \"is_active\": true,\n  \"created_at\": \"2026-06-01T10:00:00.000Z\"\n}"
+            }
+          ]
         },
         {
           "name": "Update Review",
@@ -3154,7 +5861,52 @@
             },
             "description": "Update your own review (rating and/or comment)."
           },
-          "response": []
+          "response": [
+            {
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{auth_token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"rating\":4,\"comment\":\"Updated review\"}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/reviews/{{review_id}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "reviews",
+                    "{{review_id}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id\": \"rev-uuid\",\n  \"product_id\": \"prod-uuid\",\n  \"rating\": 4,\n  \"comment\": \"Updated review\",\n  \"is_verified\": true,\n  \"is_active\": true,\n  \"created_at\": \"2026-06-01T10:00:00.000Z\"\n}"
+            }
+          ]
         },
         {
           "name": "Delete Review",
@@ -3179,7 +5931,43 @@
             },
             "description": "Soft-delete your own review."
           },
-          "response": []
+          "response": [
+            {
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{auth_token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/reviews/{{review_id}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "reviews",
+                    "{{review_id}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"message\": \"Review deleted successfully\"\n}"
+            }
+          ]
         },
         {
           "name": "Admin List Reviews",
@@ -3229,7 +6017,53 @@
             },
             "description": "List all reviews (including inactive). Filter by product_id, rating, or is_active."
           },
-          "response": []
+          "response": [
+            {
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{admin_token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/admin/reviews?page=1&limit=20",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "reviews"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"rev-uuid\",\n      \"product_id\": \"prod-uuid\",\n      \"user_id\": \"user-uuid\",\n      \"rating\": 5,\n      \"comment\": \"Excellent product!\",\n      \"is_verified\": true,\n      \"is_active\": true,\n      \"reviewer_name\": \"Ahmed Ali\",\n      \"product\": {\n        \"id\": \"prod-uuid\",\n        \"name\": \"Product Name\",\n        \"slug\": \"product-name\"\n      },\n      \"created_at\": \"2026-06-01T10:00:00.000Z\"\n    }\n  ],\n  \"meta\": {\n    \"page\": 1,\n    \"limit\": 20,\n    \"total\": 1,\n    \"totalPages\": 1\n  }\n}"
+            }
+          ]
         },
         {
           "name": "Admin Delete Review",
@@ -3255,7 +6089,44 @@
             },
             "description": "Admin can soft-delete any review."
           },
-          "response": []
+          "response": [
+            {
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{admin_token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/admin/reviews/{{review_id}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "reviews",
+                    "{{review_id}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"message\": \"Review deleted successfully\"\n}"
+            }
+          ]
         }
       ]
     },
@@ -3284,7 +6155,42 @@
             },
             "description": "Returns the current user's wishlist items."
           },
-          "response": []
+          "response": [
+            {
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{auth_token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/wishlist",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "wishlist"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n  {\n    \"id\": \"wish-uuid\",\n    \"user_id\": \"user-uuid\",\n    \"product_id\": \"prod-uuid\",\n    \"variant_id\": null,\n    \"created_at\": \"2026-06-01T10:00:00.000Z\",\n    \"updated_at\": \"2026-06-01T10:00:00.000Z\",\n    \"Product\": {\n      \"id\": \"prod-uuid\",\n      \"name\": \"Product Name\",\n      \"slug\": \"product-name\",\n      \"base_price\": 49.99,\n      \"is_active\": true\n    },\n    \"ProductVariant\": null\n  }\n]"
+            }
+          ]
         },
         {
           "name": "Add to Wishlist",
@@ -3316,7 +6222,51 @@
             },
             "description": "Add a product (optionally a variant) to the wishlist."
           },
-          "response": []
+          "response": [
+            {
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{auth_token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"product_id\":\"{{product_id}}\",\"variant_id\":null}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/wishlist",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "wishlist"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id\": \"wish-uuid\",\n  \"user_id\": \"user-uuid\",\n  \"product_id\": \"prod-uuid\",\n  \"variant_id\": null,\n  \"created_at\": \"2026-06-01T10:00:00.000Z\",\n  \"updated_at\": \"2026-06-01T10:00:00.000Z\"\n}"
+            }
+          ]
         },
         {
           "name": "Remove from Wishlist",
@@ -3341,7 +6291,43 @@
             },
             "description": "Remove an item from the wishlist."
           },
-          "response": []
+          "response": [
+            {
+              "name": "No Content (204)",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{auth_token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/wishlist/{{wishlist_id}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "wishlist",
+                    "{{wishlist_id}}"
+                  ]
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "null"
+            }
+          ]
         }
       ]
     },
@@ -3380,7 +6366,52 @@
             },
             "description": "Returns paginated notifications for the current user."
           },
-          "response": []
+          "response": [
+            {
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{auth_token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/notifications?page=1&limit=20",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "notifications"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"notif-uuid\",\n      \"type\": \"system\",\n      \"title\": \"Welcome!\",\n      \"message\": \"Your account has been created.\",\n      \"is_read\": false,\n      \"created_at\": \"2026-06-01T10:00:00.000Z\"\n    }\n  ],\n  \"meta\": {\n    \"page\": 1,\n    \"limit\": 20,\n    \"total\": 1,\n    \"totalPages\": 1\n  }\n}"
+            }
+          ]
         },
         {
           "name": "Mark Notification as Read",
@@ -3406,7 +6437,44 @@
             },
             "description": "Mark a single notification as read."
           },
-          "response": []
+          "response": [
+            {
+              "name": "No Content (204)",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{auth_token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/notifications/{{notification_id}}/read",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "notifications",
+                    "{{notification_id}}",
+                    "read"
+                  ]
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "null"
+            }
+          ]
         },
         {
           "name": "Mark All Notifications as Read",
@@ -3431,7 +6499,43 @@
             },
             "description": "Mark all notifications as read."
           },
-          "response": []
+          "response": [
+            {
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{auth_token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/notifications/read-all",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "notifications",
+                    "read-all"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"updated\": 5\n}"
+            }
+          ]
         }
       ]
     },
@@ -3456,7 +6560,37 @@
             },
             "description": "Returns all active delivery zones (no auth required)."
           },
-          "response": []
+          "response": [
+            {
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/public/delivery-zones",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "public",
+                    "delivery-zones"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"zones\": [\n    {\n      \"id\": \"zone-uuid\",\n      \"name\": \"Cairo\",\n      \"regions\": [\n        \"Cairo\",\n        \"Giza\",\n        \"Helwan\"\n      ]\n    }\n  ]\n}"
+            }
+          ]
         }
       ]
     },
@@ -3496,7 +6630,53 @@
             },
             "description": "Returns the cheapest active shipping rate for a customer's address."
           },
-          "response": []
+          "response": [
+            {
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{auth_token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/shipping/rate?address_id={{address_id}}&order_total=100.00",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "shipping",
+                    "rate"
+                  ],
+                  "query": [
+                    {
+                      "key": "address_id",
+                      "value": "{{address_id}}"
+                    },
+                    {
+                      "key": "order_total",
+                      "value": "100.00"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"zone_id\": \"zone-uuid\",\n  \"zone_name\": \"Cairo\",\n  \"rate_id\": \"rate-uuid\",\n  \"charge\": 65,\n  \"estimated_days_min\": 2,\n  \"estimated_days_max\": 5,\n  \"is_free\": false\n}"
+            }
+          ]
         }
       ]
     },
@@ -3525,7 +6705,42 @@
             },
             "description": "Returns the current user's cart with items, totals, price-changed detection, and applied coupon."
           },
-          "response": []
+          "response": [
+            {
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{auth_token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/cart",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "cart"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id\": \"cart-uuid\",\n  \"subtotal\": 99.98,\n  \"discount\": 0,\n  \"total\": 99.98,\n  \"coupon\": null,\n  \"items\": [\n    {\n      \"id\": \"item-uuid\",\n      \"product_id\": \"prod-uuid\",\n      \"product_name\": \"Product Name\",\n      \"product_slug\": \"product-name\",\n      \"variant_id\": null,\n      \"variant_label\": null,\n      \"qty\": 2,\n      \"unit_price\": 49.99,\n      \"total_price\": 99.98,\n      \"current_price\": 49.99,\n      \"price_changed\": false\n    }\n  ],\n  \"version\": 1\n}"
+            }
+          ]
         },
         {
           "name": "Add Item to Cart",
@@ -3558,7 +6773,52 @@
             },
             "description": "Adds a product (with optional variant) to the cart. If the same product+variant exists, increments qty."
           },
-          "response": []
+          "response": [
+            {
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{auth_token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"product_id\":\"98002fe5-4511-45e9-89d9-5f43e9f3bdfd\",\"variant_id\":null,\"qty\":2}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/cart/items",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "cart",
+                    "items"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id\": \"cart-uuid\",\n  \"subtotal\": 99.98,\n  \"discount\": 0,\n  \"total\": 99.98,\n  \"coupon\": null,\n  \"items\": [\n    {\n      \"id\": \"item-uuid\",\n      \"product_id\": \"prod-uuid\",\n      \"product_name\": \"Product Name\",\n      \"product_slug\": \"product-name\",\n      \"variant_id\": null,\n      \"variant_label\": null,\n      \"qty\": 2,\n      \"unit_price\": 49.99,\n      \"total_price\": 99.98,\n      \"current_price\": 49.99,\n      \"price_changed\": false\n    }\n  ],\n  \"version\": 1\n}"
+            }
+          ]
         },
         {
           "name": "Update Cart Item Quantity",
@@ -3598,7 +6858,53 @@
             },
             "description": "Updates the quantity of a cart item. Stock is re-validated."
           },
-          "response": []
+          "response": [
+            {
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{auth_token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"qty\":3}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/cart/items/:id",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "cart",
+                    "items",
+                    ":id"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id\": \"cart-uuid\",\n  \"subtotal\": 149.97,\n  \"discount\": 0,\n  \"total\": 149.97,\n  \"coupon\": null,\n  \"items\": [\n    {\n      \"id\": \"item-uuid\",\n      \"product_id\": \"prod-uuid\",\n      \"product_name\": \"Product Name\",\n      \"product_slug\": \"product-name\",\n      \"variant_id\": null,\n      \"variant_label\": null,\n      \"qty\": 3,\n      \"unit_price\": 49.99,\n      \"total_price\": 149.97,\n      \"current_price\": 49.99,\n      \"price_changed\": false\n    }\n  ],\n  \"version\": 2\n}"
+            }
+          ]
         },
         {
           "name": "Remove Cart Item",
@@ -3630,7 +6936,44 @@
             },
             "description": "Removes an item from the cart and recalculates totals."
           },
-          "response": []
+          "response": [
+            {
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{auth_token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/cart/items/:id",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "cart",
+                    "items",
+                    ":id"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id\": \"cart-uuid\",\n  \"subtotal\": 0,\n  \"discount\": 0,\n  \"total\": 0,\n  \"coupon\": null,\n  \"items\": [],\n  \"version\": 3\n}"
+            }
+          ]
         },
         {
           "name": "Apply Coupon",
@@ -3663,7 +7006,52 @@
             },
             "description": "Applies a coupon code to the cart. Discount is applied to eligible items."
           },
-          "response": []
+          "response": [
+            {
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{auth_token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"code\":\"SAVE10\"}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/cart/coupon",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "cart",
+                    "coupon"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id\": \"cart-uuid\",\n  \"subtotal\": 99.98,\n  \"discount\": 10,\n  \"total\": 89.98,\n  \"coupon\": {\n    \"id\": \"coupon-uuid\",\n    \"code\": \"SAVE10\",\n    \"discount_type\": \"fixed\",\n    \"discount_value\": 10\n  },\n  \"items\": [\n    {\n      \"id\": \"item-uuid\",\n      \"product_id\": \"prod-uuid\",\n      \"product_name\": \"Product Name\",\n      \"product_slug\": \"product-name\",\n      \"variant_id\": null,\n      \"variant_label\": null,\n      \"qty\": 2,\n      \"unit_price\": 49.99,\n      \"total_price\": 99.98,\n      \"current_price\": 49.99,\n      \"price_changed\": false\n    }\n  ],\n  \"version\": 2\n}"
+            }
+          ]
         },
         {
           "name": "Remove Coupon",
@@ -3688,7 +7076,43 @@
             },
             "description": "Removes the applied coupon from the cart and resets totals."
           },
-          "response": []
+          "response": [
+            {
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{auth_token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/cart/coupon",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "cart",
+                    "coupon"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id\": \"cart-uuid\",\n  \"subtotal\": 99.98,\n  \"discount\": 0,\n  \"total\": 99.98,\n  \"coupon\": null,\n  \"items\": [\n    {\n      \"id\": \"item-uuid\",\n      \"product_id\": \"prod-uuid\",\n      \"product_name\": \"Product Name\",\n      \"product_slug\": \"product-name\",\n      \"variant_id\": null,\n      \"variant_label\": null,\n      \"qty\": 2,\n      \"unit_price\": 49.99,\n      \"total_price\": 99.98,\n      \"current_price\": 49.99,\n      \"price_changed\": false\n    }\n  ],\n  \"version\": 3\n}"
+            }
+          ]
         }
       ]
     },
@@ -3707,11 +7131,51 @@
             ],
             "url": {
               "raw": "{{base_url}}/api/addresses",
-              "host": ["{{base_url}}"],
-              "path": ["api", "addresses"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "addresses"
+              ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{auth_token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/addresses",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "addresses"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"addr-uuid\",\n      \"full_name\": \"John Doe\",\n      \"phone\": \"+201234567890\",\n      \"street\": \"123 Main St\",\n      \"city\": \"Cairo\",\n      \"zone_id\": \"zone-uuid\",\n      \"label\": \"Home\",\n      \"building\": \"Building 5\",\n      \"apartment\": \"Apt 3B\",\n      \"landmark\": \"Near mosque\",\n      \"notes\": \"Leave with guard\",\n      \"is_default\": true\n    }\n  ]\n}"
+            }
+          ]
         },
         {
           "name": "Create Address",
@@ -3733,11 +7197,60 @@
             },
             "url": {
               "raw": "{{base_url}}/api/addresses",
-              "host": ["{{base_url}}"],
-              "path": ["api", "addresses"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "addresses"
+              ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "Created (201)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{auth_token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"full_name\":\"John Doe\",\"phone\":\"+201234567890\",\"street\":\"123 Main St\",\"city\":\"Cairo\",\"zone_id\":\"<zone-uuid>\",\"label\":\"Home\",\"building\":\"Building 5\",\"apartment\":\"Apt 3B\",\"landmark\":\"Near mosque\",\"notes\":\"Leave with guard\"}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/addresses",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "addresses"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"data\": {\n    \"id\": \"addr-uuid\",\n    \"full_name\": \"John Doe\",\n    \"phone\": \"+201234567890\",\n    \"street\": \"123 Main St\",\n    \"city\": \"Cairo\",\n    \"zone_id\": \"zone-uuid\",\n    \"label\": \"Home\",\n    \"building\": \"Building 5\",\n    \"apartment\": \"Apt 3B\",\n    \"landmark\": \"Near mosque\",\n    \"notes\": \"Leave with guard\",\n    \"is_default\": true\n  }\n}"
+            }
+          ]
         },
         {
           "name": "Update Address",
@@ -3759,8 +7272,14 @@
             },
             "url": {
               "raw": "{{base_url}}/api/addresses/:id",
-              "host": ["{{base_url}}"],
-              "path": ["api", "addresses", ":id"],
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "addresses",
+                ":id"
+              ],
               "variable": [
                 {
                   "key": "id",
@@ -3769,7 +7288,52 @@
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{auth_token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"full_name\":\"Updated Name\",\"building\":\"Tower A\"}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/addresses/:id",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "addresses",
+                    ":id"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"data\": {\n    \"id\": \"addr-uuid\",\n    \"full_name\": \"Updated Name\",\n    \"phone\": \"+201234567890\",\n    \"street\": \"123 Main St\",\n    \"city\": \"Cairo\",\n    \"zone_id\": \"zone-uuid\",\n    \"label\": \"Home\",\n    \"building\": \"Tower A\",\n    \"apartment\": \"Apt 3B\",\n    \"landmark\": \"Near mosque\",\n    \"notes\": \"Leave with guard\",\n    \"is_default\": true\n  }\n}"
+            }
+          ]
         },
         {
           "name": "Set Default Address",
@@ -3783,8 +7347,15 @@
             ],
             "url": {
               "raw": "{{base_url}}/api/addresses/:id/default",
-              "host": ["{{base_url}}"],
-              "path": ["api", "addresses", ":id", "default"],
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "addresses",
+                ":id",
+                "default"
+              ],
               "variable": [
                 {
                   "key": "id",
@@ -3793,7 +7364,44 @@
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{auth_token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/addresses/:id/default",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "addresses",
+                    ":id",
+                    "default"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"message\": \"Default address updated successfully\"\n}"
+            }
+          ]
         },
         {
           "name": "Delete Address",
@@ -3807,8 +7415,14 @@
             ],
             "url": {
               "raw": "{{base_url}}/api/addresses/:id",
-              "host": ["{{base_url}}"],
-              "path": ["api", "addresses", ":id"],
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "addresses",
+                ":id"
+              ],
               "variable": [
                 {
                   "key": "id",
@@ -3817,7 +7431,43 @@
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{auth_token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/addresses/:id",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "addresses",
+                    ":id"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"message\": \"Address deleted successfully\"\n}"
+            }
+          ]
         }
       ]
     },
@@ -3854,7 +7504,51 @@
             },
             "description": "Places an order from the current cart. Validates stock, snapshots prices, calculates shipping, and creates the order. Payment methods: cash_on_delivery, instapay, vodafone_cash."
           },
-          "response": []
+          "response": [
+            {
+              "name": "Created (201)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{auth_token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"address_id\":\"{{address_id}}\",\"payment_method\":\"cash_on_delivery\",\"notes\":\"Leave at the door\"}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/orders",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "orders"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id\": \"order-uuid\",\n  \"order_number\": \"ORD-001\",\n  \"status\": \"pending\",\n  \"payment_method\": \"cash_on_delivery\",\n  \"payment_status\": \"pending\",\n  \"subtotal\": 99.98,\n  \"discount\": 0,\n  \"shipping_charge\": 65,\n  \"total\": 164.98,\n  \"coupon\": null,\n  \"shipping_address\": {\n    \"id\": \"addr-uuid\",\n    \"full_name\": \"Ahmed Ali\",\n    \"phone\": \"+966501234567\",\n    \"street\": \"123 Main St\",\n    \"city\": \"Cairo\",\n    \"state\": \"\",\n    \"zip_code\": \"\",\n    \"country\": \"Egypt\",\n    \"zone_id\": \"zone-uuid\"\n  },\n  \"notes\": \"Leave at the door\",\n  \"items\": [\n    {\n      \"id\": \"item-uuid\",\n      \"product_id\": \"prod-uuid\",\n      \"product_name\": \"Product Name\",\n      \"variant_id\": null,\n      \"variant_label\": null,\n      \"qty\": 2,\n      \"unit_price\": 49.99,\n      \"total_price\": 99.98\n    }\n  ],\n  \"status_history\": [\n    {\n      \"from_status\": null,\n      \"to_status\": \"pending\",\n      \"changed_by\": null,\n      \"changed_at\": \"2026-06-01T10:00:00.000Z\"\n    }\n  ],\n  \"created_at\": \"2026-06-01T10:00:00.000Z\",\n  \"updated_at\": \"2026-06-01T10:00:00.000Z\"\n}"
+            }
+          ]
         },
         {
           "name": "List My Orders",
@@ -3888,7 +7582,52 @@
             },
             "description": "Returns the authenticated customer's orders, paginated."
           },
-          "response": []
+          "response": [
+            {
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{auth_token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/orders?page=1&limit=20",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "orders"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"order-uuid\",\n      \"order_number\": \"ORD-001\",\n      \"status\": \"pending\",\n      \"payment_method\": \"cash_on_delivery\",\n      \"payment_status\": \"pending\",\n      \"total\": 164.98,\n      \"item_count\": 2,\n      \"created_at\": \"2026-06-01T10:00:00.000Z\"\n    }\n  ],\n  \"meta\": {\n    \"page\": 1,\n    \"limit\": 20,\n    \"total\": 1,\n    \"totalPages\": 1\n  }\n}"
+            }
+          ]
         },
         {
           "name": "Get Order Detail",
@@ -3919,7 +7658,43 @@
             },
             "description": "Returns order detail with items and status history."
           },
-          "response": []
+          "response": [
+            {
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{auth_token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/orders/:id",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "orders",
+                    ":id"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id\": \"order-uuid\",\n  \"order_number\": \"ORD-001\",\n  \"status\": \"pending\",\n  \"payment_method\": \"cash_on_delivery\",\n  \"payment_status\": \"pending\",\n  \"subtotal\": 99.98,\n  \"discount\": 0,\n  \"shipping_charge\": 65,\n  \"total\": 164.98,\n  \"coupon\": null,\n  \"shipping_address\": {\n    \"id\": \"addr-uuid\",\n    \"full_name\": \"Ahmed Ali\",\n    \"phone\": \"+966501234567\",\n    \"street\": \"123 Main St\",\n    \"city\": \"Cairo\",\n    \"state\": \"\",\n    \"zip_code\": \"\",\n    \"country\": \"Egypt\",\n    \"zone_id\": \"zone-uuid\"\n  },\n  \"notes\": \"\",\n  \"items\": [\n    {\n      \"id\": \"item-uuid\",\n      \"product_id\": \"prod-uuid\",\n      \"product_name\": \"Product Name\",\n      \"variant_id\": null,\n      \"variant_label\": null,\n      \"qty\": 2,\n      \"unit_price\": 49.99,\n      \"total_price\": 99.98\n    }\n  ],\n  \"status_history\": [\n    {\n      \"from_status\": null,\n      \"to_status\": \"pending\",\n      \"changed_by\": null,\n      \"changed_at\": \"2026-06-01T10:00:00.000Z\"\n    }\n  ],\n  \"created_at\": \"2026-06-01T10:00:00.000Z\",\n  \"updated_at\": \"2026-06-01T10:00:00.000Z\"\n}"
+            }
+          ]
         },
         {
           "name": "Cancel Order",
@@ -3951,7 +7726,44 @@
             },
             "description": "Cancels an order (only when status is pending or confirmed). Stock is restored."
           },
-          "response": []
+          "response": [
+            {
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{auth_token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/orders/:id/cancel",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "orders",
+                    ":id",
+                    "cancel"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id\": \"order-uuid\",\n  \"order_number\": \"ORD-001\",\n  \"status\": \"cancelled\",\n  \"payment_method\": \"cash_on_delivery\",\n  \"payment_status\": \"pending\",\n  \"subtotal\": 99.98,\n  \"discount\": 0,\n  \"shipping_charge\": 65,\n  \"total\": 164.98,\n  \"coupon\": null,\n  \"shipping_address\": {\n    \"id\": \"addr-uuid\",\n    \"full_name\": \"Ahmed Ali\",\n    \"phone\": \"+966501234567\",\n    \"street\": \"123 Main St\",\n    \"city\": \"Cairo\",\n    \"state\": \"\",\n    \"zip_code\": \"\",\n    \"country\": \"Egypt\",\n    \"zone_id\": \"zone-uuid\"\n  },\n  \"notes\": \"\",\n  \"items\": [\n    {\n      \"id\": \"item-uuid\",\n      \"product_id\": \"prod-uuid\",\n      \"product_name\": \"Product Name\",\n      \"variant_id\": null,\n      \"variant_label\": null,\n      \"qty\": 2,\n      \"unit_price\": 49.99,\n      \"total_price\": 99.98\n    }\n  ],\n  \"status_history\": [\n    {\n      \"from_status\": null,\n      \"to_status\": \"pending\",\n      \"changed_by\": null,\n      \"changed_at\": \"2026-06-01T10:00:00.000Z\"\n    },\n    {\n      \"from_status\": \"pending\",\n      \"to_status\": \"cancelled\",\n      \"changed_by\": \"Customer\",\n      \"changed_at\": \"2026-06-01T11:00:00.000Z\"\n    }\n  ],\n  \"created_at\": \"2026-06-01T10:00:00.000Z\",\n  \"updated_at\": \"2026-06-01T11:00:00.000Z\"\n}"
+            }
+          ]
         }
       ]
     },
@@ -3989,7 +7801,52 @@
             },
             "description": "Submits payment proof for a manual payment order (Instapay/Vodafone Cash). Order must be pending and owned by the customer."
           },
-          "response": []
+          "response": [
+            {
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{auth_token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"order_id\":\"{{order_id}}\",\"proof_reference\":\"INSTAPAY-12345\",\"proof_screenshot_url\":\"https://cdn.example.com/uploads/proof_abc123.jpg\"}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/payments/submit-proof",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "payments",
+                    "submit-proof"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id\": \"pay-uuid\",\n  \"order_id\": \"order-uuid\",\n  \"payment_method\": \"instapay\",\n  \"amount\": 164.98,\n  \"status\": \"pending\",\n  \"proof_reference\": \"INSTAPAY-12345\",\n  \"proof_screenshot_url\": \"https://cdn.example.com/uploads/proof_abc123.jpg\",\n  \"created_at\": \"2026-06-01T10:00:00.000Z\"\n}"
+            }
+          ]
         },
         {
           "name": "Payment Methods",
@@ -4009,7 +7866,37 @@
             },
             "description": "Returns active Instapay handle and Vodafone Cash number for manual payments. Public endpoint, no auth required."
           },
-          "response": []
+          "response": [
+            {
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/payments/methods",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "payments",
+                    "methods"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"data\": {\n    \"instapay\": {\n      \"handle\": \"@techa\"\n    },\n    \"vodafone_cash\": {\n      \"number\": \"01000000000\"\n    }\n  }\n}"
+            }
+          ]
         }
       ]
     }

@@ -22,7 +22,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: 'Techa',
   icons:{
-    icon: '/favicon.ico',
+    icon: '/favicon.svg',
   },
   description: 'Your Trusted Online Store',
 };
