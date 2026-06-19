@@ -20,8 +20,11 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'SNKRHIVE',
-  description: 'Your premier sneaker destination in Egypt',
+  title: 'Techa',
+  icons:{
+    icon: '/favicon.ico',
+  },
+  description: 'Your Trusted Online Store',
 };
 
 export default function RootLayout({
