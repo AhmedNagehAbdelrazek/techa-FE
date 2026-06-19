@@ -2,36 +2,34 @@
 
 ## Current Plan
 
-**Feature**: Layout, Navigation & Design System
-**Branch**: `002-layout-navigation-design`
-**Plan file**: `specs/002-layout-navigation-design/plan.md`
-**Spec file**: `specs/002-layout-navigation-design/spec.md`
+**Feature**: Storefront Homepage
+**Branch**: `003-storefront-homepage`
+**Plan file**: `specs/003-storefront-homepage/plan.md`
+**Spec file**: `specs/003-storefront-homepage/spec.md`
 
 ### Key Artifacts
 
-- [spec.md](specs/002-layout-navigation-design/spec.md) — Feature specification (with clarifications)
-- [plan.md](specs/002-layout-navigation-design/plan.md) — Implementation plan
-- [research.md](specs/002-layout-navigation-design/research.md) — Research decisions
-- [data-model.md](specs/002-layout-navigation-design/data-model.md) — Data model
-- [quickstart.md](specs/002-layout-navigation-design/quickstart.md) — Setup guide
-- [contracts/layout-api.md](specs/002-layout-navigation-design/contracts/layout-api.md) — API contracts
+- [spec.md](specs/003-storefront-homepage/spec.md) — Feature specification
+- [plan.md](specs/003-storefront-homepage/plan.md) — Implementation plan
+- [research.md](specs/003-storefront-homepage/research.md) — Research decisions
+- [data-model.md](specs/003-storefront-homepage/data-model.md) — Data model
+- [quickstart.md](specs/003-storefront-homepage/quickstart.md) — Setup guide
+- [contracts/homepage-api.md](specs/003-storefront-homepage/contracts/homepage-api.md) — API contracts
 
 ### Implementation Order
 
-1. Add shadcn components: `npx shadcn@latest add sheet avatar dropdown-menu separator input`
-2. Create `src/lib/stores/settings.store.ts` — Zustand store for public site settings
-3. Create `src/lib/stores/cart.store.ts` — Zustand store for cart item count
-4. Create `src/lib/stores/wishlist.store.ts` — Zustand store for wishlist item count
-5. Create `src/components/layout/Logo.tsx` — Site logo (image or text fallback)
-6. Create `src/components/layout/Header.tsx` — Storefront header with search, cart badge, wishlist badge, auth controls
-7. Create `src/components/layout/Footer.tsx` — Storefront footer with links, social, copyright
-8. Create `src/components/layout/MobileNav.tsx` — Hamburger menu with full-screen Sheet overlay
-9. Create `src/components/stores/SettingsHydrator.tsx` — Server→client settings hydration
-10. Create `src/app/(store)/layout.tsx` — Storefront layout shell (Header + Footer wrapping children)
-11. Create `src/components/layout/AdminSidebar.tsx` — Admin sidebar with 11 nav links
-12. Create `src/components/layout/AdminTopBar.tsx` — Admin top bar with user info + logout
-13. Create `src/components/layout/Breadcrumbs.tsx` — Route-based breadcrumb trail
-14. Create `src/app/(admin)/layout.tsx` — Admin layout shell (sidebar + top bar + breadcrumbs + auth gate)
-15. Verify: AuthProvider is uncommented in root layout (prerequisite from Phase 1)
+1. Add shadcn skeleton: `npx shadcn@latest add skeleton`
+2. Create `src/lib/types/banner.ts` — Banner TypeScript interface
+3. Create `src/lib/types/product.ts` — Product list TypeScript interface
+4. Create `src/lib/types/category.ts` — Category tree TypeScript interface
+5. Create `src/lib/api/banners.ts` — Banner API wrapper functions
+6. Create `src/lib/api/products.ts` — Product API wrapper functions
+7. Create `src/lib/api/categories.ts` — Category API wrapper functions
+8. Create `src/components/store/SectionHeader.tsx` — Section title with optional "View All" link
+9. Create `src/components/store/HeroBanner.tsx` — Embla carousel for hero banners
+10. Create `src/components/store/ProductCard.tsx` — Reusable product card with rating stars, discount display, wishlist toggle
+11. Create `src/components/store/CategoryCard.tsx` — Category grid card with image and name
+12. Create `src/app/(store)/page.tsx` — Homepage server component composing all sections
+13. Verify: build passes with `npm run build`
 
 <!-- SPECKIT END -->
