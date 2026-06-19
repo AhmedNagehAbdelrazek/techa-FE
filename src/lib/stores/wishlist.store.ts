@@ -9,6 +9,7 @@ interface WishlistState {
   isLoading: boolean;
   fetchWishlist: () => Promise<void>;
   setItemCount: (count: number) => void;
+  reset: () => void;
 }
 
 export const useWishlistStore = create<WishlistState>()(
@@ -31,6 +32,7 @@ export const useWishlistStore = create<WishlistState>()(
         }
       },
       setItemCount: (count) => set({ itemCount: count }),
+      reset: () => set({ itemCount: 0, isLoading: false }),
     }),
     {
       name: "wishlist-storage",

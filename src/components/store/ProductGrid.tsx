@@ -222,7 +222,7 @@ export function ProductGrid({ categorySlug, searchQuery }: ProductGridProps) {
               <div className="mt-8">
                 <Pagination
                   currentPage={pagination.page}
-                  totalPages={pagination.pages}
+                  totalPages={pagination.totalPages}
                   onPageChange={(page) => updateURL("page", page)}
                 />
               </div>

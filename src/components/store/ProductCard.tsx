@@ -86,7 +86,7 @@ export function ProductCard({ product }: ProductCardProps) {
             {product.name}
           </h3>
         </Link>
-        <RatingStars average={product.rating.average} count={product.rating.count} />
+        <RatingStars average={product.rating_avg} count={product.rating_count} />
         <div className="mt-auto flex items-baseline gap-2 pt-1">
           <span className="text-base font-bold">
             {formatPrice(discountedPrice)}

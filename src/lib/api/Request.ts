@@ -36,4 +36,14 @@ class Request {
   }
 }
 
-export const request = new Request(API_BASE_URL || "/api/v1");
+const isServer = typeof window === "undefined";
+
+let baseURL: string;
+if (isServer) {
+  const rawUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/v1";
+  baseURL = rawUrl.replace(/\/api\/v1\/?$/, "");
+} else {
+  baseURL = API_BASE_URL || "/api/v1";
+}
+
+export const request = new Request(baseURL);

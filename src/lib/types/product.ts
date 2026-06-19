@@ -9,11 +9,6 @@ export interface ProductBrand {
   slug: string;
 }
 
-export interface ProductRating {
-  average: number;
-  count: number;
-}
-
 export interface ProductListItem {
   id: string;
   name: string;
@@ -22,7 +17,8 @@ export interface ProductListItem {
   discount_percent: number;
   primary_image: ProductImage | null;
   brand: ProductBrand | null;
-  rating: ProductRating;
+  rating_avg: number;
+  rating_count: number;
   is_featured: boolean;
   created_at: string;
 }
@@ -33,6 +29,6 @@ export interface ProductListResponse {
     page: number;
     limit: number;
     total: number;
-    pages: number;
+    totalPages: number;
   };
 }

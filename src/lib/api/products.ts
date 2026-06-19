@@ -12,11 +12,6 @@ interface ApiProductBrand {
   slug: string;
 }
 
-interface ApiProductRating {
-  average: number;
-  count: number;
-}
-
 interface ApiProduct {
   id: string;
   name: string;
@@ -25,21 +20,22 @@ interface ApiProduct {
   discount_percent: number;
   primary_image: ApiProductImage | null;
   brand: ApiProductBrand | null;
-  rating: ApiProductRating;
+  rating_avg: number;
+  rating_count: number;
   is_featured: boolean;
   created_at: string;
 }
 
-interface ApiPagination {
+interface ApiMeta {
   page: number;
   limit: number;
   total: number;
-  pages: number;
+  totalPages: number;
 }
 
 interface ApiProductListResponse {
   data: ApiProduct[];
-  pagination: ApiPagination;
+  meta: ApiMeta;
 }
 
 function mapProduct(api: ApiProduct): ProductListItem {
@@ -51,7 +47,8 @@ function mapProduct(api: ApiProduct): ProductListItem {
     discount_percent: api.discount_percent,
     primary_image: api.primary_image ?? null,
     brand: api.brand ?? null,
-    rating: api.rating,
+    rating_avg: api.rating_avg,
+    rating_count: api.rating_count,
     is_featured: api.is_featured,
     created_at: api.created_at,
   };
@@ -71,6 +68,11 @@ export async function getProducts(params?: Record<string, string | number | bool
   const data = await request.get<ApiProductListResponse>(url);
   return {
     data: data.data.map(mapProduct),
-    pagination: data.pagination,
+    pagination: {
+      page: data.meta.page,
+      limit: data.meta.limit,
+      total: data.meta.total,
+      totalPages: data.meta.totalPages,
+    },
   };
 }

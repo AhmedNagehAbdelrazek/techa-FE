@@ -9,6 +9,7 @@ interface CartState {
   isLoading: boolean;
   fetchCart: () => Promise<void>;
   setItemCount: (count: number) => void;
+  reset: () => void;
 }
 
 interface CartData {
@@ -31,6 +32,7 @@ export const useCartStore = create<CartState>()(
         }
       },
       setItemCount: (count) => set({ itemCount: count }),
+      reset: () => set({ itemCount: 0, isLoading: false }),
     }),
     {
       name: "cart-storage",

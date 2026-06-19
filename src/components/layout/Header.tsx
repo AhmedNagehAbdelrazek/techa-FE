@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Search, ShoppingCart, Heart, User, LogOut, Package, Settings } from "lucide-react";
@@ -17,16 +17,31 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { logout as logoutApi } from "@/lib/api/auth";
 import { useAuthStore } from "@/lib/stores/auth.store";
 import { useCartStore } from "@/lib/stores/cart.store";
 import { useWishlistStore } from "@/lib/stores/wishlist.store";
 
 export function Header() {
   const router = useRouter();
-  const { user, isAuthenticated } = useAuthStore();
+  const { user, isAuthenticated, logout: storeLogout } = useAuthStore();
+  const cartReset = useCartStore((s) => s.reset);
+  const wishlistReset = useWishlistStore((s) => s.reset);
   const itemCount = useCartStore((s) => s.itemCount);
   const wishlistCount = useWishlistStore((s) => s.itemCount);
   const [searchQuery, setSearchQuery] = useState("");
+
+  const handleLogout = useCallback(async () => {
+    try {
+      await logoutApi();
+    } catch {
+      // proceed with local logout even if API call fails
+    }
+    storeLogout();
+    cartReset();
+    wishlistReset();
+    router.push("/");
+  }, [storeLogout, cartReset, wishlistReset, router]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -114,11 +129,12 @@ export function Header() {
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <Link href="/logout" className="flex items-center gap-2 cursor-pointer text-destructive">
-                    <LogOut className="size-4" />
-                    Logout
-                  </Link>
+                <DropdownMenuItem
+                  onClick={handleLogout}
+                  className="flex items-center gap-2 cursor-pointer text-destructive"
+                >
+                  <LogOut className="size-4" />
+                  Logout
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
