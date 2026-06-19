@@ -27,3 +27,12 @@ export async function getCategoryTree(): Promise<Category[]> {
   const data = await request.get<ApiCategory[]>("/api/categories/tree");
   return data.map(mapCategory);
 }
+
+export async function getCategoryBySlug(slug: string): Promise<Category | null> {
+  try {
+    const data = await request.get<ApiCategory>(`/api/categories/${slug}`);
+    return mapCategory(data);
+  } catch {
+    return null;
+  }
+}

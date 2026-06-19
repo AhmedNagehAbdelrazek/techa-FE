@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Search, ShoppingCart, Heart, User, LogOut, Package, Settings } from "lucide-react";
 import { Logo } from "@/components/layout/Logo";
 import { MobileNav } from "@/components/layout/MobileNav";
@@ -21,6 +22,7 @@ import { useCartStore } from "@/lib/stores/cart.store";
 import { useWishlistStore } from "@/lib/stores/wishlist.store";
 
 export function Header() {
+  const router = useRouter();
   const { user, isAuthenticated } = useAuthStore();
   const itemCount = useCartStore((s) => s.itemCount);
   const wishlistCount = useWishlistStore((s) => s.itemCount);
@@ -29,7 +31,7 @@ export function Header() {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      window.location.href = `/search?q=${encodeURIComponent(searchQuery.trim())}`;
+      router.push(`/search?search=${encodeURIComponent(searchQuery.trim())}`);
     }
   };
 
