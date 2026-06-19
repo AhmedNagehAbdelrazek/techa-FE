@@ -1,0 +1,76 @@
+import { request } from "./Request";
+import type { ProductListItem, ProductListResponse } from "@/lib/types/product";
+
+interface ApiProductImage {
+  url: string;
+  alt_text: string | null;
+}
+
+interface ApiProductBrand {
+  id: string;
+  name: string;
+  slug: string;
+}
+
+interface ApiProductRating {
+  average: number;
+  count: number;
+}
+
+interface ApiProduct {
+  id: string;
+  name: string;
+  slug: string;
+  base_price: number;
+  discount_percent: number;
+  primary_image: ApiProductImage | null;
+  brand: ApiProductBrand | null;
+  rating: ApiProductRating;
+  is_featured: boolean;
+  created_at: string;
+}
+
+interface ApiPagination {
+  page: number;
+  limit: number;
+  total: number;
+  pages: number;
+}
+
+interface ApiProductListResponse {
+  data: ApiProduct[];
+  pagination: ApiPagination;
+}
+
+function mapProduct(api: ApiProduct): ProductListItem {
+  return {
+    id: api.id,
+    name: api.name,
+    slug: api.slug,
+    base_price: api.base_price,
+    discount_percent: api.discount_percent,
+    primary_image: api.primary_image ?? null,
+    brand: api.brand ?? null,
+    rating: api.rating,
+    is_featured: api.is_featured,
+    created_at: api.created_at,
+  };
+}
+
+export async function getProducts(params?: Record<string, string | number | boolean>): Promise<ProductListResponse> {
+  const searchParams = new URLSearchParams();
+  if (params) {
+    for (const [key, value] of Object.entries(params)) {
+      if (value !== undefined && value !== null && value !== "") {
+        searchParams.set(key, String(value));
+      }
+    }
+  }
+  const query = searchParams.toString();
+  const url = `/api/products${query ? `?${query}` : ""}`;
+  const data = await request.get<ApiProductListResponse>(url);
+  return {
+    data: data.data.map(mapProduct),
+    pagination: data.pagination,
+  };
+}

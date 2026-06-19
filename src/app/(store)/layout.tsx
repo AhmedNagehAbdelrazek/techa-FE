@@ -2,15 +2,19 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { SettingsHydrator } from "@/components/stores/SettingsHydrator";
 import { StoreInitializer } from "@/components/stores/StoreInitializer";
+import { request } from "@/lib/api/Request";
 
 async function getSettings() {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3000";
-    const res = await fetch(`${baseUrl}/api/settings/public`, {
-      next: { revalidate: 300 },
-    });
-    if (!res.ok) return null;
-    return res.json();
+    return await request.get<{
+      site_name?: string;
+      logo_url?: string | null;
+      currency_code?: string;
+      currency_symbol?: string;
+      social_links?: Record<string, string>;
+      support_email?: string | null;
+      support_phone?: string | null;
+    }>("/api/settings/public");
   } catch {
     return null;
   }

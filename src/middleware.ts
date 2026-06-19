@@ -19,7 +19,7 @@ const cspHeader = [
   "frame-ancestors 'none'",
 ].join("; ");
 
-export function middleware(request: NextRequest) {
+export function middleware(_request: NextRequest) {
   const response = NextResponse.next();
 
   securityHeaders.forEach(({ key, value }) => {

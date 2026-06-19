@@ -36,4 +36,4 @@ class Request {
   }
 }
 
-export const request = new Request(API_BASE_URL);
+export const request = new Request(API_BASE_URL || "/api/v1");

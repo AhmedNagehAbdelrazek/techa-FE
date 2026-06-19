@@ -1,5 +1,6 @@
 import type { AxiosInstance } from "axios";
 import { RefreshQueue } from "../queue";
+import { setToken } from "../token";
 
 export function setupErrorInterceptor(
   instance: AxiosInstance,
@@ -19,7 +20,12 @@ export function setupErrorInterceptor(
       if (!refreshQueue.pending) {
         refreshQueue.start();
         try {
-          await instance.post("/api/auth/refresh");
+          const refreshResponse = await instance.post<{ token?: string }>(
+            "/api/auth/refresh",
+          );
+          if (refreshResponse.data?.token) {
+            setToken(refreshResponse.data.token);
+          }
           refreshQueue.resolveAll(true);
         } catch (refreshError) {
           refreshQueue.rejectAll(refreshError);

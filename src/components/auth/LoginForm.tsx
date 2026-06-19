@@ -12,6 +12,7 @@ import { Input } from "@/components/forms/Input";
 import { FormField } from "@/components/forms/FormField";
 import { login as loginApi } from "@/lib/api/auth";
 import { useAuthStore } from "@/lib/stores/auth.store";
+import { setToken } from "@/lib/api/token";
 import type { ApiError } from "@/lib/types/auth";
 
 const loginSchema = z.object({
@@ -47,6 +48,7 @@ export function LoginForm() {
         email: data.email.toLowerCase(),
         password: data.password,
       });
+      setToken(response.token);
       login(response.user);
       toast.success("Welcome back!");
       router.push(next);

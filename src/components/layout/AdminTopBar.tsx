@@ -5,6 +5,7 @@ import Link from "next/link";
 import { LogOut, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { request } from "@/lib/api/Request";
 
 interface AdminUser {
   name: string;
@@ -16,11 +17,9 @@ export function AdminTopBar() {
   const [admin, setAdmin] = useState<AdminUser | null>(null);
 
   useEffect(() => {
-    fetch("/api/admin/auth/me")
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data) => {
-        if (data) setAdmin(data);
-      })
+    request
+      .get<AdminUser>("/api/admin/auth/me")
+      .then((data) => setAdmin(data))
       .catch(() => {});
   }, []);
 
