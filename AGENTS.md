@@ -2,34 +2,39 @@
 
 ## Current Plan
 
-**Feature**: Storefront Homepage
-**Branch**: `003-storefront-homepage`
-**Plan file**: `specs/003-storefront-homepage/plan.md`
-**Spec file**: `specs/003-storefront-homepage/spec.md`
+**Feature**: Product Listing & Search
+**Branch**: `004-product-listing-search`
+**Plan file**: `specs/004-product-listing-search/plan.md`
+**Spec file**: `specs/004-product-listing-search/spec.md`
 
 ### Key Artifacts
 
-- [spec.md](specs/003-storefront-homepage/spec.md) — Feature specification
-- [plan.md](specs/003-storefront-homepage/plan.md) — Implementation plan
-- [research.md](specs/003-storefront-homepage/research.md) — Research decisions
-- [data-model.md](specs/003-storefront-homepage/data-model.md) — Data model
-- [quickstart.md](specs/003-storefront-homepage/quickstart.md) — Setup guide
-- [contracts/homepage-api.md](specs/003-storefront-homepage/contracts/homepage-api.md) — API contracts
+- [spec.md](specs/004-product-listing-search/spec.md) — Feature specification
+- [plan.md](specs/004-product-listing-search/plan.md) — Implementation plan
+- [research.md](specs/004-product-listing-search/research.md) — Research decisions
+- [data-model.md](specs/004-product-listing-search/data-model.md) — Data model
+- [quickstart.md](specs/004-product-listing-search/quickstart.md) — Setup guide
+- [contracts/product-listing-api.md](specs/004-product-listing-search/contracts/product-listing-api.md) — API contracts
 
 ### Implementation Order
 
-1. Add shadcn skeleton: `npx shadcn@latest add skeleton`
-2. Create `src/lib/types/banner.ts` — Banner TypeScript interface
-3. Create `src/lib/types/product.ts` — Product list TypeScript interface
-4. Create `src/lib/types/category.ts` — Category tree TypeScript interface
-5. Create `src/lib/api/banners.ts` — Banner API wrapper functions
-6. Create `src/lib/api/products.ts` — Product API wrapper functions
-7. Create `src/lib/api/categories.ts` — Category API wrapper functions
-8. Create `src/components/store/SectionHeader.tsx` — Section title with optional "View All" link
-9. Create `src/components/store/HeroBanner.tsx` — Embla carousel for hero banners
-10. Create `src/components/store/ProductCard.tsx` — Reusable product card with rating stars, discount display, wishlist toggle
-11. Create `src/components/store/CategoryCard.tsx` — Category grid card with image and name
-12. Create `src/app/(store)/page.tsx` — Homepage server component composing all sections
-13. Verify: build passes with `npm run build`
+1. Create `src/lib/types/product.ts` — Product list/search response types
+2. Create `src/lib/types/category.ts` — Category tree TypeScript interface
+3. Create `src/lib/types/brand.ts` — Brand TypeScript interface
+4. Create `src/lib/api/products.ts` — Product API wrapper (listProducts with filter params)
+5. Create `src/lib/api/categories.ts` — Category tree API wrapper
+6. Create `src/lib/api/brands.ts` — Brand list API wrapper
+7. Create `src/components/store/Pagination.tsx` — Numbered page controls
+8. Create `src/components/store/SortDropdown.tsx` — Sort order selector
+9. Create `src/components/store/BrandFilter.tsx` — Multi-select brand checkboxes
+10. Create `src/components/store/PriceRangeFilter.tsx` — Min/max price inputs
+11. Create `src/components/store/RatingFilter.tsx` — Star rating selector
+12. Create `src/components/store/FilterChips.tsx` — Active filter chips with remove buttons
+13. Create `src/components/store/FilterSidebar.tsx` — Desktop filter sidebar
+14. Create `src/components/store/FilterSheet.tsx` — Mobile filter slide-over sheet
+15. Create `src/components/store/ProductGrid.tsx` — Shared grid with filters, sort, pagination
+16. Create `src/app/(store)/category/[slug]/page.tsx` — Category listing page (server component)
+17. Create `src/app/(store)/search/page.tsx` — Search results page (server component)
+18. Verify: build passes with `npm run build`
 
 <!-- SPECKIT END -->
