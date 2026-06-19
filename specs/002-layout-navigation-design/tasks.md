@@ -28,7 +28,7 @@ Single Next.js project with App Router. Source under `src/`, components under `s
 
 **Purpose**: Add shadcn components needed by all phases
 
-- [ ] T001 Add shadcn Sheet, Avatar, DropdownMenu, Separator, Input components via `npx shadcn@latest add sheet avatar dropdown-menu separator input`
+- [x] T001 Add shadcn Sheet, Avatar, DropdownMenu, Separator, Input components via `npx shadcn@latest add sheet avatar dropdown-menu separator input`
 
 ---
 
@@ -38,10 +38,10 @@ Single Next.js project with App Router. Source under `src/`, components under `s
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T002 [P] Create settings store in src/lib/stores/settings.store.ts with siteName, logoUrl, currencyCode, currencySymbol, socialLinks, supportEmail, supportPhone, isLoading, error, and setSettings action
-- [ ] T003 [P] Create cart store in src/lib/stores/cart.store.ts with itemCount, isLoading, fetchCart (calls GET /api/cart), and setItemCount action
-- [ ] T004 [P] Create wishlist store in src/lib/stores/wishlist.store.ts with itemCount, isLoading, fetchWishlist (calls GET /api/wishlist), and setItemCount action
-- [ ] T005 [P] Create Logo component in src/components/layout/Logo.tsx that renders site logo image (from logoUrl) or text fallback, links to `/`
+- [x] T002 [P] Create settings store in src/lib/stores/settings.store.ts with siteName, logoUrl, currencyCode, currencySymbol, socialLinks, supportEmail, supportPhone, isLoading, error, and setSettings action
+- [x] T003 [P] Create cart store in src/lib/stores/cart.store.ts with itemCount, isLoading, fetchCart (calls GET /api/cart), and setItemCount action
+- [x] T004 [P] Create wishlist store in src/lib/stores/wishlist.store.ts with itemCount, isLoading, fetchWishlist (calls GET /api/wishlist), and setItemCount action
+- [x] T005 [P] Create Logo component in src/components/layout/Logo.tsx that renders site logo image (from logoUrl) or text fallback, links to `/`
 
 **Checkpoint**: Foundation ready — user story implementation can now begin in parallel
 
@@ -55,10 +55,10 @@ Single Next.js project with App Router. Source under `src/`, components under `s
 
 ### Implementation for User Story 1
 
-- [ ] T006 [P] [US1] Create Header component in src/components/layout/Header.tsx with logo (Logo component), search bar (navigates to /search?q=), cart icon with badge from cartStore, wishlist icon with badge from wishlistStore, and auth-aware controls (login/register buttons when unauthenticated, avatar dropdown with My Orders/My Account/Logout when authenticated)
-- [ ] T007 [P] [US1] Create Footer component in src/components/layout/Footer.tsx with site name/tagline, static nav links (About, Contact, FAQs, Privacy Policy, Terms), social links from settingsStore, and copyright line
-- [ ] T008 [US1] Create SettingsHydrator component in src/components/stores/SettingsHydrator.tsx that receives settings from server props and hydrates the settingsStore on mount
-- [ ] T009 [US1] Create storefront layout shell in src/app/(store)/layout.tsx that fetches GET /api/settings/public on the server, passes settings to SettingsHydrator, and renders Header + Footer wrapping {children} with main content area
+- [x] T006 [P] [US1] Create Header component in src/components/layout/Header.tsx with logo (Logo component), search bar (navigates to /search?q=), cart icon with badge from cartStore, wishlist icon with badge from wishlistStore, and auth-aware controls (login/register buttons when unauthenticated, avatar dropdown with My Orders/My Account/Logout when authenticated)
+- [x] T007 [P] [US1] Create Footer component in src/components/layout/Footer.tsx with site name/tagline, static nav links (About, Contact, FAQs, Privacy Policy, Terms), social links from settingsStore, and copyright line
+- [x] T008 [US1] Create SettingsHydrator component in src/components/stores/SettingsHydrator.tsx that receives settings from server props and hydrates the settingsStore on mount
+- [x] T009 [US1] Create storefront layout shell in src/app/(store)/layout.tsx that fetches GET /api/settings/public on the server, passes settings to SettingsHydrator, and renders Header + Footer wrapping {children} with main content area
 
 **Checkpoint**: Storefront layout renders on all (store) routes — header with working badges, footer with dynamic content
 
@@ -72,10 +72,10 @@ Single Next.js project with App Router. Source under `src/`, components under `s
 
 ### Implementation for User Story 2
 
-- [ ] T010 [P] [US2] Create AdminSidebar component in src/components/layout/AdminSidebar.tsx with 11 nav links (Dashboard, Products, Categories, Brands, Tags, Orders, Coupons, Banners, Delivery Zones, Settings, Admins), active link highlighting based on current route, and collapsible drawer on mobile
-- [ ] T011 [P] [US2] Create AdminTopBar component in src/components/layout/AdminTopBar.tsx with admin name/role fetched from GET /api/admin/auth/me and logout button
-- [ ] T012 [P] [US2] Create Breadcrumbs component in src/components/layout/Breadcrumbs.tsx that derives breadcrumb trail from the current route path
-- [ ] T013 [US2] Create admin layout shell in src/app/(admin)/layout.tsx that checks admin auth (redirects to /admin/login if unauthenticated), renders AdminSidebar + AdminTopBar + Breadcrumbs wrapping {children} in a content area
+- [x] T010 [P] [US2] Create AdminSidebar component in src/components/layout/AdminSidebar.tsx with 11 nav links (Dashboard, Products, Categories, Brands, Tags, Orders, Coupons, Banners, Delivery Zones, Settings, Admins), active link highlighting based on current route, and collapsible drawer on mobile
+- [x] T011 [P] [US2] Create AdminTopBar component in src/components/layout/AdminTopBar.tsx with admin name/role fetched from GET /api/admin/auth/me and logout button
+- [x] T012 [P] [US2] Create Breadcrumbs component in src/components/layout/Breadcrumbs.tsx that derives breadcrumb trail from the current route path
+- [x] T013 [US2] Create admin layout shell in src/app/(admin)/layout.tsx that checks admin auth (redirects to /admin/login if unauthenticated), renders AdminSidebar + AdminTopBar + Breadcrumbs wrapping {children} in a content area
 
 **Checkpoint**: Admin panel renders on all /admin routes with full navigation, auth gate working
 
@@ -89,7 +89,7 @@ Single Next.js project with App Router. Source under `src/`, components under `s
 
 ### Implementation for User Story 3
 
-- [ ] T014 [US3] Create MobileNav component in src/components/layout/MobileNav.tsx with hamburger button (visible below 768px) that opens a full-screen shadcn Sheet overlay containing navigation links, search input, and auth state (login/register or user menu), with close-on-navigate and close-on-click-outside behavior
+- [x] T014 [US3] Create MobileNav component in src/components/layout/MobileNav.tsx with hamburger button (visible below 768px) that opens a full-screen shadcn Sheet overlay containing navigation links, search input, and auth state (login/register or user menu), with close-on-navigate and close-on-click-outside behavior
 
 **Checkpoint**: Mobile hamburger menu functional across all storefront pages
 
@@ -99,9 +99,9 @@ Single Next.js project with App Router. Source under `src/`, components under `s
 
 **Purpose**: Verification that prerequisites are met and final validation
 
-- [ ] T015 Verify AuthProvider is uncommented and working in src/app/layout.tsx (prerequisite for auth-state-aware header controls)
-- [ ] T016 [P] Run lint and typecheck across all new files
-- [ ] T017 Validate quickstart.md steps end-to-end on a fresh checkout
+- [x] T015 Verify AuthProvider is uncommented and working in src/app/layout.tsx (prerequisite for auth-state-aware header controls)
+- [x] T016 [P] Run lint and typecheck across all new files
+- [x] T017 Validate quickstart.md steps end-to-end on a fresh checkout
 
 ---
 
