@@ -2,34 +2,37 @@
 
 ## Current Plan
 
-**Feature**: Customer Reviews
-**Branch**: `005-product-detail-page` (continues on same branch)
-**Plan file**: `specs/006-customer-reviews/plan.md`
-**Spec file**: `specs/006-customer-reviews/spec.md`
+**Feature**: Customer Cart
+**Branch**: `007-customer-cart`
+**Plan file**: `specs/007-customer-cart/plan.md`
+**Spec file**: `specs/007-customer-cart/spec.md`
 
 ### Key Artifacts
 
-- [spec.md](specs/006-customer-reviews/spec.md) — Feature specification
-- [plan.md](specs/006-customer-reviews/plan.md) — Implementation plan
-- [research.md](specs/006-customer-reviews/research.md) — Research decisions
-- [data-model.md](specs/006-customer-reviews/data-model.md) — Data model
-- [quickstart.md](specs/006-customer-reviews/quickstart.md) — Setup guide
-- [contracts/review-api.md](specs/006-customer-reviews/contracts/review-api.md) — API contracts
+- [spec.md](specs/007-customer-cart/spec.md) — Feature specification
+- [plan.md](specs/007-customer-cart/plan.md) — Implementation plan
+- [research.md](specs/007-customer-cart/research.md) — Research decisions
+- [data-model.md](specs/007-customer-cart/data-model.md) — Data model
+- [quickstart.md](specs/007-customer-cart/quickstart.md) — Setup guide
+- [contracts/cart-api.md](specs/007-customer-cart/contracts/cart-api.md) — API contracts
 
 ### Implementation Order
 
-1. Update `src/lib/types/review.ts` — Add `UserBrief`, `ReviewEligibilityResponse`, `CreateReviewRequest`, `UpdateReviewRequest`; add `user` field to `Review`
-2. Extend `src/lib/api/reviews.ts` — Add `checkReviewEligibility(productId)`, `createReview(productId, data)`, `updateReview(reviewId, data)`, `deleteReview(reviewId)`
-3. Update `src/components/store/ReviewList.tsx` — Add star rating selector component (hover/click visual feedback, 1-5)
-4. Update `src/components/store/ReviewList.tsx` — Add "Write a Review" form with rating + comment, submit validation, optimistic creation with rollback
-5. Update `src/components/store/ReviewList.tsx` — Add inline edit mode on owned reviews (pre-filled form, optimistic update with rollback, cancel button)
-6. Update `src/components/store/ReviewList.tsx` — Add delete button on owned reviews with AlertDialog confirmation and optimistic removal
-7. Update `src/components/store/ReviewList.tsx` — Integrate eligibility endpoint call on page load (when authenticated); conditionally show form or reason text
-8. Update `src/components/store/ReviewList.tsx` — Ensure loading skeleton, "Load more" spinner, disabled state, and rollback for pagination errors
-9. Verify: build passes with `npm run build`
+1. Create `src/lib/types/cart.ts` — `Cart`, `CartItem`, `CartCoupon`, request/response types
+2. Create `src/lib/api/cart.ts` — 6 API wrapper functions (getCart, addItem, updateItemQty, removeItem, applyCoupon, removeCoupon)
+3. Replace `src/lib/stores/cart.store.ts` — Full Zustand store with persist, optimistic add/update/remove with rollback
+4. Create `src/components/store/CartAddButton.tsx` — Add to Cart (product detail page), auth guard, success toast, badge increment
+5. Create `src/components/store/CartEmptyState.tsx` — Empty cart illustration + "Continue Shopping" link to `/`
+6. Create `src/components/store/CartItemRow.tsx` — Single item row with thumbnail, name, variant, unit price, qty stepper, line total, remove button, price-changed badge
+7. Create `src/components/store/CartOrderSummary.tsx` — Subtotal, discount (if coupon), shipping label, total, "Proceed to Checkout" button
+8. Create `src/components/store/CartCouponInput.tsx` — Coupon text input + "Apply" button, removable coupon chip
+9. Create `src/components/store/CartDrawer.tsx` — Slide-over Sheet (mobile quick-preview)
+10. Create `src/app/(store)/cart/page.tsx` — Compose CartItemRow, CartOrderSummary, CartCouponInput, CartEmptyState with loading skeleton
+11. Modify `src/components/layout/Header.tsx` — Reactive cart badge from new store's `itemCount`
+12. Verify: build passes with `npm run build`
 
-### Completed (Phase 5)
+### Completed (Phase 6)
 
-- Product detail page: types, API wrappers, all 10 components, product page composition, build verification
+- Customer Reviews: types, API wrappers, StarRatingSelector, write/edit/delete flow, AlertDialog, eligibility, build verification
 
 <!-- SPECKIT END -->
