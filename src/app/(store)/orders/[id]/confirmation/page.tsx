@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -181,7 +182,15 @@ export default function ConfirmationPage() {
                     <p className="mt-1 text-xs text-muted-foreground">Uploading...</p>
                   )}
                   {proofScreenshotUrl && (
-                    <p className="mt-1 text-xs text-green-600">Uploaded successfully</p>
+                    <div className="mt-2">
+                      <Image
+                        src={proofScreenshotUrl}
+                        alt="Payment screenshot preview"
+                        width={400}
+                        height={300}
+                        className="max-h-48 rounded-md border object-contain"
+                      />
+                    </div>
                   )}
                 </div>
 

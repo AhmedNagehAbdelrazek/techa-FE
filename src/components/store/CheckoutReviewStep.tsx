@@ -192,11 +192,7 @@ export function CheckoutReviewStep({
                 />
                 <div className="flex-1">
                   <p className="text-sm font-medium">Instapay</p>
-                  {paymentMethod === "instapay" && (
-                    <p className="text-xs text-muted-foreground">
-                      Send to: {paymentMethods.instapay.handle}
-                    </p>
-                  )}
+                  <p className="text-xs text-muted-foreground">Instant bank transfer</p>
                 </div>
               </label>
             )}
@@ -212,16 +208,26 @@ export function CheckoutReviewStep({
                 />
                 <div className="flex-1">
                   <p className="text-sm font-medium">Vodafone Cash</p>
-                  {paymentMethod === "vodafone_cash" && (
-                    <p className="text-xs text-muted-foreground">
-                      Send to: {paymentMethods.vodafone_cash.number}
-                    </p>
-                  )}
+                  <p className="text-xs text-muted-foreground">Mobile wallet transfer</p>
                 </div>
               </label>
             )}
           </div>
         ) : null}
+
+        {paymentMethod === "instapay" && paymentMethods?.instapay.handle && (
+          <div className="mt-3 rounded-md border border-primary/20 bg-primary/5 p-3">
+            <p className="text-xs font-medium text-muted-foreground">Send payment to</p>
+            <p className="mt-1 text-lg font-bold text-primary">{paymentMethods.instapay.handle}</p>
+          </div>
+        )}
+
+        {paymentMethod === "vodafone_cash" && paymentMethods?.vodafone_cash.number && (
+          <div className="mt-3 rounded-md border border-primary/20 bg-primary/5 p-3">
+            <p className="text-xs font-medium text-muted-foreground">Send payment to</p>
+            <p className="mt-1 text-lg font-bold text-primary" dir="ltr">{paymentMethods.vodafone_cash.number}</p>
+          </div>
+        )}
       </div>
 
       {/* Notes */}
