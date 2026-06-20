@@ -1,25 +1,27 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { toast } from "sonner";
 import { getOrder } from "@/lib/api/orders";
 import { submitProof, uploadFile } from "@/lib/api/payments";
-import { formatPrice } from "@/lib/utils";
+import { formatPrice, formatDateTime } from "@/lib/utils";
 import type { Order } from "@/lib/types/order";
 
 export default function ConfirmationPage() {
   const params = useParams<{ id: string }>();
+  const router = useRouter();
   const [order, setOrder] = useState<Order | null>(null);
   const [loading, setLoading] = useState(true);
   const [proofReference, setProofReference] = useState("");
-
   const [proofScreenshotUrl, setProofScreenshotUrl] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -92,8 +94,7 @@ export default function ConfirmationPage() {
         {loading ? (
           <div className="space-y-4">
             <Skeleton className="h-8 w-64" />
-            <Skeleton className="h-32 w-full rounded-lg" />
-            <Skeleton className="h-32 w-full rounded-lg" />
+            <Skeleton className="h-64 w-full rounded-lg" />
           </div>
         ) : order ? (
           <div className="space-y-6">
@@ -116,37 +117,89 @@ export default function ConfirmationPage() {
               </div>
               <h1 className="text-2xl font-bold">Order Placed!</h1>
               <p className="mt-1 text-sm text-muted-foreground">
-                Order #{order.order_number}
+                Thank you for your order
               </p>
             </div>
 
-            {/* Order Summary */}
-            <div className="rounded-lg border p-4">
-              <h3 className="mb-3 text-sm font-medium">Order Summary</h3>
+            {/* Receipt */}
+            <div className="rounded-lg border p-6">
+              <div className="text-center border-b pb-4">
+                <p className="text-xs text-muted-foreground uppercase tracking-wider">Receipt</p>
+                <p className="mt-1 text-xl font-bold">#{order.order_number}</p>
+                <p className="mt-0.5 text-xs text-muted-foreground">{formatDateTime(order.created_at)}</p>
+              </div>
+
+              {/* Items */}
+              <div className="mt-4 space-y-3">
+                {order.items.map((item, i) => (
+                  <div key={i} className="flex items-start justify-between text-sm">
+                    <div className="flex-1">
+                      <p className="font-medium">{item.product_name}</p>
+                      {item.variant_label && (
+                        <p className="text-xs text-muted-foreground">{item.variant_label}</p>
+                      )}
+                      <p className="text-xs text-muted-foreground">Qty: {item.qty} × {formatPrice(item.unit_price)}</p>
+                    </div>
+                    <p className="font-medium">{formatPrice(item.line_total)}</p>
+                  </div>
+                ))}
+              </div>
+
+              <Separator className="my-4" />
+
+              {/* Totals */}
+              <div className="space-y-1.5 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Subtotal</span>
+                  <span>{formatPrice(order.subtotal)}</span>
+                </div>
+                {order.discount > 0 && (
+                  <div className="flex justify-between text-green-600">
+                    <span>Discount{order.coupon ? ` (${order.coupon.code})` : ""}</span>
+                    <span>-{formatPrice(order.discount)}</span>
+                  </div>
+                )}
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Shipping</span>
+                  <span>{order.shipping_charge > 0 ? formatPrice(order.shipping_charge) : "Free"}</span>
+                </div>
+                <Separator />
+                <div className="flex justify-between font-bold text-base">
+                  <span>Total</span>
+                  <span>{formatPrice(order.total)}</span>
+                </div>
+              </div>
+
+              <Separator className="my-4" />
+
+              {/* Details */}
               <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Payment</span>
+                  <span className="capitalize">{order.payment_method.replace(/_/g, " ")}</span>
+                </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Status</span>
                   <Badge variant="secondary">{order.status}</Badge>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Payment</span>
-                  <span>{order.payment_method.replace(/_/g, " ")}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Total</span>
-                  <span className="font-semibold">{formatPrice(order.total)}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Delivery Address</span>
-                  <span className="text-right">
+                  <span className="text-muted-foreground">Deliver to</span>
+                  <span className="text-right max-w-48">
                     {order.shipping_address.full_name}, {order.shipping_address.street},{" "}
                     {order.shipping_address.city}
+                    {" · "}{order.shipping_address.phone}
                   </span>
                 </div>
+                {order.notes && (
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Notes</span>
+                    <span className="text-right max-w-48">{order.notes}</span>
+                  </div>
+                )}
               </div>
             </div>
 
-            {/* Payment Proof (non-COD) */}
+            {/* Payment Proof Section (non-COD, not yet submitted) */}
             {order.payment_method !== "cash_on_delivery" && !submitted && (
               <div className="rounded-lg border p-4 space-y-4">
                 <div>
@@ -194,12 +247,20 @@ export default function ConfirmationPage() {
                   )}
                 </div>
 
-                <Button
-                  onClick={handleSubmitProof}
-                  disabled={submitting || uploading || !proofScreenshotUrl}
-                >
-                  {submitting ? "Submitting..." : "Submit Proof"}
-                </Button>
+                <div className="flex gap-3">
+                  <Button
+                    variant="outline"
+                    onClick={() => router.push("/orders")}
+                  >
+                    Skip — View My Orders
+                  </Button>
+                  <Button
+                    onClick={handleSubmitProof}
+                    disabled={submitting || uploading || !proofScreenshotUrl}
+                  >
+                    {submitting ? "Submitting..." : "Submit Proof"}
+                  </Button>
+                </div>
               </div>
             )}
 
@@ -208,8 +269,7 @@ export default function ConfirmationPage() {
               <div className="rounded-lg border border-primary/20 bg-primary/5 p-4">
                 <p className="text-sm font-medium text-primary">Pay on Delivery</p>
                 <p className="mt-1 text-xs text-muted-foreground">
-                  You will pay when you receive your order. No need to submit any payment
-                  proof.
+                  You will pay when you receive your order. No need to submit any payment proof.
                 </p>
               </div>
             )}
@@ -224,6 +284,16 @@ export default function ConfirmationPage() {
                 </p>
               </div>
             )}
+
+            {/* Navigation */}
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <Button className="flex-1" asChild>
+                <Link href="/orders">View My Orders</Link>
+              </Button>
+              <Button variant="outline" className="flex-1" asChild>
+                <Link href="/">Continue Shopping</Link>
+              </Button>
+            </div>
           </div>
         ) : (
           <div className="text-center">
