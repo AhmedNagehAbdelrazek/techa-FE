@@ -79,6 +79,8 @@ export interface Order {
   status_history: OrderStatusHistory[];
   created_at: string;
   updated_at: string;
+  proof_reference?: string;
+  proof_screenshot_url?: string;
 }
 
 export interface CartCoupon {
