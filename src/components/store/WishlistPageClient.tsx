@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { getWishlistDetail, removeFromWishlist } from "@/lib/api/wishlist";
 import { addItem } from "@/lib/api/cart";
 import { useWishlistStore } from "@/lib/stores/wishlist.store";
+import { useCartStore } from "@/lib/stores/cart.store";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { ErrorState } from "@/components/ui/ErrorState";
 import Link from "next/link";
@@ -18,6 +19,7 @@ export function WishlistPageClient() {
   const [removingIds, setRemovingIds] = useState<Set<string>>(new Set());
   const [addingIds, setAddingIds] = useState<Set<string>>(new Set());
   const fetchWishlist = useWishlistStore((s) => s.fetchWishlist);
+  const fetchCart = useCartStore((s) => s.fetchCart);
 
   const loadWishlist = useCallback(async () => {
     setIsLoading(true);
@@ -71,6 +73,7 @@ export function WishlistPageClient() {
           qty: 1,
         });
         toast.success("Added to cart");
+        fetchCart();
         fetchWishlist();
       } catch {
         toast.error("Failed to add to cart");
@@ -82,7 +85,7 @@ export function WishlistPageClient() {
         });
       }
     },
-    [items, fetchWishlist],
+    [items, fetchCart, fetchWishlist],
   );
 
   if (isLoading) {
