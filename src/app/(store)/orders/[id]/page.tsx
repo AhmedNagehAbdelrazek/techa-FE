@@ -22,9 +22,16 @@ export default function OrderDetailPage() {
   useEffect(() => {
     if (params.id) {
       getOrder(params.id)
-        .then(setOrder)
+        .then((data)=>{
+          console.log(data)
+          setOrder(data);
+        })
         .catch(() => toast.error("Failed to load order"))
         .finally(() => setLoading(false));
+        
+    } else {
+      toast.error("Invalid order ID");
+      router.push("/orders");
     }
   }, [params.id]);
 
@@ -59,7 +66,7 @@ export default function OrderDetailPage() {
             {/* Header */}
             <div>
               <h1 className="text-2xl font-bold">#{order.order_number}</h1>
-              <p className="mt-1 text-sm text-muted-foreground">
+              <p className="text-muted-foreground mt-1 text-sm">
                 Placed on {formatDateTime(order.created_at)}
               </p>
             </div>
@@ -70,13 +77,29 @@ export default function OrderDetailPage() {
               <div className="space-y-3">
                 {order.status_history.map((entry, i) => (
                   <div key={i} className="flex items-center gap-3 text-sm">
-                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary/10">
-                      <div className="h-2 w-2 rounded-full bg-primary" />
+                    <div className="bg-primary/10 flex h-6 w-6 items-center justify-center rounded-full">
+                      <div className="bg-primary h-2 w-2 rounded-full" />
                     </div>
                     <div>
-                      <p className="capitalize font-medium">{entry.status}</p>
-                      <p className="text-xs text-muted-foreground">{formatDateTime(entry.timestamp)}</p>
+                      <p className="font-medium capitalize">{entry.status}</p>
+                      <p className="text-muted-foreground text-xs">
+                        {formatDateTime(entry.changed_at)}
+                      </p>
                     </div>
+                    {entry.from_status && entry.to_status && entry.from_status !== entry.to_status && (
+                      <div className="flex items-center gap-3 text-sm">
+                        <div className="bg-primary/10 flex h-6 w-6 items-center justify-center rounded-full">
+                          <div className="bg-primary h-2 w-2 rounded-full" />
+                        </div>
+                        <div>
+                          <p className="font-medium capitalize">{entry.from_status}</p>
+                          <p className="text-muted-foreground text-xs">
+                            {formatDateTime(entry.changed_at)}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                    
                   </div>
                 ))}
               </div>
@@ -104,9 +127,11 @@ export default function OrderDetailPage() {
                     <div className="flex-1">
                       <p className="font-medium">{item.product_name}</p>
                       {item.variant_label && (
-                        <p className="text-xs text-muted-foreground">{item.variant_label}</p>
+                        <p className="text-muted-foreground text-xs">{item.variant_label}</p>
                       )}
-                      <p className="text-xs text-muted-foreground">Qty: {item.qty} × {formatPrice(item.unit_price)}</p>
+                      <p className="text-muted-foreground text-xs">
+                        Qty: {item.qty} × {formatPrice(item.unit_price)}
+                      </p>
                     </div>
                     <p className="font-medium">{formatPrice(item.line_total)}</p>
                   </div>
@@ -128,10 +153,12 @@ export default function OrderDetailPage() {
                 )}
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Shipping</span>
-                  <span>{order.shipping_charge > 0 ? formatPrice(order.shipping_charge) : "Free"}</span>
+                  <span>
+                    {order.shipping_charge > 0 ? formatPrice(order.shipping_charge) : "Free"}
+                  </span>
                 </div>
                 <Separator />
-                <div className="flex justify-between font-bold text-base">
+                <div className="flex justify-between text-base font-bold">
                   <span>Total</span>
                   <span>{formatPrice(order.total)}</span>
                 </div>
@@ -152,7 +179,7 @@ export default function OrderDetailPage() {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Deliver to</span>
-                  <span className="text-right max-w-48">
+                  <span className="max-w-48 text-right">
                     {order.shipping_address.full_name}, {order.shipping_address.street},{" "}
                     {order.shipping_address.city} · {order.shipping_address.phone}
                   </span>
@@ -160,7 +187,7 @@ export default function OrderDetailPage() {
                 {order.notes && (
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Notes</span>
-                    <span className="text-right max-w-48">{order.notes}</span>
+                    <span className="max-w-48 text-right">{order.notes}</span>
                   </div>
                 )}
               </div>
@@ -168,11 +195,7 @@ export default function OrderDetailPage() {
 
             {/* Actions */}
             {order.status === "pending" && (
-              <Button
-                variant="destructive"
-                onClick={handleCancel}
-                disabled={cancelling}
-              >
+              <Button variant="destructive" onClick={handleCancel} disabled={cancelling}>
                 {cancelling ? "Cancelling..." : "Cancel Order"}
               </Button>
             )}

@@ -52,7 +52,9 @@ export interface OrderItem {
 
 export interface OrderStatusHistory {
   status: string;
-  timestamp: string;
+  changed_at: string;
+  from_status: string | null;
+  to_status: string | null;
 }
 
 export interface Order {

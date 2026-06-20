@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
@@ -39,7 +38,6 @@ export function CheckoutReviewStep({
   onUpdate,
   onBack,
 }: CheckoutReviewStepProps) {
-  const router = useRouter();
   const cartItems = useCartStore((s) => s.items);
   const subtotal = useCartStore((s) => s.subtotal);
   const discount = useCartStore((s) => s.discount);
@@ -95,8 +93,8 @@ export function CheckoutReviewStep({
         payment_method: paymentMethod,
         notes: notes || undefined,
       });
-      resetCart();
-      router.push(`/orders/${order.id}/confirmation`);
+      window.location.href = `/orders/${order.id}/confirmation`;
+      setTimeout(() => resetCart(), 0);
     } catch {
       toast.error("Failed to place order. Please try again.");
       onUpdate({ isPlacingOrder: false });

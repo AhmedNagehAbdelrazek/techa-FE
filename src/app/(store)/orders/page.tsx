@@ -71,9 +71,9 @@ export default function OrdersPage() {
                   </div>
                 </div>
                 <div className="mt-2 text-xs text-muted-foreground">
-                  {order.items.length} item{order.items.length !== 1 ? "s" : ""}
+                  {/* {order.items.length} item{order.items.length !== 1 ? "s" : ""}
                   {" · "}
-                  {order.payment_method.replace(/_/g, " ")}
+                  {order.payment_method.replace(/_/g, " ")} */}
                 </div>
               </Link>
             ))}

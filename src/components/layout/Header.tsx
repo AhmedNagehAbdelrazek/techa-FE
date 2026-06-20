@@ -117,7 +117,7 @@ export function Header() {
                 <div className="px-2 py-1.5 text-sm font-medium">{user.name}</div>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                  <Link href="/account/orders" className="flex items-center gap-2 cursor-pointer">
+                  <Link href="/orders" className="flex items-center gap-2 cursor-pointer">
                     <Package className="size-4" />
                     My Orders
                   </Link>
