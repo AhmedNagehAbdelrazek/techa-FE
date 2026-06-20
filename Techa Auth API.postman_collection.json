@@ -1,6 +1,6 @@
 {
   "info": {
-    "_postman_id": "1b906293-eca7-4052-bcce-b615a141cc0e",
+    "_postman_id": "3ed359eb-9b6f-4e0b-8d9b-a323b368d7ca",
     "name": "Techa Marketplace — Auth API Copy",
     "description": "Techa Marketplace API — Full Collection\n\n**Customer Auth** (`{{base_url}}/api/auth`): Register, Login, Verify Email, Forgot/Reset Password\n**Admin Auth** (`{{base_url}}/api/admin`): Login, Profile, Logout, CRUD\n**Admin Categories** (`{{base_url}}/api/admin/categories`): CRUD\n**Admin Brands** (`{{base_url}}/api/admin/brands`): CRUD\n**Admin Tags** (`{{base_url}}/api/admin/tags`): CRUD\n**Admin Coupons** (`{{base_url}}/api/admin/coupons`): CRUD\n**Admin Delivery Zones** (`{{base_url}}/api/admin/delivery-zones`): CRUD + Rates management\n**Admin Orders** (`{{base_url}}/api/admin/orders`): List, Detail, Status Update, Stats\n**Categories** (`{{base_url}}/api/categories`): Public tree & single category\n**Brands** (`{{base_url}}/api/brands`): Public brand list\n**Delivery Zones (Public)** (`{{base_url}}/api/public/delivery-zones`): Active zones list\n**Shipping** (`{{base_url}}/api/shipping`): Customer rate lookup\n**Addresses** (`{{base_url}}/api/addresses`): Customer CRUD + Set Default\n**Cart** (`{{base_url}}/api/cart`): View, add items, update qty, remove items, apply/remove coupon\n**Orders** (`{{base_url}}/api/orders`): Place Order, List Own, Detail, Cancel\n\n**Environment variables:**\n- `base_url`: e.g. `http://localhost:3000`\n- `auth_token`: set automatically via customer Login\n- `admin_token`: set automatically via Admin Auth > Login",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -5993,7 +5993,7 @@
               },
               "status": "OK",
               "code": 200,
-              "_postman_previewlanguage": null,
+              "_postman_previewlanguage": "Text",
               "header": [
                 {
                   "key": "Access-Control-Allow-Origin",
@@ -8239,6 +8239,46 @@
               "body": "{\n  \"data\": {\n    \"instapay\": {\n      \"handle\": \"@techa\"\n    },\n    \"vodafone_cash\": {\n      \"number\": \"01000000000\"\n    }\n  }\n}"
             }
           ]
+        }
+      ]
+    },
+    {
+      "name": "Upload Image",
+      "item": [
+        {
+          "name": "Upload Image",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "description": "JPEG, PNG, WebP, or GIF (max 20MB)",
+                  "value": ""
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/upload",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "upload"
+              ]
+            }
+          },
+          "response": []
         }
       ]
     }

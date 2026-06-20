@@ -1,6 +1,6 @@
 # Implementation Plan: Customer Cart
 
-**Branch**: `007-customer-cart` | **Date**: 2026-06-19 | **Spec**: `specs/007-customer-cart/spec.md`
+**Branch**: `007-customer-cart` | **Date**: 2026-06-20 | **Spec**: `specs/007-customer-cart/spec.md`
 
 **Input**: Feature specification from `specs/007-customer-cart/spec.md`
 
@@ -8,39 +8,37 @@
 
 ## Summary
 
-Implement full cart experience: view cart items with quantity steppers, add items from product pages, apply/remove coupons, empty state, and checkout navigation. Cart uses a dedicated page at `/cart`, backed by a Zustand store with persist middleware, communicating via 6 API endpoints.
+Implement full cart experience: view cart items (dedicated page), manage quantities/remove items, apply/remove coupons, and proceed to checkout. Cart uses a Zustand store with persist for offline resilience and optimistic updates with rollback on failure.
 
 ## Technical Context
 
 **Language/Version**: TypeScript 5 (strict: true), Next.js 15, React 19
 
-**Primary Dependencies**: Zustand (persist middleware), TanStack React Query 5, sonner (toasts), lucide-react (icons), shadcn/ui Sheet (already exists at `src/components/ui/sheet.tsx`), shadcn/ui Skeleton, Button, Badge, Input
+**Primary Dependencies**: Zustand (persist middleware for cart state), sonner (toasts), lucide-react (icons), shadcn/ui (Button, Badge, Input, Sheet, Skeleton, Separator), TanStack React Query 5 (server state — used elsewhere, cart uses direct store fetch)
 
-**Storage**: Zustand persist middleware → localStorage (`"cart-storage"` key)
+**Storage**: API backend as source of truth (PostgreSQL via Django); Zustand persist middleware caches cart state in localStorage under key `"cart-storage"`
 
 **Testing**: Vitest 2 + @testing-library/react (unit/integration), @playwright/test (E2E)
 
-**Target Platform**: Web (Next.js SSR with `"use client"` interactive components)
+**Target Platform**: Web (Next.js App Router with SSR + `"use client"` interactive components)
 
-**Project Type**: Web application — Next.js 15 storefront (App Router)
+**Project Type**: Web application — Next.js 15 e-commerce storefront (Arabic-first, RTL)
 
-**Performance Goals**: Cart view load <2s (SC-001), badge update <500ms (SC-002), qty change <500ms (SC-003), coupon apply/remove <1s (SC-004)
+**Performance Goals**: Cart load <2s (SC-001), badge update <500ms (SC-002), quantity changes <500ms (SC-003), coupon apply/remove <1s (SC-004)
 
-**Constraints**: Auth required for all cart ops (no guest cart), RTL/Arabic-first, optimistic UI with rollback on API failure, Zustand persist for cross-session state, "+" stepper disabled at stock max
+**Constraints**: Auth required (no guest cart), RTL/Arabic-first, optimistic UI with rollback on failure, Zustand persist for cross-session cart state
 
-**Scale/Scope**: Single-vendor marketplace, single-user cart (no sharing), no saved-for-later
+**Scale/Scope**: Single-vendor marketplace, authenticated customer users
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
-
 | Gate | Check | Result |
 |------|-------|--------|
-| YAGNI | Does this feature serve a real requirement? | **PASS** — Spec defines 3 user stories, 13 FRs |
-| stdlib | Can the stdlib do it? | **PASS** — All patterns (Zustand stores, shadcn Sheet, Request.ts API) use existing codebase conventions |
-| Installed deps | Are required libraries already in package.json? | **PASS** — Zustand, sonner, lucide-react, shadcn/ui, @tanstack/react-query all present |
-| One line | Can any sub-task be written in one line? | **PASS** — Will follow per-component (e.g., `cn()` usage, store selectors) |
-| Minimum code | Will we avoid over-engineering? | **PASS** — Follow existing component/store patterns without abstraction layers |
+| YAGNI | Does this feature serve a real requirement? | **PASS** — Spec defines 3 user stories, 13 FRs, all driven by Phase 7 of frontend-spec |
+| stdlib | Can the stdlib do it? | **PASS** — Cart state management uses installed Zustand (existing pattern), API calls use existing Request.ts, toasts use existing sonner |
+| Installed deps | Are required libraries already in package.json? | **PASS** — Zustand, sonner, lucide-react, shadcn/ui all present; zero new dependencies needed (confirmed in research) |
+| One line | Can any sub-task be written in one line? | **PASS** — API wrappers are one-liners delegating to `request.get<T>()`, `request.post<T>()`, etc. |
+| Minimum code | Will we avoid over-engineering? | **PASS** — Dedicated cart page (not a complex multi-step flow), simple Zustand store, no abstraction layers beyond existing patterns |
 
 **No violations. No complexity tracking required.**
 
@@ -51,14 +49,12 @@ Implement full cart experience: view cart items with quantity steppers, add item
 ```text
 specs/007-customer-cart/
 ├── plan.md              # This file
-├── research.md          # Phase 0 output
-├── data-model.md        # Phase 1 output
-├── quickstart.md        # Phase 1 output
-├── contracts/           # Phase 1 output
-│   └── cart-api.md
-├── checklists/
-│   └── requirements.md
-└── tasks.md             # Phase 2 output (/speckit.tasks)
+├── research.md          # Phase 0 output — research decisions
+├── data-model.md        # Phase 1 output — entities and store interface
+├── quickstart.md        # Phase 1 output — setup guide
+├── contracts/
+│   └── cart-api.md      # API endpoint contracts
+└── spec.md              # Feature specification
 ```
 
 ### Source Code (repository root)
@@ -66,28 +62,30 @@ specs/007-customer-cart/
 ```text
 src/
 ├── lib/
+│   ├── types/
+│   │   └── cart.ts               Cart, CartItem, CartCoupon, request/response types
 │   ├── api/
-│   │   └── cart.ts              NEW — 6 API wrapper functions
-│   ├── stores/
-│   │   └── cart.store.ts        REPLACE — full Zustand store with persist
-│   └── types/
-│       └── cart.ts              NEW — Cart, CartItem, CartCoupon, request types
+│   │   └── cart.ts               6 API wrapper functions (getCart, addItem, updateItemQty, removeItem, applyCoupon, removeCoupon)
+│   └── stores/
+│       └── cart.store.ts         Zustand store with persist; optimistic add/update/remove with rollback
 ├── components/
-│   ├── store/
-│   │   ├── CartAddButton.tsx    NEW — "Add to Cart" button (product detail)
-│   │   ├── CartDrawer.tsx       NEW — cart slide-over panel (mobile quick-add)
-│   │   ├── CartItemRow.tsx      NEW — single item row with stepper + remove
-│   │   ├── CartOrderSummary.tsx NEW — subtotal, discount, total, coupon chip
-│   │   ├── CartEmptyState.tsx   NEW — empty cart illustration + CTA
-│   │   └── CartCouponInput.tsx  NEW — coupon input + apply/remove buttons
-│   ├── layout/
-│   │   └── Header.tsx           MODIFY — reactive badge from new cart store
-│   └── ui/
-│       └── sheet.tsx            EXISTS — shadcn Sheet for cart drawer
+│   └── store/
+│       ├── CartAddButton.tsx     Add to Cart (product detail page), auth guard, success toast
+│       ├── CartEmptyState.tsx    Empty cart illustration + "Continue Shopping" link to `/`
+│       ├── CartItemRow.tsx       Item row: thumbnail, name, variant, unit price, qty stepper, line total, remove, price-changed badge
+│       ├── CartOrderSummary.tsx  Subtotal, discount, shipping label, total, "Proceed to Checkout"
+│       ├── CartCouponInput.tsx   Coupon input + "Apply" button, removable coupon chip
+│       └── CartDrawer.tsx        Slide-over Sheet (mobile quick-preview)
 └── app/
     └── (store)/
         └── cart/
-            └── page.tsx         NEW — dedicated cart page route
+            └── page.tsx          Cart page composing CartItemRow, CartOrderSummary, CartCouponInput, CartEmptyState with loading skeleton
 ```
 
-**Structure Decision**: Single Next.js project. All cart code follows existing patterns: types in `src/lib/types/`, API in `src/lib/api/`, store in `src/lib/stores/`, components in `src/components/store/`, page in `src/app/(store)/cart/`. This matches Phase 5 (product detail) and Phase 6 (reviews) conventions.
+### Structure Decision
+
+Single Next.js App Router project with feature-aligned files under `src/lib/types/`, `src/lib/api/`, `src/lib/stores/`, `src/components/store/`, and `src/app/(store)/cart/`. This matches the existing conventions established by the reviews feature (Phase 6).
+
+## Complexity Tracking
+
+> Not required — zero violations from Constitution Check.
