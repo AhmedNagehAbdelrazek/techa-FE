@@ -24,11 +24,11 @@ description: "Task list for Customer Checkout feature implementation"
 
 **Purpose**: Create shared types and API wrappers that all user stories depend on
 
-- [ ] T001 Create order types (Address, Order, ShippingRate, PaymentMethodInfo, request/response) in src/lib/types/order.ts
-- [ ] T002 [P] Create addresses API wrapper (listAddresses, createAddress, updateAddress, setDefaultAddress, deleteAddress, getDeliveryZones) in src/lib/api/addresses.ts
-- [ ] T003 [P] Create shipping API wrapper (getShippingRate) in src/lib/api/shipping.ts
-- [ ] T004 [P] Create orders API wrapper (placeOrder, getOrder, getOrders, cancelOrder) in src/lib/api/orders.ts
-- [ ] T005 [P] Create payments API wrapper (getPaymentMethods, submitProof) in src/lib/api/payments.ts
+- [X] T001 Create order types (Address, Order, ShippingRate, PaymentMethodInfo, request/response) in src/lib/types/order.ts
+- [X] T002 [P] Create addresses API wrapper (listAddresses, createAddress, updateAddress, setDefaultAddress, deleteAddress, getDeliveryZones) in src/lib/api/addresses.ts
+- [X] T003 [P] Create shipping API wrapper (getShippingRate) in src/lib/api/shipping.ts
+- [X] T004 [P] Create orders API wrapper (placeOrder, getOrder, getOrders, cancelOrder) in src/lib/api/orders.ts
+- [X] T005 [P] Create payments API wrapper (getPaymentMethods, submitProof) in src/lib/api/payments.ts
 
 ---
 
@@ -38,7 +38,7 @@ description: "Task list for Customer Checkout feature implementation"
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T006 Create multi-step checkout page with auth guard (ProtectedRoute), empty cart redirect, and 2-step useState management in src/app/(store)/checkout/page.tsx
+- [X] T006 Create multi-step checkout page with auth guard (ProtectedRoute), empty cart redirect, and 2-step useState management in src/app/(store)/checkout/page.tsx
 
 **Checkpoint**: Foundation ready — `/checkout` page renders for authenticated users with cart items, and redirects unauthenticated users to `/login?next=/checkout` and empty carts to `/cart`
 
@@ -52,8 +52,8 @@ description: "Task list for Customer Checkout feature implementation"
 
 ### Implementation for User Story 1
 
-- [ ] T007 [P] [US1] Create CheckoutAddressStep component (saved address radio list, inline add form, zone dropdown, Continue button) in src/components/store/CheckoutAddressStep.tsx
-- [ ] T008 [US1] Integrate CheckoutAddressStep into checkout page step 1 in src/app/(store)/checkout/page.tsx
+- [X] T007 [P] [US1] Create CheckoutAddressStep component (saved address radio list, inline add form, zone dropdown, Continue button) in src/components/store/CheckoutAddressStep.tsx
+- [X] T008 [US1] Integrate CheckoutAddressStep into checkout page step 1 in src/app/(store)/checkout/page.tsx
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently — addresses display, inline creation works, Continue advances to step 2
 
@@ -67,9 +67,9 @@ description: "Task list for Customer Checkout feature implementation"
 
 ### Implementation for User Story 2
 
-- [ ] T009 [P] [US2] Create confirmation page route at src/app/(store)/orders/[id]/confirmation/page.tsx
-- [ ] T010 [P] [US2] Create CheckoutReviewStep component (item summary, shipping rate, payment method selector with receiving info, notes textarea, Place Order button with spinner) in src/components/store/CheckoutReviewStep.tsx
-- [ ] T011 [US2] Integrate CheckoutReviewStep into checkout page step 2 with back-to-step-1 navigation and cartStore.reset() on success in src/app/(store)/checkout/page.tsx
+- [X] T009 [P] [US2] Create confirmation page route at src/app/(store)/orders/[id]/confirmation/page.tsx
+- [X] T010 [P] [US2] Create CheckoutReviewStep component (item summary, shipping rate, payment method selector with receiving info, notes textarea, Place Order button with spinner) in src/components/store/CheckoutReviewStep.tsx
+- [X] T011 [US2] Integrate CheckoutReviewStep into checkout page step 2 with back-to-step-1 navigation and cartStore.reset() on success in src/app/(store)/checkout/page.tsx
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work — full checkout flow from address to order placement
 
@@ -83,8 +83,8 @@ description: "Task list for Customer Checkout feature implementation"
 
 ### Implementation for User Story 3
 
-- [ ] T012 [P] [US3] Add proof submission form (transaction reference input, file upload with client-side validation for jpg/png max 5MB, immediate POST /api/upload on selection, submit via POST /api/payments/submit-proof) in src/app/(store)/orders/[id]/confirmation/page.tsx
-- [ ] T013 [US3] Add COD condition: hide proof form and show "Pay on delivery" message for cash_on_delivery orders in src/app/(store)/orders/[id]/confirmation/page.tsx
+- [X] T012 [P] [US3] Add proof submission form (transaction reference input, file upload with client-side validation for jpg/png max 5MB, immediate POST /api/upload on selection, submit via POST /api/payments/submit-proof) in src/app/(store)/orders/[id]/confirmation/page.tsx
+- [X] T013 [US3] Add COD condition: hide proof form and show "Pay on delivery" message for cash_on_delivery orders in src/app/(store)/orders/[id]/confirmation/page.tsx
 
 **Checkpoint**: All user stories now functional — payment proof submission works for manual payment methods, COD shows appropriate message
 
@@ -94,9 +94,9 @@ description: "Task list for Customer Checkout feature implementation"
 
 **Purpose**: Verification and edge case handling
 
-- [ ] T014 [P] Add loading skeleton states during checkout data fetching (addresses, shipping rate) in src/app/(store)/checkout/page.tsx
-- [ ] T015 [P] Add error toast handling and rollback for API failures (order placement, shipping rate, payment methods, proof upload) across checkout components
-- [ ] T016 Verify build passes with npm run build
+- [X] T014 [P] Add loading skeleton states during checkout data fetching (addresses, shipping rate) in src/app/(store)/checkout/page.tsx
+- [X] T015 [P] Add error toast handling and rollback for API failures (order placement, shipping rate, payment methods, proof upload) across checkout components
+- [X] T016 Verify build passes with npm run build
 
 ---
 
