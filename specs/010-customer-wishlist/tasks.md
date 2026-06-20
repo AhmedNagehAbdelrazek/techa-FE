@@ -23,7 +23,7 @@ description: "Task list for Customer Wishlist feature implementation"
 
 **Purpose**: Verify existing project scaffolding and dependencies
 
-- [ ] T001 Verify existing dependencies and patterns are ready for wishlist feature (Zustand, shadcn/ui, lucide-react, sonner)
+- [x] T001 Verify existing dependencies and patterns are ready for wishlist feature (Zustand, shadcn/ui, lucide-react, sonner)
 
 ---
 
@@ -33,8 +33,8 @@ description: "Task list for Customer Wishlist feature implementation"
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T002 [P] Create `WishlistItemWithProduct` enriched type in `src/lib/types/wishlist.ts` (includes product name, slug, image, price, stock status alongside wishlist entry id/variant_id)
-- [ ] T003 [P] Enhance `src/lib/api/wishlist.ts` — add `getWishlistDetail()` returning `WishlistItemWithProduct[]`, export new type, keep existing functions unchanged
+- [x] T002 [P] Create `WishlistItemWithProduct` enriched type in `src/lib/types/wishlist.ts` (includes product name, slug, image, price, stock status alongside wishlist entry id/variant_id)
+- [x] T003 [P] Enhance `src/lib/api/wishlist.ts` — add `getWishlistDetail()` returning `WishlistItemWithProduct[]`, export new type, keep existing functions unchanged
 
 **Checkpoint**: Foundation ready — user story implementation can now begin in parallel
 
@@ -48,9 +48,9 @@ description: "Task list for Customer Wishlist feature implementation"
 
 ### Implementation for User Story 1
 
-- [ ] T004 [P] [US1] Create `WishlistCard` component in `src/components/store/WishlistCard.tsx` — renders product image, name, price, remove button (optimistic), add-to-cart button, out-of-stock state; follows ProductCard layout
-- [ ] T005 [US1] Create `WishlistPageClient` component in `src/components/store/WishlistPageClient.tsx` — fetches wishlist detail via `getWishlistDetail()`, manages loading/empty/error states, renders WishlistCard grid, handles optimistic removal + add-to-cart + badge sync
-- [ ] T006 [US1] Create wishlist page in `src/app/(store)/wishlist/page.tsx` — wrap `WishlistPageClient` with `<ProtectedRoute>` from existing pattern
+- [x] T004 [P] [US1] Create `WishlistCard` component in `src/components/store/WishlistCard.tsx` — renders product image, name, price, remove button (optimistic), add-to-cart button, out-of-stock state; follows ProductCard layout
+- [x] T005 [US1] Create `WishlistPageClient` component in `src/components/store/WishlistPageClient.tsx` — fetches wishlist detail via `getWishlistDetail()`, manages loading/empty/error states, renders WishlistCard grid, handles optimistic removal + add-to-cart + badge sync
+- [x] T006 [US1] Create wishlist page in `src/app/(store)/wishlist/page.tsx` — wrap `WishlistPageClient` with `<ProtectedRoute>` from existing pattern
 
 **Checkpoint**: At this point, User Story 1 should be fully functional — customers can view, remove, and add-to-cart from `/wishlist`
 
@@ -64,8 +64,8 @@ description: "Task list for Customer Wishlist feature implementation"
 
 ### Implementation for User Story 2
 
-- [ ] T007 [P] [US2] Refactor `src/lib/stores/wishlist.store.ts` — replace direct `request.get` call with `getWishlist()` import from `@/lib/api/wishlist`; keep count-only persist behavior
-- [ ] T008 [US2] Add confirmation dialog (shadcn AlertDialog) for wishlist removal in `src/components/store/WishlistButton.tsx` — clicking filled heart opens "Remove from wishlist?" confirmation; "Add to wishlist" (empty heart) works without confirmation per spec
+- [x] T007 [P] [US2] Refactor `src/lib/stores/wishlist.store.ts` — replace direct `request.get` call with `getWishlist()` import from `@/lib/api/wishlist`; keep count-only persist behavior
+- [x] T008 [US2] Add confirmation dialog (shadcn AlertDialog) for wishlist removal in `src/components/store/WishlistButton.tsx` — clicking filled heart opens "Remove from wishlist?" confirmation; "Add to wishlist" (empty heart) works without confirmation per spec
 
 **Checkpoint**: Both user stories should now be independently functional
 
@@ -75,7 +75,7 @@ description: "Task list for Customer Wishlist feature implementation"
 
 **Purpose**: Final verification and edge case handling
 
-- [ ] T009 Verify build passes with `npm run build`
+- [x] T009 Verify build passes with `npm run build`
 
 ---
 

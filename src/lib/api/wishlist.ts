@@ -1,4 +1,5 @@
 import { request } from "./Request";
+import type { WishlistItemWithProduct } from "@/lib/types/wishlist";
 
 export interface WishlistItem {
   id: string;
@@ -9,6 +10,11 @@ export interface WishlistItem {
 export async function getWishlist(): Promise<WishlistItem[]> {
   const data = await request.get<unknown[] | { data?: unknown[] }>("/api/wishlist");
   return Array.isArray(data) ? (data as WishlistItem[]) : ((data as { data?: WishlistItem[] }).data ?? []);
+}
+
+export async function getWishlistDetail(): Promise<WishlistItemWithProduct[]> {
+  const data = await request.get<unknown[] | { data?: unknown[] }>("/api/wishlist?include=product");
+  return Array.isArray(data) ? (data as WishlistItemWithProduct[]) : ((data as { data?: WishlistItemWithProduct[] }).data ?? []);
 }
 
 export async function addToWishlist(productId: string, variantId?: string | null): Promise<void> {

@@ -2,7 +2,7 @@
 
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { request } from "@/lib/api/Request";
+import { getWishlist } from "@/lib/api/wishlist";
 
 interface WishlistState {
   itemCount: number;
@@ -20,12 +20,7 @@ export const useWishlistStore = create<WishlistState>()(
       fetchWishlist: async () => {
         set({ isLoading: true });
         try {
-          const data = await request.get<unknown[] | { data?: unknown[] }>(
-            "/api/wishlist",
-          );
-          const items = Array.isArray(data)
-            ? data
-            : (data as { data?: unknown[] }).data ?? [];
+          const items = await getWishlist();
           set({ itemCount: items.length, isLoading: false });
         } catch {
           set({ itemCount: 0, isLoading: false });

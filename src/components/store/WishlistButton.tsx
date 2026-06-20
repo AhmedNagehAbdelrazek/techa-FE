@@ -6,6 +6,16 @@ import { Heart, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogFooter,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogAction,
+  AlertDialogCancel,
+} from "@/components/ui/alert-dialog";
 import { useAuthStore } from "@/lib/stores/auth.store";
 import { useWishlistStore } from "@/lib/stores/wishlist.store";
 import { addToWishlist, removeFromWishlist, getWishlist } from "@/lib/api/wishlist";
@@ -23,6 +33,7 @@ export function WishlistButton({ productId , className}: WishlistButtonProps) {
   const [wishlistItem, setWishlistItem] = useState<WishlistItem | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isInitialLoading, setIsInitialLoading] = useState(true);
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -38,31 +49,49 @@ export function WishlistButton({ productId , className}: WishlistButtonProps) {
       .finally(() => setIsInitialLoading(false));
   }, [isAuthenticated, productId]);
 
-  const handleToggle = useCallback(async () => {
-    if (!isAuthenticated) {
-      router.push("/login");
-      return;
-    }
+  const handleAdd = useCallback(async () => {
     setIsLoading(true);
     try {
-      if (wishlistItem) {
-        await removeFromWishlist(wishlistItem.id);
-        setWishlistItem(null);
-        toast.success("Removed from wishlist");
-      } else {
-        await addToWishlist(productId);
-        const items = await getWishlist();
-        const found = items.find((item) => item.product_id === productId) ?? null;
-        setWishlistItem(found);
-        toast.success("Added to wishlist");
-      }
+      await addToWishlist(productId);
+      const items = await getWishlist();
+      const found = items.find((item) => item.product_id === productId) ?? null;
+      setWishlistItem(found);
+      toast.success("Added to wishlist");
       fetchWishlist();
     } catch {
       toast.error("Failed to update wishlist");
     } finally {
       setIsLoading(false);
     }
-  }, [isAuthenticated, productId, wishlistItem, router, fetchWishlist]);
+  }, [productId, fetchWishlist]);
+
+  const handleRemove = useCallback(async () => {
+    if (!wishlistItem) return;
+    setIsLoading(true);
+    setConfirmOpen(false);
+    try {
+      await removeFromWishlist(wishlistItem.id);
+      setWishlistItem(null);
+      toast.success("Removed from wishlist");
+      fetchWishlist();
+    } catch {
+      toast.error("Failed to update wishlist");
+    } finally {
+      setIsLoading(false);
+    }
+  }, [wishlistItem, fetchWishlist]);
+
+  const handleClick = useCallback(() => {
+    if (!isAuthenticated) {
+      router.push("/login");
+      return;
+    }
+    if (wishlistItem) {
+      setConfirmOpen(true);
+    } else {
+      handleAdd();
+    }
+  }, [isAuthenticated, wishlistItem, router, handleAdd]);
 
   if (isInitialLoading) {
     return (
@@ -73,22 +102,40 @@ export function WishlistButton({ productId , className}: WishlistButtonProps) {
   }
 
   return (
-    <Button
-      type="button"
-      variant="outline"
-      size="icon"
-      disabled={isLoading}
-      onClick={handleToggle}
-      aria-label={wishlistItem ? "Remove from wishlist" : "Add to wishlist"}
-      aria-pressed={!!wishlistItem}
-      className={className}
-    >
-      <Heart
-        className={cn(
-          "h-4 w-4 transition-colors",
-          wishlistItem ? "fill-destructive text-destructive" : "",
-        )}
-      />
-    </Button>
+    <>
+      <Button
+        type="button"
+        variant="outline"
+        size="icon"
+        disabled={isLoading}
+        onClick={handleClick}
+        aria-label={wishlistItem ? "Remove from wishlist" : "Add to wishlist"}
+        aria-pressed={!!wishlistItem}
+        className={className}
+      >
+        <Heart
+          className={cn(
+            "h-4 w-4 transition-colors",
+            wishlistItem ? "fill-destructive text-destructive" : "",
+          )}
+        />
+      </Button>
+      <AlertDialog open={confirmOpen} onOpenChange={setConfirmOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Remove from wishlist?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This item will be removed from your wishlist.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleRemove} disabled={isLoading}>
+              Remove
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   );
 }
