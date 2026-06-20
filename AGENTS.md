@@ -2,41 +2,43 @@
 
 ## Current Plan
 
-**Feature**: Customer Checkout
-**Branch**: `008-customer-checkout`
-**Plan file**: `specs/008-customer-checkout/plan.md`
-**Spec file**: `specs/008-customer-checkout/spec.md`
+**Feature**: Customer Order History & Detail
+**Branch**: `009-customer-order-history`
+**Plan file**: `specs/009-customer-order-history/plan.md`
+**Spec file**: `specs/009-customer-order-history/spec.md`
 
 ### Key Artifacts
 
-- [spec.md](specs/008-customer-checkout/spec.md) — Feature specification
-- [plan.md](specs/008-customer-checkout/plan.md) — Implementation plan
-- [research.md](specs/008-customer-checkout/research.md) — Research decisions
-- [data-model.md](specs/008-customer-checkout/data-model.md) — Data model
-- [quickstart.md](specs/008-customer-checkout/quickstart.md) — Setup guide
-- [contracts/checkout-api.md](specs/008-customer-checkout/contracts/checkout-api.md) — API contracts
+- [spec.md](specs/009-customer-order-history/spec.md) — Feature specification
+- [plan.md](specs/009-customer-order-history/plan.md) — Implementation plan
+- [research.md](specs/009-customer-order-history/research.md) — Research decisions
+- [data-model.md](specs/009-customer-order-history/data-model.md) — Data model
+- [quickstart.md](specs/009-customer-order-history/quickstart.md) — Setup guide
+- [contracts/orders-api.md](specs/009-customer-order-history/contracts/orders-api.md) — API contracts
 
 ### Implementation Order
 
-1. Create `src/lib/types/order.ts` — `Address`, `Order`, `ShippingRate`, `PaymentMethodInfo`, request/response types
-2. Create `src/lib/api/addresses.ts` — 6 API wrappers (list, create, update, setDefault, delete, getDeliveryZones)
-3. Create `src/lib/api/shipping.ts` — 1 API wrapper (getShippingRate)
-4. Create `src/lib/api/orders.ts` — 4 API wrappers (placeOrder, getOrder, getOrders, cancelOrder)
-5. Create `src/lib/api/payments.ts` — 2 API wrappers (getPaymentMethods, submitProof)
-6. Create `src/app/(store)/checkout/page.tsx` — Multi-step checkout page with auth guard, empty cart redirect, step management via useState
-7. Create `src/components/store/CheckoutAddressStep.tsx` — Saved address list with radio selection + inline add form
-8. Create `src/components/store/CheckoutReviewStep.tsx` — Item summary, shipping rate, payment method selector, place order button
-9. Create `src/app/(store)/orders/[id]/confirmation/page.tsx` — Order success screen + proof submission form for non-COD
-10. Verify: build passes with `npm run build`
+1. Enhance `src/lib/types/order.ts` — Add `OrdersListResponse`, `OrdersQueryParams`, `OrderListItem`, `Meta` types
+2. Enhance `src/lib/api/orders.ts` — Update `getOrders()` to accept query params and return paginated response
+3. Create `src/components/store/OrderStatusTabs.tsx` — Status filter tab bar (All, Pending, Confirmed, Processing, Shipped, Delivered, Cancelled, Refunded)
+4. Create `src/components/store/OrderCard.tsx` — Order list card with thumbnail, status badge, order number, date, total, item count
+5. Enhance `src/app/(store)/orders/page.tsx` — Integrate tabs, cards, pagination, loading/empty/error states
+6. Create `src/components/store/OrderStatusTimeline.tsx` — Vertical visual step tracker with hidden accessible `<ol>` list
+7. Enhance `src/app/(store)/orders/[id]/page.tsx` — Replace basic timeline with OrderStatusTimeline, replace `confirm()` with shadcn AlertDialog, add review prompts for delivered items, add stale data detection via Page Visibility API
+8. Verify: build passes with `npm run build`
 
 ### Critical Patterns (enforced)
 
-- **No direct `request` calls in UI components**: All API access through `src/lib/api/*.ts` wrappers, consumed by UI components via direct async calls (no Zustand store for checkout — local state only)
-- **Auth guard**: `/checkout` uses `<ProtectedRoute>` wrapper (existing pattern from `src/app/(store)/account/page.tsx`)
-- **Cart store integration**: On successful `POST /api/orders`, call `cartStore.reset()` then `router.push` to confirmation page
+- **No direct `request` calls in UI components**: All API access through `src/lib/api/*.ts` wrappers, consumed by UI components via direct async calls (no Zustand stores — local state only)
+- **Auth guard**: All order pages use `<ProtectedRoute>` wrapper (existing pattern from `src/app/(store)/account/page.tsx`)
+- **Existing API wrappers**: Extend `orders.ts` (getOrders, getOrder, cancelOrder) from Phase 8 rather than rewriting
+- **Status badge colors**: pending=yellow, confirmed=blue, processing=indigo, shipped=cyan, delivered=green, cancelled=red, refunded=orange
+- **Accessibility**: StatusTimeline includes a hidden `<ol>` for screen readers reading "Step N: [Status] — [date]"
+- **Stale data**: Order detail re-fetches on tab focus if >30s stale, shows toast on status change
 
-### Completed (Phase 7)
+### Completed (Phase 7 & 8)
 
 - Customer Cart: types, API wrappers, Zustand store with persist, CartAddButton, CartEmptyState, CartItemRow, CartOrderSummary, CartCouponInput, CartDrawer, cart page, header badge
+- Customer Checkout: types, API wrappers, checkout page with address step + review step + place order, confirmation page with payment proof, order detail page skeleton, order list page skeleton
 
 <!-- SPECKIT END -->
