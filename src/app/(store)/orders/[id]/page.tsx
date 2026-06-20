@@ -1,17 +1,30 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
+import Link from "next/link";
 import Image from "next/image";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import {
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogFooter,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogAction,
+  AlertDialogCancel,
+} from "@/components/ui/alert-dialog";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
 import { getOrder, cancelOrder } from "@/lib/api/orders";
 import { submitProof, uploadFile } from "@/lib/api/payments";
+import { OrderStatusTimeline } from "@/components/store/OrderStatusTimeline";
 import { formatPrice, formatDateTime } from "@/lib/utils";
 import type { Order } from "@/lib/types/order";
 
@@ -26,12 +39,32 @@ export default function OrderDetailPage() {
   const [proofScreenshotUrl, setProofScreenshotUrl] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const lastFetchRef = useRef<number>(0);
+
+  const fetchOrder = useCallback(async (id: string) => {
+    const now = Date.now();
+    const prevStatus = order?.status;
+    try {
+      const data = await getOrder(id);
+      setOrder(data);
+      lastFetchRef.current = now;
+      if (prevStatus && prevStatus !== data.status) {
+        toast.info(
+          `Order status updated to "${data.status}".`,
+        );
+      }
+    } catch {
+      if (!order) toast.error("Failed to load order");
+    }
+  }, [order]);
 
   useEffect(() => {
     if (params.id) {
+      setLoading(true);
       getOrder(params.id)
         .then((data) => {
           setOrder(data);
+          lastFetchRef.current = Date.now();
         })
         .catch(() => toast.error("Failed to load order"))
         .finally(() => setLoading(false));
@@ -40,6 +73,19 @@ export default function OrderDetailPage() {
       router.push("/orders");
     }
   }, [params.id, router]);
+
+  useEffect(() => {
+    function handleVisibilityChange() {
+      if (document.visibilityState === "visible" && params.id) {
+        const elapsed = Date.now() - lastFetchRef.current;
+        if (elapsed > 30000) {
+          fetchOrder(params.id);
+        }
+      }
+    }
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
+  }, [params.id, fetchOrder]);
 
   async function handleFileSelect(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -97,14 +143,13 @@ export default function OrderDetailPage() {
   }
 
   async function handleCancel() {
-    if (!confirm("Are you sure you want to cancel this order?")) return;
     setCancelling(true);
     try {
       const updated = await cancelOrder(params.id);
       setOrder(updated);
       toast.success("Order cancelled");
     } catch {
-      toast.error("Failed to cancel order");
+      toast.error("Failed to cancel order. It may no longer be cancellable.");
     } finally {
       setCancelling(false);
     }
@@ -151,34 +196,10 @@ export default function OrderDetailPage() {
             {/* Status Timeline */}
             <div className="rounded-lg border p-4">
               <h3 className="mb-3 text-sm font-medium">Status</h3>
-              <div className="space-y-3">
-                {order.status_history.map((entry, i) => (
-                  <div key={i} className="flex items-center gap-3 text-sm">
-                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary/10">
-                      <div className="h-2 w-2 rounded-full bg-primary" />
-                    </div>
-                    <div>
-                      <p className="font-medium capitalize">{entry.status}</p>
-                      <p className="text-xs text-muted-foreground">
-                        {formatDateTime(entry.changed_at)}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-2">
-                <Badge
-                  variant={
-                    order.status === "delivered"
-                      ? "default"
-                      : order.status === "cancelled"
-                        ? "destructive"
-                        : "secondary"
-                  }
-                >
-                  {order.status}
-                </Badge>
-              </div>
+              <OrderStatusTimeline
+                statusHistory={order.status_history}
+                currentStatus={order.status}
+              />
             </div>
 
             {/* Items */}
@@ -197,6 +218,14 @@ export default function OrderDetailPage() {
                       <p className="text-xs text-muted-foreground">
                         Qty: {item.qty} × {formatPrice(item.unit_price)}
                       </p>
+                      {order.status === "delivered" && item.product_id && item.id && (
+                        <Link
+                          href={`/product/${item.product_slug}?review=1&order_item_id=${item.id}`}
+                          className="mt-1 inline-block text-xs font-medium text-primary hover:underline"
+                        >
+                          Write a Review
+                        </Link>
+                      )}
                     </div>
                     <p className="font-medium">{formatPrice(item.line_total)}</p>
                   </div>
@@ -346,14 +375,29 @@ export default function OrderDetailPage() {
             )}
 
             {/* Actions */}
-            {order.status === "pending" && (
-              <Button
-                variant="destructive"
-                onClick={handleCancel}
-                disabled={cancelling}
-              >
-                {cancelling ? "Cancelling..." : "Cancel Order"}
-              </Button>
+            {(order.status === "pending" || order.status === "confirmed") && (
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button variant="destructive" disabled={cancelling}>
+                    {cancelling ? "Cancelling..." : "Cancel Order"}
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Cancel Order</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      Are you sure you want to cancel this order? This action
+                      cannot be undone.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Keep Order</AlertDialogCancel>
+                    <AlertDialogAction onClick={handleCancel} disabled={cancelling}>
+                      {cancelling ? "Cancelling..." : "Yes, Cancel"}
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
             )}
           </div>
         ) : (

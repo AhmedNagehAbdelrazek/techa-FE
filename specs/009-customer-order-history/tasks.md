@@ -28,8 +28,8 @@ description: "Task list for Customer Order History & Detail feature"
 
 **Purpose**: Type definitions and API wrapper enhancements that all user stories depend on.
 
-- [ ] T001 [P] Add `OrdersListResponse`, `OrdersQueryParams`, `OrderListItem`, `Meta` types to `src/lib/types/order.ts`
-- [ ] T002 Update `getOrders()` in `src/lib/api/orders.ts` to accept `OrdersQueryParams` and return `OrdersListResponse` with paginated data
+- [X] T001 [P] Add `OrdersListResponse`, `OrdersQueryParams`, `OrderListItem`, `Meta` types to `src/lib/types/order.ts`
+- [X] T002 Update `getOrders()` in `src/lib/api/orders.ts` to accept `OrdersQueryParams` and return `OrdersListResponse` with paginated data
 
 **Checkpoint**: Foundation types and API ready — user story implementation can begin.
 
@@ -41,9 +41,9 @@ description: "Task list for Customer Order History & Detail feature"
 
 **Independent Test**: Logged-in customer with multiple orders visits `/orders`, sees all orders listed chronologically with correct details, clicks a status filter tab, and sees only matching orders.
 
-- [ ] T003 [P] [US1] Create `src/components/store/OrderStatusTabs.tsx` — Horizontal tab bar with All, Pending, Confirmed, Processing, Shipped, Delivered, Cancelled, Refunded. Active tab highlighted. Calls `onTabChange` callback.
-- [ ] T004 [P] [US1] Create `src/components/store/OrderCard.tsx` — Card showing order number, date, status badge with color coding, total, item count, and first item thumbnail. Links to `/orders/[id]`.
-- [ ] T005 [US1] Enhance `src/app/(store)/orders/page.tsx` — Integrate OrderStatusTabs and OrderCard. Add pagination controls. Handle loading state (skeleton), empty state ("No orders yet — Start Shopping"), and error state with retry. Pass status filter as API query param.
+- [X] T003 [P] [US1] Create `src/components/store/OrderStatusTabs.tsx` — Horizontal tab bar with All, Pending, Confirmed, Processing, Shipped, Delivered, Cancelled, Refunded. Active tab highlighted. Calls `onTabChange` callback.
+- [X] T004 [P] [US1] Create `src/components/store/OrderCard.tsx` — Card showing order number, date, status badge with color coding, total, item count, and first item thumbnail. Links to `/orders/[id]`.
+- [X] T005 [US1] Enhance `src/app/(store)/orders/page.tsx` — Integrate OrderStatusTabs and OrderCard. Add pagination controls. Handle loading state (skeleton), empty state ("No orders yet — Start Shopping"), and error state with retry. Pass status filter as API query param.
 
 **Checkpoint**: Order list page fully functional with filtering and pagination.
 
@@ -55,8 +55,8 @@ description: "Task list for Customer Order History & Detail feature"
 
 **Independent Test**: A customer clicks an order from the list and sees the detail page with timeline, items, address, and payment info all populated correctly.
 
-- [ ] T006 [P] [US2] Create `src/components/store/OrderStatusTimeline.tsx` — Vertical visual step tracker showing all statuses from Pending to current. Each step has a colored dot, connecting line, status name, and date. Includes a hidden `<ol>` for screen readers reading "Step N: [Status] — [date]" (per FR-018). Completed steps highlighted, future steps grayed out.
-- [ ] T007 [US2] Enhance `src/app/(store)/orders/[id]/page.tsx` — Replace basic status list with OrderStatusTimeline component. Add stale data detection: re-fetch on `visibilitychange` if >30s since last fetch, show toast if status changed (per Q4 clarification).
+- [X] T006 [P] [US2] Create `src/components/store/OrderStatusTimeline.tsx` — Vertical visual step tracker showing all statuses from Pending to current. Each step has a colored dot, connecting line, status name, and date. Includes a hidden `<ol>` for screen readers reading "Step N: [Status] — [date]" (per FR-018). Completed steps highlighted, future steps grayed out.
+- [X] T007 [US2] Enhance `src/app/(store)/orders/[id]/page.tsx` — Replace basic status list with OrderStatusTimeline component. Add stale data detection: re-fetch on `visibilitychange` if >30s since last fetch, show toast if status changed (per Q4 clarification).
 
 **Checkpoint**: Order detail page shows full information with accessible timeline.
 
@@ -68,7 +68,7 @@ description: "Task list for Customer Order History & Detail feature"
 
 **Independent Test**: A customer viewing a pending order clicks "Cancel Order", confirms in the dialog, and sees the status update to cancelled.
 
-- [ ] T008 [US3] Enhance `src/app/(store)/orders/[id]/page.tsx` — Replace `window.confirm()` with shadcn `AlertDialog` (use existing `ui/alert-dialog` component) for cancel confirmation. Show cancel button only when status is `pending` or `confirmed`. On confirm: call cancel API, update UI optimistically, re-fetch to confirm, show success toast. Handle error case (order no longer cancellable) with error toast.
+- [X] T008 [US3] Enhance `src/app/(store)/orders/[id]/page.tsx` — Replace `window.confirm()` with shadcn `AlertDialog` (use existing `ui/alert-dialog` component) for cancel confirmation. Show cancel button only when status is `pending` or `confirmed`. On confirm: call cancel API, update UI optimistically, re-fetch to confirm, show success toast. Handle error case (order no longer cancellable) with error toast.
 
 **Checkpoint**: Cancel flow works with proper dialog and error handling.
 
@@ -92,7 +92,7 @@ description: "Task list for Customer Order History & Detail feature"
 
 **Independent Test**: A customer viewing a delivered order sees a "Write a Review" link next to each unreviewed item.
 
-- [ ] T009 [US5] Enhance `src/app/(store)/orders/[id]/page.tsx` — For delivered orders, show a "Write a Review" link next to each item that has a `product_id` and hasn't been reviewed yet. Link navigates to `/product/[slug]?review=1&order_item_id=[id]` (product page opens review section with pre-filled order_item_id). Conditionally render based on order status and item review status.
+- [X] T009 [US5] Enhance `src/app/(store)/orders/[id]/page.tsx` — For delivered orders, show a "Write a Review" link next to each item that has a `product_id` and hasn't been reviewed yet. Link navigates to `/product/[slug]?review=1&order_item_id=[id]` (product page opens review section with pre-filled order_item_id). Conditionally render based on order status and item review status.
 
 **Checkpoint**: Review prompts shown for delivered unreviewed items.
 
@@ -102,11 +102,11 @@ description: "Task list for Customer Order History & Detail feature"
 
 **Purpose**: Final verification and quality checks.
 
-- [ ] T010 Run build verification: `npm run build` passes with no errors
-- [ ] T011 Run lint check: `npm run lint` passes with no errors
-- [ ] T012 Run type check: `npx tsc --noEmit` passes with no errors
-- [ ] T013 Verify all status badge colors match: pending=yellow, confirmed=blue, processing=indigo, shipped=cyan, delivered=green, cancelled=red, refunded=orange
-- [ ] T014 Verify ARIA labels and keyboard navigation on OrderStatusTabs and OrderStatusTimeline
+- [X] T010 Run build verification: `npm run build` passes with no errors
+- [X] T011 Run lint check: `npm run lint` passes with no errors
+- [X] T012 Run type check: `npx tsc --noEmit` passes with no errors
+- [X] T013 Verify all status badge colors match: pending=yellow, confirmed=blue, processing=indigo, shipped=cyan, delivered=green, cancelled=red, refunded=orange
+- [X] T014 Verify ARIA labels and keyboard navigation on OrderStatusTabs and OrderStatusTimeline
 
 ---
 

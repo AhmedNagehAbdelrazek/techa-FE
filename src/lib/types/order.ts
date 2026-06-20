@@ -43,7 +43,10 @@ export interface PaymentMethodsResponse {
 }
 
 export interface OrderItem {
+  id?: string;
+  product_id?: string;
   product_name: string;
+  product_slug: string;
   variant_label: string | null;
   qty: number;
   unit_price: number;
@@ -81,6 +84,36 @@ export interface Order {
   updated_at: string;
   proof_reference?: string;
   proof_screenshot_url?: string;
+}
+
+export interface OrderListItem {
+  id: string;
+  order_number: string;
+  status: string;
+  payment_method: string;
+  payment_status: string;
+  total: number;
+  item_count: number;
+  first_item_thumbnail: string | null;
+  created_at: string;
+}
+
+export interface Meta {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+}
+
+export interface OrdersQueryParams {
+  status?: string;
+  page?: number;
+  limit?: number;
+}
+
+export interface OrdersListResponse {
+  data: OrderListItem[];
+  meta: Meta;
 }
 
 export interface CartCoupon {
