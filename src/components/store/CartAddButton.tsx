@@ -1,46 +1,46 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import { Loader2, ShoppingCart, Check } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { useCartStore } from "@/lib/stores/cart.store";
+import { useAuthStore } from "@/lib/stores/auth.store";
 
-interface AddToCartButtonProps {
+interface CartAddButtonProps {
   productId: string;
   variantId: string | null;
-  quantity: number;
-  disabled: boolean;
+  qty: number;
+  disabled?: boolean;
   disableReason?: string;
 }
 
-export function AddToCartButton({ productId, variantId, quantity, disabled, disableReason }: AddToCartButtonProps) {
+export function CartAddButton({ productId, variantId, qty, disabled, disableReason }: CartAddButtonProps) {
+  const router = useRouter();
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+  const addItem = useCartStore((s) => s.addItem);
   const [isLoading, setIsLoading] = useState(false);
   const [added, setAdded] = useState(false);
-  const addItem = useCartStore((s) => s.addItem);
 
   const handleClick = useCallback(async () => {
+    if (!isAuthenticated) {
+      router.push(`/login?next=${encodeURIComponent(window.location.pathname)}`);
+      return;
+    }
     if (disabled || isLoading) return;
     setIsLoading(true);
     try {
-      await addItem({ product_id: productId, variant_id: variantId, qty: quantity });
+      await addItem({ product_id: productId, variant_id: variantId, qty });
       setAdded(true);
       toast.success("Added to cart");
       setTimeout(() => setAdded(false), 2000);
-    } catch (err: unknown) {
-      const msg =
-        err && typeof err === "object" && "response" in err
-          ? ((err as { response?: { data?: { message?: string } } }).response?.data?.message ?? "")
-          : "";
-      if (msg.toLowerCase().includes("stock") || msg.toLowerCase().includes("insufficient")) {
-        toast.error("Sorry, this item just went out of stock");
-      } else {
-        toast.error(msg || "Failed to add to cart");
-      }
+    } catch {
+      toast.error("Failed to add to cart");
     } finally {
       setIsLoading(false);
     }
-  }, [disabled, isLoading, productId, variantId, quantity, addItem]);
+  }, [isAuthenticated, disabled, isLoading, addItem, productId, variantId, qty, router]);
 
   const label = disableReason ?? (added ? "Added!" : "Add to Cart");
 
@@ -54,11 +54,11 @@ export function AddToCartButton({ productId, variantId, quantity, disabled, disa
       aria-busy={isLoading}
     >
       {isLoading ? (
-        <Loader2 className="h-4 w-4 animate-spin" />
+        <Loader2 className="size-4 animate-spin" />
       ) : added ? (
-        <Check className="h-4 w-4" />
+        <Check className="size-4" />
       ) : (
-        <ShoppingCart className="h-4 w-4" />
+        <ShoppingCart className="size-4" />
       )}
       {label}
     </Button>

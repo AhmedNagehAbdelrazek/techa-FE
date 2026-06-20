@@ -8,7 +8,6 @@ export async function HeroBanner() {
   let banners;
   try {
     banners = await getBanners("hero");
-    console.log("banners", banners);
   } catch (e){
     console.error(e);
     return <ErrorState title="Failed to load banners" />;

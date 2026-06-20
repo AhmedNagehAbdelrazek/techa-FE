@@ -31,9 +31,9 @@ description: "Implementation tasks for Customer Cart feature"
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete.
 
-- [ ] T001 Create cart types (`Cart`, `CartItem`, `CartCoupon`, request/response types) in `src/lib/types/cart.ts`
-- [ ] T002 [P] Create 6 cart API wrapper functions (`getCart`, `addItem`, `updateItemQty`, `removeItem`, `applyCoupon`, `removeCoupon`) in `src/lib/api/cart.ts`
-- [ ] T003 Replace `src/lib/stores/cart.store.ts` with full Zustand store (persist middleware, optimistic add/update/remove with rollback, `itemCount` getter)
+- [x] T001 Create cart types (`Cart`, `CartItem`, `CartCoupon`, request/response types) in `src/lib/types/cart.ts`
+- [x] T002 [P] Create 6 cart API wrapper functions (`getCart`, `addItem`, `updateItemQty`, `removeItem`, `applyCoupon`, `removeCoupon`) in `src/lib/api/cart.ts`
+- [x] T003 Replace `src/lib/stores/cart.store.ts` with full Zustand store (persist middleware, optimistic add/update/remove with rollback, `itemCount` getter)
 
 **Checkpoint**: Foundation ready — types, API client, and store are usable. User story implementation can begin.
 
@@ -52,11 +52,11 @@ description: "Implementation tasks for Customer Cart feature"
 
 ### Implementation for User Story 1
 
-- [ ] T004 [P] [US1] Create `CartEmptyState` component in `src/components/store/CartEmptyState.tsx` (illustration + "Continue Shopping" link to `/`)
-- [ ] T005 [P] [US1] Create `CartItemRow` component in `src/components/store/CartItemRow.tsx` (thumbnail, name, variant label, unit price, qty display, line total, price-changed badge, remove button)
-- [ ] T006 [P] [US1] Create `CartOrderSummary` component in `src/components/store/CartOrderSummary.tsx` (subtotal, discount, shipping label "Calculated at checkout", total, "Proceed to Checkout" button → `/checkout`)
-- [ ] T007 [P] [US1] Create `CartDrawer` component in `src/components/store/CartDrawer.tsx` (slide-over shadcn Sheet for mobile quick-preview)
-- [ ] T008 [US1] Create cart page at `src/app/(store)/cart/page.tsx` composing CartItemRow, CartOrderSummary, CartEmptyState with loading skeleton
+- [x] T004 [P] [US1] Create `CartEmptyState` component in `src/components/store/CartEmptyState.tsx` (illustration + "Continue Shopping" link to `/`)
+- [x] T005 [P] [US1] Create `CartItemRow` component in `src/components/store/CartItemRow.tsx` (thumbnail, name, variant label, unit price, qty stepper, line total, price-changed badge, remove button)
+- [x] T006 [P] [US1] Create `CartOrderSummary` component in `src/components/store/CartOrderSummary.tsx` (subtotal, discount, shipping label "Calculated at checkout", total, "Proceed to Checkout" button → `/checkout`)
+- [x] T007 [P] [US1] Create `CartDrawer` component in `src/components/store/CartDrawer.tsx` (slide-over shadcn Sheet for mobile quick-preview)
+- [x] T008 [US1] Create cart page at `src/app/(store)/cart/page.tsx` composing CartItemRow, CartOrderSummary, CartEmptyState with loading skeleton
 
 **Checkpoint**: Customer can view cart with items and totals, see empty state, and proceed to checkout.
 
@@ -77,10 +77,10 @@ description: "Implementation tasks for Customer Cart feature"
 
 ### Implementation for User Story 2
 
-- [ ] T009 [P] [US2] Create `CartAddButton` component in `src/components/store/CartAddButton.tsx` (auth guard — redirects unauthenticated to login; success toast; triggers store.addItem)
-- [ ] T010 [US2] Modify `src/components/layout/Header.tsx` to read `itemCount` from new cart store (reactive badge)
-- [ ] T011 [US2] Add quantity stepper to `CartItemRow` (+/- buttons, disabled at stock max, calls `store.updateItemQty`)
-- [ ] T012 [US2] Add remove handler to `CartItemRow` (calls `store.removeItem`)
+- [x] T009 [P] [US2] Create `CartAddButton` component in `src/components/store/CartAddButton.tsx` (auth guard — redirects unauthenticated to login; success toast; triggers store.addItem)
+- [x] T010 [US2] Header already reads `itemCount` from `useCartStore` — reactive badge works with new store
+- [x] T011 [US2] Quantity stepper built into `CartItemRow` (T005) — already complete
+- [x] T012 [US2] Remove handler built into `CartItemRow` (T005) — already complete
 
 **Checkpoint**: Customer can add items from product pages, adjust quantities, and remove items. Header badge stays in sync.
 
@@ -98,8 +98,8 @@ description: "Implementation tasks for Customer Cart feature"
 
 ### Implementation for User Story 3
 
-- [ ] T013 [P] [US3] Create `CartCouponInput` component in `src/components/store/CartCouponInput.tsx` (text input + "Apply" button, disabled when empty; applied coupon shown as removable chip)
-- [ ] T014 [US3] Integrate coupon display and discount into `CartOrderSummary` (show `discount` line when coupon applied, pass coupon data from store)
+- [x] T013 [P] [US3] Create `CartCouponInput` component in `src/components/store/CartCouponInput.tsx` (text input + "Apply" button, disabled when empty; applied coupon shown as removable chip)
+- [x] T014 [US3] CartOrderSummary (T006) already reads `discount` and `coupon` from store — discount line shown when coupon applied
 
 **Checkpoint**: Customer can apply and remove coupons, with discount reflected in order summary.
 
@@ -109,8 +109,8 @@ description: "Implementation tasks for Customer Cart feature"
 
 **Purpose**: Final verification and integration.
 
-- [ ] T015 [P] Verify build passes with `npm run build`
-- [ ] T016 Run lint check with `npm run lint`
+- [x] T015 [P] Verify build passes with `npm run build`
+- [x] T016 Run lint check with `npm run lint`
 
 ---
 

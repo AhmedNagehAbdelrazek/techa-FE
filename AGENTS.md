@@ -31,6 +31,10 @@
 11. Modify `src/components/layout/Header.tsx` — Reactive cart badge from new store's `itemCount`
 12. Verify: build passes with `npm run build`
 
+### Critical Patterns (enforced)
+
+- **No direct `request` calls in UI components**: All API access goes through `src/lib/api/*.ts` wrappers, consumed by Zustand stores (`src/lib/stores/*.store.ts`). UI components call store actions only — never import or use `request`/`axios` directly. Violations cause data flow bypass (no store updates, no rollback, no reactive state).
+
 ### Completed (Phase 6)
 
 - Customer Reviews: types, API wrappers, StarRatingSelector, write/edit/delete flow, AlertDialog, eligibility, build verification

@@ -110,7 +110,6 @@ function ReviewCard({
   const [isDeleting, setIsDeleting] = useState(false);
 
   const isOwn = currentUserId !== null && currentUserId === review?.user?.id;
-  console.log("review",review);
 
   const handleSave = async () => {
     if (editRating < 1 || !editComment.trim() || isSaving) return;

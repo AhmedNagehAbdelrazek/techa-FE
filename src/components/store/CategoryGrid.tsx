@@ -8,7 +8,6 @@ export async function CategoryGrid() {
   let categories;
   try {
     const tree = await getCategoryTree();
-    console.log("categories", tree);
     categories = tree.filter((c) => c.image_url);
   } catch {
     return <ErrorState title="Failed to load categories" />;
