@@ -133,7 +133,7 @@ export function NotificationDropdown({ onClose, onMarkRead }: NotificationDropdo
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-medium">{n.title}</p>
                     <p className="truncate text-xs text-muted-foreground">{n.message}</p>
-                    <time dateTime={n.created_at} className="mt-0.5 text-xs text-muted-foreground">{timeAgo(n.created_at)}</time>
+                    <time dateTime={n.createdat} className="mt-0.5 text-xs text-muted-foreground">{timeAgo(n.createdat)}</time>
                   </div>
                 </button>
               </li>

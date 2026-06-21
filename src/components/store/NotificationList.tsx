@@ -97,7 +97,7 @@ export function NotificationList({ notifications, loading, error, onRetry, onMar
             <div className="min-w-0 flex-1">
               <p className="text-sm font-medium">{n.title}</p>
               <p className="mt-0.5 text-sm text-muted-foreground">{n.message}</p>
-              <time dateTime={n.created_at} className="mt-1 text-xs text-muted-foreground">{timeAgo(n.created_at)}</time>
+              <time dateTime={n.createdat} className="mt-1 text-xs text-muted-foreground">{timeAgo(n.createdat)}</time>
             </div>
           </button>
         </li>

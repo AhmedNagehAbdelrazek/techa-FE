@@ -13,5 +13,5 @@ export interface WishlistItemWithProduct {
     brand: ProductBrand | null;
     is_in_stock: boolean;
   };
-  created_at: string;
+  createdat: string;
 }

@@ -189,7 +189,7 @@ export default function OrderDetailPage() {
             <div>
               <h1 className="text-2xl font-bold">#{order.order_number}</h1>
               <p className="mt-1 text-sm text-muted-foreground">
-                Placed on {formatDateTime(order.created_at)}
+                Placed on {formatDateTime(order.createdat)}
               </p>
             </div>
 

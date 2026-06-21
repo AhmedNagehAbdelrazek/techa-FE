@@ -2603,7 +2603,7 @@
                   }
                 ],
                 "url": {
-                  "raw": "{{base_url}}/api/admin/orders/stats",
+                  "raw": "{{base_url}}/api/admin/orders/stats?period=1d",
                   "host": [
                     "{{base_url}}"
                   ],
@@ -2612,6 +2612,14 @@
                     "admin",
                     "orders",
                     "stats"
+                  ],
+                  "query": [
+                    {
+                      "key": "period",
+                      "value": "1d",
+                      "description": " Accepts ?period=7d|30d|90d|this_month|last_month query param (defaults to all for backward compat)",
+                      "type": "text"
+                    }
                   ]
                 },
                 "description": "Returns total orders, total revenue (excl. cancelled/refunded), and breakdown by status."
@@ -2652,6 +2660,121 @@
                   ],
                   "cookie": [],
                   "body": "{\n  \"total_orders\": 150,\n  \"total_revenue\": 25000,\n  \"by_status\": {\n    \"pending\": 25,\n    \"confirmed\": 30,\n    \"processing\": 20,\n    \"shipped\": 15,\n    \"delivered\": 40,\n    \"cancelled\": 15,\n    \"refunded\": 5\n  },\n  \"pending_payments\": 10\n}"
+                },
+                {
+                  "name": "Success (200) with period",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{admin_token}}"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{base_url}}/api/admin/orders/stats?period=1d",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "orders",
+                        "stats"
+                      ],
+                      "query": [
+                        {
+                          "key": "period",
+                          "value": "1d",
+                          "description": " Accepts ?period=7d|30d|90d|this_month|last_month query param (defaults to all for backward compat)",
+                          "type": "text"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "Access-Control-Allow-Origin",
+                      "value": "*"
+                    },
+                    {
+                      "key": "Content-Security-Policy",
+                      "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                    },
+                    {
+                      "key": "Cross-Origin-Opener-Policy",
+                      "value": "same-origin"
+                    },
+                    {
+                      "key": "Cross-Origin-Resource-Policy",
+                      "value": "same-origin"
+                    },
+                    {
+                      "key": "Origin-Agent-Cluster",
+                      "value": "?1"
+                    },
+                    {
+                      "key": "Referrer-Policy",
+                      "value": "no-referrer"
+                    },
+                    {
+                      "key": "Strict-Transport-Security",
+                      "value": "max-age=15552000; includeSubDomains"
+                    },
+                    {
+                      "key": "X-Content-Type-Options",
+                      "value": "nosniff"
+                    },
+                    {
+                      "key": "X-DNS-Prefetch-Control",
+                      "value": "off"
+                    },
+                    {
+                      "key": "X-Download-Options",
+                      "value": "noopen"
+                    },
+                    {
+                      "key": "X-Frame-Options",
+                      "value": "SAMEORIGIN"
+                    },
+                    {
+                      "key": "X-Permitted-Cross-Domain-Policies",
+                      "value": "none"
+                    },
+                    {
+                      "key": "X-XSS-Protection",
+                      "value": "0"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json; charset=utf-8"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "500"
+                    },
+                    {
+                      "key": "ETag",
+                      "value": "W/\"1f4-F56+90EKl7f9jM+d97yPWQcmQGg\""
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Sun, 21 Jun 2026 13:33:10 GMT"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "keep-alive"
+                    },
+                    {
+                      "key": "Keep-Alive",
+                      "value": "timeout=5"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"total_orders\": 5,\n    \"total_revenue\": 20926,\n    \"by_status\": {\n        \"shipped\": 1,\n        \"delivered\": 1,\n        \"pending\": 1,\n        \"cancelled\": 1,\n        \"processing\": 1,\n        \"confirmed\": 0,\n        \"refunded\": 0\n    },\n    \"pending_payments\": 2,\n    \"new_customers\": 7,\n    \"period\": {\n        \"label\": \"1d\",\n        \"current\": null,\n        \"previous\": null\n    },\n    \"period_over_period\": {\n        \"total_orders\": {\n            \"current\": 5,\n            \"previous\": 5,\n            \"change\": 0,\n            \"change_percentage\": 0\n        },\n        \"total_revenue\": {\n            \"current\": 20926,\n            \"previous\": 20926,\n            \"change\": 0,\n            \"change_percentage\": 0\n        },\n        \"new_customers\": {\n            \"current\": 7,\n            \"previous\": 7,\n            \"change\": 0,\n            \"change_percentage\": 0\n        }\n    }\n}"
                 }
               ]
             }

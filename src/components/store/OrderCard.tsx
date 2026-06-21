@@ -48,7 +48,7 @@ export function OrderCard({ order }: OrderCardProps) {
           <div className="min-w-0">
             <p className="truncate font-medium">#{order.order_number}</p>
             <p className="mt-1 text-xs text-muted-foreground">
-              {formatDateTime(order.created_at)}
+              {formatDateTime(order.createdat)}
             </p>
             <p className="mt-1 text-xs text-muted-foreground">
               {order.item_count} item{order.item_count !== 1 ? "s" : ""}

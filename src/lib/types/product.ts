@@ -90,7 +90,7 @@ export interface ProductListItem {
   rating_avg: number;
   rating_count: number;
   is_featured: boolean;
-  created_at: string;
+  createdat: string;
 }
 
 export interface ProductListResponse {

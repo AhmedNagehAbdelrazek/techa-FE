@@ -6,7 +6,7 @@ export interface Notification {
   message: string;
   link: string | null;
   is_read: boolean;
-  created_at: string;
+  createdat: string;
 }
 
 export interface Meta {

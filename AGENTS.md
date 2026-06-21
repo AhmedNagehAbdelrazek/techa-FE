@@ -40,45 +40,47 @@ If none of these apply, do not add the dependency. Ask first.
 
 ## Current Plan
 
-**Feature**: Customer Account & Addresses
-**Branch**: `012-customer-account-addresses`
-**Plan file**: `specs/012-customer-account-addresses/plan.md`
-**Spec file**: `specs/012-customer-account-addresses/spec.md`
+**Feature**: Admin Dashboard
+**Branch**: `013-admin-dashboard`
+**Plan file**: `specs/013-admin-dashboard/plan.md`
+**Spec file**: `specs/013-admin-dashboard/spec.md`
 
 ### Key Artifacts
 
-- [spec.md](specs/012-customer-account-addresses/spec.md) — Feature specification
-- [plan.md](specs/012-customer-account-addresses/plan.md) — Implementation plan
-- [research.md](specs/012-customer-account-addresses/research.md) — Research decisions
-- [data-model.md](specs/012-customer-account-addresses/data-model.md) — Data model
-- [quickstart.md](specs/012-customer-account-addresses/quickstart.md) — Setup guide
-- [contracts/account-api.md](specs/012-customer-account-addresses/contracts/account-api.md) — API contracts
+- [spec.md](specs/013-admin-dashboard/spec.md) — Feature specification
+- [plan.md](specs/013-admin-dashboard/plan.md) — Implementation plan
+- [research.md](specs/013-admin-dashboard/research.md) — Tech inventory & findings
+- [data-model.md](specs/013-admin-dashboard/data-model.md) — Types & API shapes
+- [quickstart.md](specs/013-admin-dashboard/quickstart.md) — Setup guide
+- [contracts/order-stats-api.md](specs/013-admin-dashboard/contracts/order-stats-api.md) — Stats API contract
+- [contracts/orders-list-api.md](specs/013-admin-dashboard/contracts/orders-list-api.md) — Orders list API contract
 
 ### Implementation Order
 
-1. Update `src/app/(store)/account/page.tsx` — Convert to tabbed layout with AccountTabs, integrate ProfileForm and AccountAddresses
-2. Create `src/components/store/AccountTabs.tsx` — URL-driven tab navigation (Profile / Addresses)
-3. Update `src/components/auth/ProfileForm.tsx` — Add avatar upload (file input → uploadFile → updateMe)
-4. Create `src/components/store/AccountAddressForm.tsx` — Address create/edit form with delivery zone dropdown
-5. Create `src/components/store/AccountAddresses.tsx` — Address list with Edit, Delete, Set as Default actions
-6. Verify: build passes with `npm run build`
+1. Create `src/lib/api/admin.ts` — API wrappers: `getOrderStats(period)`, `getRecentOrders()`
+2. Create `src/components/admin/DashboardMetricCard.tsx` — Metric card with icon, value, change %, skeleton
+3. Create `src/components/admin/DashboardDonutChart.tsx` — Donut chart via recharts PieChart with skeleton
+4. Create `src/components/admin/DashboardRecentOrders.tsx` — Recent orders table with status badge, skeleton, error, empty
+5. Create `src/app/(admin)/page.tsx` — Dashboard page: period selector, orchestrates all sections, React Query
+6. Verify: build passes with `pnpm run build`
 
 ### Critical Patterns (enforced)
 
-- **No new API wrappers needed**: All address and profile API functions already exist in `src/lib/api/addresses.ts` and `src/lib/api/auth.ts`
-- **No new types needed**: `Address`, `DeliveryZone`, `User`, `UpdateProfilePayload` already exist
-- **Auth guard**: Account page uses `<ProtectedRoute>` wrapper
-- **Tab state in URL**: Use `?tab=profile|addresses` via `useSearchParams` + `useRouter` — not Zustand
-- **Forms**: Use `react-hook-form` + `zod` with `@hookform/resolvers`
-- **Avatar upload**: Two-step: `uploadFile()` (from payments.ts) → URL → `updateMe({ avatar_url })`
-- **Address limit**: 10 max — hide "Add" button and show message when limit reached
-- **Optimistic UI**: Address list updates immediately on add/edit/delete/set-default with rollback on failure
-- **Deleting default**: Block client-side with prompt to set another as default first
-- **Error handling**: sonner toast on user-initiated actions; console.error on background failures
+- **recharts**: `pnpm add recharts` before implementation (not in package.json)
+- **No Card component**: Use `rounded-lg border bg-card p-6` inline (consistent with codebase, no shadcn Card exists)
+- **Period in URL**: `?period=7d` via `useSearchParams` + `useRouter.replace` — not Zustand
+- **Independent sections**: Each section has its own `useQuery` — failure in one does not block others
+- **Skeleton pattern**: Each section component exports a corresponding `*Skeleton` (follows existing codebase convention)
+- **Error/empty states**: Use existing `ErrorState` / `EmptyState` components from `src/components/ui/`
+- **API wrappers**: Use `request.get()` from `src/lib/api/Request.ts` — match actual API response shapes (stats top-level, orders in `{ data }`)
+- **Metric formatting**: Use `Intl.NumberFormat("en", { notation: "compact" })` for values > 9999
+- **Donut chart colors**: Fixed palette per status (pending=amber, confirmed=blue, processing=purple, shipped=cyan, delivered=green, cancelled=red, refunded=gray)
+- **No new types across projects**: Types defined inline or in data-model.md
 - **Accessibility**: aria-labels, keyboard nav, RTL-compatible layout
 
-### Completed (Phases 7-11, from prior features)
+### Completed
 
-- Customer Cart, Checkout, Order History, Wishlist, Notifications, and prior features completed.
+- **Phase 12** (Customer Account & Addresses): All 5 files implemented, build passes. `AccountTabs`, `AccountPageContent`, `ProfileForm` (avatar upload), `AccountAddressForm`, `AccountAddresses`. Bug fix: `setDefaultAddress` wrapper returns `Promise<void>` not `Address`.
+- **Phases 7-11**: Customer Cart, Checkout, Order History, Wishlist, Notifications, and prior features.
 
 <!-- SPECKIT END -->

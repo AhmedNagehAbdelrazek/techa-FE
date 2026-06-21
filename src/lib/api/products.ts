@@ -23,7 +23,7 @@ interface ApiProduct {
   rating_avg: number;
   rating_count: number;
   is_featured: boolean;
-  created_at: string;
+  createdat: string;
 }
 
 interface ApiMeta {
@@ -50,7 +50,7 @@ function mapProduct(api: ApiProduct): ProductListItem {
     rating_avg: api.rating_avg,
     rating_count: api.rating_count,
     is_featured: api.is_featured,
-    created_at: api.created_at,
+    createdat: api.createdat,
   };
 }
 

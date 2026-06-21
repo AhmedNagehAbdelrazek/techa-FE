@@ -80,8 +80,8 @@ export interface Order {
   notes: string | null;
   items: OrderItem[];
   status_history: OrderStatusHistory[];
-  created_at: string;
-  updated_at: string;
+  createdat: string;
+  updatedat: string;
   proof_reference?: string;
   proof_screenshot_url?: string;
 }
@@ -95,7 +95,7 @@ export interface OrderListItem {
   total: number;
   item_count: number;
   first_item_thumbnail: string | null;
-  created_at: string;
+  createdat: string;
 }
 
 export interface Meta {

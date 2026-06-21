@@ -126,7 +126,7 @@ export default function ConfirmationPage() {
               <div className="text-center border-b pb-4">
                 <p className="text-xs text-muted-foreground uppercase tracking-wider">Receipt</p>
                 <p className="mt-1 text-xl font-bold">#{order.order_number}</p>
-                <p className="mt-0.5 text-xs text-muted-foreground">{formatDateTime(order.created_at)}</p>
+                <p className="mt-0.5 text-xs text-muted-foreground">{formatDateTime(order.createdat)}</p>
               </div>
 
               {/* Items */}

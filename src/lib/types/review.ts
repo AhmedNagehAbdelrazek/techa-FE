@@ -7,7 +7,7 @@ export interface Review {
   relative_date: string;
   is_verified: boolean;
   is_active?: boolean;
-  created_at?: string;
+  createdat?: string;
   user: UserBrief;
 }
 

@@ -19,7 +19,7 @@ interface ApiUser {
   phone: string;
   avatar_url: string | null;
   is_verified?: boolean;
-  created_at?: string;
+  createdat?: string;
 }
 
 interface ApiAuthResponse {
@@ -50,7 +50,7 @@ function mapUser(api: ApiUser): User {
     phone: api.phone,
     avatarUrl: api.avatar_url,
     isVerified: api.is_verified,
-    createdAt: api.created_at,
+    createdAt: api.createdat,
   };
 }
 
