@@ -55,10 +55,16 @@ export interface OrderStats {
 export interface RecentOrder {
   id: string;
   order_number: string;
-  customer_name?: string;
+  customer: {
+    id: string;
+    full_name: string;
+    email: string;
+  };
+  payment_method: string;
+  payment_status: string;
   status: string;
   total: number;
-  created_at: string;
+  createdat: string;
 }
 
 interface RecentOrdersResponse {

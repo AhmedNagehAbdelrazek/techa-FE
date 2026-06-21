@@ -68,7 +68,7 @@ export function DashboardRecentOrders() {
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b text-left text-muted-foreground">
+            <tr className="border-b text-center text-muted-foreground">
               <th className="pb-3 font-medium">Order</th>
               <th className="pb-3 font-medium">Customer</th>
               <th className="pb-3 font-medium">Status</th>
@@ -79,10 +79,10 @@ export function DashboardRecentOrders() {
           </thead>
           <tbody>
             {data.map((order) => (
-              <tr key={order.id} className="border-b last:border-0">
+              <tr key={order.id} className="border-b last:border-0 text-center">
                 <td className="py-3 font-medium">{order.order_number}</td>
                 <td className="py-3 text-muted-foreground">
-                  {order.customer_name ?? "—"}
+                  {order.customer.full_name ?? "—"}
                 </td>
                 <td className="py-3">
                   <Badge
@@ -93,7 +93,7 @@ export function DashboardRecentOrders() {
                 </td>
                 <td className="py-3">{formatPrice(order.total)}</td>
                 <td className="py-3 text-muted-foreground">
-                  {formatDateTime(order.created_at)}
+                  {formatDateTime(order.createdat)}
                 </td>
                 <td className="py-3">
                   <Link

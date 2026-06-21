@@ -13,6 +13,7 @@ interface DashboardMetricCardProps {
   icon: LucideIcon;
   href?: string;
   loading?: boolean;
+  Highlighted ?: boolean
 }
 
 function formatValue(value: number): string {
@@ -30,6 +31,7 @@ export function DashboardMetricCard({
   icon: Icon,
   href,
   loading,
+  Highlighted,
 }: DashboardMetricCardProps) {
   if (loading) {
     return <DashboardMetricCardSkeleton />;
@@ -43,6 +45,7 @@ export function DashboardMetricCard({
       className={cn(
         "rounded-lg border bg-card p-6",
         href && "cursor-pointer transition-shadow hover:shadow-md",
+        Highlighted == true && "border-amber-500!",
       )}
     >
       <div className="flex items-start justify-between">
@@ -83,7 +86,7 @@ export function DashboardMetricCard({
 
 export function DashboardMetricCardSkeleton() {
   return (
-    <div className="rounded-lg border bg-card p-6">
+    <div className={cn("rounded-lg border bg-card p-6")}>
       <div className="flex items-start justify-between">
         <div className="space-y-2">
           <Skeleton className="h-4 w-24" />

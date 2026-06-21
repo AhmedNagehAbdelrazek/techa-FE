@@ -110,6 +110,7 @@ function DashboardContent() {
           icon={Clock}
           href="/admin/orders?status=pending"
           loading={statsLoading}
+          Highlighted={true}
         />
       </div>
 
