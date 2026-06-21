@@ -111,10 +111,7 @@ export function AccountAddresses() {
     );
 
     try {
-      const updated = await setDefaultAddress(id);
-      setAddresses((curr) =>
-        curr.map((a) => (a.id === id ? updated : { ...a, is_default: false })),
-      );
+      await setDefaultAddress(id);
       toast.success("Default address updated!");
     } catch {
       setAddresses(prev);

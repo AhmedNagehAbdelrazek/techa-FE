@@ -5,6 +5,10 @@ interface AddressListResponse {
   data: Address[];
 }
 
+interface SingleAddressResponse {
+  data: Address;
+}
+
 interface ZoneListResponse {
   zones: DeliveryZone[];
 }
@@ -15,15 +19,17 @@ export async function listAddresses(): Promise<Address[]> {
 }
 
 export async function createAddress(data: CreateAddressRequest): Promise<Address> {
-  return request.post<Address>("/api/addresses", data);
+  const res = await request.post<SingleAddressResponse>("/api/addresses", data);
+  return res.data;
 }
 
 export async function updateAddress(id: string, data: UpdateAddressRequest): Promise<Address> {
-  return request.put<Address>(`/api/addresses/${id}`, data);
+  const res = await request.put<SingleAddressResponse>(`/api/addresses/${id}`, data);
+  return res.data;
 }
 
-export async function setDefaultAddress(id: string): Promise<Address> {
-  return request.put<Address>(`/api/addresses/${id}/default`);
+export async function setDefaultAddress(id: string): Promise<void> {
+  await request.put<{ message: string }>(`/api/addresses/${id}/default`);
 }
 
 export async function deleteAddress(id: string): Promise<void> {
