@@ -606,6 +606,50 @@ Super-admin can manage admin accounts and roles.
 
 ---
 
+## Future Feature Phases (Beyond Phase 19)
+
+The following phases are identified but not yet specified. They will be added when development priorities shift.
+
+### Phase 20 — Admin Reports & Analytics
+
+**Goal**: Comprehensive business intelligence dashboards for admins.
+
+**Scope**: Revenue reports (daily/weekly/monthly/yearly comparisons), top-selling products report, customer acquisition trends, order fulfillment time analytics, exportable reports (PDF/CSV), scheduled report generation via email.
+
+---
+
+### Phase 21 — Admin Product Import/Export
+
+**Goal**: Bulk product management via CSV/Excel files.
+
+**Scope**: CSV import with column mapping and preview, validation errors report with row-level details, image URL import (downloads and associates images), full product export with all fields (including variants, images, attributes), scheduled import/export jobs.
+
+---
+
+### Phase 22 — Customer Management (Admin)
+
+**Goal**: Admin view and management of customer accounts.
+
+**Scope**: Customer list table with search and filters, customer detail view (order history, address book, wishlist), manual account activate/deactivate, send notification to customer, view customer reviews.
+
+---
+
+### Phase 23 — Order Returns & Refunds
+
+**Goal**: Manage return requests and process refunds.
+
+**Scope**: Customer return request submission (select items, reason, upload proof), return status tracking, admin return queue (approve/reject), refund processing (partial/full), refund to original payment method integration.
+
+---
+
+### Phase 24 — Marketing & Discount Campaigns
+
+**Goal**: Time-limited discount campaigns and promotional tools.
+
+**Scope**: Campaign creation (name, dates, discount rules), automatic coupon generation for campaigns, bundle deals (buy X get Y), flash sale countdown timers, campaign performance analytics.
+
+---
+
 ## Global Frontend Constraints (Apply to All Phases)
 
 - **TypeScript is mandatory** — every API response must have a typed interface in `lib/types/`
