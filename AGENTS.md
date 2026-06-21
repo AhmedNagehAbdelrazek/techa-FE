@@ -40,44 +40,45 @@ If none of these apply, do not add the dependency. Ask first.
 
 ## Current Plan
 
-**Feature**: Customer Notifications
-**Branch**: `011-customer-notifications`
-**Plan file**: `specs/011-customer-notifications/plan.md`
-**Spec file**: `specs/011-customer-notifications/spec.md`
+**Feature**: Customer Account & Addresses
+**Branch**: `012-customer-account-addresses`
+**Plan file**: `specs/012-customer-account-addresses/plan.md`
+**Spec file**: `specs/012-customer-account-addresses/spec.md`
 
 ### Key Artifacts
 
-- [spec.md](specs/011-customer-notifications/spec.md) — Feature specification
-- [plan.md](specs/011-customer-notifications/plan.md) — Implementation plan
-- [research.md](specs/011-customer-notifications/research.md) — Research decisions
-- [data-model.md](specs/011-customer-notifications/data-model.md) — Data model
-- [quickstart.md](specs/011-customer-notifications/quickstart.md) — Setup guide
-- [contracts/notifications-api.md](specs/011-customer-notifications/contracts/notifications-api.md) — API contracts
+- [spec.md](specs/012-customer-account-addresses/spec.md) — Feature specification
+- [plan.md](specs/012-customer-account-addresses/plan.md) — Implementation plan
+- [research.md](specs/012-customer-account-addresses/research.md) — Research decisions
+- [data-model.md](specs/012-customer-account-addresses/data-model.md) — Data model
+- [quickstart.md](specs/012-customer-account-addresses/quickstart.md) — Setup guide
+- [contracts/account-api.md](specs/012-customer-account-addresses/contracts/account-api.md) — API contracts
 
 ### Implementation Order
 
-1. Create `src/lib/types/notification.ts` — Add `Notification`, `NotificationsListResponse`, `NotificationsQueryParams`, `Meta` types (with `unread_count`)
-2. Create `src/lib/api/notifications.ts` — Add `getNotifications()`, `markAsRead()`, `markAllAsRead()` API wrappers
-3. Create `src/components/store/NotificationBell.tsx` — Bell icon with unread count badge (follows cart/wishlist badge pattern)
-4. Create `src/components/store/NotificationDropdown.tsx` — Custom positioned dropdown panel showing 5 most recent notifications (not shadcn DropdownMenu — rich card-like items)
-5. Create `src/components/store/NotificationList.tsx` — Full paginated list component for /notifications page
-6. Create `src/app/(store)/notifications/page.tsx` — Notifications page with ProtectedRoute, pagination, empty/error/loading states
-7. Update `src/components/layout/Header.tsx` — Integrate NotificationBell into header nav
-8. Verify: build passes with `npm run build`
+1. Update `src/app/(store)/account/page.tsx` — Convert to tabbed layout with AccountTabs, integrate ProfileForm and AccountAddresses
+2. Create `src/components/store/AccountTabs.tsx` — URL-driven tab navigation (Profile / Addresses)
+3. Update `src/components/auth/ProfileForm.tsx` — Add avatar upload (file input → uploadFile → updateMe)
+4. Create `src/components/store/AccountAddressForm.tsx` — Address create/edit form with delivery zone dropdown
+5. Create `src/components/store/AccountAddresses.tsx` — Address list with Edit, Delete, Set as Default actions
+6. Verify: build passes with `npm run build`
 
 ### Critical Patterns (enforced)
 
-- **No direct `request` calls in UI components**: All API access through `src/lib/api/notifications.ts`, consumed by components via async `useState`/`useEffect` pattern (no TanStack Query for this feature — too simple)
-- **Auth guard**: All notification pages use `<ProtectedRoute>` wrapper
-- **Unread count**: Read from `meta.unread_count` (confirmed in Postman collection response — not derived from `data` array)
-- **Accessibility**: WCAG 2.1 Level AA — aria-labels, keyboard nav, focus management, screen reader announcements for unread count, RTL-compatible positioning
-- **Badge display**: Follow existing pattern: `{count > 99 ? "99+" : count}` with `<Badge variant="secondary">`
-- **Notifications dropdown**: Custom positioned panel (div + click-outside handler), not Popover or DropdownMenu. Rich content: title, message preview, relative timestamp, read/unread indicator
-- **Error logging**: Console error on background fetches; console error + sonner toast on user-initiated actions (mark read, mark all read)
-- **Stale data**: Notifications re-fetched on page load/navigation only (real-time updates deferred)
+- **No new API wrappers needed**: All address and profile API functions already exist in `src/lib/api/addresses.ts` and `src/lib/api/auth.ts`
+- **No new types needed**: `Address`, `DeliveryZone`, `User`, `UpdateProfilePayload` already exist
+- **Auth guard**: Account page uses `<ProtectedRoute>` wrapper
+- **Tab state in URL**: Use `?tab=profile|addresses` via `useSearchParams` + `useRouter` — not Zustand
+- **Forms**: Use `react-hook-form` + `zod` with `@hookform/resolvers`
+- **Avatar upload**: Two-step: `uploadFile()` (from payments.ts) → URL → `updateMe({ avatar_url })`
+- **Address limit**: 10 max — hide "Add" button and show message when limit reached
+- **Optimistic UI**: Address list updates immediately on add/edit/delete/set-default with rollback on failure
+- **Deleting default**: Block client-side with prompt to set another as default first
+- **Error handling**: sonner toast on user-initiated actions; console.error on background failures
+- **Accessibility**: aria-labels, keyboard nav, RTL-compatible layout
 
-### Completed (Phases 7-10, from prior features)
+### Completed (Phases 7-11, from prior features)
 
-- Customer Cart, Checkout, Order History, and prior features completed.
+- Customer Cart, Checkout, Order History, Wishlist, Notifications, and prior features completed.
 
 <!-- SPECKIT END -->
