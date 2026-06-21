@@ -1,44 +1,83 @@
 <!-- SPECKIT START -->
 
+## Pre-Flight Checklist (MANDATORY — run before EVERY code decision)
+
+Before writing any code, answering any task, or making any decision — run this checklist in order. Stop at the first rule that applies and act on it. Do not continue down the list.
+
+```
+1. Does this need to exist?       → If no clear requirement drives it, skip it entirely. (YAGNI)
+2. Does the stdlib do it?         → Use it. No import needed.
+3. Is it a native platform API?   → Use it. (Node built-ins, browser APIs, Next.js built-ins)
+4. Is it an installed dependency? → Use it. Check package.json first.
+5. Can it be written in one line? → Write one line.
+6. Only then: write the minimum code that makes it work. Nothing more.
+```
+
+This checklist is not optional and is not a suggestion. It runs before every function, every file, every component, every utility. If you catch yourself about to write something without having run this checklist first, stop and run it now.
+
+### What this looks like in practice
+
+| Situation | Wrong | Right |
+|---|---|---|
+| Need to capitalize a string | Install `lodash` | `str[0].toUpperCase() + str.slice(1)` |
+| Need to generate a UUID | Write a UUID function | `crypto.randomUUID()` (Node 14.17+) |
+| Need to check if array is empty | `_.isEmpty(arr)` | `arr.length === 0` |
+| Need to deep clone an object | Write a recursive clone | `structuredClone(obj)` (Node 17+) |
+| Need to parse a URL | Install `url-parse` | `new URL(str)` |
+| Need to format a date | Install `moment` | `new Intl.DateTimeFormat(...)` or `date.toLocaleDateString()` |
+| Need to sleep/delay | Write a sleep utility | `await new Promise(r => setTimeout(r, ms))` |
+| Need to flatten an array one level | Write a reduce | `arr.flat()` |
+| Need to get unique values | Write a filter loop | `[...new Set(arr)]` |
+| Need to read an env variable | Abstract it into a helper | `process.env.VAR_NAME` |
+
+### The only valid reasons to add a new dependency
+
+- The task is genuinely complex and the library solves a hard, well-defined problem (e.g. parsing multipart form data, JWT signing, bcrypt hashing)
+- The library is already in `package.json` — it costs nothing to use it
+- Writing it from scratch would take more than 20 lines and is not core business logic
+
+If none of these apply, do not add the dependency. Ask first.
+
 ## Current Plan
 
-**Feature**: Customer Order History & Detail
-**Branch**: `009-customer-order-history`
-**Plan file**: `specs/009-customer-order-history/plan.md`
-**Spec file**: `specs/009-customer-order-history/spec.md`
+**Feature**: Customer Notifications
+**Branch**: `011-customer-notifications`
+**Plan file**: `specs/011-customer-notifications/plan.md`
+**Spec file**: `specs/011-customer-notifications/spec.md`
 
 ### Key Artifacts
 
-- [spec.md](specs/009-customer-order-history/spec.md) — Feature specification
-- [plan.md](specs/009-customer-order-history/plan.md) — Implementation plan
-- [research.md](specs/009-customer-order-history/research.md) — Research decisions
-- [data-model.md](specs/009-customer-order-history/data-model.md) — Data model
-- [quickstart.md](specs/009-customer-order-history/quickstart.md) — Setup guide
-- [contracts/orders-api.md](specs/009-customer-order-history/contracts/orders-api.md) — API contracts
+- [spec.md](specs/011-customer-notifications/spec.md) — Feature specification
+- [plan.md](specs/011-customer-notifications/plan.md) — Implementation plan
+- [research.md](specs/011-customer-notifications/research.md) — Research decisions
+- [data-model.md](specs/011-customer-notifications/data-model.md) — Data model
+- [quickstart.md](specs/011-customer-notifications/quickstart.md) — Setup guide
+- [contracts/notifications-api.md](specs/011-customer-notifications/contracts/notifications-api.md) — API contracts
 
 ### Implementation Order
 
-1. Enhance `src/lib/types/order.ts` — Add `OrdersListResponse`, `OrdersQueryParams`, `OrderListItem`, `Meta` types
-2. Enhance `src/lib/api/orders.ts` — Update `getOrders()` to accept query params and return paginated response
-3. Create `src/components/store/OrderStatusTabs.tsx` — Status filter tab bar (All, Pending, Confirmed, Processing, Shipped, Delivered, Cancelled, Refunded)
-4. Create `src/components/store/OrderCard.tsx` — Order list card with thumbnail, status badge, order number, date, total, item count
-5. Enhance `src/app/(store)/orders/page.tsx` — Integrate tabs, cards, pagination, loading/empty/error states
-6. Create `src/components/store/OrderStatusTimeline.tsx` — Vertical visual step tracker with hidden accessible `<ol>` list
-7. Enhance `src/app/(store)/orders/[id]/page.tsx` — Replace basic timeline with OrderStatusTimeline, replace `confirm()` with shadcn AlertDialog, add review prompts for delivered items, add stale data detection via Page Visibility API
+1. Create `src/lib/types/notification.ts` — Add `Notification`, `NotificationsListResponse`, `NotificationsQueryParams`, `Meta` types (with `unread_count`)
+2. Create `src/lib/api/notifications.ts` — Add `getNotifications()`, `markAsRead()`, `markAllAsRead()` API wrappers
+3. Create `src/components/store/NotificationBell.tsx` — Bell icon with unread count badge (follows cart/wishlist badge pattern)
+4. Create `src/components/store/NotificationDropdown.tsx` — Custom positioned dropdown panel showing 5 most recent notifications (not shadcn DropdownMenu — rich card-like items)
+5. Create `src/components/store/NotificationList.tsx` — Full paginated list component for /notifications page
+6. Create `src/app/(store)/notifications/page.tsx` — Notifications page with ProtectedRoute, pagination, empty/error/loading states
+7. Update `src/components/layout/Header.tsx` — Integrate NotificationBell into header nav
 8. Verify: build passes with `npm run build`
 
 ### Critical Patterns (enforced)
 
-- **No direct `request` calls in UI components**: All API access through `src/lib/api/*.ts` wrappers, consumed by UI components via direct async calls (no Zustand stores — local state only)
-- **Auth guard**: All order pages use `<ProtectedRoute>` wrapper (existing pattern from `src/app/(store)/account/page.tsx`)
-- **Existing API wrappers**: Extend `orders.ts` (getOrders, getOrder, cancelOrder) from Phase 8 rather than rewriting
-- **Status badge colors**: pending=yellow, confirmed=blue, processing=indigo, shipped=cyan, delivered=green, cancelled=red, refunded=orange
-- **Accessibility**: StatusTimeline includes a hidden `<ol>` for screen readers reading "Step N: [Status] — [date]"
-- **Stale data**: Order detail re-fetches on tab focus if >30s stale, shows toast on status change
+- **No direct `request` calls in UI components**: All API access through `src/lib/api/notifications.ts`, consumed by components via async `useState`/`useEffect` pattern (no TanStack Query for this feature — too simple)
+- **Auth guard**: All notification pages use `<ProtectedRoute>` wrapper
+- **Unread count**: Read from `meta.unread_count` (confirmed in Postman collection response — not derived from `data` array)
+- **Accessibility**: WCAG 2.1 Level AA — aria-labels, keyboard nav, focus management, screen reader announcements for unread count, RTL-compatible positioning
+- **Badge display**: Follow existing pattern: `{count > 99 ? "99+" : count}` with `<Badge variant="secondary">`
+- **Notifications dropdown**: Custom positioned panel (div + click-outside handler), not Popover or DropdownMenu. Rich content: title, message preview, relative timestamp, read/unread indicator
+- **Error logging**: Console error on background fetches; console error + sonner toast on user-initiated actions (mark read, mark all read)
+- **Stale data**: Notifications re-fetched on page load/navigation only (real-time updates deferred)
 
-### Completed (Phase 7 & 8)
+### Completed (Phases 7-10, from prior features)
 
-- Customer Cart: types, API wrappers, Zustand store with persist, CartAddButton, CartEmptyState, CartItemRow, CartOrderSummary, CartCouponInput, CartDrawer, cart page, header badge
-- Customer Checkout: types, API wrappers, checkout page with address step + review step + place order, confirmation page with payment proof, order detail page skeleton, order list page skeleton
+- Customer Cart, Checkout, Order History, and prior features completed.
 
 <!-- SPECKIT END -->

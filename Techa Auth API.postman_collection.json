@@ -6681,8 +6681,7 @@
                 "header": [
                   {
                     "key": "Authorization",
-                    "value": "Bearer {{auth_token}}",
-                    "type": "text"
+                    "value": "Bearer {{auth_token}}"
                   }
                 ],
                 "url": {
@@ -6708,15 +6707,87 @@
               },
               "status": "OK",
               "code": 200,
-              "_postman_previewlanguage": "Text",
+              "_postman_previewlanguage": null,
               "header": [
                 {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
                   "key": "Content-Type",
-                  "value": "application/json"
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "1421"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"58d-nRiZDIsAB5D3J2cUyRMPRFVF14g\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 21 Jun 2026 10:30:01 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
                 }
               ],
               "cookie": [],
-              "body": "{\n  \"data\": [\n    {\n      \"id\": \"notif-uuid\",\n      \"type\": \"system\",\n      \"title\": \"Welcome!\",\n      \"message\": \"Your account has been created.\",\n      \"is_read\": false,\n      \"created_at\": \"2026-06-01T10:00:00.000Z\"\n    }\n  ],\n  \"meta\": {\n    \"page\": 1,\n    \"limit\": 20,\n    \"total\": 1,\n    \"totalPages\": 1\n  }\n}"
+              "body": "{\n    \"data\": [\n        {\n            \"id\": \"facf66d7-ab96-4d65-aa80-dff67d7c757b\",\n            \"user_id\": \"d8923e67-56b9-40d1-9594-4affbce8f4ee\",\n            \"type\": \"order_placed\",\n            \"title\": \"Order Placed\",\n            \"message\": \"Your order #ORD-20260620-0005 has been placed successfully.\",\n            \"is_read\": false,\n            \"created_at\": \"2026-06-20T14:43:29.719Z\"\n        },\n        {\n            \"id\": \"61305f07-c29e-4795-9939-35506aaf9be5\",\n            \"user_id\": \"d8923e67-56b9-40d1-9594-4affbce8f4ee\",\n            \"type\": \"order_placed\",\n            \"title\": \"Order Placed\",\n            \"message\": \"Your order #ORD-20260620-0004 has been placed successfully.\",\n            \"is_read\": false,\n            \"created_at\": \"2026-06-20T14:29:35.058Z\"\n        },\n        {\n            \"id\": \"901f0fd8-3032-4746-bb7e-ee8aaab6af06\",\n            \"user_id\": \"d8923e67-56b9-40d1-9594-4affbce8f4ee\",\n            \"type\": \"order_placed\",\n            \"title\": \"Order Placed\",\n            \"message\": \"Your order #ORD-20260620-0003 has been placed successfully.\",\n            \"is_read\": false,\n            \"created_at\": \"2026-06-20T14:23:15.393Z\"\n        },\n        {\n            \"id\": \"7cc3c245-b5a8-4e57-9ca9-b1608c7c010a\",\n            \"user_id\": \"d8923e67-56b9-40d1-9594-4affbce8f4ee\",\n            \"type\": \"order_placed\",\n            \"title\": \"Order Placed\",\n            \"message\": \"Your order #ORD-20260620-0002 has been placed successfully.\",\n            \"is_read\": false,\n            \"created_at\": \"2026-06-20T13:57:57.960Z\"\n        },\n        {\n            \"id\": \"7f5e9633-4f71-42e1-b995-87ca793b4878\",\n            \"user_id\": \"d8923e67-56b9-40d1-9594-4affbce8f4ee\",\n            \"type\": \"order_placed\",\n            \"title\": \"Order Placed\",\n            \"message\": \"Your order #ORD-20260620-0001 has been placed successfully.\",\n            \"is_read\": false,\n            \"created_at\": \"2026-06-20T13:37:10.028Z\"\n        }\n    ],\n    \"meta\": {\n        \"page\": 1,\n        \"limit\": 20,\n        \"total\": 5,\n        \"totalPages\": 1,\n        \"unread_count\": 5\n    }\n}"
             }
           ]
         },
@@ -8263,7 +8334,10 @@
                   "key": "file",
                   "type": "file",
                   "description": "JPEG, PNG, WebP, or GIF (max 20MB)",
-                  "value": ""
+                  "src": [
+                    "",
+                    "/C:/Users/Laptop/Downloads/1_e53ba8a0-f5df-4e46-b3ef-8141795364d7.jpg"
+                  ]
                 }
               ]
             },
@@ -8278,7 +8352,128 @@
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "Upload Image",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "file",
+                      "type": "file",
+                      "description": "JPEG, PNG, WebP, or GIF (max 20MB)",
+                      "src": [
+                        "",
+                        "/C:/Users/Laptop/Downloads/1_e53ba8a0-f5df-4e46-b3ef-8141795364d7.jpg"
+                      ]
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/upload",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "upload"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "157"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"9d-m0G2veiG83V/Db2vbG2K1UeGJVE\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 20 Jun 2026 10:50:48 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"url\": \"https://res.cloudinary.com/djfrgjrl5/image/upload/v1781952633/techa/zuzwxiyaz7dfehgxasp2.webp\",\n    \"filename\": \"techa/zuzwxiyaz7dfehgxasp2\",\n    \"cached\": true\n}"
+            }
+          ]
         }
       ]
     }
