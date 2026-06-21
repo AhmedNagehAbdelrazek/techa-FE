@@ -12,7 +12,7 @@ interface AdminLoginResponse {
     name: string;
     email: string;
     role: string;
-    permissions: string[];
+    permissions: Record<string, string[]>;
   };
 }
 

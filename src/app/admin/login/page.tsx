@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { adminLogin } from "@/lib/api/admin";
 import { setAdminToken } from "@/lib/api/admin-token";
@@ -10,11 +10,17 @@ import { Button } from "@/components/ui/button";
 
 export default function AdminLoginPage() {
   const router = useRouter();
-  const setAdmin = useAdminStore((s) => s.setAdmin);
+  const {setAdmin,admin,isAuthenticated} = useAdminStore();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useEffect(()=>{
+    if(admin && isAuthenticated){
+      router.push("/admin");
+    }
+  },[admin]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();

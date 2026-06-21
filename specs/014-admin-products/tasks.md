@@ -28,16 +28,16 @@ description: "Task list for Admin Panel — Products (Phase 14)"
 
 **Purpose**: Create 9 shadcn UI wrappers and install any missing npm packages needed by all user stories.
 
-- [ ] T001 Install missing radix packages: `pnpm add @radix-ui/react-checkbox @radix-ui/react-popover cmdk`
-- [ ] T002 [P] Create shadcn Tabs wrapper in `src/components/ui/tabs.tsx` using `@radix-ui/react-tabs`
-- [ ] T003 [P] Create shadcn Dialog wrapper in `src/components/ui/dialog.tsx` using `@radix-ui/react-dialog`
-- [ ] T004 [P] Create shadcn Table wrapper in `src/components/ui/table.tsx` (native `<table>` with Tailwind styling)
-- [ ] T005 [P] Create shadcn Checkbox wrapper in `src/components/ui/checkbox.tsx` using `@radix-ui/react-checkbox`
-- [ ] T006 [P] Create shadcn Textarea wrapper in `src/components/ui/textarea.tsx` (native `<textarea>` with Tailwind, mirrors Input.tsx pattern)
-- [ ] T007 [P] Create shadcn Label wrapper in `src/components/ui/label.tsx` using `@radix-ui/react-label`
-- [ ] T008 [P] Create shadcn Command wrapper in `src/components/ui/command.tsx` using `cmdk`
-- [ ] T009 [P] Create shadcn Popover wrapper in `src/components/ui/popover.tsx` using `@radix-ui/react-popover`
-- [ ] T010 [P] Create shadcn Form wrapper in `src/components/ui/form.tsx` using react-hook-form `useFormContext` + `@radix-ui/react-label`
+- [x] T001 Install missing radix packages: `pnpm add @radix-ui/react-checkbox @radix-ui/react-popover cmdk`
+- [x] T002 [P] Create shadcn Tabs wrapper in `src/components/ui/tabs.tsx` using `@radix-ui/react-tabs`
+- [x] T003 [P] Create shadcn Dialog wrapper in `src/components/ui/dialog.tsx` using `@radix-ui/react-dialog`
+- [x] T004 [P] Create shadcn Table wrapper in `src/components/ui/table.tsx` (native `<table>` with Tailwind styling)
+- [x] T005 [P] Create shadcn Checkbox wrapper in `src/components/ui/checkbox.tsx` using `@radix-ui/react-checkbox`
+- [x] T006 [P] Create shadcn Textarea wrapper in `src/components/ui/textarea.tsx` (native `<textarea>` with Tailwind, mirrors Input.tsx pattern)
+- [x] T007 [P] Create shadcn Label wrapper in `src/components/ui/label.tsx` using `@radix-ui/react-label`
+- [x] T008 [P] Create shadcn Command wrapper in `src/components/ui/command.tsx` using `cmdk`
+- [x] T009 [P] Create shadcn Popover wrapper in `src/components/ui/popover.tsx` using `@radix-ui/react-popover`
+- [x] T010 [P] Create shadcn Form wrapper in `src/components/ui/form.tsx` using react-hook-form `useFormContext` + `@radix-ui/react-label`
 
 **Checkpoint**: All shadcn UI wrappers exist and are importable. Build should pass.
 
@@ -49,10 +49,10 @@ description: "Task list for Admin Panel — Products (Phase 14)"
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete.
 
-- [ ] T011 Create `src/lib/api/admin-products.ts` — inline TypeScript types (ProductListItem, ProductDetail, ProductListResponse, ProductImage, ProductVariant, ProductAttribute, CreateProductPayload, UpdateProductPayload, AdminProductListParams, CategoryOption, BrandOption, TagOption)
-- [ ] T012 Create API wrapper functions in `src/lib/api/admin-products.ts`: `getProducts`, `getProduct`, `createProduct`, `updateProduct`, `deleteProduct`, `bulkUpdateProducts`
-- [ ] T013 [P] Create API wrapper functions in `src/lib/api/admin-products.ts`: `getCategoryOptions`, `getBrandOptions`, `getTagOptions`, `uploadMedia`
-- [ ] T014 Create query key factory `adminProductsKeys` in `src/lib/api/admin-products.ts` for React Query cache management
+- [x] T011 Create `src/lib/api/admin-products.ts` — inline TypeScript types (ProductListItem, ProductDetail, ProductListResponse, ProductImage, ProductVariant, ProductAttribute, CreateProductPayload, UpdateProductPayload, AdminProductListParams, CategoryOption, BrandOption, TagOption)
+- [x] T012 Create API wrapper functions in `src/lib/api/admin-products.ts`: `getProducts`, `getProduct`, `createProduct`, `updateProduct`, `deleteProduct`, `bulkUpdateProducts`
+- [x] T013 [P] Create API wrapper functions in `src/lib/api/admin-products.ts`: `getCategoryOptions`, `getBrandOptions`, `getTagOptions`, `uploadMedia`
+- [x] T014 Create query key factory `adminProductsKeys` in `src/lib/api/admin-products.ts` for React Query cache management
 
 **Checkpoint**: API wrappers are importable and typed. Foundation ready — user stories can now begin.
 
@@ -66,16 +66,18 @@ description: "Task list for Admin Panel — Products (Phase 14)"
 
 ### Implementation for User Story 1
 
-- [ ] T015 [US1] Create `src/components/admin/ProductsTable.tsx` — paginated data table with columns: checkbox, thumbnail, name, category, brand, price, stock, status, actions
-- [ ] T016 [US1] Implement search bar with 300ms debounce in `ProductsTable.tsx` — syncs `?search=` to URL via `useRouter.replace`
-- [ ] T017 [P] [US1] Implement category/brand/status filter dropdowns in `ProductsTable.tsx` — preload options via React Query with `staleTime: Infinity`
-- [ ] T018 [US1] Implement checkbox multi-select with select-all in `ProductsTable.tsx` — `Set<string>` state for selected IDs
-- [ ] T019 [US1] Implement bulk action bar (Activate/Deactivate) in `ProductsTable.tsx` — calls `bulkUpdateProducts` mutation, invalidates list, shows toast
-- [ ] T020 [US1] Implement pagination with page buttons, prev/next, ellipsis in `ProductsTable.tsx`
-- [ ] T021 [US1] Create loading skeleton `ProductsTableSkeleton` exported from `ProductsTable.tsx`
-- [ ] T022 [P] [US1] Add permission gating in `ProductsTable.tsx` — gated by `products.read/update/delete` from `useAdminStore`
-- [ ] T023 [US1] Create `src/app/admin/(protected)/products/page.tsx` — products list page with Suspense wrapper for `useSearchParams`
-- [ ] T024 [US1] Create `ProductsPageContent` component in the page file: reads URL search params, renders `<ProductsTable />` with React Query, shows "Add Product" button gated by `products.create`
+- [x] T015 [US1] Create `src/components/admin/ProductsTable.tsx` — paginated data table with columns: checkbox, thumbnail, name, category, brand, price, stock, status, actions
+- [x] T016 [US1] Implement search bar with 300ms debounce in `ProductsTable.tsx` — syncs `?search=` to URL via `useRouter.replace`
+- [x] T017 [P] [US1] Implement category/brand/status filter dropdowns in `ProductsTable.tsx` — preload options via React Query with `staleTime: Infinity`
+- [x] T018 [US1] Implement checkbox multi-select with select-all in `ProductsTable.tsx` — `Set<string>` state for selected IDs
+- [x] T019 [US1] Implement bulk action bar (Activate/Deactivate) in `ProductsTable.tsx` — calls `bulkUpdateProducts` mutation, invalidates list, shows toast
+- [x] T020 [US1] Implement pagination with page buttons, prev/next, ellipsis in `ProductsTable.tsx`
+- [x] T021 [US1] Create loading skeleton `ProductsTableSkeleton` exported from `ProductsTable.tsx`
+- [x] T022 [P] [US1] Add permission gating in `ProductsTable.tsx` — gated by `products.read/update/delete` from `useAdminStore`
+- [x] T023 [US1] Create `src/app/admin/(protected)/products/page.tsx` — products list page with Suspense wrapper for `useSearchParams`
+- [x] T024 [US1] Create `ProductsPageContent` component in the page file: reads URL search params, renders `<ProductsTable />` with React Query, shows "Add Product" button gated by `products.create`
+
+### Implementation for User Story 2
 
 **Checkpoint**: Products list is functional — search, filters, pagination, bulk actions all work independently of the form pages.
 

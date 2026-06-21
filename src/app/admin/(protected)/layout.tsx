@@ -1,22 +1,22 @@
-import { redirect } from "next/navigation";
-import { cookies } from "next/headers";
+"use client";
+
 import { AdminSidebar } from "@/components/layout/AdminSidebar";
 import { AdminTopBar } from "@/components/layout/AdminTopBar";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { AdminAuthInitializer } from "@/components/admin/AdminAuthInitializer";
-import { AUTH_COOKIE_NAME } from "@/lib/auth/constants";
+import { useAdminStore } from "@/lib/stores/admin.store";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
-export default async function AdminLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get(AUTH_COOKIE_NAME)?.value;
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
+  const { admin, isAuthenticated } = useAdminStore((s) => s);
+  const router = useRouter();
 
-  if (!token) {
-    redirect("/admin/login");
-  }
+  useEffect(() => {
+    if (!admin || !isAuthenticated) {
+      router.push("/admin/login");
+    }
+  }, [admin]);
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -24,7 +24,7 @@ export default async function AdminLayout({
       <AdminSidebar />
       <div className="flex flex-1 flex-col overflow-hidden">
         <AdminTopBar />
-        <div className="flex items-center gap-2 border-b bg-muted/30 px-6 py-2">
+        <div className="bg-muted/30 flex items-center gap-2 border-b px-6 py-2">
           <Breadcrumbs />
         </div>
         <main className="flex-1 overflow-y-auto p-6">{children}</main>
