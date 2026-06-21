@@ -1,0 +1,153 @@
+"use client";
+
+import { Suspense } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import { ShoppingCart, DollarSign, Users, Clock } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { getOrderStats } from "@/lib/api/admin";
+import { DashboardMetricCard } from "@/components/admin/DashboardMetricCard";
+import { DashboardDonutChart } from "@/components/admin/DashboardDonutChart";
+import { DashboardRecentOrders } from "@/components/admin/DashboardRecentOrders";
+
+const PERIODS = ["7d", "30d", "90d", "this_month", "last_month"] as const;
+
+const PERIOD_LABELS: Record<string, string> = {
+  "7d": "7 Days",
+  "30d": "30 Days",
+  "90d": "90 Days",
+  this_month: "This Month",
+  last_month: "Last Month",
+};
+
+function PeriodSelector({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange: (p: string) => void;
+}) {
+  return (
+    <div className="flex gap-1 rounded-lg bg-muted p-1" role="tablist">
+      {PERIODS.map((p) => (
+        <button
+          key={p}
+          role="tab"
+          aria-selected={value === p}
+          onClick={() => onChange(p)}
+          className={cn(
+            "rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
+            value === p
+              ? "bg-background text-foreground shadow-sm"
+              : "text-muted-foreground hover:text-foreground",
+          )}
+        >
+          {PERIOD_LABELS[p]}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function DashboardContent() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const period = searchParams.get("period") ?? "30d";
+
+  const {
+    data: stats,
+    isLoading: statsLoading,
+    isError: statsError,
+    error: statsErrorObj,
+    refetch: refetchStats,
+  } = useQuery({
+    queryKey: ["admin", "stats", period],
+    queryFn: () => getOrderStats(period),
+  });
+
+  function handlePeriodChange(p: string) {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("period", p);
+    router.replace(`/admin?${params.toString()}`);
+  }
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold">Dashboard</h1>
+        <PeriodSelector value={period} onChange={handlePeriodChange} />
+      </div>
+
+      {/* Metric Cards */}
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <DashboardMetricCard
+          label="Total Orders"
+          value={stats?.total_orders.current ?? 0}
+          previousValue={stats?.total_orders.previous}
+          changePct={stats?.total_orders.change_pct}
+          icon={ShoppingCart}
+          loading={statsLoading}
+        />
+        <DashboardMetricCard
+          label="Total Revenue"
+          value={stats?.total_revenue.current ?? 0}
+          previousValue={stats?.total_revenue.previous}
+          changePct={stats?.total_revenue.change_pct}
+          icon={DollarSign}
+          loading={statsLoading}
+        />
+        <DashboardMetricCard
+          label="New Customers"
+          value={stats?.new_customers.current ?? 0}
+          previousValue={stats?.new_customers.previous}
+          changePct={stats?.new_customers.change_pct}
+          icon={Users}
+          loading={statsLoading}
+        />
+        <DashboardMetricCard
+          label="Pending Orders"
+          value={stats?.by_status.pending ?? 0}
+          icon={Clock}
+          href="/admin/orders?status=pending"
+          loading={statsLoading}
+        />
+      </div>
+
+      {/* Error State for Stats */}
+      {statsError && !statsLoading && (
+        <div className="rounded-lg border bg-card p-6">
+          <p className="text-sm text-destructive">
+            Failed to load metrics: {(statsErrorObj as Error)?.message}
+          </p>
+          <button
+            onClick={() => refetchStats()}
+            className="mt-2 text-sm text-primary hover:underline"
+          >
+            Try again
+          </button>
+        </div>
+      )}
+
+      {/* Chart + Recent Orders */}
+      <div className="grid gap-6 lg:grid-cols-5">
+        <div className="lg:col-span-2">
+          <DashboardDonutChart
+            data={stats?.by_status}
+            loading={statsLoading}
+          />
+        </div>
+        <div className="lg:col-span-3">
+          <DashboardRecentOrders />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function AdminDashboardPage() {
+  return (
+    <Suspense fallback={<div className="p-8 text-center">Loading...</div>}>
+      <DashboardContent />
+    </Suspense>
+  );
+}

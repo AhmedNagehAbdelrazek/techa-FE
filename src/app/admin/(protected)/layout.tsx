@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { AdminSidebar } from "@/components/layout/AdminSidebar";
 import { AdminTopBar } from "@/components/layout/AdminTopBar";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
+import { AdminAuthInitializer } from "@/components/admin/AdminAuthInitializer";
 import { AUTH_COOKIE_NAME } from "@/lib/auth/constants";
 
 export default async function AdminLayout({
@@ -19,6 +20,7 @@ export default async function AdminLayout({
 
   return (
     <div className="flex h-screen overflow-hidden">
+      <AdminAuthInitializer />
       <AdminSidebar />
       <div className="flex flex-1 flex-col overflow-hidden">
         <AdminTopBar />

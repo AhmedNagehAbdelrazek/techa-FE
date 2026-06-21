@@ -1,37 +1,31 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import { LogOut, User } from "lucide-react";
+import { User, LogOut } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { request } from "@/lib/api/Request";
-
-interface AdminUser {
-  name: string;
-  email: string;
-  role: string;
-}
+import { useAdminStore } from "@/lib/stores/admin.store";
 
 export function AdminTopBar() {
-  const [admin, setAdmin] = useState<AdminUser | null>(null);
+  const router = useRouter();
+  const { admin, logout } = useAdminStore();
 
-  useEffect(() => {
-    request
-      .get<AdminUser>("/api/admin/auth/me")
-      .then((data) => setAdmin(data))
-      .catch(() => {});
-  }, []);
+  function handleLogout() {
+    logout();
+    router.push("/admin/login");
+  }
 
   return (
     <header className="flex h-14 items-center justify-between border-b bg-background px-6">
-      <div>{/* Breadcrumbs rendered separately in layout */}</div>
+      <div />
       <div className="flex items-center gap-3">
         {admin && (
           <>
             <div className="text-right">
               <p className="text-sm font-medium">{admin.name}</p>
-              <p className="text-xs text-muted-foreground capitalize">{admin.role}</p>
+              <p className="text-xs text-muted-foreground capitalize">
+                {admin.role}
+              </p>
             </div>
             <Avatar className="size-8">
               <AvatarFallback>
@@ -40,11 +34,13 @@ export function AdminTopBar() {
             </Avatar>
           </>
         )}
-        <Button variant="ghost" size="icon" asChild>
-          <Link href="/admin/logout">
-            <LogOut className="size-4" />
-            <span className="sr-only">Logout</span>
-          </Link>
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={handleLogout}
+          aria-label="Logout"
+        >
+          <LogOut className="size-4" />
         </Button>
       </div>
     </header>

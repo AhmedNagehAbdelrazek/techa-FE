@@ -57,12 +57,20 @@ If none of these apply, do not add the dependency. Ask first.
 
 ### Implementation Order
 
-1. Create `src/lib/api/admin.ts` — API wrappers: `getOrderStats(period)`, `getRecentOrders()`
-2. Create `src/components/admin/DashboardMetricCard.tsx` — Metric card with icon, value, change %, skeleton
-3. Create `src/components/admin/DashboardDonutChart.tsx` — Donut chart via recharts PieChart with skeleton
-4. Create `src/components/admin/DashboardRecentOrders.tsx` — Recent orders table with status badge, skeleton, error, empty
-5. Create `src/app/(admin)/page.tsx` — Dashboard page: period selector, orchestrates all sections, React Query
-6. Verify: build passes with `pnpm run build`
+1. Route restructure: `admin/(protected)/` for auth-guarded pages, `admin/login/` standalone
+2. Create `src/lib/api/admin-token.ts` — localStorage key `admin_access_token` (separate from customer)
+3. Create `src/lib/api/interceptors/admin-auth.interceptor.ts` — attaches admin Bearer token
+4. Create `src/lib/api/AdminRequest.ts` — separate axios instance for admin APIs
+5. Create `src/lib/stores/admin.store.ts` — Zustand store: `admin`, `isAuthenticated`, `setAdmin`, `logout`
+6. Create `src/components/admin/AdminAuthInitializer.tsx` — fetches profile on mount, populates store
+7. Create `src/lib/api/admin.ts` — API wrappers using `adminRequest`: `adminLogin`, `getAdminProfile`, `adminLogout`, `getOrderStats`, `getRecentOrders`
+8. Create `src/app/admin/login/page.tsx` — standalone login page, saves token to admin store + localStorage + cookie
+9. Create `src/components/admin/DashboardMetricCard.tsx` — Metric card with icon, value, change %, skeleton
+10. Create `src/components/admin/DashboardDonutChart.tsx` — Donut chart via recharts PieChart with skeleton
+11. Create `src/components/admin/DashboardRecentOrders.tsx` — Recent orders table with status badge, skeleton, error, empty
+12. Create `src/app/admin/(protected)/page.tsx` — Dashboard page: period selector, orchestrates all sections, React Query
+13. Update `AdminTopBar` — read from admin store, use store logout
+14. Verify: build passes with `pnpm run build`
 
 ### Critical Patterns (enforced)
 
@@ -72,7 +80,8 @@ If none of these apply, do not add the dependency. Ask first.
 - **Independent sections**: Each section has its own `useQuery` — failure in one does not block others
 - **Skeleton pattern**: Each section component exports a corresponding `*Skeleton` (follows existing codebase convention)
 - **Error/empty states**: Use existing `ErrorState` / `EmptyState` components from `src/components/ui/`
-- **API wrappers**: Use `request.get()` from `src/lib/api/Request.ts` — match actual API response shapes (stats top-level, orders in `{ data }`)
+- **Admin API client**: `adminRequest` from `AdminRequest.ts` — separate axios instance with admin token (localStorage key `admin_access_token`). All admin API wrappers use this, never `request` from `Request.ts`.
+- **Admin store**: `useAdminStore` caches admin profile globally. `AdminAuthInitializer` fetches on mount if store is empty.
 - **Metric formatting**: Use `Intl.NumberFormat("en", { notation: "compact" })` for values > 9999
 - **Donut chart colors**: Fixed palette per status (pending=amber, confirmed=blue, processing=purple, shipped=cyan, delivered=green, cancelled=red, refunded=gray)
 - **No new types across projects**: Types defined inline or in data-model.md
