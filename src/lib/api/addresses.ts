@@ -23,7 +23,7 @@ export async function updateAddress(id: string, data: UpdateAddressRequest): Pro
 }
 
 export async function setDefaultAddress(id: string): Promise<Address> {
-  return request.patch<Address>(`/api/addresses/${id}/set-default`);
+  return request.put<Address>(`/api/addresses/${id}/default`);
 }
 
 export async function deleteAddress(id: string): Promise<void> {

@@ -57,19 +57,9 @@ export function Header() {
        
 
         <div className="flex items-center gap-4">
-          <form onSubmit={handleSearch} className="hidden max-w-md flex-1 md:flex">
-            <div className="relative w-full">
-              <Search className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2" />
-              <Input
-                placeholder="Search products..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-9"
-              />
-            </div>
-          </form>
+          
 
-          <div className="mr-auto flex items-center gap-2 md:mr-0">
+          <div className="mr-auto flex items-center flex-row-reverse gap-2 md:mr-0">
             <Link
               href="/wishlist"
               className="hover:bg-accent relative rounded-md p-2"
@@ -153,6 +143,17 @@ export function Header() {
               </div>
             )}
           </div>
+          <form onSubmit={handleSearch} className="hidden max-w-md flex-1 md:flex">
+            <div className="relative w-full">
+              <Search className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2" />
+              <Input
+                placeholder="Search products..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-9"
+              />
+            </div>
+          </form>
         </div>
          <div>
           <MobileNav />

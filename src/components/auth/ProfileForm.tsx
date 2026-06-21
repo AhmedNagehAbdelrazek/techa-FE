@@ -1,15 +1,18 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { toast } from "sonner";
+import { Camera, Loader2 } from "lucide-react";
 import { Button } from "@/components/forms/Button";
 import { Input } from "@/components/forms/Input";
 import { FormField } from "@/components/forms/FormField";
 import { getMe, updateMe } from "@/lib/api/auth";
+import { uploadFile } from "@/lib/api/payments";
 import { useAuthStore } from "@/lib/stores/auth.store";
+import { cn } from "@/lib/utils";
 
 const profileSchema = z.object({
   full_name: z
@@ -26,6 +29,11 @@ export function ProfileForm() {
   const setUser = useAuthStore((state) => state.setUser);
   const [isLoadingProfile, setIsLoadingProfile] = useState(!storeUser);
   const [isSaving, setIsSaving] = useState(false);
+  const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(
+    storeUser?.avatarUrl ?? null,
+  );
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const {
     register,
@@ -42,6 +50,7 @@ export function ProfileForm() {
         full_name: storeUser.name,
         phone: storeUser.phone,
       });
+      setAvatarPreview(storeUser.avatarUrl);
       setIsLoadingProfile(false);
       return;
     }
@@ -54,6 +63,7 @@ export function ProfileForm() {
           full_name: user.name,
           phone: user.phone,
         });
+        setAvatarPreview(user.avatarUrl);
       } catch {
         toast.error("Failed to load profile. Please try again.");
       } finally {
@@ -63,6 +73,42 @@ export function ProfileForm() {
 
     fetchProfile();
   }, [storeUser, setUser, reset]);
+
+  async function handleAvatarChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const maxSize = 20 * 1024 * 1024;
+    if (file.size > maxSize) {
+      toast.error("File size must be less than 20MB");
+      return;
+    }
+
+    const allowedTypes = ["image/jpeg", "image/png", "image/webp", "image/gif"];
+    if (!allowedTypes.includes(file.type)) {
+      toast.error("Only JPEG, PNG, WebP, and GIF files are accepted");
+      return;
+    }
+
+    setIsUploadingAvatar(true);
+
+    try {
+      const { url } = await uploadFile(file);
+      setAvatarPreview(url);
+
+      const response = await updateMe({ avatar_url: url });
+      setUser(response.user);
+      toast.success("Avatar updated successfully!");
+    } catch {
+      setAvatarPreview(storeUser?.avatarUrl ?? null);
+      toast.error("Failed to upload avatar. Please try again.");
+    } finally {
+      setIsUploadingAvatar(false);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+    }
+  }
 
   async function onSubmit(data: ProfileFormData) {
     setIsSaving(true);
@@ -91,6 +137,48 @@ export function ProfileForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <div className="flex justify-center mb-6">
+        <div className="relative">
+          <div
+            className={cn(
+              "size-20 rounded-full overflow-hidden bg-muted flex items-center justify-center",
+              isUploadingAvatar && "opacity-50",
+            )}
+          >
+            {avatarPreview ? (
+              <img
+                src={avatarPreview}
+                alt="Your avatar"
+                className="size-full object-cover"
+              />
+            ) : (
+              <Camera className="size-8 text-muted-foreground" />
+            )}
+          </div>
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            disabled={isUploadingAvatar}
+            className="absolute bottom-0 right-0 size-7 rounded-full bg-primary text-primary-foreground flex items-center justify-center hover:bg-primary/90 transition-colors disabled:opacity-50"
+            aria-label="Upload avatar"
+          >
+            {isUploadingAvatar ? (
+              <Loader2 className="size-4 animate-spin" />
+            ) : (
+              <Camera className="size-4" />
+            )}
+          </button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/jpeg,image/png,image/webp,image/gif"
+            className="hidden"
+            onChange={handleAvatarChange}
+            aria-label="Choose avatar file"
+          />
+        </div>
+      </div>
+
       <FormField label="Full Name" error={errors.full_name?.message} required>
         <Input
           {...register("full_name")}

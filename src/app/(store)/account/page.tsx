@@ -1,6 +1,5 @@
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
-import { ProfileForm } from "@/components/auth/ProfileForm";
-import { LogoutButton } from "@/components/auth/LogoutButton";
+import { AccountPageContent } from "./AccountPageContent";
 
 export default function AccountPage() {
   return (
@@ -10,13 +9,10 @@ export default function AccountPage() {
           <div className="space-y-2">
             <h1 className="text-2xl font-bold">My Account</h1>
             <p className="text-sm text-muted-foreground">
-              View and edit your profile information
+              Manage your profile and addresses
             </p>
           </div>
-          <ProfileForm />
-          <div className="border-t pt-6">
-            <LogoutButton />
-          </div>
+          <AccountPageContent />
         </div>
       </div>
     </ProtectedRoute>
