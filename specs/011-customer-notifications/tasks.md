@@ -40,8 +40,8 @@ No setup tasks required — project infrastructure is already in place (Next.js 
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T001 Create notification types (`Notification`, `NotificationsListResponse`, `NotificationsQueryParams`, `Meta` with `unread_count`) in `src/lib/types/notification.ts`
-- [ ] T002 [P] Create notification API wrapper (`getNotifications`, `markAsRead`, `markAllAsRead`) in `src/lib/api/notifications.ts`
+- [x] T001 Create notification types (`Notification`, `NotificationsListResponse`, `NotificationsQueryParams`, `Meta` with `unread_count`) in `src/lib/types/notification.ts`
+- [x] T002 [P] Create notification API wrapper (`getNotifications`, `markAsRead`, `markAllAsRead`) in `src/lib/api/notifications.ts`
 
 **Checkpoint**: Foundation ready — user story implementation can now begin in parallel
 
@@ -55,9 +55,9 @@ No setup tasks required — project infrastructure is already in place (Next.js 
 
 ### Implementation for User Story 1
 
-- [ ] T003 [P] [US1] Create `NotificationBell` component (bell icon + unread badge) in `src/components/store/NotificationBell.tsx`
-- [ ] T004 [US1] Create `NotificationDropdown` component (custom positioned panel with 5 most recent notifications, title, message preview, relative timestamp, read/unread indicator, "View all" link) in `src/components/store/NotificationDropdown.tsx`
-- [ ] T005 [US1] Integrate `NotificationBell` into header navigation in `src/components/layout/Header.tsx`
+- [x] T003 [P] [US1] Create `NotificationBell` component (bell icon + unread badge) in `src/components/store/NotificationBell.tsx`
+- [x] T004 [US1] Create `NotificationDropdown` component (custom positioned panel with 5 most recent notifications, title, message preview, relative timestamp, read/unread indicator, "View all" link) in `src/components/store/NotificationDropdown.tsx`
+- [x] T005 [US1] Integrate `NotificationBell` into header navigation in `src/components/layout/Header.tsx`
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently.
 
@@ -71,8 +71,8 @@ No setup tasks required — project infrastructure is already in place (Next.js 
 
 ### Implementation for User Story 2
 
-- [ ] T006 [P] [US2] Create `NotificationList` component (full paginated list with loading, error, empty states) in `src/components/store/NotificationList.tsx`
-- [ ] T007 [US2] Create notifications page with `ProtectedRoute`, pagination controls, and Mark all as read button in `src/app/(store)/notifications/page.tsx`
+- [x] T006 [P] [US2] Create `NotificationList` component (full paginated list with loading, error, empty states) in `src/components/store/NotificationList.tsx`
+- [x] T007 [US2] Create notifications page with `ProtectedRoute`, pagination controls, and Mark all as read button in `src/app/(store)/notifications/page.tsx`
 
 **Checkpoint**: Both user stories should now be independently functional.
 
@@ -82,9 +82,9 @@ No setup tasks required — project infrastructure is already in place (Next.js 
 
 **Purpose**: Improvements that affect multiple user stories.
 
-- [ ] T008 [P] Run accessibility audit on all notification components — verify WCAG 2.1 Level AA compliance (aria labels, keyboard nav, focus management, screen reader announcements)
-- [ ] T009 [P] Verify RTL layout for notification dropdown and notifications page (Arabic-first positioning)
-- [ ] T010 Run `npm run build` to verify production build passes with no errors
+- [x] T008 [P] Run accessibility audit on all notification components — verify WCAG 2.1 Level AA compliance (aria labels, keyboard nav, focus management, screen reader announcements)
+- [x] T009 [P] Verify RTL layout for notification dropdown and notifications page (Arabic-first positioning)
+- [x] T010 Run `npm run build` to verify production build passes with no errors
 
 ---
 
