@@ -16,6 +16,9 @@
 - Q: Is CSV export required for the orders list? → A: Not required for this phase. Deferred.
 - Q: What is the order status lifecycle? → A: `pending → confirmed → processing → shipped → delivered`. Cancellation and refund are supported from most states (back-end managed). The "Update Status" modal should show only valid forward transitions.
 - Q: Should the `/admin/payments` page redirect back to the previous page after approve/reject? → A: Yes. After action, refresh the list (invalidate React Query) and show a success toast.
+- Q: Should the admin order detail page include separate Cancel or Refund buttons? → A: No — deferred. Customer self-service cancel already exists (Phase 9), refund has its own dedicated phase (Phase 23). This phase only covers forward lifecycle transitions (pending → confirmed → processing → shipped → delivered) via the status update modal.
+- Q: Is payment approve/reject gated by `payments.manage` or `orders.update`? → A: `orders.update` — payment review is part of order processing, not a separate domain. No backend schema change needed.
+- Q: Should the orders data table support column sorting? → A: Yes — clicking column headers (date, total, order number) toggles ASC/DESC sort. Requires `?sort=field:dir` query param support from the backend.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -86,7 +89,7 @@ An admin visits `/admin/payments` and sees a dedicated queue of payments awaitin
 
 ### Functional Requirements
 
-- **FR-001**: System MUST display a paginated order data table with columns: order number, customer, total, payment method, payment status, order status, date, and actions (View button)
+- **FR-001**: System MUST display a paginated, sortable order data table with columns: order number, customer, total, payment method, payment status, order status, date, and actions (View button). Column headers for date, total, and order number MUST support click-to-sort (ASC/DESC toggle).
 - **FR-002**: Admin MUST be able to filter orders by order status using a dropdown selector
 - **FR-003**: Admin MUST be able to filter orders by payment status using a dropdown selector
 - **FR-004**: Admin MUST be able to search orders by order number or customer email with debounced input (300ms)
@@ -94,9 +97,9 @@ An admin visits `/admin/payments` and sees a dedicated queue of payments awaitin
 - **FR-006**: Admin MUST be able to click "View" on an order row to navigate to the order detail page (`/admin/orders/:id`)
 - **FR-007**: System MUST display the order detail page with these sections: customer info card, items table, status timeline, payment info card, delivery address card
 - **FR-008**: System MUST display the status timeline from `status_history` entries in chronological order showing: from_status, to_status, changed_by, changed_at
-- **FR-009**: Admin MUST be able to open an "Update Status" modal from the order detail page showing the current status and valid next statuses as radio options
+- **FR-009**: Admin MUST be able to open an "Update Status" modal from the order detail page showing the current status and valid forward lifecycle transitions (pending → confirmed → processing → shipped → delivered) as radio options. Cancel and refund transitions are excluded from this modal.
 - **FR-010**: Admin MUST be able to confirm a status update, after which the timeline updates without a full page reload
-- **FR-011**: System MUST show Approve/Reject buttons on the payment info card when the payment method is "instapay" or "vodafone_cash" and the payment status is "pending"
+- **FR-011**: System MUST show Approve/Reject buttons on the payment info card when the payment method is "instapay" or "vodafone_cash", the payment status is "pending", AND the admin has `orders.update` permission
 - **FR-012**: Admin MUST be able to enlarge the payment proof screenshot by clicking the thumbnail to open a Dialog
 - **FR-013**: System MUST display a dedicated `/admin/payments` page listing all pending payments with: order number, customer name, method, amount, proof reference, screenshot thumbnail, submitted date
 - **FR-014**: Admin MUST be able to approve a payment via a confirmation AlertDialog, calling `PUT /api/admin/payments/:id/approve`
@@ -109,7 +112,7 @@ An admin visits `/admin/payments` and sees a dedicated queue of payments awaitin
 - **FR-021**: System MUST show an empty state when no pending payments exist with an "All caught up!" message
 - **FR-022**: System MUST invalidate and refetch relevant React Query data after any payment approval/rejection action across both `/admin/orders/:id` and `/admin/payments`
 - **FR-023**: Admin dashboard metric card "Payments Awaiting Review" (from `pending_payments` in stats) MUST link to `/admin/payments`
-- **FR-024**: System MUST conditionally show/hide order management UI elements based on the admin's permissions — `orders.read` for page access, `orders.update` for status update button (follow the same permission pattern from Phase 14 appendix)
+- **FR-024**: System MUST conditionally show/hide order management UI elements based on the admin's permissions — `orders.read` for page access, `orders.update` for status update button and payment approve/reject actions (follow the same permission pattern from Phase 14 appendix)
 
 ### Key Entities
 
@@ -125,7 +128,7 @@ An admin visits `/admin/payments` and sees a dedicated queue of payments awaitin
 
 | Method | Endpoint | Description | Query/Body |
 |--------|----------|-------------|------------|
-| GET | `/api/admin/orders` | List all orders (paginated) | `?status=&payment_status=&page=1&limit=20` |
+| GET | `/api/admin/orders` | List all orders (paginated, sortable) | `?status=&payment_status=&page=1&limit=20&sort=created_at:desc` |
 | GET | `/api/admin/orders/:id` | Get order detail with items, history, customer, payments | — |
 | PUT | `/api/admin/orders/:id/status` | Update order status | Body: `{ "status": "confirmed" }` |
 | GET | `/api/admin/orders/stats` | Order statistics (already exists) | `?period=7d` |
@@ -318,6 +321,7 @@ Same shape as Order Detail Response, with updated `status` and an additional `st
 - Refund processing UI — covered in Phase 23 (Returns & Refunds)
 - Customer profile page from the admin panel — covered in Phase 22
 - Real-time order updates via WebSocket/Socket.IO — deferred
+- Admin-initiated order cancellation — deferred (customer self-service exists in Phase 9)
 
 ## Assumptions
 
