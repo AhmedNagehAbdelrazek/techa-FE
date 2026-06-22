@@ -138,13 +138,7 @@ export function ProductFormVariants() {
               </Button>
             </div>
 
-            {variant.id && (
-              <input type="hidden" {...control.register(`variants.${index}.id`)} />
-            )}
-            {variant.version !== undefined && (
-              <input type="hidden" {...control.register(`variants.${index}.version`)} />
-            )}
-            <input type="hidden" {...control.register(`variants.${index}._destroy`)} />
+
 
             <div className="space-y-3">
               <div>
