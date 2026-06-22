@@ -10,17 +10,17 @@ import { Button } from "@/components/ui/button";
 
 export default function AdminLoginPage() {
   const router = useRouter();
-  const {setAdmin,admin,isAuthenticated} = useAdminStore();
+  const { setAdmin, admin, isAuthenticated,_hydrated } = useAdminStore();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  useEffect(()=>{
-    if(admin && isAuthenticated){
-      router.push("/admin");
+  useEffect(() => {
+    if (_hydrated && admin && isAuthenticated) {
+      router.replace("/admin");
     }
-  },[admin]);
+  }, [admin, isAuthenticated, router,_hydrated]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();

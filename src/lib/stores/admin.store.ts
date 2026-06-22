@@ -13,6 +13,7 @@ interface AdminUser {
 interface AdminState {
   admin: AdminUser | null;
   isAuthenticated: boolean;
+  _hydrated: boolean;
   setAdmin: (admin: AdminUser) => void;
   logout: () => void;
 }
@@ -22,6 +23,7 @@ export const useAdminStore = create<AdminState>()(
     (set) => ({
       admin: null,
       isAuthenticated: false,
+      _hydrated:false,
       setAdmin: (admin) => set({ admin, isAuthenticated: true }),
       logout: () => {
         clearAdminToken();
@@ -34,6 +36,14 @@ export const useAdminStore = create<AdminState>()(
         admin: state.admin,
         isAuthenticated: state.isAuthenticated,
       }),
+      onRehydrateStorage(state) {
+        console.log("onRehydrateStorage", state);
+        return (state, error) => {
+          if (state) {
+            state._hydrated = true;
+          }
+        };
+      },
     },
   ),
 );

@@ -206,10 +206,10 @@ export const adminProductsKeys = {
 // ─── API Wrappers ───────────────────────────────────────
 
 export function getProducts(params: AdminProductListParams): Promise<AdminProductListResponse> {
-  const clean = Object.fromEntries(
-    Object.entries(params).filter(([_, v]) => v !== undefined),
+  const clearParams = Object.fromEntries(
+    Object.entries(params).map(([k, v]) => [k, v === "" ? undefined : v]),
   );
-  return adminRequest.get<AdminProductListResponse>("/api/admin/products", { params: clean });
+  return adminRequest.get<AdminProductListResponse>("/api/admin/products", { params: clearParams });
 }
 
 export function getProduct(id: string): Promise<AdminProduct> {

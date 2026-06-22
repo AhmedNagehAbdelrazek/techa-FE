@@ -9,14 +9,15 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  const { admin, isAuthenticated } = useAdminStore((s) => s);
+  const { admin, isAuthenticated,_hydrated } = useAdminStore((s) => s);
   const router = useRouter();
 
   useEffect(() => {
-    if (!admin || !isAuthenticated) {
-      router.push("/admin/login");
+    if ((!admin || !isAuthenticated) && _hydrated) {
+      router.replace("/admin/login");
     }
-  }, [admin]);
+    
+  }, [admin, isAuthenticated, router ,_hydrated]);
 
   return (
     <div className="flex h-screen overflow-hidden">
