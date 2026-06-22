@@ -1,4 +1,7 @@
 import { adminRequest } from "./AdminRequest";
+import { getCategoryTree } from "./categories";
+import { getBrands } from "./brands";
+import type { Category } from "@/lib/types/category";
 
 // ─── Types ─────────────────────────────────────────────
 
@@ -171,14 +174,6 @@ export interface AdminProductListParams {
   sort?: string;
 }
 
-export interface CategoryListResponse {
-  data: AdminCategoryOption[];
-}
-
-export interface BrandListResponse {
-  data: AdminBrandOption[];
-}
-
 export interface TagListResponse {
   data: AdminTagOption[];
 }
@@ -211,7 +206,10 @@ export const adminProductsKeys = {
 // ─── API Wrappers ───────────────────────────────────────
 
 export function getProducts(params: AdminProductListParams): Promise<AdminProductListResponse> {
-  return adminRequest.get<AdminProductListResponse>("/api/admin/products", { params });
+  const clean = Object.fromEntries(
+    Object.entries(params).filter(([_, v]) => v !== undefined),
+  );
+  return adminRequest.get<AdminProductListResponse>("/api/admin/products", { params: clean });
 }
 
 export function getProduct(id: string): Promise<AdminProduct> {
@@ -234,21 +232,47 @@ export function bulkUpdateProducts(ids: string[], action: "activate" | "deactiva
   return adminRequest.post<void>("/api/admin/products/bulk", { ids, action } as BulkActionPayload);
 }
 
+function flattenCategories(categories: Category[]): AdminCategoryOption[] {
+  const result: AdminCategoryOption[] = [];
+  function walk(list: Category[], parentId: string | null) {
+    for (const cat of list) {
+      result.push({
+        id: cat.id,
+        name: cat.name,
+        slug: cat.slug,
+        parent_id: parentId,
+        image_url: cat.image_url,
+        sort_order: cat.sort_order,
+        is_active: cat.is_active,
+      });
+      if (cat.children.length > 0) {
+        walk(cat.children, cat.id);
+      }
+    }
+  }
+  walk(categories, null);
+  return result;
+}
+
 export function getCategoryOptions(): Promise<AdminCategoryOption[]> {
-  return adminRequest
-    .get<CategoryListResponse>("/api/admin/categories")
-    .then((res) => res.data);
+  return getCategoryTree().then(flattenCategories);
 }
 
 export function getBrandOptions(): Promise<AdminBrandOption[]> {
-  return adminRequest
-    .get<BrandListResponse>("/api/admin/brands")
-    .then((res) => res.data);
+  return getBrands().then((brands) =>
+    brands.map((b) => ({
+      id: b.id,
+      name: b.name,
+      slug: b.slug,
+      logo_url: b.logo_url,
+      is_active: true,
+    })),
+  );
 }
 
 export function getTagOptions(): Promise<AdminTagOption[]> {
   return adminRequest
-    .get<TagListResponse>("/api/admin/tags")
+    .get<TagListResponse>("/api/tags")
     .then((res) => res.data);
 }
 

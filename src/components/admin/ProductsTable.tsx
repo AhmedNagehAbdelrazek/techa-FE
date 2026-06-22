@@ -99,10 +99,10 @@ export function ProductsTable({ searchParams }: ProductsTableProps) {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
   const filters: AdminProductListParams = {
-    search: searchParams.search || undefined,
-    category_id: searchParams.category_id || undefined,
-    brand_id: searchParams.brand_id || undefined,
-    is_active: searchParams.is_active || undefined,
+    search: searchParams.search || "",
+    category_id: searchParams.category_id || "",
+    brand_id: searchParams.brand_id || "",
+    is_active: searchParams.is_active || "",
     page: searchParams.page ? Number(searchParams.page) : 1,
     limit: 20,
   };
@@ -152,7 +152,10 @@ export function ProductsTable({ searchParams }: ProductsTableProps) {
 
   const updateUrlParam = useCallback(
     (key: string, value: string | undefined) => {
-      const params = new URLSearchParams(searchParams as Record<string, string>);
+      const params = new URLSearchParams();
+      for (const [k, v] of Object.entries(searchParams)) {
+        if (v !== undefined) params.set(k, v);
+      }
       if (value && value !== "all") {
         params.set(key, value);
       } else {
@@ -165,16 +168,19 @@ export function ProductsTable({ searchParams }: ProductsTableProps) {
     [router, searchParams],
   );
 
+  const updateUrlParamRef = useRef(updateUrlParam);
+  updateUrlParamRef.current = updateUrlParam;
+
   const [searchInput, setSearchInput] = useState(searchParams.search || "");
   const debounceRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useEffect(() => {
     if (debounceRef.current) clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(() => {
-      updateUrlParam("search", searchInput || undefined);
+      updateUrlParamRef.current("search", searchInput || undefined);
     }, 300);
     return () => { if (debounceRef.current) clearTimeout(debounceRef.current); };
-  }, [searchInput, updateUrlParam]);
+  }, [searchInput]);
 
   useEffect(() => {
     setSelectedIds(new Set());
@@ -333,19 +339,19 @@ export function ProductsTable({ searchParams }: ProductsTableProps) {
         <div className="rounded-md border">
           <Table>
             <TableHeader>
-              <TableRow>
+              <TableRow className="text-right">
                 {canUpdate && (
                   <TableHead className="w-12">
                     <Checkbox checked={allSelected} onCheckedChange={toggleAll} />
                   </TableHead>
                 )}
                 <TableHead className="w-12" />
-                <TableHead>Name</TableHead>
-                <TableHead>Category</TableHead>
-                <TableHead>Brand</TableHead>
+                <TableHead className="text-right">Name</TableHead>
+                <TableHead className="text-right">Category</TableHead>
+                <TableHead className="text-right">Brand</TableHead>
                 <TableHead className="text-right">Price</TableHead>
                 <TableHead className="text-right">Stock</TableHead>
-                <TableHead>Status</TableHead>
+                <TableHead className="text-right">Status</TableHead>
                 {(canUpdate || canDelete) && <TableHead className="w-32" />}
               </TableRow>
             </TableHeader>
@@ -451,7 +457,7 @@ function ProductRow({
   return (
     <TableRow>
       {showCheckbox && (
-        <TableCell>
+        <TableCell className="text-left ">
           <Checkbox checked={selected} onCheckedChange={onToggle} />
         </TableCell>
       )}
@@ -475,8 +481,8 @@ function ProductRow({
       <TableCell className="text-muted-foreground">{product.brand?.name ?? "—"}</TableCell>
       <TableCell className="text-right">
         {product.discount_percent > 0 ? (
-          <div className="flex flex-col items-end">
-            <span className="text-xs text-muted-foreground line-through">
+          <div className="flex flex-col items-start justify-between">
+            <span className="text-xs text-muted-foreground line-through w-full text-left">
               {formatPrice(product.base_price)}
             </span>
             <span className="font-medium text-destructive">

@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { z } from "zod";
+import type { FieldErrors } from "react-hook-form";
 
 import {
   createProduct,
@@ -86,21 +87,29 @@ export function ProductForm({ product, mode }: ProductFormProps) {
   const defaultValues: ProductFormValues = {
     name: product?.name ?? "",
     slug: product?.slug ?? "",
-    category_id: product?.category_id ?? null,
-    brand_id: product?.brand_id ?? null,
+    category_id: product?.category_id ?? product?.category?.id ?? null,
+    brand_id: product?.brand_id ?? product?.brand?.id ?? null,
     description: product?.description ?? "",
     about_points: product?.about_points ?? [],
     base_price: product?.base_price ?? 0,
     discount_percent: product?.discount_percent ?? 0,
     is_featured: product?.is_featured ?? false,
     is_active: product?.is_active ?? true,
-    details_attributes: product?.attributes?.details ?? [],
-    specs_attributes: product?.attributes?.specs ?? [],
+    details_attributes:
+      product?.attributes?.details?.map((d) => ({
+        label: d.label ?? "",
+        value: d.value ?? "",
+      })) ?? [],
+    specs_attributes:
+      product?.attributes?.specs?.map((s) => ({
+        label: s.label ?? "",
+        value: s.value ?? "",
+      })) ?? [],
     images:
       product?.images?.map((img) => ({
         url: img.url,
-        alt_text: img.alt_text,
-        is_primary: img.is_primary,
+        alt_text: img.alt_text ?? "",
+        is_primary: img.is_primary ?? false,
         sort_order: img.sort_order,
       })) ?? [],
     tags: product?.tags?.map((t) => ({ id: t.id, name: t.name })) ?? [],
@@ -108,7 +117,10 @@ export function ProductForm({ product, mode }: ProductFormProps) {
       product?.variants?.map((v) => ({
         id: v.id,
         version: v.version,
-        options: v.options,
+        options: v.options.map((o) => ({
+          option_name: o.option_name ?? "",
+          option_value: o.option_value ?? "",
+        })),
         sku: v.sku,
         price: v.price,
         discount_percent: v.discount_percent,
@@ -250,9 +262,18 @@ export function ProductForm({ product, mode }: ProductFormProps) {
 
   const isPending = createMutation.isPending || updateMutation.isPending;
 
+  const onInvalid = useCallback((errors: FieldErrors<ProductFormValues>) => {
+    const first = Object.entries(errors)[0];
+    if (first) {
+      const [, fieldError] = first;
+      const msg = (fieldError as { message?: string })?.message ?? "Please fix the form errors before saving";
+      toast.error(msg);
+    }
+  }, []);
+
   return (
     <FormProvider {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form onSubmit={form.handleSubmit(onSubmit, onInvalid)}>
         <Tabs defaultValue="basic-info" className="w-full">
           <TabsList className="mb-6">
             <TabsTrigger value="basic-info">Basic Info</TabsTrigger>
