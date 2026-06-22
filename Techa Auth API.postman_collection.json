@@ -2346,7 +2346,7 @@
                   }
                 ],
                 "url": {
-                  "raw": "{{base_url}}/api/admin/orders?status=&payment_status=&page=1&limit=20",
+                  "raw": "{{base_url}}/api/admin/orders?page=1&limit=20",
                   "host": [
                     "{{base_url}}"
                   ],
@@ -2359,12 +2359,14 @@
                     {
                       "key": "status",
                       "value": "",
-                      "description": "Filter by status (pending, confirmed, processing, shipped, delivered, cancelled, refunded)"
+                      "description": "Filter by status (pending, confirmed, processing, shipped, delivered, cancelled, refunded)",
+                      "disabled": true
                     },
                     {
                       "key": "payment_status",
                       "value": "",
-                      "description": "Filter by payment status (pending, paid, failed, refunded)"
+                      "description": "Filter by payment status (pending, paid, failed, refunded)",
+                      "disabled": true
                     },
                     {
                       "key": "page",
@@ -2386,20 +2388,32 @@
                     "header": [
                       {
                         "key": "Authorization",
-                        "value": "Bearer {{auth_token}}",
-                        "type": "text"
+                        "value": "Bearer {{admin_token}}"
                       }
                     ],
                     "url": {
-                      "raw": "{{base_url}}/api/orders?page=1&limit=20",
+                      "raw": "{{base_url}}/api/admin/orders?page=1&limit=20",
                       "host": [
                         "{{base_url}}"
                       ],
                       "path": [
                         "api",
+                        "admin",
                         "orders"
                       ],
                       "query": [
+                        {
+                          "key": "status",
+                          "value": "",
+                          "description": "Filter by status (pending, confirmed, processing, shipped, delivered, cancelled, refunded)",
+                          "disabled": true
+                        },
+                        {
+                          "key": "payment_status",
+                          "value": "",
+                          "description": "Filter by payment status (pending, paid, failed, refunded)",
+                          "disabled": true
+                        },
                         {
                           "key": "page",
                           "value": "1"
@@ -2413,15 +2427,87 @@
                   },
                   "status": "OK",
                   "code": 200,
-                  "_postman_previewlanguage": "Text",
+                  "_postman_previewlanguage": null,
                   "header": [
                     {
+                      "key": "Access-Control-Allow-Origin",
+                      "value": "*"
+                    },
+                    {
+                      "key": "Content-Security-Policy",
+                      "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                    },
+                    {
+                      "key": "Cross-Origin-Opener-Policy",
+                      "value": "same-origin"
+                    },
+                    {
+                      "key": "Cross-Origin-Resource-Policy",
+                      "value": "same-origin"
+                    },
+                    {
+                      "key": "Origin-Agent-Cluster",
+                      "value": "?1"
+                    },
+                    {
+                      "key": "Referrer-Policy",
+                      "value": "no-referrer"
+                    },
+                    {
+                      "key": "Strict-Transport-Security",
+                      "value": "max-age=15552000; includeSubDomains"
+                    },
+                    {
+                      "key": "X-Content-Type-Options",
+                      "value": "nosniff"
+                    },
+                    {
+                      "key": "X-DNS-Prefetch-Control",
+                      "value": "off"
+                    },
+                    {
+                      "key": "X-Download-Options",
+                      "value": "noopen"
+                    },
+                    {
+                      "key": "X-Frame-Options",
+                      "value": "SAMEORIGIN"
+                    },
+                    {
+                      "key": "X-Permitted-Cross-Domain-Policies",
+                      "value": "none"
+                    },
+                    {
+                      "key": "X-XSS-Protection",
+                      "value": "0"
+                    },
+                    {
                       "key": "Content-Type",
-                      "value": "application/json"
+                      "value": "application/json; charset=utf-8"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "2095"
+                    },
+                    {
+                      "key": "ETag",
+                      "value": "W/\"82f-nxCWzUtWO2HbfBgghhAqeq1m0Cc\""
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Mon, 22 Jun 2026 21:35:01 GMT"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "keep-alive"
+                    },
+                    {
+                      "key": "Keep-Alive",
+                      "value": "timeout=5"
                     }
                   ],
                   "cookie": [],
-                  "body": "{\n  \"data\": [\n    {\n      \"id\": \"order-uuid\",\n      \"order_number\": \"ORD-001\",\n      \"status\": \"pending\",\n      \"payment_method\": \"cash_on_delivery\",\n      \"payment_status\": \"pending\",\n      \"total\": 164.98,\n      \"item_count\": 2,\n      \"created_at\": \"2026-06-01T10:00:00.000Z\"\n    }\n  ],\n  \"meta\": {\n    \"page\": 1,\n    \"limit\": 20,\n    \"total\": 1,\n    \"totalPages\": 1\n  }\n}"
+                  "body": "{\n    \"data\": [\n        {\n            \"id\": \"064438bc-3c31-45c2-97f5-9059c8eb01f5\",\n            \"order_number\": \"ORD-20260621-0001\",\n            \"customer\": {\n                \"id\": \"774e4125-da18-4742-b1e2-6f4f6339662d\",\n                \"full_name\": \"Ahmed Ali\",\n                \"email\": \"ahmed@example.com\"\n            },\n            \"status\": \"confirmed\",\n            \"payment_method\": \"cash_on_delivery\",\n            \"payment_status\": \"pending\",\n            \"total\": 1499,\n            \"item_count\": 1,\n            \"createdat\": \"2026-06-21T20:04:25.812Z\"\n        },\n        {\n            \"id\": \"d941e53e-29f4-4e5e-b305-cd2fb1c4ca73\",\n            \"order_number\": \"ORD-20260619-0004\",\n            \"customer\": {\n                \"id\": \"e1064793-063a-487d-b387-1e0dce090485\",\n                \"full_name\": \"Tamer Samir\",\n                \"email\": \"tamer@example.com\"\n            },\n            \"status\": \"shipped\",\n            \"payment_method\": \"vodafone_cash\",\n            \"payment_status\": \"paid\",\n            \"total\": 619,\n            \"item_count\": 1,\n            \"createdat\": \"2026-06-21T13:31:16.640Z\"\n        },\n        {\n            \"id\": \"028647f4-c5b2-4b11-acee-799165e07407\",\n            \"order_number\": \"ORD-20260619-0005\",\n            \"customer\": {\n                \"id\": \"3aa69e61-5451-476a-8b07-43401c24f644\",\n                \"full_name\": \"Laila Ibrahim\",\n                \"email\": \"laila@example.com\"\n            },\n            \"status\": \"cancelled\",\n            \"payment_method\": \"cash_on_delivery\",\n            \"payment_status\": \"pending\",\n            \"total\": 419,\n            \"item_count\": 1,\n            \"createdat\": \"2026-06-21T13:31:16.640Z\"\n        },\n        {\n            \"id\": \"73f68bfd-f3bc-4a3e-96dc-83404e582e5e\",\n            \"order_number\": \"ORD-20260619-0001\",\n            \"customer\": {\n                \"id\": \"774e4125-da18-4742-b1e2-6f4f6339662d\",\n                \"full_name\": \"Ahmed Ali\",\n                \"email\": \"ahmed@example.com\"\n            },\n            \"status\": \"delivered\",\n            \"payment_method\": \"cash_on_delivery\",\n            \"payment_status\": \"paid\",\n            \"total\": 16049,\n            \"item_count\": 1,\n            \"createdat\": \"2026-06-21T13:31:16.639Z\"\n        },\n        {\n            \"id\": \"5d512302-63e3-44d8-bb39-636e01bfa449\",\n            \"order_number\": \"ORD-20260619-0002\",\n            \"customer\": {\n                \"id\": \"231e4283-e90c-432e-b72f-0d62165d04b4\",\n                \"full_name\": \"Mona Hassan\",\n                \"email\": \"mona@example.com\"\n            },\n            \"status\": \"processing\",\n            \"payment_method\": \"instapay\",\n            \"payment_status\": \"paid\",\n            \"total\": 3029,\n            \"item_count\": 1,\n            \"createdat\": \"2026-06-21T13:31:16.639Z\"\n        },\n        {\n            \"id\": \"eaea3311-5596-4813-ae73-ee41a7e01def\",\n            \"order_number\": \"ORD-20260619-0003\",\n            \"customer\": {\n                \"id\": \"e8bef8e7-bd04-4e10-b267-f9b992b25c6b\",\n                \"full_name\": \"Khaled Omar\",\n                \"email\": \"khaled@example.com\"\n            },\n            \"status\": \"confirmed\",\n            \"payment_method\": \"cash_on_delivery\",\n            \"payment_status\": \"paid\",\n            \"total\": 1229,\n            \"item_count\": 1,\n            \"createdat\": \"2026-06-21T13:31:16.639Z\"\n        }\n    ],\n    \"meta\": {\n        \"page\": 1,\n        \"limit\": 20,\n        \"total\": 6,\n        \"totalPages\": 1\n    }\n}"
                 }
               ]
             },
@@ -2463,8 +2549,7 @@
                     "header": [
                       {
                         "key": "Authorization",
-                        "value": "Bearer {{admin_token}}",
-                        "type": "text"
+                        "value": "Bearer {{admin_token}}"
                       }
                     ],
                     "url": {
@@ -2480,22 +2565,95 @@
                       ],
                       "variable": [
                         {
-                          "key": "id"
+                          "key": "id",
+                          "value": "{{order_id}}"
                         }
                       ]
                     }
                   },
                   "status": "OK",
                   "code": 200,
-                  "_postman_previewlanguage": "Text",
+                  "_postman_previewlanguage": null,
                   "header": [
                     {
+                      "key": "Access-Control-Allow-Origin",
+                      "value": "*"
+                    },
+                    {
+                      "key": "Content-Security-Policy",
+                      "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                    },
+                    {
+                      "key": "Cross-Origin-Opener-Policy",
+                      "value": "same-origin"
+                    },
+                    {
+                      "key": "Cross-Origin-Resource-Policy",
+                      "value": "same-origin"
+                    },
+                    {
+                      "key": "Origin-Agent-Cluster",
+                      "value": "?1"
+                    },
+                    {
+                      "key": "Referrer-Policy",
+                      "value": "no-referrer"
+                    },
+                    {
+                      "key": "Strict-Transport-Security",
+                      "value": "max-age=15552000; includeSubDomains"
+                    },
+                    {
+                      "key": "X-Content-Type-Options",
+                      "value": "nosniff"
+                    },
+                    {
+                      "key": "X-DNS-Prefetch-Control",
+                      "value": "off"
+                    },
+                    {
+                      "key": "X-Download-Options",
+                      "value": "noopen"
+                    },
+                    {
+                      "key": "X-Frame-Options",
+                      "value": "SAMEORIGIN"
+                    },
+                    {
+                      "key": "X-Permitted-Cross-Domain-Policies",
+                      "value": "none"
+                    },
+                    {
+                      "key": "X-XSS-Protection",
+                      "value": "0"
+                    },
+                    {
                       "key": "Content-Type",
-                      "value": "application/json"
+                      "value": "application/json; charset=utf-8"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "1279"
+                    },
+                    {
+                      "key": "ETag",
+                      "value": "W/\"4ff-7QoqqqZaFUror7nv/yyxVFdLdhw\""
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Mon, 22 Jun 2026 21:35:59 GMT"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "keep-alive"
+                    },
+                    {
+                      "key": "Keep-Alive",
+                      "value": "timeout=5"
                     }
                   ],
                   "cookie": [],
-                  "body": "{\n  \"id\": \"uuid\",\n  \"order_number\": \"ORD-001\",\n  \"status\": \"pending\",\n  \"payment_method\": \"cash_on_delivery\",\n  \"payment_status\": \"pending\",\n  \"subtotal\": 150,\n  \"discount\": 0,\n  \"shipping_charge\": 65,\n  \"total\": 215,\n  \"coupon\": null,\n  \"shipping_address\": {\n    \"id\": \"addr-uuid\",\n    \"full_name\": \"Ahmed Ali\",\n    \"phone\": \"+966501234567\",\n    \"street\": \"123 Main St\",\n    \"city\": \"Cairo\",\n    \"state\": \"\",\n    \"zip_code\": \"\",\n    \"country\": \"Egypt\",\n    \"zone_id\": \"zone-uuid\"\n  },\n  \"notes\": \"\",\n  \"items\": [\n    {\n      \"id\": \"item-uuid\",\n      \"product_id\": \"prod-uuid\",\n      \"product_name\": \"Product Name\",\n      \"variant_id\": null,\n      \"variant_label\": null,\n      \"qty\": 2,\n      \"unit_price\": 50,\n      \"total_price\": 100\n    }\n  ],\n  \"status_history\": [\n    {\n      \"from_status\": null,\n      \"to_status\": \"pending\",\n      \"changed_by\": null,\n      \"changed_at\": \"2026-06-01T10:00:00.000Z\"\n    }\n  ],\n  \"created_at\": \"2026-06-01T10:00:00.000Z\",\n  \"updated_at\": \"2026-06-01T10:00:00.000Z\",\n  \"customer\": {\n    \"id\": \"user-uuid\",\n    \"full_name\": \"Ahmed Ali\",\n    \"email\": \"ahmed@example.com\",\n    \"phone\": \"+966501234567\"\n  },\n  \"payments\": []\n}"
+                  "body": "{\n    \"id\": \"064438bc-3c31-45c2-97f5-9059c8eb01f5\",\n    \"order_number\": \"ORD-20260621-0001\",\n    \"status\": \"confirmed\",\n    \"payment_method\": \"cash_on_delivery\",\n    \"payment_status\": \"pending\",\n    \"subtotal\": 1499,\n    \"discount\": 0,\n    \"shipping_charge\": 0,\n    \"total\": 1499,\n    \"coupon\": null,\n    \"shipping_address\": {\n        \"id\": \"0f25fe2b-9231-4b87-ad55-9dd3a1f7f8cf\",\n        \"full_name\": \"Home\",\n        \"phone\": \"01000000001\",\n        \"street\": \"\",\n        \"city\": \"Cairo\",\n        \"zone_id\": \"64272cf6-cb19-4d69-9a9f-dd2eb571ceca\"\n    },\n    \"notes\": null,\n    \"items\": [\n        {\n            \"id\": \"640db8cb-c740-46a4-b4aa-05b308bc04a3\",\n            \"product_id\": \"b2de9350-e7c7-43ef-a4d8-27ace304c36e\",\n            \"product_name\": \"Floral Summer Dress\",\n            \"product_slug\": \"floral-summer-dress\",\n            \"variant_id\": \"65ae8f12-d47b-4a07-8b40-a18ecb754052\",\n            \"variant_label\": \"DRS-FLORAL-S\",\n            \"qty\": 1,\n            \"unit_price\": 1499,\n            \"total_price\": 1499\n        }\n    ],\n    \"status_history\": [\n        {\n            \"from_status\": null,\n            \"to_status\": \"pending\",\n            \"changed_by\": \"774e4125-da18-4742-b1e2-6f4f6339662d\",\n            \"changed_at\": \"2026-06-21T20:04:25.841Z\"\n        },\n        {\n            \"from_status\": \"pending\",\n            \"to_status\": \"confirmed\",\n            \"changed_by\": \"f77be10b-687d-449f-90e6-b46d232b3001\",\n            \"changed_at\": \"2026-06-21T20:05:51.148Z\"\n        }\n    ],\n    \"payment\": null,\n    \"createdat\": \"2026-06-21T20:04:25.812Z\",\n    \"updatedat\": \"2026-06-21T20:05:51.146Z\",\n    \"customer\": {\n        \"id\": \"774e4125-da18-4742-b1e2-6f4f6339662d\",\n        \"full_name\": \"Ahmed Ali\",\n        \"email\": \"ahmed@example.com\",\n        \"phone\": \"01000000001\"\n    },\n    \"payments\": []\n}"
                 }
               ]
             },
@@ -3334,37 +3492,145 @@
                     "method": "GET",
                     "header": [],
                     "url": {
-                      "raw": "{{base_url}}/api/products?page=1&limit=20",
+                      "raw": "{{base_url}}/api/admin/products/901d78fa-d5ac-49ff-bb6f-2445b3d11283",
                       "host": [
                         "{{base_url}}"
                       ],
                       "path": [
                         "api",
-                        "products"
+                        "admin",
+                        "products",
+                        "901d78fa-d5ac-49ff-bb6f-2445b3d11283"
                       ],
                       "query": [
                         {
-                          "key": "page",
-                          "value": "1"
+                          "key": "search",
+                          "value": "",
+                          "disabled": true
                         },
                         {
-                          "key": "limit",
-                          "value": "20"
+                          "key": "category_id",
+                          "value": "c73fa766-58d9-431f-af3d-efd4061f63a0",
+                          "disabled": true
+                        },
+                        {
+                          "key": "brand_id",
+                          "value": "",
+                          "disabled": true
+                        },
+                        {
+                          "key": "min_price",
+                          "value": "",
+                          "disabled": true
+                        },
+                        {
+                          "key": "max_price",
+                          "value": "",
+                          "disabled": true
+                        },
+                        {
+                          "key": "sort",
+                          "value": "newest",
+                          "disabled": true
+                        },
+                        {
+                          "key": "is_featured",
+                          "value": "true",
+                          "type": "text",
+                          "disabled": true
+                        },
+                        {
+                          "key": "in_stock",
+                          "value": "true",
+                          "type": "text",
+                          "disabled": true
                         }
                       ]
                     }
                   },
                   "status": "OK",
                   "code": 200,
-                  "_postman_previewlanguage": "Text",
+                  "_postman_previewlanguage": null,
                   "header": [
                     {
+                      "key": "Access-Control-Allow-Origin",
+                      "value": "*"
+                    },
+                    {
+                      "key": "Content-Security-Policy",
+                      "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                    },
+                    {
+                      "key": "Cross-Origin-Opener-Policy",
+                      "value": "same-origin"
+                    },
+                    {
+                      "key": "Cross-Origin-Resource-Policy",
+                      "value": "same-origin"
+                    },
+                    {
+                      "key": "Origin-Agent-Cluster",
+                      "value": "?1"
+                    },
+                    {
+                      "key": "Referrer-Policy",
+                      "value": "no-referrer"
+                    },
+                    {
+                      "key": "Strict-Transport-Security",
+                      "value": "max-age=15552000; includeSubDomains"
+                    },
+                    {
+                      "key": "X-Content-Type-Options",
+                      "value": "nosniff"
+                    },
+                    {
+                      "key": "X-DNS-Prefetch-Control",
+                      "value": "off"
+                    },
+                    {
+                      "key": "X-Download-Options",
+                      "value": "noopen"
+                    },
+                    {
+                      "key": "X-Frame-Options",
+                      "value": "SAMEORIGIN"
+                    },
+                    {
+                      "key": "X-Permitted-Cross-Domain-Policies",
+                      "value": "none"
+                    },
+                    {
+                      "key": "X-XSS-Protection",
+                      "value": "0"
+                    },
+                    {
                       "key": "Content-Type",
-                      "value": "application/json"
+                      "value": "application/json; charset=utf-8"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "1153"
+                    },
+                    {
+                      "key": "ETag",
+                      "value": "W/\"481-fHlbtuyHzhcWyEIyT1DQRnfosz4\""
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Mon, 22 Jun 2026 20:51:57 GMT"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "keep-alive"
+                    },
+                    {
+                      "key": "Keep-Alive",
+                      "value": "timeout=5"
                     }
                   ],
                   "cookie": [],
-                  "body": "{\n  \"data\": [\n    {\n      \"id\": \"prod-uuid\",\n      \"name\": \"Product Name\",\n      \"slug\": \"product-name\",\n      \"price\": 49.99,\n      \"discount_percent\": 10,\n      \"rating_avg\": 4.5,\n      \"rating_count\": 20,\n      \"is_featured\": true,\n      \"primary_image\": {\n        \"url\": \"https://cdn.example.com/product.jpg\",\n        \"alt_text\": \"Product image\"\n      },\n      \"category\": {\n        \"id\": \"cat-uuid\",\n        \"name\": \"Electronics\",\n        \"slug\": \"electronics\"\n      },\n      \"brand\": {\n        \"id\": \"brand-uuid\",\n        \"name\": \"Samsung\",\n        \"slug\": \"samsung\"\n      },\n      \"created_at\": \"2026-05-01T00:00:00.000Z\"\n    }\n  ],\n  \"meta\": {\n    \"page\": 1,\n    \"limit\": 20,\n    \"total\": 1,\n    \"totalPages\": 1\n  }\n}"
+                  "body": "{\n    \"id\": \"901d78fa-d5ac-49ff-bb6f-2445b3d11283\",\n    \"name\": \"fart\",\n    \"slug\": \"fart\",\n    \"description\": \"fffff\",\n    \"about_points\": [],\n    \"rating_avg\": 0,\n    \"rating_count\": 0,\n    \"is_featured\": true,\n    \"category\": {\n        \"id\": \"9b20ea12-4795-49a7-b3f9-e350d8f3c2b7\",\n        \"name\": \"Beauty & Health\",\n        \"slug\": \"beauty-health\"\n    },\n    \"brand\": {\n        \"id\": \"188d4647-8124-4c87-b257-72ede674875a\",\n        \"name\": \"PureBeauty\",\n        \"slug\": \"purebeauty\",\n        \"logo_url\": \"/images/brand-purebeauty.png\"\n    },\n    \"is_active\": true,\n    \"attributes\": {\n        \"details\": [],\n        \"specs\": []\n    },\n    \"images\": [\n        {\n            \"id\": \"52460919-7b2b-490f-bab2-3f67da760b89\",\n            \"url\": \"https://res.cloudinary.com/djfrgjrl5/image/upload/v1782071854/techa/zerk7qk1p1819eoabxll.jpg\",\n            \"alt_text\": \"mercedes-benz-logo-minimalist-desktop-wallpaper-4k.jpg\",\n            \"is_primary\": false,\n            \"sort_order\": 0\n        },\n        {\n            \"id\": \"d125bec4-f66d-42cf-b77e-a0004c2a0958\",\n            \"url\": \"https://res.cloudinary.com/djfrgjrl5/image/upload/v1782071854/techa/zerk7qk1p1819eoabxll.jpg\",\n            \"alt_text\": \"mercedes-benz-logo-minimalist-desktop-wallpaper-4k.jpg\",\n            \"is_primary\": true,\n            \"sort_order\": 0\n        }\n    ],\n    \"variants\": [\n        {\n            \"id\": \"42aba42f-f7e6-4206-b97c-d7cdc19406b0\",\n            \"sku\": \"fart\",\n            \"price\": 10,\n            \"discount_percent\": 0,\n            \"stock_qty\": 11,\n            \"is_active\": true,\n            \"options\": [],\n            \"images\": []\n        }\n    ],\n    \"reviews\": [],\n    \"tags\": []\n}"
                 }
               ]
             }
