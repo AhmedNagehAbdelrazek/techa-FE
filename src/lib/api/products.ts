@@ -23,6 +23,7 @@ interface ApiProduct {
   rating_avg: number;
   rating_count: number;
   is_featured: boolean;
+  stock_qty: number;
   createdat: string;
 }
 
@@ -50,6 +51,7 @@ function mapProduct(api: ApiProduct): ProductListItem {
     rating_avg: api.rating_avg,
     rating_count: api.rating_count,
     is_featured: api.is_featured,
+    stock_qty: api.stock_qty,
     createdat: api.createdat,
   };
 }

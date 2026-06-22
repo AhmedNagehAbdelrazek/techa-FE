@@ -41,6 +41,7 @@ function RatingStars({ average, count }: { average: number; count: number }) {
 }
 
 export function ProductCard({ product }: ProductCardProps) {
+  const isOutOfStock = product.stock_qty <= 0;
   const hasDiscount = product.discount_percent > 0;
   const discountedPrice = hasDiscount
     ? product.base_price * (1 - product.discount_percent / 100)
@@ -52,10 +53,9 @@ export function ProductCard({ product }: ProductCardProps) {
         {product.primary_image ? (
           <Image
             src={product.primary_image.url}
-            // src={"https://m.media-amazon.com/images/I/31+szXly4tL._MCnd_AC_.jpg"}
             alt={product.primary_image.alt_text ?? product.name}
             fill
-            className="object-contain transition-transform group-hover:scale-105"
+            className={cn("object-contain transition-transform group-hover:scale-105", isOutOfStock && "opacity-50")}
             loading="lazy"
           />
         ) : (
@@ -64,9 +64,14 @@ export function ProductCard({ product }: ProductCardProps) {
           </div>
         )}
         <div className="absolute top-2 box-border flex w-full flex-row justify-between px-2">
-          {hasDiscount && (
+          {hasDiscount && !isOutOfStock && (
             <span className="bg-destructive text-destructive-foreground absolute top-2 left-2 rounded px-1.5 py-0.5 text-xs font-semibold">
               -{product.discount_percent}%
+            </span>
+          )}
+          {isOutOfStock && (
+            <span className="bg-muted-foreground text-primary-foreground absolute top-2 left-2 rounded px-1.5 py-0.5 text-xs font-semibold">
+              Out of Stock
             </span>
           )}
           <WishlistButton productId={product.id} className={"z-99 border-0 shadow-none"} />
@@ -81,11 +86,17 @@ export function ProductCard({ product }: ProductCardProps) {
         </Link>
         <RatingStars average={product.rating_avg} count={product.rating_count} />
         <div className="mt-auto flex items-baseline gap-2 pt-1">
-          <span className="text-base font-bold">{formatPrice(discountedPrice)}</span>
-          {hasDiscount && (
-            <span className="text-muted-foreground text-sm line-through">
-              {formatPrice(product.base_price)}
-            </span>
+          {isOutOfStock ? (
+            <span className="text-muted-foreground text-xs">Out of Stock</span>
+          ) : (
+            <>
+              <span className="text-base font-bold">{formatPrice(discountedPrice)}</span>
+              {hasDiscount && (
+                <span className="text-muted-foreground text-sm line-through">
+                  {formatPrice(product.base_price)}
+                </span>
+              )}
+            </>
           )}
         </div>
       </div>

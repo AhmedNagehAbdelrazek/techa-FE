@@ -90,6 +90,7 @@ export interface ProductListItem {
   rating_avg: number;
   rating_count: number;
   is_featured: boolean;
+  stock_qty: number;
   createdat: string;
 }
 

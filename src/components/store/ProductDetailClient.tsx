@@ -21,7 +21,9 @@ interface ProductDetailClientProps {
 
 function computeMatchingVariant(variants: ProductVariant[], selectedOptions: Record<string, string>): ProductVariant | null {
   const keys = Object.keys(selectedOptions);
-  if (keys.length === 0) return null;
+  if (keys.length === 0) {
+    return variants.find((v) => v.is_active && v.options.length === 0) ?? null;
+  }
   return variants.find((v) =>
     v.is_active &&
     keys.every((key) =>
@@ -50,7 +52,15 @@ function computeStockQty(product: ProductDetail, variant: ProductVariant | null)
 }
 
 export function ProductDetailClient({ product }: ProductDetailClientProps) {
-  const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>({});
+  const defaultOptions = useMemo(() => {
+    const first = product.variants.find((v) => v.is_active);
+    if (!first) return {};
+    return first.options.reduce<Record<string, string>>((acc, o) => {
+      acc[o.option_name] = o.option_value;
+      return acc;
+    }, {});
+  }, [product.variants]);
+  const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>(defaultOptions);
   const [quantity, setQuantity] = useState(1);
   const [appliedCoupon, setAppliedCoupon] = useState<CouponValidationResponse | null>(null);
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -70,10 +70,28 @@ const productFormSchema = z.object({
     }),
   ).optional(),
   tags: z.array(z.object({ id: z.string(), name: z.string() })).optional(),
-  variants: z.array(variantSchema).optional(),
+  variants: z.array(variantSchema).min(1, "At least one variant is required"),
 });
 
 type ProductFormValues = z.infer<typeof productFormSchema>;
+
+const fieldTabMap: Record<string, string> = {
+  name: "basic-info",
+  slug: "basic-info",
+  category_id: "basic-info",
+  brand_id: "basic-info",
+  description: "basic-info",
+  base_price: "basic-info",
+  discount_percent: "basic-info",
+  is_featured: "basic-info",
+  is_active: "basic-info",
+  about_points: "attributes",
+  details_attributes: "attributes",
+  specs_attributes: "attributes",
+  images: "images",
+  tags: "tags",
+  variants: "variants",
+};
 
 interface ProductFormProps {
   product?: AdminProduct;
@@ -126,7 +144,16 @@ export function ProductForm({ product, mode }: ProductFormProps) {
         discount_percent: v.discount_percent,
         stock_qty: v.stock_qty,
         is_active: v.is_active,
-      })) ?? [],
+      })) ?? [
+        {
+          options: [{ option_name: "", option_value: "" }],
+          sku: "",
+          price: 0,
+          discount_percent: 0,
+          stock_qty: 0,
+          is_active: true,
+        },
+      ],
   };
 
   const form = useForm<ProductFormValues>({
@@ -262,19 +289,25 @@ export function ProductForm({ product, mode }: ProductFormProps) {
 
   const isPending = createMutation.isPending || updateMutation.isPending;
 
+  const [activeTab, setActiveTab] = useState("basic-info");
+
   const onInvalid = useCallback((errors: FieldErrors<ProductFormValues>) => {
     const first = Object.entries(errors)[0];
     if (first) {
-      const [, fieldError] = first;
-      const msg = (fieldError as { message?: string })?.message ?? "Please fix the form errors before saving";
+      const [fieldName] = first;
+      const tab = fieldTabMap[fieldName] ?? "basic-info";
+      setActiveTab(tab);
+      const fieldError = first[1];
+      const msg = (fieldError as { message?: string })?.message ?? "Please fix the form errors";
       toast.error(msg);
     }
+    console.error(errors);
   }, []);
 
   return (
     <FormProvider {...form}>
       <form onSubmit={form.handleSubmit(onSubmit, onInvalid)}>
-        <Tabs defaultValue="basic-info" className="w-full">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="mb-6">
             <TabsTrigger value="basic-info">Basic Info</TabsTrigger>
             <TabsTrigger value="attributes">Attributes</TabsTrigger>
