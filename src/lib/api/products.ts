@@ -16,7 +16,7 @@ interface ApiProduct {
   id: string;
   name: string;
   slug: string;
-  base_price: number;
+  price: number;
   discount_percent: number;
   primary_image: ApiProductImage | null;
   brand: ApiProductBrand | null;
@@ -44,7 +44,7 @@ function mapProduct(api: ApiProduct): ProductListItem {
     id: api.id,
     name: api.name,
     slug: api.slug,
-    base_price: api.base_price,
+    price: api.price,
     discount_percent: api.discount_percent,
     primary_image: api.primary_image ?? null,
     brand: api.brand ?? null,

@@ -10,7 +10,7 @@ import { useAuthStore } from "@/lib/stores/auth.store";
 
 interface CartAddButtonProps {
   productId: string;
-  variantId: string | null;
+  variantId: string;
   qty: number;
   disabled?: boolean;
   disableReason?: string;

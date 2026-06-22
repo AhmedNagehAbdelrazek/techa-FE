@@ -40,7 +40,7 @@ export interface AdminProductListItem {
   id: string;
   name: string;
   slug: string;
-  base_price: number;
+  price: number;
   discount_percent: number;
   is_active: boolean;
   stock_qty: number;
@@ -58,7 +58,7 @@ export interface AdminProduct {
   brand_id: string | null;
   description: string;
   about_points: string[];
-  base_price: number;
+  price: number;
   discount_percent: number;
   is_active: boolean;
   is_featured: boolean;
@@ -116,8 +116,6 @@ export interface CreateProductPayload {
   brand_id?: string | null;
   description?: string;
   about_points?: string[];
-  base_price: number;
-  discount_percent?: number;
   is_featured?: boolean;
   attributes?: AdminProductAttribute;
   tag_ids?: string[];
@@ -132,8 +130,6 @@ export interface UpdateProductPayload {
   brand_id?: string | null;
   description?: string;
   about_points?: string[];
-  base_price?: number;
-  discount_percent?: number;
   is_featured?: boolean;
   attributes?: AdminProductAttribute;
   tag_ids?: string[];

@@ -34,13 +34,13 @@ function computeMatchingVariant(variants: ProductVariant[], selectedOptions: Rec
 
 function computeCurrentPrice(product: ProductDetail, variant: ProductVariant | null): number {
   if (variant) {
-    const price = variant.price ?? product.base_price;
+    const price = variant.price ?? product.price;
     const discount = variant.discount_percent ?? product.discount_percent;
     return discount > 0 ? price * (1 - discount / 100) : price;
   }
   return product.discount_percent > 0
-    ? product.base_price * (1 - product.discount_percent / 100)
-    : product.base_price;
+    ? product.price * (1 - product.discount_percent / 100)
+    : product.price;
 }
 
 function computeStockQty(product: ProductDetail, variant: ProductVariant | null): number {
@@ -48,7 +48,7 @@ function computeStockQty(product: ProductDetail, variant: ProductVariant | null)
     if (!variant) return 0;
     return variant.stock_qty;
   }
-  return 1;
+  return 0;
 }
 
 export function ProductDetailClient({ product }: ProductDetailClientProps) {
@@ -80,7 +80,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
   );
 
   const maxQty = Math.max(0, stockQty);
-  const safeQuantity = Math.min(quantity, Math.max(1, maxQty));
+  const safeQuantity = maxQty > 0 ? Math.min(quantity, maxQty) : 0;
 
   const hasVariants = product.variants.length > 0;
   const hasFullSelection = hasVariants ? matchingVariant !== null : true;
@@ -117,7 +117,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
             brand={product.brand}
             ratingAvg={product.rating_avg}
             ratingCount={product.rating_count}
-            basePrice={product.base_price}
+            price={product.price}
             discountPercent={matchingVariant?.discount_percent ?? product.discount_percent}
             currentPrice={currentPrice}
             aboutPoints={product.about_points}
@@ -144,7 +144,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
             <div className="flex-1">
               <AddToCartButton
                 productId={product.id}
-                variantId={matchingVariant?.id ?? null}
+                variantId={matchingVariant?.id ?? ""}
                 quantity={safeQuantity}
                 disabled={addToCartDisabled}
                 disableReason={disableReason}

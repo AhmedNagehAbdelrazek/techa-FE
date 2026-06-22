@@ -44,8 +44,8 @@ export function ProductCard({ product }: ProductCardProps) {
   const isOutOfStock = product.stock_qty <= 0;
   const hasDiscount = product.discount_percent > 0;
   const discountedPrice = hasDiscount
-    ? product.base_price * (1 - product.discount_percent / 100)
-    : product.base_price;
+    ? product.price * (1 - product.discount_percent / 100)
+    : product.price;
 
   return (
     <div className="group bg-card relative isolate flex flex-col overflow-hidden rounded-lg border">
@@ -93,7 +93,7 @@ export function ProductCard({ product }: ProductCardProps) {
               <span className="text-base font-bold">{formatPrice(discountedPrice)}</span>
               {hasDiscount && (
                 <span className="text-muted-foreground text-sm line-through">
-                  {formatPrice(product.base_price)}
+                  {formatPrice(product.price)}
                 </span>
               )}
             </>

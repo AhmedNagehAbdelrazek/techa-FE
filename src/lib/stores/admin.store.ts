@@ -38,7 +38,7 @@ export const useAdminStore = create<AdminState>()(
       }),
       onRehydrateStorage(state) {
         console.log("onRehydrateStorage", state);
-        return (state, error) => {
+        return (state, _error) => {
           if (state) {
             state._hydrated = true;
           }

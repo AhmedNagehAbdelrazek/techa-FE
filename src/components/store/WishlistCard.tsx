@@ -24,8 +24,8 @@ export function WishlistCard({
 }: WishlistCardProps) {
   const hasDiscount = item.Product.discount_percent > 0;
   const discountedPrice = hasDiscount
-    ? item.Product.base_price * (1 - item.Product.discount_percent / 100)
-    : item.Product.base_price;
+    ? item.Product.price * (1 - item.Product.discount_percent / 100)
+    : item.Product.price;
   const outOfStock = !item.Product.is_in_stock;
 
   return (
@@ -72,7 +72,7 @@ export function WishlistCard({
           <span className="text-base font-bold">{formatPrice(discountedPrice)}</span>
           {hasDiscount && (
             <span className="text-muted-foreground text-sm line-through">
-              {formatPrice(item.Product.base_price)}
+              {formatPrice(item.Product.price)}
             </span>
           )}
         </div>

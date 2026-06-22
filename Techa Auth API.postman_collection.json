@@ -1,6 +1,6 @@
 {
   "info": {
-    "_postman_id": "3ed359eb-9b6f-4e0b-8d9b-a323b368d7ca",
+    "_postman_id": "8765abdf-9e2c-40aa-b2d6-a989f56e1719",
     "name": "Techa Marketplace — Auth API Copy",
     "description": "Techa Marketplace API — Full Collection\n\n**Customer Auth** (`{{base_url}}/api/auth`): Register, Login, Verify Email, Forgot/Reset Password\n**Admin Auth** (`{{base_url}}/api/admin`): Login, Profile, Logout, CRUD\n**Admin Categories** (`{{base_url}}/api/admin/categories`): CRUD\n**Admin Brands** (`{{base_url}}/api/admin/brands`): CRUD\n**Admin Tags** (`{{base_url}}/api/admin/tags`): CRUD\n**Admin Coupons** (`{{base_url}}/api/admin/coupons`): CRUD\n**Admin Delivery Zones** (`{{base_url}}/api/admin/delivery-zones`): CRUD + Rates management\n**Admin Orders** (`{{base_url}}/api/admin/orders`): List, Detail, Status Update, Stats\n**Categories** (`{{base_url}}/api/categories`): Public tree & single category\n**Brands** (`{{base_url}}/api/brands`): Public brand list\n**Delivery Zones (Public)** (`{{base_url}}/api/public/delivery-zones`): Active zones list\n**Shipping** (`{{base_url}}/api/shipping`): Customer rate lookup\n**Addresses** (`{{base_url}}/api/addresses`): Customer CRUD + Set Default\n**Cart** (`{{base_url}}/api/cart`): View, add items, update qty, remove items, apply/remove coupon\n**Orders** (`{{base_url}}/api/orders`): Place Order, List Own, Detail, Cancel\n\n**Environment variables:**\n- `base_url`: e.g. `http://localhost:3000`\n- `auth_token`: set automatically via customer Login\n- `admin_token`: set automatically via Admin Auth > Login",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -2515,7 +2515,7 @@
                 ],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"status\": \"confirmed\"\n}"
+                  "raw": "{\n  \"status\": \"pending\"\n}"
                 },
                 "url": {
                   "raw": "{{base_url}}/api/admin/orders/:id/status",
@@ -2532,7 +2532,7 @@
                   "variable": [
                     {
                       "key": "id",
-                      "value": "{{order_id}}"
+                      "value": "064438bc-3c31-45c2-97f5-9059c8eb01f5"
                     }
                   ]
                 },
@@ -2694,7 +2694,7 @@
                   },
                   "status": "OK",
                   "code": 200,
-                  "_postman_previewlanguage": null,
+                  "_postman_previewlanguage": "Text",
                   "header": [
                     {
                       "key": "Access-Control-Allow-Origin",
@@ -2895,7 +2895,7 @@
                   "variable": [
                     {
                       "key": "id",
-                      "value": "{{payment_id}}"
+                      "value": "47e38048-b3af-4d6a-8e9b-ec703abc67e7"
                     }
                   ]
                 },
@@ -3056,7 +3056,7 @@
                 ],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"name\": \"New Product\",\n  \"category_id\": \"{{category_id}}\",\n  \"brand_id\": null,\n  \"base_price\": 49.99,\n  \"discount_percent\": 0,\n  \"description\": \"Product description\",\n  \"about_points\": [\"Point one\", \"Point two\"],\n  \"is_featured\": false,\n  \"attributes\": [\n    {\n      \"section\": \"details\",\n      \"label\": \"Material\",\n      \"value\": \"Aluminum\",\n      \"sort_order\": 0\n    }\n  ],\n  \"tag_ids\": [],\n  \"variants\": [\n    {\n      \"sku\": \"PRD-BLK\",\n      \"price\": 49.99,\n      \"stock_qty\": 100,\n      \"discount_percent\": 0,\n      \"options\": [\n        { \"option_name\": \"color\", \"option_value\": \"black\" }\n      ]\n    }\n  ],\n  \"images\": [\n    {\n      \"url\": \"https://cdn.example.com/product.jpg\",\n      \"alt_text\": \"Product image\",\n      \"is_primary\": true,\n      \"sort_order\": 0\n    }\n  ]\n}",
+                  "raw": "{\n  \"name\": \"New Product\",\n  \"category_id\": \"{{category_id}}\",\n  \"brand_id\": null,\n  \"description\": \"Product description\",\n  \"about_points\": [\"Point one\", \"Point two\"],\n  \"is_featured\": false,\n  \"attributes\": [\n    {\n      \"section\": \"details\",\n      \"label\": \"Material\",\n      \"value\": \"Aluminum\",\n      \"sort_order\": 0\n    }\n  ],\n  \"tag_ids\": [],\n  \"variants\": [\n    {\n      \"sku\": \"PRD-BLK\",\n      \"price\": 49.99,\n      \"stock_qty\": 100,\n      \"discount_percent\": 0,\n      \"options\": [\n        { \"option_name\": \"color\", \"option_value\": \"black\" }\n      ]\n    }\n  ],\n  \"images\": [\n    {\n      \"url\": \"https://cdn.example.com/product.jpg\",\n      \"alt_text\": \"Product image\",\n      \"is_primary\": true,\n      \"sort_order\": 0\n    }\n  ]\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -3090,7 +3090,7 @@
                     ],
                     "body": {
                       "mode": "raw",
-                      "raw": "{\"name\":\"New Product\",\"category_id\":\"{{category_id}}\",\"base_price\":49.99,\"description\":\"Product description\",\"about_points\":[\"Point one\",\"Point two\"],\"is_featured\":false,\"attributes\":[{\"section\":\"details\",\"label\":\"Material\",\"value\":\"Aluminum\",\"sort_order\":0}],\"tag_ids\":[],\"variants\":[{\"sku\":\"PRD-BLK\",\"price\":49.99,\"stock_qty\":100,\"discount_percent\":0,\"options\":[{\"option_name\":\"color\",\"option_value\":\"black\"}]}],\"images\":[{\"url\":\"https://cdn.example.com/product.jpg\",\"alt_text\":\"Product image\",\"is_primary\":true,\"sort_order\":0}]}"
+                      "raw": "{\"name\":\"New Product\",\"category_id\":\"{{category_id}}\",\"description\":\"Product description\",\"about_points\":[\"Point one\",\"Point two\"],\"is_featured\":false,\"attributes\":[{\"section\":\"details\",\"label\":\"Material\",\"value\":\"Aluminum\",\"sort_order\":0}],\"tag_ids\":[],\"variants\":[{\"sku\":\"PRD-BLK\",\"price\":49.99,\"stock_qty\":100,\"discount_percent\":0,\"options\":[{\"option_name\":\"color\",\"option_value\":\"black\"}]}],\"images\":[{\"url\":\"https://cdn.example.com/product.jpg\",\"alt_text\":\"Product image\",\"is_primary\":true,\"sort_order\":0}]}"
                     },
                     "url": {
                       "raw": "{{base_url}}/api/admin/products",
@@ -3114,7 +3114,7 @@
                     }
                   ],
                   "cookie": [],
-                  "body": "{\n  \"id\": \"uuid\",\n  \"name\": \"New Product\",\n  \"slug\": \"new-product\",\n  \"category_id\": \"cat-uuid\",\n  \"brand_id\": null,\n  \"description\": \"Product description\",\n  \"about_points\": [\n    \"Point one\",\n    \"Point two\"\n  ],\n  \"base_price\": 49.99,\n  \"discount_percent\": 0,\n  \"is_active\": true,\n  \"is_featured\": false,\n  \"version\": 1,\n  \"attributes\": [\n    {\n      \"section\": \"details\",\n      \"label\": \"Material\",\n      \"value\": \"Aluminum\",\n      \"sort_order\": 0\n    }\n  ],\n  \"images\": [\n    {\n      \"id\": \"img-uuid\",\n      \"url\": \"https://cdn.example.com/product.jpg\",\n      \"alt_text\": \"Product image\",\n      \"is_primary\": true,\n      \"sort_order\": 0\n    }\n  ],\n  \"variants\": [\n    {\n      \"id\": \"var-uuid\",\n      \"sku\": \"PRD-BLK\",\n      \"price\": 49.99,\n      \"discount_percent\": 0,\n      \"stock_qty\": 100,\n      \"is_active\": true,\n      \"options\": [\n        {\n          \"option_name\": \"color\",\n          \"option_value\": \"black\"\n        }\n      ]\n    }\n  ],\n  \"tags\": []\n}"
+                  "body": "{\n  \"id\": \"uuid\",\n  \"name\": \"New Product\",\n  \"slug\": \"new-product\",\n  \"category_id\": \"cat-uuid\",\n  \"brand_id\": null,\n  \"description\": \"Product description\",\n  \"about_points\": [\n    \"Point one\",\n    \"Point two\"\n  ],\n  \"is_active\": true,\n  \"is_featured\": false,\n  \"version\": 1,\n  \"attributes\": [\n    {\n      \"section\": \"details\",\n      \"label\": \"Material\",\n      \"value\": \"Aluminum\",\n      \"sort_order\": 0\n    }\n  ],\n  \"images\": [\n    {\n      \"id\": \"img-uuid\",\n      \"url\": \"https://cdn.example.com/product.jpg\",\n      \"alt_text\": \"Product image\",\n      \"is_primary\": true,\n      \"sort_order\": 0\n    }\n  ],\n  \"variants\": [\n    {\n      \"id\": \"var-uuid\",\n      \"sku\": \"PRD-BLK\",\n      \"price\": 49.99,\n      \"discount_percent\": 0,\n      \"stock_qty\": 100,\n      \"is_active\": true,\n      \"options\": [\n        {\n          \"option_name\": \"color\",\n          \"option_value\": \"black\"\n        }\n      ]\n    }\n  ],\n  \"tags\": []\n}"
                 }
               ]
             },
@@ -3130,7 +3130,7 @@
                 ],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n    \"name\": \"Updated Product\",\n    \"base_price\": 39.99,\n    \"description\": \"Updated description\",\n    \"variants\": [\n        {\n            \"id\": \"{{variant_id}}\",\n            \"version\": 1,\n            \"price\": 39.99,\n            \"stock_qty\": 200\n        },\n        {\n            \"sku\": \"PRD-WHT\",\n            \"price\": 44.99,\n            \"stock_qty\": 50,\n            \"options\": [\n                {\n                    \"option_name\": \"color\",\n                    \"option_value\": \"white\"\n                }\n            ]\n        },\n        {\n            \"id\": \"{{variant_id_to_destroy}}\",\n            \"_destroy\": true\n        }\n    ],\n    \"images\": [\n        {\n            \"url\": \"https://cdn.example.com/new-image.jpg\",\n            \"alt_text\": \"New image\",\n            \"is_primary\": true,\n            \"sort_order\": 0\n        }\n    ],\n    \"is_featured\": true\n}",
+                  "raw": "{\n    \"name\": \"Updated Product\",\n    \"description\": \"Updated description\",\n    \"variants\": [\n        {\n            \"id\": \"{{variant_id}}\",\n            \"version\": 1,\n            \"price\": 39.99,\n            \"stock_qty\": 200\n        },\n        {\n            \"sku\": \"PRD-WHT\",\n            \"price\": 44.99,\n            \"stock_qty\": 50,\n            \"options\": [\n                {\n                    \"option_name\": \"color\",\n                    \"option_value\": \"white\"\n                }\n            ]\n        },\n        {\n            \"id\": \"{{variant_id_to_destroy}}\",\n            \"_destroy\": true\n        }\n    ],\n    \"images\": [\n        {\n            \"url\": \"https://cdn.example.com/new-image.jpg\",\n            \"alt_text\": \"New image\",\n            \"is_primary\": true,\n            \"sort_order\": 0\n        }\n    ],\n    \"is_featured\": true\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -3165,7 +3165,7 @@
                     ],
                     "body": {
                       "mode": "raw",
-                      "raw": "{\"name\":\"Updated Product\",\"base_price\":39.99,\"description\":\"Updated description\"}"
+                      "raw": "{\"name\":\"Updated Product\",\"description\":\"Updated description\"}"
                     },
                     "url": {
                       "raw": "{{base_url}}/api/admin/products/{{product_id}}",
@@ -3190,7 +3190,7 @@
                     }
                   ],
                   "cookie": [],
-                  "body": "{\n  \"id\": \"uuid\",\n  \"name\": \"Updated Product\",\n  \"slug\": \"updated-product\",\n  \"category_id\": \"cat-uuid\",\n  \"brand_id\": null,\n  \"description\": \"Updated description\",\n  \"about_points\": [\n    \"Point one\",\n    \"Point two\"\n  ],\n  \"base_price\": 39.99,\n  \"discount_percent\": 0,\n  \"is_active\": true,\n  \"is_featured\": false,\n  \"version\": 2,\n  \"attributes\": [\n    {\n      \"section\": \"details\",\n      \"label\": \"Material\",\n      \"value\": \"Aluminum\",\n      \"sort_order\": 0\n    }\n  ],\n  \"images\": [\n    {\n      \"id\": \"img-uuid\",\n      \"url\": \"https://cdn.example.com/new-image.jpg\",\n      \"alt_text\": \"New image\",\n      \"is_primary\": true,\n      \"sort_order\": 0\n    }\n  ],\n  \"variants\": [\n    {\n      \"id\": \"var-uuid\",\n      \"sku\": \"PRD-BLK\",\n      \"price\": 39.99,\n      \"discount_percent\": 0,\n      \"stock_qty\": 200,\n      \"is_active\": true,\n      \"options\": [\n        {\n          \"option_name\": \"color\",\n          \"option_value\": \"black\"\n        }\n      ]\n    },\n    {\n      \"id\": \"var-uuid2\",\n      \"sku\": \"PRD-WHT\",\n      \"price\": 44.99,\n      \"discount_percent\": 0,\n      \"stock_qty\": 50,\n      \"is_active\": true,\n      \"options\": [\n        {\n          \"option_name\": \"color\",\n          \"option_value\": \"white\"\n        }\n      ]\n    }\n  ],\n  \"tags\": []\n}"
+                  "body": "{\n  \"id\": \"uuid\",\n  \"name\": \"Updated Product\",\n  \"slug\": \"updated-product\",\n  \"category_id\": \"cat-uuid\",\n  \"brand_id\": null,\n  \"description\": \"Updated description\",\n  \"about_points\": [\n    \"Point one\",\n    \"Point two\"\n  ],\n  \"is_active\": true,\n  \"is_featured\": false,\n  \"version\": 2,\n  \"attributes\": [\n    {\n      \"section\": \"details\",\n      \"label\": \"Material\",\n      \"value\": \"Aluminum\",\n      \"sort_order\": 0\n    }\n  ],\n  \"images\": [\n    {\n      \"id\": \"img-uuid\",\n      \"url\": \"https://cdn.example.com/new-image.jpg\",\n      \"alt_text\": \"New image\",\n      \"is_primary\": true,\n      \"sort_order\": 0\n    }\n  ],\n  \"variants\": [\n    {\n      \"id\": \"var-uuid\",\n      \"sku\": \"PRD-BLK\",\n      \"price\": 39.99,\n      \"discount_percent\": 0,\n      \"stock_qty\": 200,\n      \"is_active\": true,\n      \"options\": [\n        {\n          \"option_name\": \"color\",\n          \"option_value\": \"black\"\n        }\n      ]\n    },\n    {\n      \"id\": \"var-uuid2\",\n      \"sku\": \"PRD-WHT\",\n      \"price\": 44.99,\n      \"discount_percent\": 0,\n      \"stock_qty\": 50,\n      \"is_active\": true,\n      \"options\": [\n        {\n          \"option_name\": \"color\",\n          \"option_value\": \"white\"\n        }\n      ]\n    }\n  ],\n  \"tags\": []\n}"
                 }
               ]
             },
@@ -3254,6 +3254,117 @@
                   ],
                   "cookie": [],
                   "body": "{\n  \"message\": \"Product deactivated successfully.\"\n}"
+                }
+              ]
+            },
+            {
+              "name": "List Products",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/admin/products?page=1&limit=20",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "products"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "search",
+                      "value": "",
+                      "disabled": true
+                    },
+                    {
+                      "key": "category_id",
+                      "value": "c73fa766-58d9-431f-af3d-efd4061f63a0",
+                      "disabled": true
+                    },
+                    {
+                      "key": "brand_id",
+                      "value": "",
+                      "disabled": true
+                    },
+                    {
+                      "key": "min_price",
+                      "value": "",
+                      "disabled": true
+                    },
+                    {
+                      "key": "max_price",
+                      "value": "",
+                      "disabled": true
+                    },
+                    {
+                      "key": "sort",
+                      "value": "newest",
+                      "disabled": true
+                    },
+                    {
+                      "key": "is_featured",
+                      "value": "true",
+                      "type": "text",
+                      "disabled": true
+                    },
+                    {
+                      "key": "in_stock",
+                      "value": "true",
+                      "type": "text",
+                      "disabled": true
+                    }
+                  ]
+                },
+                "description": "Paginated product list with filtering and sorting."
+              },
+              "response": [
+                {
+                  "name": "Success (200)",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{base_url}}/api/products?page=1&limit=20",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "products"
+                      ],
+                      "query": [
+                        {
+                          "key": "page",
+                          "value": "1"
+                        },
+                        {
+                          "key": "limit",
+                          "value": "20"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"data\": [\n    {\n      \"id\": \"prod-uuid\",\n      \"name\": \"Product Name\",\n      \"slug\": \"product-name\",\n      \"price\": 49.99,\n      \"discount_percent\": 10,\n      \"rating_avg\": 4.5,\n      \"rating_count\": 20,\n      \"is_featured\": true,\n      \"primary_image\": {\n        \"url\": \"https://cdn.example.com/product.jpg\",\n        \"alt_text\": \"Product image\"\n      },\n      \"category\": {\n        \"id\": \"cat-uuid\",\n        \"name\": \"Electronics\",\n        \"slug\": \"electronics\"\n      },\n      \"brand\": {\n        \"id\": \"brand-uuid\",\n        \"name\": \"Samsung\",\n        \"slug\": \"samsung\"\n      },\n      \"created_at\": \"2026-05-01T00:00:00.000Z\"\n    }\n  ],\n  \"meta\": {\n    \"page\": 1,\n    \"limit\": 20,\n    \"total\": 1,\n    \"totalPages\": 1\n  }\n}"
                 }
               ]
             }
@@ -5883,7 +5994,7 @@
                 }
               ],
               "cookie": [],
-              "body": "{\n  \"data\": [\n    {\n      \"id\": \"prod-uuid\",\n      \"name\": \"Product Name\",\n      \"slug\": \"product-name\",\n      \"base_price\": 49.99,\n      \"discount_percent\": 10,\n      \"rating_avg\": 4.5,\n      \"rating_count\": 20,\n      \"is_featured\": true,\n      \"primary_image\": {\n        \"url\": \"https://cdn.example.com/product.jpg\",\n        \"alt_text\": \"Product image\"\n      },\n      \"category\": {\n        \"id\": \"cat-uuid\",\n        \"name\": \"Electronics\",\n        \"slug\": \"electronics\"\n      },\n      \"brand\": {\n        \"id\": \"brand-uuid\",\n        \"name\": \"Samsung\",\n        \"slug\": \"samsung\"\n      },\n      \"created_at\": \"2026-05-01T00:00:00.000Z\"\n    }\n  ],\n  \"meta\": {\n    \"page\": 1,\n    \"limit\": 20,\n    \"total\": 1,\n    \"totalPages\": 1\n  }\n}"
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"prod-uuid\",\n      \"name\": \"Product Name\",\n      \"slug\": \"product-name\",\n      \"price\": 49.99,\n      \"discount_percent\": 10,\n      \"rating_avg\": 4.5,\n      \"rating_count\": 20,\n      \"is_featured\": true,\n      \"primary_image\": {\n        \"url\": \"https://cdn.example.com/product.jpg\",\n        \"alt_text\": \"Product image\"\n      },\n      \"category\": {\n        \"id\": \"cat-uuid\",\n        \"name\": \"Electronics\",\n        \"slug\": \"electronics\"\n      },\n      \"brand\": {\n        \"id\": \"brand-uuid\",\n        \"name\": \"Samsung\",\n        \"slug\": \"samsung\"\n      },\n      \"created_at\": \"2026-05-01T00:00:00.000Z\"\n    }\n  ],\n  \"meta\": {\n    \"page\": 1,\n    \"limit\": 20,\n    \"total\": 1,\n    \"totalPages\": 1\n  }\n}"
             }
           ]
         },
@@ -5933,7 +6044,7 @@
                 }
               ],
               "cookie": [],
-              "body": "{\n  \"id\": \"prod-uuid\",\n  \"name\": \"Product Name\",\n  \"slug\": \"product-name\",\n  \"description\": \"Product description\",\n  \"about_points\": [\n    \"Point one\",\n    \"Point two\"\n  ],\n  \"base_price\": 49.99,\n  \"discount_percent\": 10,\n  \"rating_avg\": 4.5,\n  \"rating_count\": 20,\n  \"is_featured\": true,\n  \"category\": {\n    \"id\": \"cat-uuid\",\n    \"name\": \"Electronics\",\n    \"slug\": \"electronics\"\n  },\n  \"brand\": {\n    \"id\": \"brand-uuid\",\n    \"name\": \"Samsung\",\n    \"slug\": \"samsung\",\n    \"logo_url\": \"https://example.com/samsung-logo.png\"\n  },\n  \"attributes\": {\n    \"details\": [\n      {\n        \"label\": \"Material\",\n        \"value\": \"Aluminum\"\n      }\n    ],\n    \"specs\": [\n      {\n        \"label\": \"Weight\",\n        \"value\": \"200g\"\n      }\n    ]\n  },\n  \"images\": [\n    {\n      \"id\": \"img-uuid\",\n      \"url\": \"https://cdn.example.com/product.jpg\",\n      \"alt_text\": \"Product image\",\n      \"is_primary\": true,\n      \"sort_order\": 0\n    }\n  ],\n  \"variants\": [\n    {\n      \"id\": \"var-uuid\",\n      \"sku\": \"PRD-BLK\",\n      \"price\": 49.99,\n      \"discount_percent\": 10,\n      \"stock_qty\": 100,\n      \"is_active\": true,\n      \"options\": [\n        {\n          \"option_name\": \"color\",\n          \"option_value\": \"black\"\n        }\n      ],\n      \"images\": []\n    }\n  ],\n  \"reviews\": [\n    {\n      \"id\": \"rev-uuid\",\n      \"rating\": 5,\n      \"comment\": \"Great!\",\n      \"created_at\": \"2026-05-15T00:00:00.000Z\"\n    }\n  ],\n  \"tags\": [\n    {\n      \"id\": \"tag-uuid\",\n      \"name\": \"New Tag\",\n      \"slug\": \"new-tag\"\n    }\n  ]\n}"
+              "body": "{\n  \"id\": \"prod-uuid\",\n  \"name\": \"Product Name\",\n  \"slug\": \"product-name\",\n  \"description\": \"Product description\",\n  \"about_points\": [\n    \"Point one\",\n    \"Point two\"\n  ],\n  \"rating_avg\": 4.5,\n  \"rating_count\": 20,\n  \"is_featured\": true,\n  \"category\": {\n    \"id\": \"cat-uuid\",\n    \"name\": \"Electronics\",\n    \"slug\": \"electronics\"\n  },\n  \"brand\": {\n    \"id\": \"brand-uuid\",\n    \"name\": \"Samsung\",\n    \"slug\": \"samsung\",\n    \"logo_url\": \"https://example.com/samsung-logo.png\"\n  },\n  \"attributes\": {\n    \"details\": [\n      {\n        \"label\": \"Material\",\n        \"value\": \"Aluminum\"\n      }\n    ],\n    \"specs\": [\n      {\n        \"label\": \"Weight\",\n        \"value\": \"200g\"\n      }\n    ]\n  },\n  \"images\": [\n    {\n      \"id\": \"img-uuid\",\n      \"url\": \"https://cdn.example.com/product.jpg\",\n      \"alt_text\": \"Product image\",\n      \"is_primary\": true,\n      \"sort_order\": 0\n    }\n  ],\n  \"variants\": [\n    {\n      \"id\": \"var-uuid\",\n      \"sku\": \"PRD-BLK\",\n      \"price\": 49.99,\n      \"discount_percent\": 10,\n      \"stock_qty\": 100,\n      \"is_active\": true,\n      \"options\": [\n        {\n          \"option_name\": \"color\",\n          \"option_value\": \"black\"\n        }\n      ],\n      \"images\": []\n    }\n  ],\n  \"reviews\": [\n    {\n      \"id\": \"rev-uuid\",\n      \"rating\": 5,\n      \"comment\": \"Great!\",\n      \"created_at\": \"2026-05-15T00:00:00.000Z\"\n    }\n  ],\n  \"tags\": [\n    {\n      \"id\": \"tag-uuid\",\n      \"name\": \"New Tag\",\n      \"slug\": \"new-tag\"\n    }\n  ]\n}"
             }
           ]
         }
@@ -6618,7 +6729,7 @@
                 }
               ],
               "cookie": [],
-              "body": "[\n  {\n    \"id\": \"wish-uuid\",\n    \"user_id\": \"user-uuid\",\n    \"product_id\": \"prod-uuid\",\n    \"variant_id\": null,\n    \"created_at\": \"2026-06-01T10:00:00.000Z\",\n    \"updated_at\": \"2026-06-01T10:00:00.000Z\",\n    \"Product\": {\n      \"id\": \"prod-uuid\",\n      \"name\": \"Product Name\",\n      \"slug\": \"product-name\",\n      \"base_price\": 49.99,\n      \"is_active\": true\n    },\n    \"ProductVariant\": null\n  }\n]"
+              "body": "[\n  {\n    \"id\": \"wish-uuid\",\n    \"user_id\": \"user-uuid\",\n    \"product_id\": \"prod-uuid\",\n    \"variant_id\": null,\n    \"created_at\": \"2026-06-01T10:00:00.000Z\",\n    \"updated_at\": \"2026-06-01T10:00:00.000Z\",\n    \"Product\": {\n      \"id\": \"prod-uuid\",\n      \"name\": \"Product Name\",\n      \"slug\": \"product-name\",\n      \"price\": 49.99,\n      \"is_active\": true\n    },\n    \"ProductVariant\": null\n  }\n]"
             }
           ]
         },
@@ -6830,7 +6941,7 @@
               },
               "status": "OK",
               "code": 200,
-              "_postman_previewlanguage": null,
+              "_postman_previewlanguage": "Text",
               "header": [
                 {
                   "key": "Access-Control-Allow-Origin",
@@ -7259,7 +7370,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"product_id\": \"98002fe5-4511-45e9-89d9-5f43e9f3bdfd\",\n  \"variant_id\": null,\n  \"qty\": 2\n}"
+              "raw": "{\n  \"product_id\": \"98002fe5-4511-45e9-89d9-5f43e9f3bdfd\",\n  \"variant_id\": \"{{variant_id}}\",\n  \"qty\": 2\n}"
             },
             "url": {
               "raw": "{{base_url}}/api/cart/items",
@@ -7293,7 +7404,7 @@
                 ],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\"product_id\":\"98002fe5-4511-45e9-89d9-5f43e9f3bdfd\",\"variant_id\":null,\"qty\":2}"
+                  "raw": "{\"product_id\":\"98002fe5-4511-45e9-89d9-5f43e9f3bdfd\",\"variant_id\":\"{{variant_id}}\",\"qty\":2}"
                 },
                 "url": {
                   "raw": "{{base_url}}/api/cart/items",
@@ -8514,7 +8625,7 @@
               },
               "status": "OK",
               "code": 200,
-              "_postman_previewlanguage": null,
+              "_postman_previewlanguage": "Text",
               "header": [
                 {
                   "key": "Access-Control-Allow-Origin",

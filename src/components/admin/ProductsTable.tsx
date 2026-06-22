@@ -483,14 +483,14 @@ function ProductRow({
         {product.discount_percent > 0 ? (
           <div className="flex flex-col items-start justify-between">
             <span className="text-xs text-muted-foreground line-through w-full text-left">
-              {formatPrice(product.base_price)}
+              {formatPrice(product.price)}
             </span>
             <span className="font-medium text-destructive">
-              {formatPrice(product.base_price * (1 - product.discount_percent / 100))}
+              {formatPrice(product.price * (1 - product.discount_percent / 100))}
             </span>
           </div>
         ) : (
-          <span className="font-medium">{formatPrice(product.base_price)}</span>
+          <span className="font-medium">{formatPrice(product.price)}</span>
         )}
       </TableCell>
       <TableCell className="text-right">{product.stock_qty}</TableCell>

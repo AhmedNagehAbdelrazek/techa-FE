@@ -7,8 +7,9 @@ export interface WishlistItemWithProduct {
   Product: {
     name: string;
     slug: string;
-    base_price: number;
+    price: number;
     discount_percent: number;
+    stock_qty: number;
     primary_image: ProductImage | null;
     brand: ProductBrand | null;
     is_in_stock: boolean;

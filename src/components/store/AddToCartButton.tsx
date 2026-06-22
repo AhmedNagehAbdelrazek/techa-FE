@@ -8,7 +8,7 @@ import { useCartStore } from "@/lib/stores/cart.store";
 
 interface AddToCartButtonProps {
   productId: string;
-  variantId: string | null;
+  variantId: string;
   quantity: number;
   disabled: boolean;
   disableReason?: string;

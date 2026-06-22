@@ -69,7 +69,7 @@ export function WishlistPageClient() {
       try {
         await addItem({
           product_id: item.product_id,
-          variant_id: item.variant_id,
+          variant_id: item.variant_id!,
           qty: 1,
         });
         toast.success("Added to cart");

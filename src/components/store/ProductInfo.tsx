@@ -10,7 +10,7 @@ interface ProductInfoProps {
   brand: BrandBrief | null;
   ratingAvg: number;
   ratingCount: number;
-  basePrice: number;
+  price: number;
   discountPercent: number;
   currentPrice: number;
   aboutPoints: string[];
@@ -41,7 +41,7 @@ export function ProductInfo({
   brand,
   ratingAvg,
   ratingCount,
-  basePrice,
+  price,
   discountPercent,
   currentPrice,
   aboutPoints,
@@ -72,7 +72,7 @@ export function ProductInfo({
         {hasDiscount && (
           <>
             <span className="text-lg text-muted-foreground line-through">
-              {formatPrice(basePrice)}
+              {formatPrice(price)}
             </span>
             <span className="rounded bg-destructive/10 px-2 py-0.5 text-sm font-semibold text-destructive">
               -{discountPercent}%

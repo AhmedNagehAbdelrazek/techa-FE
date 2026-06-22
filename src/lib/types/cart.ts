@@ -32,7 +32,7 @@ export interface CartCoupon {
 
 export interface AddItemRequest {
   product_id: string;
-  variant_id: string | null;
+  variant_id: string;
   qty: number;
 }
 

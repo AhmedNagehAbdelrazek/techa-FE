@@ -65,7 +65,7 @@ export interface ProductDetail {
   slug: string;
   description: string;
   about_points: string[];
-  base_price: number;
+  price: number;
   discount_percent: number;
   rating_avg: number;
   rating_count: number;
@@ -83,7 +83,7 @@ export interface ProductListItem {
   id: string;
   name: string;
   slug: string;
-  base_price: number;
+  price: number;
   discount_percent: number;
   primary_image: ProductImage | null;
   brand: ProductBrand | null;

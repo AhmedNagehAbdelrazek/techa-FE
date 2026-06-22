@@ -182,50 +182,6 @@ export function ProductFormBasicInfo() {
         />
       </div>
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        <FormField
-          name="base_price"
-          control={control}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Base Price *</FormLabel>
-              <FormControl>
-                <Input
-                  type="number"
-                  step="0.01"
-                  min="0"
-                  placeholder="0.00"
-                  {...field}
-                  onChange={(e) => field.onChange(Number(e.target.value))}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          name="discount_percent"
-          control={control}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Discount %</FormLabel>
-              <FormControl>
-                <Input
-                  type="number"
-                  min="0"
-                  max="100"
-                  placeholder="0"
-                  {...field}
-                  onChange={(e) => field.onChange(Number(e.target.value))}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      </div>
-
       <div className="flex items-center gap-6">
         <FormField
           name="is_featured"
