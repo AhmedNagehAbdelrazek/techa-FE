@@ -46,7 +46,7 @@ function computeCurrentPrice(product: ProductDetail, variant: ProductVariant | n
 function computeStockQty(product: ProductDetail, variant: ProductVariant | null): number {
   if (product.variants.length > 0) {
     if (!variant) return 0;
-    return variant.stock_qty;
+    return variant.stock_qty ?? 0;
   }
   return 0;
 }
