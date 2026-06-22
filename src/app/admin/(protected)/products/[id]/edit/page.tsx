@@ -9,10 +9,12 @@ import { ProductForm } from "@/components/admin/ProductForm";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ErrorState } from "@/components/ui/ErrorState";
 
+const EMPTY_PERMISSIONS: Record<string, string[]> = {};
+
 export default function AdminEditProductPage() {
   const params = useParams();
   const id = params.id as string;
-  const permissions = useAdminStore((s) => s.admin?.permissions ?? {});
+  const permissions = useAdminStore((s) => s.admin?.permissions ?? EMPTY_PERMISSIONS);
   const canUpdate = permissions["products"]?.includes("update") ?? false;
 
   const { data: product, isLoading, isError, error, refetch } = useQuery({

@@ -89,10 +89,12 @@ interface ProductsTableProps {
   };
 }
 
+const EMPTY_PERMISSIONS: Record<string, string[]> = {};
+
 export function ProductsTable({ searchParams }: ProductsTableProps) {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const permissions = useAdminStore((s) => s.admin?.permissions ?? {});
+  const permissions = useAdminStore((s) => s.admin?.permissions ?? EMPTY_PERMISSIONS);
   const canUpdate = permissions["products"]?.includes("update") ?? false;
   const canDelete = permissions["products"]?.includes("delete") ?? false;
 

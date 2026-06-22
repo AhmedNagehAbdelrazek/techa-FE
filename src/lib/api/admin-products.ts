@@ -170,10 +170,6 @@ export interface AdminProductListParams {
   sort?: string;
 }
 
-export interface TagListResponse {
-  data: AdminTagOption[];
-}
-
 export interface MediaUploadResponse {
   url: string;
   filename: string;
@@ -268,8 +264,7 @@ export function getBrandOptions(): Promise<AdminBrandOption[]> {
 
 export function getTagOptions(): Promise<AdminTagOption[]> {
   return adminRequest
-    .get<TagListResponse>("/api/tags")
-    .then((res) => res.data);
+    .get<AdminTagOption[]>("/api/tags");
 }
 
 export function uploadMedia(file: File): Promise<MediaUploadResponse> {

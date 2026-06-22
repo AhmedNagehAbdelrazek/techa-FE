@@ -9,6 +9,8 @@ import { ProductsTable, ProductsTableSkeleton } from "@/components/admin/Product
 import { useAdminStore } from "@/lib/stores/admin.store";
 import { Button } from "@/components/ui/button";
 
+const EMPTY_PERMISSIONS: Record<string, string[]> = {};
+
 export default function AdminProductsPage() {
   return (
     <div className="space-y-6">
@@ -21,7 +23,7 @@ export default function AdminProductsPage() {
 
 function ProductsPageContent() {
   const searchParams = useSearchParams();
-  const permissions = useAdminStore((s) => s.admin?.permissions ?? {});
+  const permissions = useAdminStore((s) => s.admin?.permissions ?? EMPTY_PERMISSIONS);
   const canCreate = permissions["products"]?.includes("create") ?? false;
 
   const params = {

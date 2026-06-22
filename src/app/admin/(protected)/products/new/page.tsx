@@ -3,8 +3,10 @@
 import { useAdminStore } from "@/lib/stores/admin.store";
 import { ProductForm } from "@/components/admin/ProductForm";
 
+const EMPTY_PERMISSIONS: Record<string, string[]> = {};
+
 export default function AdminNewProductPage() {
-  const permissions = useAdminStore((s) => s.admin?.permissions ?? {});
+  const permissions = useAdminStore((s) => s.admin?.permissions ?? EMPTY_PERMISSIONS);
   const canCreate = permissions["products"]?.includes("create") ?? false;
 
   if (!canCreate) {
