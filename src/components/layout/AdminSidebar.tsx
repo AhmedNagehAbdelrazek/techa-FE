@@ -15,6 +15,7 @@ import {
   MapPin,
   Settings,
   Shield,
+  CreditCard,
 } from "lucide-react";
 
 const navLinks = [
@@ -24,6 +25,7 @@ const navLinks = [
   { label: "Brands", href: "/admin/brands", icon: Tag },
   { label: "Tags", href: "/admin/tags", icon: Tags },
   { label: "Orders", href: "/admin/orders", icon: ShoppingBag },
+  { label: "Payments", href: "/admin/payments", icon: CreditCard },
   { label: "Coupons", href: "/admin/coupons", icon: Percent },
   { label: "Banners", href: "/admin/banners", icon: Image },
   { label: "Delivery Zones", href: "/admin/delivery-zones", icon: MapPin },

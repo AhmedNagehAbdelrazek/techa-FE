@@ -3,7 +3,7 @@
 import { Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { ShoppingCart, DollarSign, Users, Clock } from "lucide-react";
+import { ShoppingCart, DollarSign, Users, Clock, CreditCard } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getOrderStats } from "@/lib/api/admin";
 import { DashboardMetricCard } from "@/components/admin/DashboardMetricCard";
@@ -79,7 +79,7 @@ function DashboardContent() {
       </div>
 
       {/* Metric Cards */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
         <DashboardMetricCard
           label="Total Orders"
           value={stats?.total_orders.current ?? 0}
@@ -109,6 +109,14 @@ function DashboardContent() {
           value={stats?.by_status.pending ?? 0}
           icon={Clock}
           href="/admin/orders?status=pending"
+          loading={statsLoading}
+          Highlighted={true}
+        />
+        <DashboardMetricCard
+          label="Payments Awaiting Review"
+          value={stats?.pending_payments ?? 0}
+          icon={CreditCard}
+          href="/admin/payments"
           loading={statsLoading}
           Highlighted={true}
         />
