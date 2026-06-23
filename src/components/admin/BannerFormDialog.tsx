@@ -19,7 +19,7 @@ const formSchema = z.object({
   title: z.string().min(1, "Title is required").max(200),
   description: z.string().max(500).optional().or(z.literal("")),
   image_url: z.string().url("Must be a valid URL").min(1, "Image URL is required"),
-  link_url: z.string().url().optional().or(z.literal("")),
+  link_url: z.string().optional().or(z.literal("")),
   position: z.enum(["hero", "promo", "sidebar", "bottom"]),
   sort_order: z.coerce.number().int().min(0).default(0),
   starts_at: z.string().min(1, "Start date is required"),

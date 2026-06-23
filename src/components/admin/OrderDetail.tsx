@@ -1,10 +1,12 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
+import { toast } from "sonner";
 
-import { getOrderDetail, adminOrdersKeys } from "@/lib/api/admin-orders";
+import { getOrderDetail, updateOrderStatus, adminOrdersKeys } from "@/lib/api/admin-orders";
 import { useAdminStore } from "@/lib/stores/admin.store";
 import { formatPrice, formatDateTime } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
@@ -20,6 +22,16 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogFooter,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogAction,
+  AlertDialogCancel,
+} from "@/components/ui/alert-dialog";
 import { OrderStatusUpdateModal } from "./OrderStatusUpdateModal";
 import { PaymentInfoCard } from "./PaymentInfoCard";
 
@@ -69,6 +81,22 @@ const EMPTY_PERMISSIONS: Record<string, string[]> = {};
 export function OrderDetail({ orderId }: OrderDetailProps) {
   const permissions = useAdminStore((s) => s.admin?.permissions ?? EMPTY_PERMISSIONS);
   const canUpdate = permissions["orders"]?.includes("update") ?? false;
+  const [cancelOpen, setCancelOpen] = useState(false);
+  const queryClient = useQueryClient();
+
+  const cancelMutation = useMutation({
+    mutationFn: () => updateOrderStatus(orderId, "cancelled"),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: adminOrdersKeys.detail(orderId) });
+      queryClient.invalidateQueries({ queryKey: adminOrdersKeys.lists() });
+      toast.success("Order cancelled");
+      setCancelOpen(false);
+      refetch();
+    },
+    onError: (err) => {
+      toast.error(err instanceof Error ? err.message : "Failed to cancel order");
+    },
+  });
 
   const { data: order, isLoading, isError, error, refetch } = useQuery({
     queryKey: adminOrdersKeys.detail(orderId),
@@ -108,7 +136,34 @@ export function OrderDetail({ orderId }: OrderDetailProps) {
             </p>
           </div>
         </div>
-        {canUpdate && <OrderStatusUpdateModal orderId={order.id} currentStatus={order.status} onUpdated={() => refetch()} />}
+        {canUpdate && (
+          <div className="flex items-center gap-2">
+            <OrderStatusUpdateModal orderId={order.id} currentStatus={order.status} onUpdated={() => refetch()} />
+            {order.status !== "cancelled" && order.status !== "delivered" && (
+              <>
+                <Button variant="destructive" onClick={() => setCancelOpen(true)}>
+                  Cancel Order
+                </Button>
+                <AlertDialog open={cancelOpen} onOpenChange={setCancelOpen}>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Cancel this order?</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This action cannot be undone. The order will be marked as cancelled.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Keep order</AlertDialogCancel>
+                      <AlertDialogAction onClick={() => cancelMutation.mutate()} disabled={cancelMutation.isPending}>
+                        {cancelMutation.isPending ? "Cancelling..." : "Yes, cancel order"}
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </>
+            )}
+          </div>
+        )}
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
