@@ -1,100 +1,113 @@
-# Implementation Plan: Admin Panel — Categories, Brands & Tags
+# Implementation Plan: [FEATURE]
 
-**Branch**: `016-admin-categories-brands-tags` | **Date**: 2026-06-23 | **Spec**: `specs/016-admin-categories-brands-tags/spec.md`
+**Branch**: `[###-feature-name]` | **Date**: [DATE] | **Spec**: [link]
 
-**Input**: Feature specification from `specs/016-admin-categories-brands-tags/spec.md`
+**Input**: Feature specification from `/specs/[###-feature-name]/spec.md`
+
+**Note**: This template is filled in by the `/speckit.plan` command. See `.specify/templates/plan-template.md` for the execution workflow.
 
 ## Summary
 
-Build admin taxonomy management UI: category tree with expand/collapse and CRUD via Dialog, brands paginated data table with Dialog-based CRUD, and tags flat list with inline edit/delete. Three new routes under `admin/(protected)`. Permission gating via `useAdminStore` with granular `read`/`create`/`update`/`delete` permissions. No new npm packages.
+[Extract from feature spec: primary requirement + technical approach from research]
 
 ## Technical Context
 
-**Language/Version**: TypeScript 5 (strict: true), Next.js 15 (App Router), React 19
+<!--
+  ACTION REQUIRED: Replace the content in this section with the technical details
+  for the project. The structure here is presented in advisory capacity to guide
+  the iteration process.
+-->
 
-**Primary Dependencies**: Next.js (react-dom, react), Tailwind CSS 4, shadcn/ui (New York, radix icons), lucide-react, zustand (@tanstack/react-query v5), sonner, react-hook-form + zod + @hookform/resolvers
+**Language/Version**: [e.g., Python 3.11, Swift 5.9, Rust 1.75 or NEEDS CLARIFICATION]
 
-**API Client**: `adminRequest` from `src/lib/api/AdminRequest.ts` — separate axios instance with `admin_access_token` (localStorage), interceptor for auth header injection
+**Primary Dependencies**: [e.g., FastAPI, UIKit, LLVM or NEEDS CLARIFICATION]
 
-**Storage**: N/A (data fetched from backend REST API)
+**Storage**: [if applicable, e.g., PostgreSQL, CoreData, files or N/A]
 
-**Testing**: N/A (testing deferred — existing Vitest + @testing-library/react + Playwright setup available but not used in this phase)
+**Testing**: [e.g., pytest, XCTest, cargo test or NEEDS CLARIFICATION]
 
-**Target Platform**: Web (Next.js 15, server + client rendering)
+**Target Platform**: [e.g., Linux server, iOS 15+, WASM or NEEDS CLARIFICATION]
 
-**Project Type**: Web application (Next.js App Router, frontend-only — consumes backend REST API)
+**Project Type**: [e.g., library/cli/web-service/mobile-app/compiler/desktop-app or NEEDS CLARIFICATION]
 
-**Performance Goals**: Category tree renders within 2 seconds (SC-002); brands table loads within 2 seconds; tag CRUD operations complete within 2 seconds
+**Performance Goals**: [domain-specific, e.g., 1000 req/s, 10k lines/sec, 60 fps or NEEDS CLARIFICATION]
 
-**Constraints**: No new npm packages; all required dependencies already in `package.json`. Arabic-first (RTL, `lang="ar"`, `dir="rtl"`). Mobile-responsive (375px). Frontend-only — backend provides REST API.
+**Constraints**: [domain-specific, e.g., <200ms p95, <100MB memory, offline-capable or NEEDS CLARIFICATION]
 
-**Scale/Scope**: Brands paginated at 20/page; categories tree (all items, not paginated); tags list (all items, not paginated). 3 routes within admin.
+**Scale/Scope**: [domain-specific, e.g., 10k users, 1M LOC, 50 screens or NEEDS CLARIFICATION]
 
 ## Constitution Check
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-| Gate | Check | Status |
-|------|-------|--------|
-| Pre-Flight Checklist | Applied to every new file | ✅ |
-| Package additions | Zero new packages needed — all dependencies exist | ✅ |
-| No new dependencies for core logic | All patterns exist: adminRequest, useAdminStore, React Query, shadcn ui wrappers | ✅ |
-| Existing patterns followed | Uses adminRequest, useAdminStore, ErrorState/EmptyState, skeleton export pattern, React Query query keys, Dialog for CRUD forms | ✅ |
+[Gates determined based on constitution file]
 
 ## Project Structure
 
 ### Documentation (this feature)
 
 ```text
-specs/016-admin-categories-brands-tags/
-├── plan.md              # This file
-├── research.md          # Phase 0 output
-├── data-model.md        # Phase 1 output
-├── quickstart.md        # Phase 1 output
-├── contracts/           # Phase 1 output
-│   ├── categories-api.md
-│   ├── brands-api.md
-│   └── tags-api.md
-└── tasks.md             # Phase 2 output (NOT created by /speckit.plan)
+specs/[###-feature]/
+├── plan.md              # This file (/speckit.plan command output)
+├── research.md          # Phase 0 output (/speckit.plan command)
+├── data-model.md        # Phase 1 output (/speckit.plan command)
+├── quickstart.md        # Phase 1 output (/speckit.plan command)
+├── contracts/           # Phase 1 output (/speckit.plan command)
+└── tasks.md             # Phase 2 output (/speckit.tasks command - NOT created by /speckit.plan)
 ```
 
 ### Source Code (repository root)
+<!--
+  ACTION REQUIRED: Replace the placeholder tree below with the concrete layout
+  for this feature. Delete unused options and expand the chosen structure with
+  real paths (e.g., apps/admin, packages/something). The delivered plan must
+  not include Option labels.
+-->
 
-```
+```text
+# [REMOVE IF UNUSED] Option 1: Single project (DEFAULT)
 src/
-├── lib/
-│   ├── api/
-│   │   └── admin-taxonomy.ts          # NEW — API wrappers + inline types for categories, brands, tags
-│   └── types/
-│       ├── category.ts                # EXISTING — Category interface (may extend)
-│       ├── brand.ts                   # EXISTING — Brand interface (may extend)
-│       └── product.ts                 # EXISTING — Tag interface defined here
-├── components/
-│   ├── ui/
-│   │   └── (existing: Table, Dialog, AlertDialog, Badge, Button, Input, Select, Textarea, Checkbox, ErrorState, EmptyState, Skeleton)
-│   └── admin/
-│       ├── CategoryTree.tsx           # NEW — recursive tree view with expand/collapse, edit/deactivate
-│       ├── CategoryFormDialog.tsx     # NEW — create/edit category form in Dialog
-│       ├── BrandsTable.tsx            # NEW — paginated brands data table with create/edit Dialog
-│       ├── BrandFormDialog.tsx        # NEW — create/edit brand form in Dialog
-│       └── TagsList.tsx              # NEW — flat tags list with inline edit/delete
-├── app/
-│   └── admin/
-│       └── (protected)/
-│           ├── categories/
-│           │   └── page.tsx           # NEW — category management page
-│           ├── brands/
-│           │   └── page.tsx           # NEW — brand management page
-│           └── tags/
-│               └── page.tsx           # NEW — tag management page
+├── models/
+├── services/
+├── cli/
+└── lib/
+
+tests/
+├── contract/
+├── integration/
+└── unit/
+
+# [REMOVE IF UNUSED] Option 2: Web application (when "frontend" + "backend" detected)
+backend/
+├── src/
+│   ├── models/
+│   ├── services/
+│   └── api/
+└── tests/
+
+frontend/
+├── src/
+│   ├── components/
+│   ├── pages/
+│   └── services/
+└── tests/
+
+# [REMOVE IF UNUSED] Option 3: Mobile + API (when "iOS/Android" detected)
+api/
+└── [same as backend above]
+
+ios/ or android/
+└── [platform-specific structure: feature modules, UI flows, platform tests]
 ```
 
-**Structure Decision**: Each taxonomy type gets its own page route and dedicated component. Category uses a recursive tree pattern; brand uses a data table matching Phase 14's ProductsTable pattern (without bulk actions); tag uses a simple flat list. Forms are extracted into separate Dialog components for reusability (create/edit share the same Dialog).
+**Structure Decision**: [Document the selected structure and reference the real
+directories captured above]
 
 ## Complexity Tracking
 
-No constitution violations — all patterns match existing codebase conventions.
+> **Fill ONLY if Constitution Check has violations that must be justified**
 
 | Violation | Why Needed | Simpler Alternative Rejected Because |
 |-----------|------------|-------------------------------------|
-| N/A | — | — |
+| [e.g., 4th project] | [current need] | [why 3 projects insufficient] |
+| [e.g., Repository pattern] | [specific problem] | [why direct DB access insufficient] |
