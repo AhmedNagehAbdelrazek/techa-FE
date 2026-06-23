@@ -40,53 +40,58 @@ If none of these apply, do not add the dependency. Ask first.
 
 ## Current Plan
 
-**Feature**: Admin Coupons & Delivery Zones
-**Branch**: `017-admin-coupons-delivery-zones`
-**Plan file**: `specs/017-admin-coupons-delivery-zones/plan.md`
-**Spec file**: `specs/017-admin-coupons-delivery-zones/spec.md`
+**Feature**: Admin Banners, Settings & Media
+**Branch**: `018-admin-banners-settings-media`
+**Plan file**: `specs/018-admin-banners-settings-media/plan.md`
+**Spec file**: `specs/018-admin-banners-settings-media/spec.md`
 
 ### Key Artifacts
 
-- [spec.md](specs/017-admin-coupons-delivery-zones/spec.md) — Feature specification
-- [plan.md](specs/017-admin-coupons-delivery-zones/plan.md) — Implementation plan
-- [research.md](specs/017-admin-coupons-delivery-zones/research.md) — Tech inventory & findings
-- [data-model.md](specs/017-admin-coupons-delivery-zones/data-model.md) — Types & API shapes
-- [quickstart.md](specs/017-admin-coupons-delivery-zones/quickstart.md) — Setup guide
-- [contracts/coupons-api.md](specs/017-admin-coupons-delivery-zones/contracts/coupons-api.md) — Coupons API contract
-- [contracts/delivery-zones-api.md](specs/017-admin-coupons-delivery-zones/contracts/delivery-zones-api.md) — Delivery Zones API contract
+- [spec.md](specs/018-admin-banners-settings-media/spec.md) — Feature specification
+- [plan.md](specs/018-admin-banners-settings-media/plan.md) — Implementation plan
+- [research.md](specs/018-admin-banners-settings-media/research.md) — Tech inventory & findings
+- [data-model.md](specs/018-admin-banners-settings-media/data-model.md) — Types & API shapes
+- [quickstart.md](specs/018-admin-banners-settings-media/quickstart.md) — Setup guide
+- [contracts/banners-api.md](specs/018-admin-banners-settings-media/contracts/banners-api.md) — Banners API contract
+- [contracts/settings-api.md](specs/018-admin-banners-settings-media/contracts/settings-api.md) — Settings API contract
+- [contracts/media-api.md](specs/018-admin-banners-settings-media/contracts/media-api.md) — Media API contract
 
 ### Implementation Order
 
-1. Create `src/lib/api/admin-coupons-zones.ts` — API wrappers and types for coupons (list, create, update, deactivate), zones (list, create, update, deactivate), rates (list, create, update)
-2. Create `src/components/admin/CouponsTable.tsx` — paginated data table with code, product, type, value, usage, expiry, status
-3. Create `src/components/admin/CouponFormDialog.tsx` — create/edit coupon form in Dialog with searchable product combobox
-4. Create `src/components/admin/ZonesTable.tsx` — zones table with expandable rows for shipping rates
-5. Create `src/components/admin/ZoneFormDialog.tsx` — create/edit zone form in Dialog (name, regions multi-tag chip, is_active)
-6. Create `src/components/admin/RateFormDialog.tsx` — create/edit shipping rate form in Dialog
-7. Create `src/app/admin/(protected)/coupons/page.tsx` — coupon management page
-8. Create `src/app/admin/(protected)/delivery-zones/page.tsx` — delivery zone management page
-9. Verify sidebar links (Delivery Zones already exists; add Coupons if missing)
-10. Tree-shake / final review
-11. Build verification: `pnpm run build`
+1. Create `src/lib/api/admin-banners-settings-media.ts` — API wrappers and types for banners (list, create, update, delete), settings (list, update), media (list with pagination, upload, delete)
+2. Create `src/components/admin/BannersTable.tsx` — data table with image thumbnail, title, position, active period, sort_order, status badge (Active/Expired/Inactive)
+3. Create `src/components/admin/BannerFormDialog.tsx` — create/edit banner form in Dialog with react-hook-form + zod (title, description, image_url with preview, link_url, position dropdown, sort_order, starts_at/ends_at date pickers, is_active)
+4. Create `src/components/admin/SettingsPage.tsx` + `SettingsGroup.tsx` — grouped settings with dynamic input rendering by type (string/textarea/boolean/image/color/number). Image type has inline upload button.
+5. Create `src/components/admin/MediaGrid.tsx` + `MediaUploadZone.tsx` — paginated grid with batch multi-file upload, thumbnail preview, Copy URL, Delete with 409 conflict handling
+6. Create page files: `/admin/banners/page.tsx`, `/admin/settings/page.tsx`, `/admin/media/page.tsx`
+7. Modify `AdminSidebar.tsx` — add Media link (Banners and Settings already exist)
+8. Modify `Breadcrumbs.tsx` — add "media" segment label (banners and settings already exist)
+9. Tree-shake / final review
+10. Build verification: `pnpm run build`
 
 ### Critical Patterns (enforced)
 
 - **No new npm packages**: All dependencies already in package.json. No new shadcn wrappers needed.
-- **Permission gating**: `useAdminStore` with `EMPTY_PERMISSIONS` — granular `read`/`create`/`update`/`delete` per resource (`coupons.*`, `zones.*`)
-- **React Query keys**: `adminCouponZoneKeys` pattern matching `adminProductsKeys`/`adminOrdersKeys`
+- **Permission gating**: `useAdminStore` with `EMPTY_PERMISSIONS` — granular `read`/`create`/`update`/`delete` per resource (`content.*` for banners, `settings.*` for settings, `media.*` for media)
+- **React Query keys**: `adminBannerSettingsKeys` pattern matching `adminProductsKeys`/`adminOrdersKeys`
 - **Skeleton exports**: Each component exports `*Skeleton` (existing convention)
 - **Error/empty states**: Reuse `ErrorState` / `EmptyState` from `src/components/ui/`
 - **Admin API client**: `adminRequest` from `AdminRequest.ts` for all admin API calls
-- **Form validation**: react-hook-form + zod for coupon and zone forms (same pattern as Phase 14)
-- **Coupon status badge**: Three-way — Inactive > Expired > Active precedence
-- **Zone expandable rows**: Local useState toggle per row, rates fetched on expand
-- **Product combobox**: Debounced search via React Query with `keepPreviousData`
-- **Regions input**: Multi-tag chip input with removable badges
-- **Deactivation**: AlertDialog confirmation; warning for zone deactivation about rates
+- **Form validation**: react-hook-form + zod for banner form; controlled state for settings
+- **Banner status badge**: Three-way — Inactive > Expired > Active precedence. Null `ends_at` = no expiry (Active).
+- **Settings dynamic inputs**: Switch on `type` field renders correct component. Image type includes inline upload button.
+- **Settings inactive rendering**: Grayed out but editable, with tooltip "Inactive setting"
+- **Media pagination**: React Query with `keepPreviousData`, page/limit params
+- **Media multi-file upload**: Batch upload via single `POST /api/admin/media` with `files[]` form field
+- **Media delete 409**: Show conflict error in AlertDialog, keep item in grid on 409
+- **Deactivation**: AlertDialog confirmation for banner delete and media delete
+- **Sidebar links**: Add Media link (Banners and Settings already exist)
+- **Breadcrumbs**: Add "media" segment label (banners and settings already exist)
 - **Arabic-first RTL**: Already handled by root layout
 
 ### Completed
 
+- **Phase 17** (Admin Coupons & Delivery Zones): Coupons paginated table with CRUD dialog, zones table with expandable rate rows, permission gating. Build passes.
 - **Phase 16** (Admin Categories, Brands & Tags): Category tree with expand/collapse, brands paginated table, tags inline edit/delete, permission gating, all three admin pages. Build passes.
 - **Phase 15** (Admin Orders & Payment Review): Orders table with sort/filters, order detail with status timeline/update modal, payment approve/reject, pending payments queue, dashboard metric card, sidebar link. All files implemented, build passes.
 - **Phase 14** (Admin Products): Full product CRUD with multi-tab form, paginated table, bulk actions, permission gating. Build passes.
