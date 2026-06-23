@@ -40,56 +40,56 @@ If none of these apply, do not add the dependency. Ask first.
 
 ## Current Plan
 
-**Feature**: Admin Orders & Payment Review
-**Branch**: `015-admin-orders-payments`
-**Plan file**: `specs/015-admin-orders-payments/plan.md`
-**Spec file**: `specs/015-admin-orders-payments/spec.md`
+**Feature**: Admin Categories, Brands & Tags
+**Branch**: `016-admin-categories-brands-tags`
+**Plan file**: `specs/016-admin-categories-brands-tags/plan.md`
+**Spec file**: `specs/016-admin-categories-brands-tags/spec.md`
 
 ### Key Artifacts
 
-- [spec.md](specs/015-admin-orders-payments/spec.md) — Feature specification
-- [plan.md](specs/015-admin-orders-payments/plan.md) — Implementation plan
-- [research.md](specs/015-admin-orders-payments/research.md) — Tech inventory & findings
-- [data-model.md](specs/015-admin-orders-payments/data-model.md) — Types & API shapes
-- [quickstart.md](specs/015-admin-orders-payments/quickstart.md) — Setup guide
-- [contracts/orders-api.md](specs/015-admin-orders-payments/contracts/orders-api.md) — Orders API contract
-- [contracts/payments-api.md](specs/015-admin-orders-payments/contracts/payments-api.md) — Payments API contract
+- [spec.md](specs/016-admin-categories-brands-tags/spec.md) — Feature specification
+- [plan.md](specs/016-admin-categories-brands-tags/plan.md) — Implementation plan
+- [research.md](specs/016-admin-categories-brands-tags/research.md) — Tech inventory & findings
+- [data-model.md](specs/016-admin-categories-brands-tags/data-model.md) — Types & API shapes
+- [quickstart.md](specs/016-admin-categories-brands-tags/quickstart.md) — Setup guide
+- [contracts/categories-api.md](specs/016-admin-categories-brands-tags/contracts/categories-api.md) — Categories API contract
+- [contracts/brands-api.md](specs/016-admin-categories-brands-tags/contracts/brands-api.md) — Brands API contract
+- [contracts/tags-api.md](specs/016-admin-categories-brands-tags/contracts/tags-api.md) — Tags API contract
 
 ### Implementation Order
 
-1. Create `src/lib/api/admin-orders.ts` — API wrappers for orders list, detail, status update; payments list, approve, reject
-2. Create `src/components/admin/OrdersTable.tsx` — paginated, sortable data table with status/payment status/date range filters, search by order number or email
-3. Create `src/components/admin/OrderDetail.tsx` — order detail container (customer card, items table, status timeline, payment card, shipping address card)
-4. Create `src/components/admin/OrderStatusUpdateModal.tsx` — modal with current status, radio options for forward transitions
-5. Create `src/components/admin/PaymentInfoCard.tsx` — payment info with screenshot preview, approve/reject buttons (gated by `orders.update`)
-6. Create `src/components/admin/PaymentsTable.tsx` — pending payments queue table with screenshot Dialog, approve AlertDialog, reject Dialog with reason
-7. Create `src/app/admin/(protected)/orders/page.tsx` — orders list page
-8. Create `src/app/admin/(protected)/orders/[id]/page.tsx` — order detail page
-9. Create `src/app/admin/(protected)/payments/page.tsx` — pending payments page
-10. Update dashboard — add "Payments Awaiting Review" metric card linking to `/admin/payments`
-11. Add sidebar link to orders in admin navigation
-12. Tree-shake / final review
-13. Build verification: `pnpm run build`
+1. Create `src/lib/api/admin-taxonomy.ts` — API wrappers and types for categories (list, create, update, deactivate), brands (list, create, update, deactivate), tags (list, create, update, delete)
+2. Create `src/components/admin/CategoryTree.tsx` — recursive tree view with expand/collapse, edit/deactivate per node
+3. Create `src/components/admin/CategoryFormDialog.tsx` — create/edit category form in Dialog (name, slug, parent, image, sort_order, is_active)
+4. Create `src/components/admin/BrandsTable.tsx` — paginated data table with logo, name, slug, description, status
+5. Create `src/components/admin/BrandFormDialog.tsx` — create/edit brand form in Dialog (name, slug, logo, description, is_active)
+6. Create `src/components/admin/TagsList.tsx` — flat list with inline edit and delete via AlertDialog
+7. Create `src/app/admin/(protected)/categories/page.tsx` — category management page
+8. Create `src/app/admin/(protected)/brands/page.tsx` — brand management page
+9. Create `src/app/admin/(protected)/tags/page.tsx` — tag management page
+10. Add sidebar links to Categories, Brands, Tags in admin navigation
+11. Tree-shake / final review
+12. Build verification: `pnpm run build`
 
 ### Critical Patterns (enforced)
 
 - **No new npm packages**: All dependencies already in package.json. No new shadcn wrappers needed.
-- **Permission gating**: `useAdminStore` — `orders.read` for page access, `orders.update` for status update button and payment approve/reject
-- **Search/filter state in URL**: Debounced 300ms, `?search=`/`?status=`/`?payment_status=` via `useRouter.replace`
-- **Sortable columns**: Server-side sort via `?sort=field:dir`, click column header to toggle ASC/DESC
-- **React Query keys**: `adminOrdersKeys` pattern matching `adminProductsKeys`
+- **Permission gating**: `useAdminStore` with `EMPTY_PERMISSIONS` — granular `read`/`create`/`update`/`delete` per resource (`categories.*`, `brands.*`, `tags.*`)
+- **React Query keys**: `adminTaxonomyKeys` pattern matching `adminProductsKeys`/`adminOrdersKeys`
 - **Skeleton exports**: Each component exports `*Skeleton` (existing convention)
 - **Error/empty states**: Reuse `ErrorState` / `EmptyState` from `src/components/ui/`
 - **Admin API client**: `adminRequest` from `AdminRequest.ts` for all admin API calls
-- **Status badges**: Follow Phase 9 color convention (pending=yellow, confirmed=blue, etc.)
-- **Forward-only lifecycle**: Status modal only shows `pending→confirmed→processing→shipped→delivered`
-- **Dashboard metric card**: `DashboardMetricCard` with `href="/admin/payments"` for pending payments
+- **Form validation**: react-hook-form + zod for category and brand forms (same pattern as Phase 14)
+- **Category tree**: Recursive component, expand/collapse via local useState
+- **Tags edit**: Inline input on click, save on Enter/blur
+- **Deactivation**: AlertDialog confirmation; 409 conflict shown via toast
 - **Arabic-first RTL**: Already handled by root layout
 
 ### Completed
 
-- **Phase 14** (Admin Products): Full product CRUD with multi-tab form (basic info, attributes, images, tags, variants), paginated table with search/filters/bulk actions, permission gating. All files implemented, build passes.
-- **Phase 13** (Admin Dashboard): Dashboard with metric cards, donut chart, recent orders table, period selector, admin infrastructure. Build passes.
+- **Phase 15** (Admin Orders & Payment Review): Orders table with sort/filters, order detail with status timeline/update modal, payment approve/reject, pending payments queue, dashboard metric card, sidebar link. All files implemented, build passes.
+- **Phase 14** (Admin Products): Full product CRUD with multi-tab form, paginated table, bulk actions, permission gating. Build passes.
+- **Phase 13** (Admin Dashboard): Dashboard with metric cards, donut chart, recent orders table, period selector. Build passes.
 - **Phase 12** (Customer Account & Addresses): All files implemented, build passes.
 - **Phases 7-11**: Customer Cart, Checkout, Order History, Wishlist, Notifications, and prior features.
 
