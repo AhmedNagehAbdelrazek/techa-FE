@@ -18,6 +18,7 @@ import type { Order } from "@/lib/types/order";
 
 export default function ConfirmationPage() {
   const params = useParams<{ id: string }>();
+  useEffect(() => { document.title = "تأكيد الطلب — TechA"; }, []);
   const router = useRouter();
   const [order, setOrder] = useState<Order | null>(null);
   const [loading, setLoading] = useState(true);

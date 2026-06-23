@@ -9,6 +9,7 @@ import { CartEmptyState } from "@/components/store/CartEmptyState";
 import { CartCouponInput } from "@/components/store/CartCouponInput";
 
 export default function CartPage() {
+  useEffect(() => { document.title = "سلة التسوق — TechA"; }, []);
   const items = useCartStore((s) => s.items);
   const isLoading = useCartStore((s) => s.isLoading);
   const fetchCart = useCartStore((s) => s.fetchCart);

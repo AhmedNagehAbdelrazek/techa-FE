@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Plus } from "lucide-react";
@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 const EMPTY_PERMISSIONS: Record<string, string[]> = {};
 
 export default function AdminProductsPage() {
+  useEffect(() => { document.title = "إدارة المنتجات — TechA"; }, []);
   return (
     <div className="space-y-6">
       <Suspense fallback={<ProductsListPageSkeleton />}>

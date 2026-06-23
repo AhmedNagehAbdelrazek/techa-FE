@@ -1,8 +1,10 @@
 "use client";
 
+import { useEffect } from "react";
 import { PaymentsTable } from "@/components/admin/PaymentsTable";
 
 export default function AdminPaymentsPage() {
+  useEffect(() => { document.title = "إدارة المدفوعات — TechA"; }, []);
   return (
     <div className="space-y-6">
       <div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Plus } from "lucide-react";
 
 import { BannersTable } from "@/components/admin/BannersTable";
@@ -12,6 +12,7 @@ import type { AdminBanner } from "@/lib/api/admin-banners-settings-media";
 const EMPTY_PERMISSIONS: Record<string, string[]> = {};
 
 export default function AdminBannersPage() {
+  useEffect(() => { document.title = "إدارة البنرات — TechA"; }, []);
   const permissions = useAdminStore((s) => s.admin?.permissions ?? EMPTY_PERMISSIONS);
   const canCreate = permissions["content"]?.includes("create") ?? false;
 

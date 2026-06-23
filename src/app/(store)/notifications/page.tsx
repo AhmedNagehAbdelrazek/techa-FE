@@ -10,6 +10,7 @@ import { Pagination } from "@/components/store/Pagination";
 import type { Notification, Meta } from "@/lib/types/notification";
 
 export default function NotificationsPage() {
+  useEffect(() => { document.title = "الإشعارات — TechA"; }, []);
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [meta, setMeta] = useState<Meta | null>(null);
   const [loading, setLoading] = useState(true);

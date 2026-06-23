@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { Plus } from "lucide-react";
 
@@ -13,6 +13,7 @@ import type { AdminBrand } from "@/lib/api/admin-taxonomy";
 const EMPTY_PERMISSIONS: Record<string, string[]> = {};
 
 export default function AdminBrandsPage() {
+  useEffect(() => { document.title = "إدارة العلامات التجارية — TechA"; }, []);
   return (
     <Suspense fallback={<BrandsPageSkeleton />}>
       <AdminBrandsPageContent />

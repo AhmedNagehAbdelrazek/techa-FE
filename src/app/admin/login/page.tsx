@@ -9,6 +9,7 @@ import { AUTH_COOKIE_NAME } from "@/lib/auth/constants";
 import { Button } from "@/components/ui/button";
 
 export default function AdminLoginPage() {
+  useEffect(() => { document.title = "تسجيل دخول الأدمن — TechA"; }, []);
   const router = useRouter();
   const { setAdmin, admin, isAuthenticated,_hydrated } = useAdminStore();
   const [email, setEmail] = useState("");

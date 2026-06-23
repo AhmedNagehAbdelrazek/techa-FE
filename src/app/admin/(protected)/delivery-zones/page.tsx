@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { Plus } from "lucide-react";
 
 import { ZonesTable } from "@/components/admin/ZonesTable";
@@ -13,6 +13,7 @@ import type { AdminZone, AdminShippingRate } from "@/lib/api/admin-coupons-zones
 const EMPTY_PERMISSIONS: Record<string, string[]> = {};
 
 export default function AdminDeliveryZonesPage() {
+  useEffect(() => { document.title = "إدارة مناطق التوصيل — TechA"; }, []);
   return (
     <Suspense fallback={<DeliveryZonesPageSkeleton />}>
       <AdminDeliveryZonesPageContent />

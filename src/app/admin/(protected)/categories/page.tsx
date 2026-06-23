@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Plus } from "lucide-react";
 
 import { CategoryTree } from "@/components/admin/CategoryTree";
@@ -12,6 +12,7 @@ import type { AdminCategory } from "@/lib/api/admin-taxonomy";
 const EMPTY_PERMISSIONS: Record<string, string[]> = {};
 
 export default function AdminCategoriesPage() {
+  useEffect(() => { document.title = "إدارة التصنيفات — TechA"; }, []);
   const permissions = useAdminStore((s) => s.admin?.permissions ?? EMPTY_PERMISSIONS);
   const canCreate = permissions["categories"]?.includes("create") ?? false;
 

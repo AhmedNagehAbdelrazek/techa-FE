@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import { HeroBanner, HeroBannerSkeleton } from "@/components/store/HeroBanner";
 import {
@@ -16,6 +17,10 @@ import {
   MidPageBanner,
   MidPageBannerSkeleton,
 } from "@/components/store/MidPageBanner";
+
+export const metadata: Metadata = {
+  title: "TechA — متجر التكنولوجيا",
+};
 
 export default function HomePage() {
   return (

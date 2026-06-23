@@ -23,6 +23,7 @@ interface CheckoutState {
 }
 
 export default function CheckoutPage() {
+  useEffect(() => { document.title = "إتمام الطلب — TechA"; }, []);
   const router = useRouter();
   const cartItems = useCartStore((s) => s.items);
 

@@ -1,5 +1,10 @@
+import type { Metadata } from "next";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { WishlistPageClient } from "@/components/store/WishlistPageClient";
+
+export const metadata: Metadata = {
+  title: "المفضلة — TechA",
+};
 
 export default function WishlistPage() {
   return (

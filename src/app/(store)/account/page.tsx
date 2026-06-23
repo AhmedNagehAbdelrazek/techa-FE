@@ -1,5 +1,10 @@
+import type { Metadata } from "next";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { AccountPageContent } from "./AccountPageContent";
+
+export const metadata: Metadata = {
+  title: "حسابي — TechA",
+};
 
 export default function AccountPage() {
   return (

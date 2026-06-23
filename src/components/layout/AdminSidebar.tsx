@@ -18,6 +18,7 @@ import {
   ShieldCheck,
   CreditCard,
   ImagePlus,
+  MessageSquare,
 } from "lucide-react";
 
 const navLinks = [
@@ -29,6 +30,7 @@ const navLinks = [
   { label: "Orders", href: "/admin/orders", icon: ShoppingBag },
   { label: "Payments", href: "/admin/payments", icon: CreditCard },
   { label: "Coupons", href: "/admin/coupons", icon: Percent },
+  { label: "Reviews", href: "/admin/reviews", icon: MessageSquare },
   { label: "Banners", href: "/admin/banners", icon: Image },
   { label: "Delivery Zones", href: "/admin/delivery-zones", icon: MapPin },
   { label: "Media", href: "/admin/media", icon: ImagePlus },

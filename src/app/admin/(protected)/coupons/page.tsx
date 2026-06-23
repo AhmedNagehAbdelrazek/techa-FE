@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { Plus } from "lucide-react";
 
@@ -13,6 +13,7 @@ import type { AdminCoupon } from "@/lib/api/admin-coupons-zones";
 const EMPTY_PERMISSIONS: Record<string, string[]> = {};
 
 export default function AdminCouponsPage() {
+  useEffect(() => { document.title = "إدارة الكوبونات — TechA"; }, []);
   return (
     <Suspense fallback={<CouponsPageSkeleton />}>
       <AdminCouponsPageContent />

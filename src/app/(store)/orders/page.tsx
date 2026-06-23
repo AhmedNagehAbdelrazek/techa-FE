@@ -12,6 +12,7 @@ import { Pagination } from "@/components/store/Pagination";
 import type { OrderListItem, Meta } from "@/lib/types/order";
 
 export default function OrdersPage() {
+  useEffect(() => { document.title = "طلباتي — TechA"; }, []);
   const [orders, setOrders] = useState<OrderListItem[]>([]);
   const [meta, setMeta] = useState<Meta | null>(null);
   const [loading, setLoading] = useState(true);

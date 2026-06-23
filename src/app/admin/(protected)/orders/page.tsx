@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { OrdersTable, OrdersTableSkeleton } from "@/components/admin/OrdersTable";
 
@@ -31,6 +31,7 @@ function OrdersPageContent() {
 }
 
 export default function AdminOrdersPage() {
+  useEffect(() => { document.title = "إدارة الطلبات — TechA"; }, []);
   return (
     <Suspense fallback={<OrdersTableSkeleton />}>
       <OrdersPageContent />

@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { ShoppingCart, DollarSign, Users, Clock, CreditCard } from "lucide-react";
@@ -154,6 +154,7 @@ function DashboardContent() {
 }
 
 export default function AdminDashboardPage() {
+  useEffect(() => { document.title = "لوحة التحكم — TechA"; }, []);
   return (
     <Suspense fallback={<div className="p-8 text-center">Loading...</div>}>
       <DashboardContent />

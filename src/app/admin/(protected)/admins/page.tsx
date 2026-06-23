@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Plus } from "lucide-react";
 
 import { AdminAdminsTable } from "@/components/admin/AdminAdminsTable";
@@ -12,6 +12,7 @@ import type { AdminAccount } from "@/lib/api/admin-admins-roles";
 const EMPTY_PERMISSIONS: Record<string, string[]> = {};
 
 export default function AdminAdminsPage() {
+  useEffect(() => { document.title = "إدارة الأدمن — TechA"; }, []);
   const permissions = useAdminStore((s) => s.admin?.permissions ?? EMPTY_PERMISSIONS);
   const canCreate = permissions["admins"]?.includes("create") ?? false;
 

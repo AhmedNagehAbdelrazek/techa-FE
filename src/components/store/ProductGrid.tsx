@@ -86,7 +86,8 @@ export function ProductGrid({ categorySlug, searchQuery }: ProductGridProps) {
         params.set(key, String(value));
       }
       if (key !== "page") params.delete("page");
-      router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+      const qs = params.toString();
+      router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
     },
     [searchParams, router, pathname],
   );
@@ -121,15 +122,20 @@ export function ProductGrid({ categorySlug, searchQuery }: ProductGridProps) {
           selectedBrands.filter((id) => id !== brandId),
         );
       } else if (key === "price") {
-        updateURL("min_price", "");
-        updateURL("max_price", "");
+        // ponytail: single atomic URL update instead of two separate replace calls
+        const params = new URLSearchParams(searchParams.toString());
+        params.delete("min_price");
+        params.delete("max_price");
+        params.delete("page");
+        const qs = params.toString();
+        router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
       } else if (key === "rating") {
-        updateURL("rating", 0);
+        updateURL("min_rating", 0);
       } else if (key === "in_stock") {
         updateURL("in_stock", false);
       }
     },
-    [updateURL, selectedBrands],
+    [updateURL, selectedBrands, searchParams, pathname, router],
   );
 
   const handleClearAll = useCallback(() => {
@@ -176,7 +182,7 @@ export function ProductGrid({ categorySlug, searchQuery }: ProductGridProps) {
       <Separator />
       <RatingFilter
         selectedRating={selectedRating}
-        onRatingChange={(v) => updateURL("rating", v)}
+            onRatingChange={(v) => updateURL("min_rating", v)}
       />
     </>
   );
