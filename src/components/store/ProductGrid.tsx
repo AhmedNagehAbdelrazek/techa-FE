@@ -30,7 +30,7 @@ export function ProductGrid({ categorySlug, searchQuery }: ProductGridProps) {
   const pathname = usePathname();
   const currentPage = Number(searchParams.get("page")) || 1;
   const currentSort = searchParams.get("sort") || "newest";
-  const brandsStr = searchParams.get("brand_id") ?? "";
+  const brandsStr = searchParams.get("brand") ?? "";
   const selectedBrands = useMemo(() => brandsStr ? brandsStr.split(",").filter(Boolean) : [], [brandsStr]);
   const minPrice = searchParams.get("min_price") || "";
   const maxPrice = searchParams.get("max_price") || "";
@@ -44,7 +44,7 @@ export function ProductGrid({ categorySlug, searchQuery }: ProductGridProps) {
     };
     if (categorySlug) params.category = categorySlug;
     if (searchQuery) params.search = searchQuery;
-    if (selectedBrands.length > 0) params.brand_id = selectedBrands.join(",");
+    if (selectedBrands.length > 0) params.brand = selectedBrands.join(",");
     if (minPrice) params.min_price = Number(minPrice);
     if (maxPrice) params.max_price = Number(maxPrice);
     if (selectedRating > 0) params.min_rating = selectedRating;
@@ -117,7 +117,7 @@ export function ProductGrid({ categorySlug, searchQuery }: ProductGridProps) {
       if (key.startsWith("brand-")) {
         const brandId = key.replace("brand-", "");
         updateURL(
-          "brand_id",
+          "brand",
           selectedBrands.filter((id) => id !== brandId),
         );
       } else if (key === "price") {
@@ -145,7 +145,7 @@ export function ProductGrid({ categorySlug, searchQuery }: ProductGridProps) {
       const next = selectedBrands.includes(brandId)
         ? selectedBrands.filter((id) => id !== brandId)
         : [...selectedBrands, brandId];
-      updateURL("brand_id", next);
+      updateURL("brand", next);
     },
     [selectedBrands, updateURL],
   );
@@ -156,10 +156,6 @@ export function ProductGrid({ categorySlug, searchQuery }: ProductGridProps) {
 
   const products = data?.data ?? [];
   const pagination = data?.pagination;
-
-  if (!isLoading && products.length === 0) {
-    return <EmptyState title="No products found" description="Try adjusting your filters" />;
-  }
 
   const activeFilterCount = chips.length;
 
@@ -210,6 +206,11 @@ export function ProductGrid({ categorySlug, searchQuery }: ProductGridProps) {
             {Array.from({ length: 8 }).map((_, i) => (
               <ProductCardSkeleton key={i} />
             ))}
+          </div>
+        ) : products.length === 0 ? (
+          // ponytail: empty state only replaces grid content, filters stay visible
+          <div className="mt-4">
+            <EmptyState title="No products found" description="Try adjusting your filters" />
           </div>
         ) : (
           <>

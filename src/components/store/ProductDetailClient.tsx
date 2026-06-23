@@ -9,7 +9,6 @@ import { QuantitySelector } from "./QuantitySelector";
 import { VariantSelector } from "./VariantSelector";
 import { AddToCartButton } from "./AddToCartButton";
 import { WishlistButton } from "./WishlistButton";
-import { CouponInput } from "./CouponInput";
 import { ProductAttributes } from "./ProductAttributes";
 import { ReviewList } from "./ReviewList";
 import type { ProductDetail, ProductVariant } from "@/lib/types/product";
@@ -45,9 +44,9 @@ function computeCurrentPrice(product: ProductDetail, variant: ProductVariant | n
 
 function computePrice (product: ProductDetail, variant: ProductVariant | null): number {
   if (variant) {
-    const price = variant.price ?? product.price;
-    return price;
+    return variant.price ?? product.price;
   }
+  return product.price;
 }
 
 function computeStockQty(product: ProductDetail, variant: ProductVariant | null): number {
