@@ -206,13 +206,31 @@ export function CheckoutAddressStep({
             </div>
             <div>
               <label className="text-sm font-medium">City *</label>
-              <Input
+              <select
+                className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 outline-none disabled:cursor-not-allowed disabled:opacity-50"
                 value={newAddress.city}
                 onChange={(e) =>
                   setNewAddress({ ...newAddress, city: e.target.value })
                 }
-                placeholder="City"
-              />
+                disabled={
+                  !zones.find((z) => z.id === newAddress.zone_id)?.regions
+                    ?.length
+                }
+              >
+                <option value="">
+                  {zones.find((z) => z.id === newAddress.zone_id)?.regions
+                    ?.length
+                    ? "Select a city..."
+                    : "Select a delivery zone first"}
+                </option>
+                {zones
+                  .find((z) => z.id === newAddress.zone_id)
+                  ?.regions.map((region) => (
+                    <option key={region} value={region}>
+                      {region}
+                    </option>
+                  ))}
+              </select>
             </div>
             <div className="sm:col-span-2">
               <label className="text-sm font-medium">Street *</label>
@@ -233,7 +251,11 @@ export function CheckoutAddressStep({
                   className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 outline-none"
                   value={newAddress.zone_id}
                   onChange={(e) =>
-                    setNewAddress({ ...newAddress, zone_id: e.target.value })
+                    setNewAddress({
+                      ...newAddress,
+                      zone_id: e.target.value,
+                      city: "",
+                    })
                   }
                 >
                   <option value="">Select zone</option>

@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -42,6 +43,9 @@ export function AccountAddressForm({
   const {
     register,
     handleSubmit,
+    watch,
+    getValues,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<AddressFormData>({
     resolver: zodResolver(addressSchema),
@@ -71,6 +75,16 @@ export function AccountAddressForm({
           notes: "",
         },
   });
+
+  const watchZoneId = watch("zone_id");
+  const selectedZone = zones.find((z) => z.id === watchZoneId);
+  const cityOptions = selectedZone?.regions.map((r) => ({ value: r, label: r })) ?? [];
+
+  useEffect(() => {
+    if (!selectedZone?.regions.includes(getValues("city") ?? "")) {
+      setValue("city", "");
+    }
+  }, [watchZoneId, selectedZone, setValue, getValues]);
 
   const zoneOptions = zones.map((z) => ({
     value: z.id,
@@ -124,11 +138,15 @@ export function AccountAddressForm({
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <FormField label="City" error={errors.city?.message} required>
-          <Input
+          <Select
             {...register("city")}
-            placeholder="City"
-            aria-label="City"
+            options={[
+              { value: "", label: cityOptions.length ? "Select a city..." : "Select a delivery zone first" },
+              ...cityOptions,
+            ]}
+            disabled={cityOptions.length === 0}
             error={!!errors.city}
+            aria-label="City"
           />
         </FormField>
 

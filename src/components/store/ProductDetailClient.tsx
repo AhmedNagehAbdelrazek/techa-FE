@@ -43,6 +43,13 @@ function computeCurrentPrice(product: ProductDetail, variant: ProductVariant | n
     : product.price;
 }
 
+function computePrice (product: ProductDetail, variant: ProductVariant | null): number {
+  if (variant) {
+    const price = variant.price ?? product.price;
+    return price;
+  }
+}
+
 function computeStockQty(product: ProductDetail, variant: ProductVariant | null): number {
   if (product.variants.length > 0) {
     if (!variant) return 0;
@@ -73,6 +80,10 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
     () => computeCurrentPrice(product, matchingVariant),
     [product, matchingVariant],
   );
+
+  const price = useMemo(() => {
+    return computePrice(product, matchingVariant);
+  }, [currentPrice]);
 
   const stockQty = useMemo(
     () => computeStockQty(product, matchingVariant),
@@ -117,7 +128,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
             brand={product.brand}
             ratingAvg={product.rating_avg}
             ratingCount={product.rating_count}
-            price={product.price}
+            price={price}
             discountPercent={matchingVariant?.discount_percent ?? product.discount_percent}
             currentPrice={currentPrice}
             aboutPoints={product.about_points}
@@ -153,12 +164,12 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
             <WishlistButton productId={product.id} />
           </div>
 
-          <CouponInput
+          {/* <CouponInput
             productId={product.id}
             variantId={matchingVariant?.id}
             appliedCoupon={appliedCoupon}
             onCouponApplied={setAppliedCoupon}
-          />
+          /> */}
         </div>
       </div>
 

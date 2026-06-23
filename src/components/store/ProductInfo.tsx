@@ -68,7 +68,11 @@ export function ProductInfo({
         )}
       </div>
       <div className="flex items-baseline gap-3">
-        <span className="text-2xl font-bold">{formatPrice(currentPrice)}</span>
+        {(currentPrice <= 0 || currentPrice == undefined) ? (<>
+          <span className="font-bold underline text-blue-500">Please select an option</span>
+        </>) : (
+          <>
+          <span className="text-2xl font-bold">{formatPrice(currentPrice)}</span>
         {hasDiscount && (
           <>
             <span className="text-lg text-muted-foreground line-through">
@@ -79,6 +83,9 @@ export function ProductInfo({
             </span>
           </>
         )}
+          </>
+        )}
+        
       </div>
       {aboutPoints.length > 0 && (
         <div>

@@ -9,7 +9,7 @@ export function formatPrice(price: number): string {
   return new Intl.NumberFormat('ar-EG', {
     style: 'currency',
     currency: 'EGP',
-  }).format(price)
+  }).format(price ?? 0);
 }
 
 export function formatDateTime(dateString?: string | null): string {
