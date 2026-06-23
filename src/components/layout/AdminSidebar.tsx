@@ -15,6 +15,7 @@ import {
   MapPin,
   Settings,
   Shield,
+  ShieldCheck,
   CreditCard,
   ImagePlus,
 } from "lucide-react";
@@ -33,6 +34,7 @@ const navLinks = [
   { label: "Media", href: "/admin/media", icon: ImagePlus },
   { label: "Settings", href: "/admin/settings", icon: Settings },
   { label: "Admins", href: "/admin/admins", icon: Shield },
+  { label: "Roles", href: "/admin/roles", icon: ShieldCheck },
 ];
 
 export function AdminSidebar() {

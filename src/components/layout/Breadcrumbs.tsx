@@ -17,6 +17,7 @@ const segmentLabels: Record<string, string> = {
   media: "Media",
   settings: "Settings",
   admins: "Admins",
+  roles: "Roles",
 };
 
 export function Breadcrumbs() {
