@@ -14,6 +14,7 @@ const segmentLabels: Record<string, string> = {
   coupons: "Coupons",
   banners: "Banners",
   "delivery-zones": "Delivery Zones",
+  media: "Media",
   settings: "Settings",
   admins: "Admins",
 };

@@ -16,6 +16,7 @@ import {
   Settings,
   Shield,
   CreditCard,
+  ImagePlus,
 } from "lucide-react";
 
 const navLinks = [
@@ -29,6 +30,7 @@ const navLinks = [
   { label: "Coupons", href: "/admin/coupons", icon: Percent },
   { label: "Banners", href: "/admin/banners", icon: Image },
   { label: "Delivery Zones", href: "/admin/delivery-zones", icon: MapPin },
+  { label: "Media", href: "/admin/media", icon: ImagePlus },
   { label: "Settings", href: "/admin/settings", icon: Settings },
   { label: "Admins", href: "/admin/admins", icon: Shield },
 ];
