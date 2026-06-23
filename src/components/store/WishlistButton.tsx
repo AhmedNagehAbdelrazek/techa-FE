@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Heart, Loader2 } from "lucide-react";
 import { toast } from "sonner";
@@ -18,52 +18,36 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useAuthStore } from "@/lib/stores/auth.store";
 import { useWishlistStore } from "@/lib/stores/wishlist.store";
-import { addToWishlist, removeFromWishlist, getWishlist } from "@/lib/api/wishlist";
-import type { WishlistItem } from "@/lib/api/wishlist";
+import { addToWishlist, removeFromWishlist } from "@/lib/api/wishlist";
 
 interface WishlistButtonProps {
   productId: string;
   className?: string;
 }
 
-export function WishlistButton({ productId , className}: WishlistButtonProps) {
+export function WishlistButton({ productId, className }: WishlistButtonProps) {
   const router = useRouter();
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
-  const fetchWishlist = useWishlistStore((s) => s.fetchWishlist);
-  const [wishlistItem, setWishlistItem] = useState<WishlistItem | null>(null);
+  const wishlistItem = useWishlistStore((s) =>
+    s.items.find((item) => item.product_id === productId) ?? null,
+  );
+  const isStoreLoading = useWishlistStore((s) => s.isLoading);
+  const refreshWishlist = useWishlistStore((s) => s.refreshWishlist);
   const [isLoading, setIsLoading] = useState(false);
-  const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [confirmOpen, setConfirmOpen] = useState(false);
-
-  useEffect(() => {
-    if (!isAuthenticated) {
-      setIsInitialLoading(false);
-      return;
-    }
-    getWishlist()
-      .then((items) => {
-        const found = items.find((item) => item.product_id === productId) ?? null;
-        setWishlistItem(found);
-      })
-      .catch(() => setWishlistItem(null))
-      .finally(() => setIsInitialLoading(false));
-  }, [isAuthenticated, productId]);
 
   const handleAdd = useCallback(async () => {
     setIsLoading(true);
     try {
       await addToWishlist(productId);
-      const items = await getWishlist();
-      const found = items.find((item) => item.product_id === productId) ?? null;
-      setWishlistItem(found);
       toast.success("Added to wishlist");
-      fetchWishlist();
+      refreshWishlist();
     } catch {
       toast.error("Failed to update wishlist");
     } finally {
       setIsLoading(false);
     }
-  }, [productId, fetchWishlist]);
+  }, [productId, refreshWishlist]);
 
   const handleRemove = useCallback(async () => {
     if (!wishlistItem) return;
@@ -71,15 +55,14 @@ export function WishlistButton({ productId , className}: WishlistButtonProps) {
     setConfirmOpen(false);
     try {
       await removeFromWishlist(wishlistItem.id);
-      setWishlistItem(null);
       toast.success("Removed from wishlist");
-      fetchWishlist();
+      refreshWishlist();
     } catch {
       toast.error("Failed to update wishlist");
     } finally {
       setIsLoading(false);
     }
-  }, [wishlistItem, fetchWishlist]);
+  }, [wishlistItem, refreshWishlist]);
 
   const handleClick = useCallback(() => {
     if (!isAuthenticated) {
@@ -93,7 +76,7 @@ export function WishlistButton({ productId , className}: WishlistButtonProps) {
     }
   }, [isAuthenticated, wishlistItem, router, handleAdd]);
 
-  if (isInitialLoading) {
+  if (isStoreLoading) {
     return (
       <Button type="button" variant="outline" size="icon" disabled>
         <Loader2 className="h-4 w-4 animate-spin" />
