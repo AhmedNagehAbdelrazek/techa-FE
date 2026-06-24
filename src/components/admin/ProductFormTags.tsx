@@ -5,6 +5,7 @@ import { useFormContext } from "react-hook-form";
 import { useQuery } from "@tanstack/react-query";
 import { Check, ChevronsUpDown, Plus, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/lib/i18n/client";
 
 import { getTagOptions, adminProductsKeys } from "@/lib/api/admin-products";
 import { Button } from "@/components/ui/button";
@@ -24,6 +25,7 @@ import {
 } from "@/components/ui/command";
 
 export function ProductFormTags() {
+  const { t } = useTranslation();
   const { watch, setValue } = useFormContext();
   const selectedTags: { id: string; name: string }[] = watch("tags") ?? [];
   const [open, setOpen] = useState(false);
@@ -73,13 +75,13 @@ export function ProductFormTags() {
             aria-expanded={open}
             className="w-full justify-between"
           >
-            <span className="text-muted-foreground">Search tags...</span>
+            <span className="text-muted-foreground">{t("Search tags...")}</span>
             <ChevronsUpDown className="ml-2 size-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-full p-0" align="start">
           <Command>
-            <CommandInput placeholder="Search tags..." onValueChange={setCreateValue} />
+            <CommandInput placeholder={t("Search tags...")} onValueChange={setCreateValue} />
             <CommandList>
               <CommandEmpty>
                 {createValue.trim() ? (
@@ -89,10 +91,10 @@ export function ProductFormTags() {
                     onClick={handleCreate}
                   >
                     <Plus className="size-4" />
-                    Create &quot;{createValue.trim()}&quot;
+                    {t('Create "{value}"', { value: createValue.trim() })}
                   </button>
                 ) : (
-                  "No tags found"
+                  t("No tags found")
                 )}
               </CommandEmpty>
               <CommandGroup>

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { Search, ChevronLeft, ChevronRight, ArrowUpDown, ArrowUp, ArrowDown } from "lucide-react";
+import { useTranslation } from "@/lib/i18n/client";
 
 import {
   getOrders,
@@ -124,6 +125,7 @@ interface OrdersTableProps {
 const EMPTY_PERMISSIONS: Record<string, string[]> = {};
 
 export function OrdersTable({ searchParams }: OrdersTableProps) {
+  const { t } = useTranslation();
   const router = useRouter();
   const permissions = useAdminStore((s) => s.admin?.permissions ?? EMPTY_PERMISSIONS);
   const canRead = permissions["orders"]?.includes("read") ?? false;
@@ -219,8 +221,8 @@ export function OrdersTable({ searchParams }: OrdersTableProps) {
   if (!canRead) {
     return (
       <ErrorState
-        title="Access Denied"
-        message="You do not have permission to view orders."
+        title={t("Access Denied")}
+        message={t("You do not have permission to view orders.")}
       />
     );
   }
@@ -230,7 +232,7 @@ export function OrdersTable({ searchParams }: OrdersTableProps) {
   if (isError) {
     return (
       <ErrorState
-        title="Failed to load orders"
+        title={t("Failed to load orders")}
         message={(error as Error)?.message}
         onRetry={() => refetch()}
       />
@@ -245,7 +247,7 @@ export function OrdersTable({ searchParams }: OrdersTableProps) {
         <div className="relative flex-1 min-w-[200px] max-w-xs">
           <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
           <Input
-            placeholder="Search by order # or email..."
+            placeholder={t("Search by order # or email...")}
             className="pl-9"
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
@@ -257,12 +259,12 @@ export function OrdersTable({ searchParams }: OrdersTableProps) {
           onValueChange={(v) => updateUrlParam("status", v === "all" ? undefined : v)}
         >
           <SelectTrigger className="w-36">
-            <SelectValue placeholder="All Status" />
+            <SelectValue placeholder={t("All Status")} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Status</SelectItem>
+            <SelectItem value="all">{t("All Status")}</SelectItem>
             {STATUS_OPTIONS.map((opt) => (
-              <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
+              <SelectItem key={opt.value} value={opt.value}>{t(opt.label)}</SelectItem>
             ))}
           </SelectContent>
         </Select>
@@ -272,12 +274,12 @@ export function OrdersTable({ searchParams }: OrdersTableProps) {
           onValueChange={(v) => updateUrlParam("payment_status", v === "all" ? undefined : v)}
         >
           <SelectTrigger className="w-40">
-            <SelectValue placeholder="All Payment" />
+            <SelectValue placeholder={t("All Payment")} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Payment</SelectItem>
+            <SelectItem value="all">{t("All Payment")}</SelectItem>
             {PAYMENT_STATUS_OPTIONS.map((opt) => (
-              <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
+              <SelectItem key={opt.value} value={opt.value}>{t(opt.label)}</SelectItem>
             ))}
           </SelectContent>
         </Select>
@@ -287,7 +289,7 @@ export function OrdersTable({ searchParams }: OrdersTableProps) {
           className="w-32"
           value={searchParams.date_from || ""}
           onChange={(e) => updateUrlParam("date_from", e.target.value || undefined)}
-          placeholder="From"
+          placeholder={t("From")}
         />
 
         <Input
@@ -295,15 +297,15 @@ export function OrdersTable({ searchParams }: OrdersTableProps) {
           className="w-32"
           value={searchParams.date_to || ""}
           onChange={(e) => updateUrlParam("date_to", e.target.value || undefined)}
-          placeholder="To"
+          placeholder={t("To")}
         />
       </div>
 
       {orders.length === 0 ? (
         <EmptyState
-          title={hasActiveFilters ? "No orders match your filters" : "No orders yet"}
-          description={hasActiveFilters ? "Try adjusting your search or filters." : "Orders will appear here once customers place them."}
-          action={hasActiveFilters ? <Button variant="outline" onClick={clearFilters}>Clear Filters</Button> : undefined}
+          title={hasActiveFilters ? t("No orders match your filters") : t("No orders yet")}
+          description={hasActiveFilters ? t("Try adjusting your search or filters.") : t("Orders will appear here once customers place them.")}
+          action={hasActiveFilters ? <Button variant="outline" onClick={clearFilters}>{t("Clear Filters")}</Button> : undefined}
         />
       ) : (
         <div className="rounded-md border">
@@ -312,18 +314,18 @@ export function OrdersTable({ searchParams }: OrdersTableProps) {
               <TableRow className="text-right">
                 <TableHead className="text-right">
                   <SortHeader
-                    label="Order"
+                    label={t("Order")}
                     field="order_number"
                     currentField={sortField}
                     currentDir={sortDir}
                     onToggle={toggleSort}
                   />
                 </TableHead>
-                <TableHead className="text-right">Customer</TableHead>
-                <TableHead className="text-right">Items</TableHead>
+                <TableHead className="text-right">{t("Customer")}</TableHead>
+                <TableHead className="text-right">{t("Items")}</TableHead>
                 <TableHead className="text-right">
                   <SortHeader
-                    label="Total"
+                    label={t("Total")}
                     field="total"
                     currentField={sortField}
                     currentDir={sortDir}
@@ -332,17 +334,17 @@ export function OrdersTable({ searchParams }: OrdersTableProps) {
                 </TableHead>
                 <TableHead className="text-right">
                   <SortHeader
-                    label="Status"
+                    label={t("Status")}
                     field="status"
                     currentField={sortField}
                     currentDir={sortDir}
                     onToggle={toggleSort}
                   />
                 </TableHead>
-                <TableHead className="text-right">Payment</TableHead>
+                <TableHead className="text-right">{t("Payment")}</TableHead>
                 <TableHead className="text-right">
                   <SortHeader
-                    label="Date"
+                    label={t("Date")}
                     field="created_at"
                     currentField={sortField}
                     currentDir={sortDir}
@@ -366,12 +368,12 @@ export function OrdersTable({ searchParams }: OrdersTableProps) {
                   <TableCell>{formatPrice(order.total)}</TableCell>
                   <TableCell>
                     <Badge variant={STATUS_VARIANTS[order.status] ?? "outline"}>
-                      {STATUS_LABELS[order.status] ?? order.status}
+                      {t(STATUS_LABELS[order.status] ?? order.status)}
                     </Badge>
                   </TableCell>
                   <TableCell>
                     <Badge variant={PAYMENT_STATUS_VARIANTS[order.payment_status] ?? "outline"}>
-                      {PAYMENT_STATUS_LABELS[order.payment_status] ?? order.payment_status}
+                      {t(PAYMENT_STATUS_LABELS[order.payment_status] ?? order.payment_status)}
                     </Badge>
                   </TableCell>
                   <TableCell className="text-muted-foreground text-xs">
@@ -379,7 +381,7 @@ export function OrdersTable({ searchParams }: OrdersTableProps) {
                   </TableCell>
                   <TableCell>
                     <Button variant="ghost" size="sm" asChild>
-                      <Link href={`/admin/orders/${order.id}`}>View</Link>
+                      <Link href={`/admin/orders/${order.id}`}>{t("View")}</Link>
                     </Button>
                   </TableCell>
                 </TableRow>
@@ -392,7 +394,7 @@ export function OrdersTable({ searchParams }: OrdersTableProps) {
       {totalPages > 1 && (
         <div className="flex items-center justify-between">
           <p className="text-sm text-muted-foreground">
-            Page {currentPage} of {totalPages} ({meta?.total ?? 0} orders)
+            {t("Page {{current}} of {{total}}", { current: currentPage, total: totalPages })} ({meta?.total ?? 0} {t("orders")})
           </p>
           <div className="flex items-center gap-1">
             <Button

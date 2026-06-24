@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import { toast } from "sonner";
+import { useTranslation } from "@/lib/i18n/client";
 import { approvePayment, rejectPayment, adminOrdersKeys } from "@/lib/api/admin-orders";
 import { formatPrice, formatDateTime } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
@@ -60,6 +61,7 @@ interface PaymentInfoCardProps {
 }
 
 export function PaymentInfoCard({ payment, canUpdate, onApproved, onRejected }: PaymentInfoCardProps) {
+  const { t } = useTranslation();
   const [rejectDialogOpen, setRejectDialogOpen] = useState(false);
   const [rejectionNote, setRejectionNote] = useState("");
   const [screenshotDialogOpen, setScreenshotDialogOpen] = useState(false);
@@ -69,11 +71,11 @@ export function PaymentInfoCard({ payment, canUpdate, onApproved, onRejected }: 
     mutationFn: () => approvePayment(payment.id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: adminOrdersKeys.all });
-      toast.success("Payment approved");
+      toast.success(t("Payment approved"));
       onApproved();
     },
     onError: (err) => {
-      toast.error(err instanceof Error ? err.message : "Failed to approve payment");
+      toast.error(err instanceof Error ? err.message : t("Failed to approve payment"));
     },
   });
 
@@ -81,13 +83,13 @@ export function PaymentInfoCard({ payment, canUpdate, onApproved, onRejected }: 
     mutationFn: () => rejectPayment(payment.id, rejectionNote),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: adminOrdersKeys.all });
-      toast.success("Payment rejected");
+      toast.success(t("Payment rejected"));
       setRejectDialogOpen(false);
       setRejectionNote("");
       onRejected();
     },
     onError: (err) => {
-      toast.error(err instanceof Error ? err.message : "Failed to reject payment");
+      toast.error(err instanceof Error ? err.message : t("Failed to reject payment"));
     },
   });
 
@@ -95,29 +97,29 @@ export function PaymentInfoCard({ payment, canUpdate, onApproved, onRejected }: 
 
   return (
     <div className="rounded-lg border bg-card p-6">
-      <h2 className="mb-3 text-base font-semibold">Payment</h2>
+      <h2 className="mb-3 text-base font-semibold">{t("Payment")}</h2>
       <div className="space-y-2 text-sm">
         <div className="flex justify-between">
-          <span className="text-muted-foreground">Method</span>
+          <span className="text-muted-foreground">{t("Method")}</span>
           <span className="font-medium">{payment.payment_method}</span>
         </div>
         <div className="flex justify-between">
-          <span className="text-muted-foreground">Amount</span>
+          <span className="text-muted-foreground">{t("Amount")}</span>
           <span className="font-medium">{formatPrice(payment.amount)}</span>
         </div>
         <div className="flex justify-between">
-          <span className="text-muted-foreground">Status</span>
+          <span className="text-muted-foreground">{t("Status")}</span>
           <Badge variant={PAYMENT_STATUS_VARIANTS[payment.status] ?? "outline"}>
-            {PAYMENT_STATUS_LABELS[payment.status] ?? payment.status}
+            {t(PAYMENT_STATUS_LABELS[payment.status] ?? payment.status)}
           </Badge>
         </div>
         <div className="flex justify-between">
-          <span className="text-muted-foreground">Date</span>
+          <span className="text-muted-foreground">{t("Date")}</span>
           <span>{formatDateTime(payment.created_at)}</span>
         </div>
         {payment.proof_reference && (
           <div className="flex justify-between">
-            <span className="text-muted-foreground">Reference</span>
+            <span className="text-muted-foreground">{t("Reference")}</span>
             <span className="font-mono text-xs">{payment.proof_reference}</span>
           </div>
         )}
@@ -126,17 +128,17 @@ export function PaymentInfoCard({ payment, canUpdate, onApproved, onRejected }: 
             <Dialog open={screenshotDialogOpen} onOpenChange={setScreenshotDialogOpen}>
               <DialogTrigger asChild>
                 <Button variant="outline" size="sm" className="w-full">
-                  View Screenshot
+                  {t("View Screenshot")}
                 </Button>
               </DialogTrigger>
               <DialogContent className="max-w-lg">
                 <DialogHeader>
-                  <DialogTitle>Payment Screenshot</DialogTitle>
+                  <DialogTitle>{t("Payment Screenshot")}</DialogTitle>
                 </DialogHeader>
                 <div className="relative aspect-video w-full overflow-hidden rounded-lg">
                   <Image
                     src={payment.proof_screenshot_url}
-                    alt="Payment proof screenshot"
+                    alt={t("Payment proof screenshot")}
                     fill
                     className="object-contain"
                     unoptimized
@@ -153,23 +155,23 @@ export function PaymentInfoCard({ payment, canUpdate, onApproved, onRejected }: 
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button size="sm" className="flex-1">
-                Approve
+                {t("Approve")}
               </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>Approve payment?</AlertDialogTitle>
+                <AlertDialogTitle>{t("Approve payment?")}</AlertDialogTitle>
                 <AlertDialogDescription>
-                  This will mark the payment as confirmed. This action cannot be undone.
+                  {t("This will mark the payment as confirmed. This action cannot be undone.")}
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogCancel>{t("Cancel")}</AlertDialogCancel>
                 <AlertDialogAction
                   onClick={() => approveMutation.mutate()}
                   disabled={approveMutation.isPending}
                 >
-                  {approveMutation.isPending ? "Approving..." : "Approve"}
+                  {approveMutation.isPending ? t("Approving...") : t("Approve")}
                 </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
@@ -178,32 +180,32 @@ export function PaymentInfoCard({ payment, canUpdate, onApproved, onRejected }: 
           <Dialog open={rejectDialogOpen} onOpenChange={setRejectDialogOpen}>
             <DialogTrigger asChild>
               <Button size="sm" variant="outline" className="flex-1">
-                Reject
+                {t("Reject")}
               </Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Reject Payment</DialogTitle>
+                <DialogTitle>{t("Reject Payment")}</DialogTitle>
                 <DialogDescription>
-                  Provide a reason for rejecting this payment.
+                  {t("Provide a reason for rejecting this payment.")}
                 </DialogDescription>
               </DialogHeader>
               <Textarea
-                placeholder="Rejection reason..."
+                placeholder={t("Rejection reason...")}
                 value={rejectionNote}
                 onChange={(e) => setRejectionNote(e.target.value)}
                 rows={3}
               />
               <DialogFooter>
                 <Button variant="outline" onClick={() => setRejectDialogOpen(false)}>
-                  Cancel
+                  {t("Cancel")}
                 </Button>
                 <Button
                   variant="destructive"
                   onClick={() => rejectMutation.mutate()}
                   disabled={!rejectionNote.trim() || rejectMutation.isPending}
                 >
-                  {rejectMutation.isPending ? "Rejecting..." : "Reject"}
+                  {rejectMutation.isPending ? t("Rejecting...") : t("Reject")}
                 </Button>
               </DialogFooter>
             </DialogContent>

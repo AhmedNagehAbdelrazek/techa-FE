@@ -2,17 +2,19 @@
 
 import { Suspense, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
+import { useTranslation } from "@/lib/i18n/client";
 import { OrdersTable, OrdersTableSkeleton } from "@/components/admin/OrdersTable";
 
 function OrdersPageContent() {
+  const { t } = useTranslation();
   const searchParams = useSearchParams();
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold">Orders</h1>
+        <h1 className="text-2xl font-bold">{t("Orders")}</h1>
         <p className="text-sm text-muted-foreground">
-          View and manage customer orders.
+          {t("View and manage customer orders.")}
         </p>
       </div>
       <OrdersTable

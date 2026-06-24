@@ -4,7 +4,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useTranslation } from "@/lib/i18n/client";
 
 export function LocaleSwitcher() {
-  const { locale, changeLocale, supportedLocales } = useTranslation();
+  const { locale, supportedLocales } = useTranslation();
   const pathname = usePathname();
   const router = useRouter();
 
@@ -14,7 +14,6 @@ export function LocaleSwitcher() {
     if (!nextLocale) return;
     const currentPath = pathname.replace(/^\/(en|ar)(\/|$)/, "/");
     const target = `/${nextLocale.code}${currentPath}`;
-    changeLocale(nextLocale.code);
     router.push(target);
   }
 

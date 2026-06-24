@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { useTranslation } from "@/lib/i18n/client";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -30,6 +31,7 @@ interface Props {
 }
 
 export function AdminFormDialog({ open, onOpenChange, initialData }: Props) {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
 
   const { data: roles } = useQuery({
@@ -68,10 +70,10 @@ export function AdminFormDialog({ open, onOpenChange, initialData }: Props) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: adminAdminsRolesKeys.admins() });
       onOpenChange(false);
-      toast.success("Admin created");
+      toast.success(t("Admin created"));
     },
     onError: (err) => {
-      toast.error(err instanceof Error ? err.message : "Failed to create admin");
+      toast.error(err instanceof Error ? err.message : t("Failed to create admin"));
     },
   });
 
@@ -88,10 +90,10 @@ export function AdminFormDialog({ open, onOpenChange, initialData }: Props) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: adminAdminsRolesKeys.admins() });
       onOpenChange(false);
-      toast.success("Admin updated");
+      toast.success(t("Admin updated"));
     },
     onError: (err) => {
-      toast.error(err instanceof Error ? err.message : "Failed to update admin");
+      toast.error(err instanceof Error ? err.message : t("Failed to update admin"));
     },
   });
 
@@ -110,28 +112,28 @@ export function AdminFormDialog({ open, onOpenChange, initialData }: Props) {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[450px]">
         <DialogHeader>
-          <DialogTitle>{initialData ? "Edit Admin" : "Create Admin"}</DialogTitle>
+          <DialogTitle>{initialData ? t("Edit Admin") : t("Create Admin")}</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="name">Full Name *</Label>
+            <Label htmlFor="name">{t("Full Name *")}</Label>
             <Input id="name" {...register("name")} />
             {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
           </div>
           <div className="space-y-2">
-            <Label htmlFor="email">Email *</Label>
+            <Label htmlFor="email">{t("Email *")}</Label>
             <Input id="email" type="email" {...register("email")} />
             {errors.email && <p className="text-sm text-destructive">{errors.email.message}</p>}
           </div>
           <div className="space-y-2">
             <Label htmlFor="password">
-              Password {initialData ? "(leave blank to keep unchanged)" : "*"}
+              {t("Password")} {initialData ? t("(leave blank to keep unchanged)") : "*"}
             </Label>
             <Input id="password" type="password" {...register("password")} />
             {errors.password && <p className="text-sm text-destructive">{errors.password.message}</p>}
           </div>
           <div className="space-y-2">
-            <Label htmlFor="role_id">Role *</Label>
+            <Label htmlFor="role_id">{t("Role *")}</Label>
             {/*   native select — works with react-hook-form register, avoids shadcn Select complexity */}
             <select
               id="role_id"
@@ -139,7 +141,7 @@ export function AdminFormDialog({ open, onOpenChange, initialData }: Props) {
               disabled={!roles?.length}
               className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
             >
-              <option value="">{roles?.length ? "Select role..." : roles === undefined ? "Loading..." : "No roles available"}</option>
+              <option value="">{roles?.length ? t("Select role...") : roles === undefined ? t("Loading...") : t("No roles available")}</option>
               {roles?.map((r) => (
                 <option key={r.id} value={r.id}>{r.name}</option>
               ))}
@@ -147,9 +149,9 @@ export function AdminFormDialog({ open, onOpenChange, initialData }: Props) {
             {errors.role_id && <p className="text-sm text-destructive">{errors.role_id.message}</p>}
           </div>
           <div className="flex justify-end gap-2">
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button>
+            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>{t("Cancel")}</Button>
             <Button type="submit" disabled={isPending}>
-              {initialData ? "Update" : "Create"}
+              {initialData ? t("Update") : t("Create")}
             </Button>
           </div>
         </form>

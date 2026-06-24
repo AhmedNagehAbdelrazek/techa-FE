@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useTranslation } from "@/lib/i18n/client";
 import { useQuery } from "@tanstack/react-query";
 import { getRecentOrders } from "@/lib/api/admin";
 import { Badge } from "@/components/ui/badge";
@@ -30,6 +31,7 @@ const STATUS_LABELS: Record<string, string> = {
 };
 
 export function DashboardRecentOrders() {
+  const { t } = useTranslation();
   const { data, isLoading, isError, error, refetch } = useQuery({
     queryKey: ["admin", "recent-orders"],
     queryFn: getRecentOrders,
@@ -40,9 +42,9 @@ export function DashboardRecentOrders() {
   if (isError) {
     return (
       <div className="rounded-lg border bg-card p-6">
-        <h3 className="mb-4 text-base font-semibold">Recent Orders</h3>
+        <h3 className="mb-4 text-base font-semibold">{t("Recent Orders")}</h3>
         <ErrorState
-          title="Failed to load recent orders"
+          title={t("Failed to load recent orders")}
           message={(error as Error)?.message}
           onRetry={() => refetch()}
         />
@@ -53,10 +55,10 @@ export function DashboardRecentOrders() {
   if (!data || data.length === 0) {
     return (
       <div className="rounded-lg border bg-card p-6">
-        <h3 className="mb-4 text-base font-semibold">Recent Orders</h3>
+        <h3 className="mb-4 text-base font-semibold">{t("Recent Orders")}</h3>
         <EmptyState
-          title="No orders yet"
-          description="There are no recent orders to display."
+          title={t("No orders yet")}
+          description={t("There are no recent orders to display.")}
         />
       </div>
     );
@@ -64,16 +66,16 @@ export function DashboardRecentOrders() {
 
   return (
     <div className="rounded-lg border bg-card p-6">
-      <h3 className="mb-4 text-base font-semibold">Recent Orders</h3>
+      <h3 className="mb-4 text-base font-semibold">{t("Recent Orders")}</h3>
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b text-center text-muted-foreground">
-              <th className="pb-3 font-medium">Order</th>
-              <th className="pb-3 font-medium">Customer</th>
-              <th className="pb-3 font-medium">Status</th>
-              <th className="pb-3 font-medium">Total</th>
-              <th className="pb-3 font-medium">Date</th>
+              <th className="pb-3 font-medium">{t("Order")}</th>
+              <th className="pb-3 font-medium">{t("Customer")}</th>
+              <th className="pb-3 font-medium">{t("Status")}</th>
+              <th className="pb-3 font-medium">{t("Total")}</th>
+              <th className="pb-3 font-medium">{t("Date")}</th>
               <th className="pb-3 font-medium" />
             </tr>
           </thead>
@@ -100,7 +102,7 @@ export function DashboardRecentOrders() {
                     href={`/admin/orders/${order.id}`}
                     className="text-primary hover:underline"
                   >
-                    View
+                    {t("View")}
                   </Link>
                 </td>
               </tr>

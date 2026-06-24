@@ -9,6 +9,7 @@ import { useAdminStore } from "@/lib/stores/admin.store";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ErrorState } from "@/components/ui/ErrorState";
+import { useTranslation } from "@/lib/i18n/client";
 import { SettingsGroup } from "./SettingsGroup";
 
 const EMPTY_PERMISSIONS: Record<string, string[]> = {};
@@ -33,6 +34,7 @@ export function SettingsPageSkeleton() {
 }
 
 export default function SettingsPage() {
+  const { t } = useTranslation();
   const permissions = useAdminStore((s) => s.admin?.permissions ?? EMPTY_PERMISSIONS);
   const canUpdate = permissions["settings"]?.includes("update") ?? false;
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -65,9 +67,9 @@ export default function SettingsPage() {
     mutationFn: () => updateSettings({ settings: values }),
     onSuccess: () => {
       initialValuesRef.current = null; // force re-sync on next load
-      toast.success("Settings saved");
+      toast.success(t("Settings saved"));
     },
-    onError: (err) => toast.error(err instanceof Error ? err.message : "Failed to save settings"),
+    onError: (err) => toast.error(err instanceof Error ? err.message : t("Failed to save settings")),
   });
 
   //   inline image upload via hidden file input
@@ -86,9 +88,9 @@ export default function SettingsPage() {
       const res = await uploadMedia([file]);
       const url = res.data[0].url;
       setValues((prev) => ({ ...prev, [uploadingKey!]: url }));
-      toast.success("Image uploaded");
+      toast.success(t("Image uploaded"));
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Upload failed");
+      toast.error(err instanceof Error ? err.message : t("Upload failed"));
     } finally {
       setUploadingKey(null);
       // reset so same file can be re-selected
@@ -104,10 +106,10 @@ export default function SettingsPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Settings</h1>
+        <h1 className="text-2xl font-bold">{t("Settings")}</h1>
         {canUpdate && (
           <Button onClick={() => saveMutation.mutate()} disabled={saveMutation.isPending}>
-            {saveMutation.isPending ? "Saving..." : "Save"}
+            {saveMutation.isPending ? t("Saving...") : t("Save")}
           </Button>
         )}
       </div>

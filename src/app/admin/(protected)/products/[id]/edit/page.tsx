@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
+import { useTranslation } from "@/lib/i18n/client";
 
 import { getProduct, adminProductsKeys } from "@/lib/api/admin-products";
 import { useAdminStore } from "@/lib/stores/admin.store";
@@ -13,6 +14,7 @@ import { ErrorState } from "@/components/ui/ErrorState";
 const EMPTY_PERMISSIONS: Record<string, string[]> = {};
 
 export default function AdminEditProductPage() {
+  const { t } = useTranslation();
   const params = useParams();
   const id = params.id as string;
   useEffect(() => { document.title = `تعديل المنتج #${id} — TechA`; }, [id]);
@@ -28,7 +30,7 @@ export default function AdminEditProductPage() {
   if (!canUpdate) {
     return (
       <div className="text-muted-foreground">
-        You do not have permission to edit products.
+        {t("You do not have permission to edit products.")}
       </div>
     );
   }
@@ -45,7 +47,7 @@ export default function AdminEditProductPage() {
   if (isError) {
     return (
       <ErrorState
-        title="Failed to load product"
+        title={t("Failed to load product")}
         message={(error as Error)?.message}
         onRetry={() => refetch()}
       />
@@ -54,13 +56,13 @@ export default function AdminEditProductPage() {
 
   if (!product) {
     return (
-      <div className="text-muted-foreground">Product not found.</div>
+      <div className="text-muted-foreground">{t("Product not found.")}</div>
     );
   }
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Edit: {product.name}</h1>
+      <h1 className="text-2xl font-bold">{t("Edit")}: {product.name}</h1>
       <ProductForm product={product} mode="edit" />
     </div>
   );

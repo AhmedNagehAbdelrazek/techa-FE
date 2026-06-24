@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Pencil, Trash2, ChevronLeft, ChevronRight } from "lucide-react";
+import { useTranslation } from "@/lib/i18n/client";
 
 import {
   getAdminCoupons,
@@ -65,6 +66,7 @@ const EMPTY_PERMISSIONS: Record<string, string[]> = {};
 
 export function CouponsTable({ page, onEdit }: CouponsTableProps) {
   const router = useRouter();
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const permissions = useAdminStore((s) => s.admin?.permissions ?? EMPTY_PERMISSIONS);
   const canUpdate = permissions["coupons"]?.includes("update") ?? false;
@@ -79,16 +81,16 @@ export function CouponsTable({ page, onEdit }: CouponsTableProps) {
     mutationFn: deactivateAdminCoupon,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: adminCouponZoneKeys.coupons() });
-      toast.success("Coupon deactivated");
+      toast.success(t("Coupon deactivated"));
     },
     onError: (err) => {
-      toast.error(err instanceof Error ? err.message : "Failed to deactivate coupon");
+      toast.error(err instanceof Error ? err.message : t("Failed to deactivate coupon"));
     },
   });
 
   if (isLoading) return <CouponsTableSkeleton />;
   if (isError) return <ErrorState message={(error as Error)?.message} onRetry={refetch} />;
-  if (!data?.data.length) return <EmptyState title="No coupons found." />;
+  if (!data?.data.length) return <EmptyState title={t("No coupons found.")} />;
 
   const { data: coupons, meta } = data;
   const startRow = (meta.page - 1) * meta.limit + 1;
@@ -101,9 +103,9 @@ export function CouponsTable({ page, onEdit }: CouponsTableProps) {
   }
 
   function badgeLabel(coupon: AdminCoupon): string {
-    if (!coupon.is_active) return "Inactive";
-    if (new Date(coupon.expires_at) < new Date()) return "Expired";
-    return "Active";
+    if (!coupon.is_active) return t("Inactive");
+    if (new Date(coupon.expires_at) < new Date()) return t("Expired");
+    return t("Active");
   }
 
   return (
@@ -112,14 +114,14 @@ export function CouponsTable({ page, onEdit }: CouponsTableProps) {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Code</TableHead>
-              <TableHead>Product</TableHead>
-              <TableHead>Type</TableHead>
-              <TableHead>Value</TableHead>
-              <TableHead>Usage</TableHead>
-              <TableHead>Expiry</TableHead>
-              <TableHead className="w-20">Status</TableHead>
-              {(canUpdate || canDelete) && <TableHead className="w-24">Actions</TableHead>}
+              <TableHead>{t("Code")}</TableHead>
+              <TableHead>{t("Product")}</TableHead>
+              <TableHead>{t("Type")}</TableHead>
+              <TableHead>{t("Value")}</TableHead>
+              <TableHead>{t("Usage")}</TableHead>
+              <TableHead>{t("Expiry")}</TableHead>
+              <TableHead className="w-20">{t("Status")}</TableHead>
+              {(canUpdate || canDelete) && <TableHead className="w-24">{t("Actions")}</TableHead>}
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -127,7 +129,7 @@ export function CouponsTable({ page, onEdit }: CouponsTableProps) {
               <TableRow key={coupon.id}>
                 <TableCell className="font-mono text-sm font-medium">{coupon.code}</TableCell>
                 <TableCell className="text-muted-foreground">
-                  {coupon.product?.name ?? "All Products"}
+                  {coupon.product?.name ?? t("All Products")}
                 </TableCell>
                 <TableCell className="capitalize text-muted-foreground">
                   {coupon.discount_type === "percentage" ? "%" : "$"}
@@ -172,17 +174,17 @@ export function CouponsTable({ page, onEdit }: CouponsTableProps) {
                           </AlertDialogTrigger>
                           <AlertDialogContent>
                             <AlertDialogHeader>
-                              <AlertDialogTitle>Deactivate coupon?</AlertDialogTitle>
+                              <AlertDialogTitle>{t("Deactivate coupon?")}</AlertDialogTitle>
                               <AlertDialogDescription>
-                                This will deactivate code &ldquo;{coupon.code}&rdquo;.
+                                {t("This will deactivate code {{code}}.", { code: coupon.code })}
                               </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
-                              <AlertDialogCancel>Cancel</AlertDialogCancel>
+                              <AlertDialogCancel>{t("Cancel")}</AlertDialogCancel>
                               <AlertDialogAction
                                 onClick={() => deactivateMutation.mutate(coupon.id)}
                               >
-                                Deactivate
+                                {t("Deactivate")}
                               </AlertDialogAction>
                             </AlertDialogFooter>
                           </AlertDialogContent>
@@ -198,7 +200,7 @@ export function CouponsTable({ page, onEdit }: CouponsTableProps) {
       </div>
       <div className="flex items-center justify-between">
         <p className="text-sm text-muted-foreground">
-          Showing {startRow}–{endRow} of {meta.total}
+          {t("Showing {{start}}–{{end}} of {{total}}", { start: startRow, end: endRow, total: meta.total })}
         </p>
         <div className="flex items-center gap-2">
           <Button
@@ -212,7 +214,7 @@ export function CouponsTable({ page, onEdit }: CouponsTableProps) {
             }}
           >
             <ChevronLeft className="size-4" />
-            Previous
+            {t("Previous")}
           </Button>
           <Button
             variant="outline"
@@ -224,7 +226,7 @@ export function CouponsTable({ page, onEdit }: CouponsTableProps) {
               router.replace(`/admin/coupons?${params.toString()}`);
             }}
           >
-            Next
+            {t("Next")}
             <ChevronRight className="size-4" />
           </Button>
         </div>

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Plus } from "lucide-react";
+import { useTranslation } from "@/lib/i18n/client";
 
 import { CategoryTree } from "@/components/admin/CategoryTree";
 import { CategoryFormDialog } from "@/components/admin/CategoryFormDialog";
@@ -12,6 +13,7 @@ import type { AdminCategory } from "@/lib/api/admin-taxonomy";
 const EMPTY_PERMISSIONS: Record<string, string[]> = {};
 
 export default function AdminCategoriesPage() {
+  const { t } = useTranslation();
   useEffect(() => { document.title = "إدارة التصنيفات — TechA"; }, []);
   const permissions = useAdminStore((s) => s.admin?.permissions ?? EMPTY_PERMISSIONS);
   const canCreate = permissions["categories"]?.includes("create") ?? false;
@@ -41,11 +43,11 @@ export default function AdminCategoriesPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Categories</h1>
+        <h1 className="text-2xl font-bold">{t("Categories")}</h1>
         {canCreate && (
           <Button onClick={handleAdd}>
             <Plus className="size-4" />
-            Add Category
+            {t("Add Category")}
           </Button>
         )}
       </div>

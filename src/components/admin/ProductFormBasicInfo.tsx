@@ -3,6 +3,7 @@
 import { useCallback, useRef } from "react";
 import { useFormContext } from "react-hook-form";
 import { useQuery } from "@tanstack/react-query";
+import { useTranslation } from "@/lib/i18n/client";
 
 import { getCategoryOptions, getBrandOptions, adminProductsKeys } from "@/lib/api/admin-products";
 import { Input } from "@/components/ui/input";
@@ -32,6 +33,7 @@ function sluggify(value: string): string {
 }
 
 export function ProductFormBasicInfo() {
+  const { t } = useTranslation();
   const { control, setValue } = useFormContext();
   const slugManuallyEdited = useRef(false);
 
@@ -70,10 +72,10 @@ export function ProductFormBasicInfo() {
           control={control}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Name *</FormLabel>
+              <FormLabel>{t("Name *")}</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="Product name"
+                  placeholder={t("Product name")}
                   {...field}
                   onChange={(e) => {
                     field.onChange(e);
@@ -91,10 +93,10 @@ export function ProductFormBasicInfo() {
           control={control}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Slug</FormLabel>
+              <FormLabel>{t("Slug")}</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="product-slug"
+                  placeholder={t("product-slug")}
                   {...field}
                   onChange={(e) => {
                     field.onChange(e);
@@ -113,10 +115,10 @@ export function ProductFormBasicInfo() {
         control={control}
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Description</FormLabel>
+            <FormLabel>{t("Description")}</FormLabel>
             <FormControl>
               <Textarea
-                placeholder="Product description"
+                placeholder={t("Product description")}
                 className="min-h-[100px]"
                 {...field}
               />
@@ -132,17 +134,17 @@ export function ProductFormBasicInfo() {
           control={control}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Category *</FormLabel>
+              <FormLabel>{t("Category *")}</FormLabel>
               <FormControl>
                 <Select
                   value={field.value ?? "none"}
                   onValueChange={(v) => field.onChange(v === "none" ? null : v)}
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="Select a category" />
+                    <SelectValue placeholder={t("Select a category")} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="none">No category</SelectItem>
+                    <SelectItem value="none">{t("No category")}</SelectItem>
                     {categoryOptions?.map((cat) => (
                       <SelectItem key={cat.id} value={cat.id}>{cat.name}</SelectItem>
                     ))}
@@ -159,17 +161,17 @@ export function ProductFormBasicInfo() {
           control={control}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Brand</FormLabel>
+              <FormLabel>{t("Brand")}</FormLabel>
               <FormControl>
                 <Select
                   value={field.value ?? "none"}
                   onValueChange={(v) => field.onChange(v === "none" ? null : v)}
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="Select a brand" />
+                    <SelectValue placeholder={t("Select a brand")} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="none">No brand</SelectItem>
+                    <SelectItem value="none">{t("No brand")}</SelectItem>
                     {brandOptions?.map((brand) => (
                       <SelectItem key={brand.id} value={brand.id}>{brand.name}</SelectItem>
                     ))}
@@ -195,7 +197,7 @@ export function ProductFormBasicInfo() {
                     onCheckedChange={field.onChange}
                   />
                 </FormControl>
-                <Label>Featured</Label>
+                <Label>{t("Featured")}</Label>
               </div>
             </FormItem>
           )}
@@ -213,7 +215,7 @@ export function ProductFormBasicInfo() {
                     onCheckedChange={field.onChange}
                   />
                 </FormControl>
-                <Label>Active</Label>
+                <Label>{t("Active")}</Label>
               </div>
             </FormItem>
           )}

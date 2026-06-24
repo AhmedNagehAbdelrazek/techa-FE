@@ -4,6 +4,7 @@ import { Suspense, useEffect } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Plus } from "lucide-react";
+import { useTranslation } from "@/lib/i18n/client";
 
 import { ProductsTable, ProductsTableSkeleton } from "@/components/admin/ProductsTable";
 import { useAdminStore } from "@/lib/stores/admin.store";
@@ -23,6 +24,7 @@ export default function AdminProductsPage() {
 }
 
 function ProductsPageContent() {
+  const { t } = useTranslation();
   const searchParams = useSearchParams();
   const permissions = useAdminStore((s) => s.admin?.permissions ?? EMPTY_PERMISSIONS);
   const canCreate = permissions["products"]?.includes("create") ?? false;
@@ -38,12 +40,12 @@ function ProductsPageContent() {
   return (
     <>
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Products</h1>
+        <h1 className="text-2xl font-bold">{t("Products")}</h1>
         {canCreate && (
           <Button asChild>
             <Link href="/admin/products/new">
               <Plus className="size-4" />
-              Add Product
+              {t("Add Product")}
             </Link>
           </Button>
         )}

@@ -3,6 +3,7 @@
 import { Suspense, useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { Plus } from "lucide-react";
+import { useTranslation } from "@/lib/i18n/client";
 
 import { BrandsTable } from "@/components/admin/BrandsTable";
 import { BrandFormDialog } from "@/components/admin/BrandFormDialog";
@@ -34,6 +35,7 @@ function BrandsPageSkeleton() {
 
 function AdminBrandsPageContent() {
   const searchParams = useSearchParams();
+  const { t } = useTranslation();
   const permissions = useAdminStore((s) => s.admin?.permissions ?? EMPTY_PERMISSIONS);
   const canCreate = permissions["brands"]?.includes("create") ?? false;
 
@@ -56,11 +58,11 @@ function AdminBrandsPageContent() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Brands</h1>
+        <h1 className="text-2xl font-bold">{t("Brands")}</h1>
         {canCreate && (
           <Button onClick={handleAdd}>
             <Plus className="size-4" />
-            Add Brand
+            {t("Add Brand")}
           </Button>
         )}
       </div>

@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Pencil, Trash2, Plus } from "lucide-react";
+import { useTranslation } from "@/lib/i18n/client";
 
 import {
   getAdminTags,
@@ -51,6 +52,7 @@ interface TagsListProps {
 const EMPTY_PERMISSIONS: Record<string, string[]> = {};
 
 export function TagsList(_props: TagsListProps) {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const permissions = useAdminStore((s) => s.admin?.permissions ?? EMPTY_PERMISSIONS);
   const canCreate = permissions["tags"]?.includes("create") ?? false;
@@ -75,10 +77,10 @@ export function TagsList(_props: TagsListProps) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: adminTaxonomyKeys.tags() });
       setNewName("");
-      toast.success("Tag created");
+      toast.success(t("Tag created"));
     },
     onError: (err) => {
-      toast.error(err instanceof Error ? err.message : "Failed to create tag");
+      toast.error(err instanceof Error ? err.message : t("Failed to create tag"));
     },
   });
 
@@ -90,10 +92,10 @@ export function TagsList(_props: TagsListProps) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: adminTaxonomyKeys.tags() });
       setEditingId(null);
-      toast.success("Tag updated");
+      toast.success(t("Tag updated"));
     },
     onError: (err) => {
-      toast.error(err instanceof Error ? err.message : "Failed to update tag");
+      toast.error(err instanceof Error ? err.message : t("Failed to update tag"));
     },
   });
 
@@ -101,10 +103,10 @@ export function TagsList(_props: TagsListProps) {
     mutationFn: deleteAdminTag,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: adminTaxonomyKeys.tags() });
-      toast.success("Tag deleted");
+      toast.success(t("Tag deleted"));
     },
     onError: (err) => {
-      toast.error(err instanceof Error ? err.message : "Failed to delete tag");
+      toast.error(err instanceof Error ? err.message : t("Failed to delete tag"));
     },
   });
 
@@ -136,7 +138,7 @@ export function TagsList(_props: TagsListProps) {
       {canCreate && (
         <div className="flex items-center gap-2">
           <Input
-            placeholder="New tag name"
+            placeholder={t("New tag name")}
             value={newName}
             onChange={(e) => setNewName(e.target.value)}
             onKeyDown={(e) => {
@@ -150,12 +152,12 @@ export function TagsList(_props: TagsListProps) {
             onClick={() => createMutation.mutate()}
           >
             <Plus className="size-4" />
-            Add
+            {t("Add")}
           </Button>
         </div>
       )}
       {!tags?.length ? (
-        <EmptyState title="No tags yet." />
+        <EmptyState title={t("No tags yet.")} />
       ) : (
         <div className="space-y-2">
           {tags.map((tag) => (
@@ -205,15 +207,15 @@ export function TagsList(_props: TagsListProps) {
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                       <AlertDialogHeader>
-                        <AlertDialogTitle>Delete tag?</AlertDialogTitle>
+                        <AlertDialogTitle>{t("Delete tag?")}</AlertDialogTitle>
                         <AlertDialogDescription>
-                          This will permanently delete &ldquo;{tag.name}&rdquo;.
+                          {t("This will permanently delete {{name}}.", { name: tag.name })}
                         </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogCancel>{t("Cancel")}</AlertDialogCancel>
                         <AlertDialogAction onClick={() => deleteMutation.mutate(tag.id)}>
-                          Delete
+                          {t("Delete")}
                         </AlertDialogAction>
                       </AlertDialogFooter>
                     </AlertDialogContent>

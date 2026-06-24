@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { ChevronDown, ChevronLeft, Pencil, Trash2, Plus } from "lucide-react";
+import { useTranslation } from "@/lib/i18n/client";
 
 import {
   getAdminCategories,
@@ -47,6 +48,7 @@ interface CategoryTreeProps {
 const EMPTY_PERMISSIONS: Record<string, string[]> = {};
 
 export function CategoryTree({ onEdit, onAddSubcategory }: CategoryTreeProps) {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const permissions = useAdminStore((s) => s.admin?.permissions ?? EMPTY_PERMISSIONS);
   const canUpdate = permissions["categories"]?.includes("update") ?? false;
@@ -62,16 +64,16 @@ export function CategoryTree({ onEdit, onAddSubcategory }: CategoryTreeProps) {
     mutationFn: deactivateAdminCategory,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: adminTaxonomyKeys.categories() });
-      toast.success("Category deactivated");
+      toast.success(t("Category deactivated"));
     },
     onError: (err) => {
-      toast.error(err instanceof Error ? err.message : "Failed to deactivate category");
+      toast.error(err instanceof Error ? err.message : t("Failed to deactivate category"));
     },
   });
 
   if (isLoading) return <CategoryTreeSkeleton />;
   if (isError) return <ErrorState message={(error as Error)?.message} onRetry={refetch} />;
-  if (!categories?.length) return <EmptyState title="No categories yet." />;
+  if (!categories?.length) return <EmptyState title={t("No categories yet.")} />;
 
   return (
     <div className="space-y-1">
@@ -113,6 +115,7 @@ function TreeNode({
   onAddSubcategory,
   onDeactivate,
 }: TreeNodeProps) {
+  const { t } = useTranslation();
   const [expanded, setExpanded] = useState(true);
   const hasChildren = category.children.length > 0;
 
@@ -134,7 +137,7 @@ function TreeNode({
         )}
         <span className="flex-1 truncate text-sm font-medium">{category.name}</span>
         <Badge variant={category.is_active ? "default" : "secondary"} className="shrink-0">
-          {category.is_active ? "Active" : "Inactive"}
+          {category.is_active ? t("Active") : t("Inactive")}
         </Badge>
         {canUpdate && (
           <Button
@@ -169,15 +172,15 @@ function TreeNode({
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>Deactivate category?</AlertDialogTitle>
+                <AlertDialogTitle>{t("Deactivate category?")}</AlertDialogTitle>
                 <AlertDialogDescription>
-                  This will deactivate &ldquo;{category.name}&rdquo; and all its subcategories.
+                  {t("This will deactivate {{name}} and all its subcategories.", { name: category.name })}
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogCancel>{t("Cancel")}</AlertDialogCancel>
                 <AlertDialogAction onClick={() => onDeactivate(category.id)}>
-                  Deactivate
+                  {t("Deactivate")}
                 </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>

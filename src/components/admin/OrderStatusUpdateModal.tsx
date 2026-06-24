@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { useTranslation } from "@/lib/i18n/client";
 import { updateOrderStatus, adminOrdersKeys } from "@/lib/api/admin-orders";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -43,6 +44,7 @@ interface OrderStatusUpdateModalProps {
 }
 
 export function OrderStatusUpdateModal({ orderId, currentStatus, onUpdated }: OrderStatusUpdateModalProps) {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [selectedStatus, setSelectedStatus] = useState<string>("");
   const queryClient = useQueryClient();
@@ -54,12 +56,12 @@ export function OrderStatusUpdateModal({ orderId, currentStatus, onUpdated }: Or
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: adminOrdersKeys.detail(orderId) });
       queryClient.invalidateQueries({ queryKey: adminOrdersKeys.lists() });
-      toast.success("Order status updated");
+      toast.success(t("Order status updated"));
       setOpen(false);
       onUpdated();
     },
     onError: (err) => {
-      toast.error(err instanceof Error ? err.message : "Failed to update status");
+      toast.error(err instanceof Error ? err.message : t("Failed to update status"));
     },
   });
 
@@ -68,14 +70,14 @@ export function OrderStatusUpdateModal({ orderId, currentStatus, onUpdated }: Or
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>Update Status</Button>
+        <Button>{t("Update Status")}</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Update Order Status</DialogTitle>
+          <DialogTitle>{t("Update Order Status")}</DialogTitle>
           <DialogDescription>
-            Current status:{" "}
-            <Badge variant="outline">{STATUS_LABELS[currentStatus] ?? currentStatus}</Badge>
+            {t("Current status:")}{" "}
+            <Badge variant="outline">{t(STATUS_LABELS[currentStatus] ?? currentStatus)}</Badge>
           </DialogDescription>
         </DialogHeader>
 
@@ -88,7 +90,7 @@ export function OrderStatusUpdateModal({ orderId, currentStatus, onUpdated }: Or
             <div key={status} className="flex items-center gap-3 rounded-lg border p-3">
               <RadioGroupItem value={status} id={status} />
               <Label htmlFor={status} className="flex-1 cursor-pointer font-medium">
-                {STATUS_LABELS[status] ?? status}
+                {t(STATUS_LABELS[status] ?? status)}
               </Label>
             </div>
           ))}
@@ -96,13 +98,13 @@ export function OrderStatusUpdateModal({ orderId, currentStatus, onUpdated }: Or
 
         <DialogFooter>
           <Button variant="outline" onClick={() => setOpen(false)}>
-            Cancel
+            {t("Cancel")}
           </Button>
           <Button
             onClick={() => mutation.mutate(selectedStatus)}
             disabled={!selectedStatus || mutation.isPending}
           >
-            {mutation.isPending ? "Updating..." : "Update"}
+            {mutation.isPending ? t("Updating...") : t("Update")}
           </Button>
         </DialogFooter>
       </DialogContent>

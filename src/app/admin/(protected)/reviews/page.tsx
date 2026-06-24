@@ -2,6 +2,7 @@
 
 import { Suspense, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
+import { useTranslation } from "@/lib/i18n/client";
 
 import { ReviewsTable } from "@/components/admin/ReviewsTable";
 
@@ -25,6 +26,7 @@ function ReviewsPageSkeleton() {
 }
 
 function AdminReviewsPageContent() {
+  const { t } = useTranslation();
   const searchParams = useSearchParams();
   const page = Number(searchParams.get("page") ?? "1");
   const status = searchParams.get("status") ?? "";
@@ -32,7 +34,7 @@ function AdminReviewsPageContent() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Reviews</h1>
+        <h1 className="text-2xl font-bold">{t("Reviews")}</h1>
       </div>
       <ReviewsTable page={page} status={status} />
     </div>

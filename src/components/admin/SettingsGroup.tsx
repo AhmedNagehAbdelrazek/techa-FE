@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 //   no Tooltip shadcn component — using native title
+import { useTranslation } from "@/lib/i18n/client";
 import type { Setting } from "@/lib/api/admin-banners-settings-media";
 
 interface SettingsGroupProps {
@@ -26,6 +27,7 @@ function SettingInput({
   onChange: (v: string | number | boolean) => void;
   onUploadImage: () => void;
 }) {
+  const { t } = useTranslation();
   const baseCn = setting.is_active ? "" : "opacity-60 pointer-events-none"; //   no pointer-events for graying out, still editable via label
 
   switch (setting.type) {
@@ -45,7 +47,7 @@ function SettingInput({
         <div className="flex items-center gap-2">
           <Input className={baseCn} value={String(value)} onChange={(e) => onChange(e.target.value)} placeholder="https://..." />
           <button type="button" onClick={() => !setting.is_active || onUploadImage()} className="text-sm text-primary hover:underline disabled:opacity-50" disabled={!setting.is_active}>
-            Upload
+            {t("Upload")}
           </button>
         </div>
       );
@@ -59,6 +61,7 @@ function SettingInput({
 }
 
 export function SettingsGroup({ title, settings, values, onChange, onUploadImage }: SettingsGroupProps) {
+  const { t } = useTranslation();
   return (
     <fieldset className="rounded-lg border p-4">
       <legend className="px-2 text-sm font-semibold">{title}</legend>
@@ -66,9 +69,9 @@ export function SettingsGroup({ title, settings, values, onChange, onUploadImage
         {settings.map((s) => (
           <div key={s.key} className="space-y-1">
               <div className="flex items-center gap-1">
-                <Label htmlFor={s.key}>{s.key.split(".").pop()}</Label>
+                <Label htmlFor={s.key}>{t(s.key.split(".").pop() ?? "")}</Label>
                 {!s.is_active && (
-                  <span className="cursor-help text-xs text-muted-foreground" title="Inactive setting">ⓘ</span>
+                  <span className="cursor-help text-xs text-muted-foreground" title={t("Inactive setting")}>ⓘ</span>
                 )}
               </div>
               <SettingInput setting={s} value={values[s.key] ?? s.value} onChange={(v) => onChange(s.key, v)} onUploadImage={() => onUploadImage(s.key)} />

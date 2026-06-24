@@ -3,6 +3,7 @@
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Pencil, Trash2 } from "lucide-react";
+import { useTranslation } from "@/lib/i18n/client";
 
 import { getBanners, deleteBanner, adminBannerSettingsKeys, type AdminBanner } from "@/lib/api/admin-banners-settings-media";
 import { useAdminStore } from "@/lib/stores/admin.store";
@@ -30,14 +31,15 @@ export function BannersTableSkeleton() {
   );
 }
 
-function badgeConfig(banner: AdminBanner): { variant: "secondary" | "destructive" | "default"; label: string } {
-  if (!banner.is_active) return { variant: "secondary", label: "Inactive" };
-  if (banner.ends_at && new Date(banner.ends_at) < new Date()) return { variant: "destructive", label: "Expired" };
-  return { variant: "default", label: "Active" };
+function badgeConfig(banner: AdminBanner, t: (key: string) => string): { variant: "secondary" | "destructive" | "default"; label: string } {
+  if (!banner.is_active) return { variant: "secondary", label: t("Inactive") };
+  if (banner.ends_at && new Date(banner.ends_at) < new Date()) return { variant: "destructive", label: t("Expired") };
+  return { variant: "default", label: t("Active") };
 }
 
 //   No separate BannerRow component — inline rows keep it simple
 export function BannersTable({ onEdit }: BannersTableProps) {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const permissions = useAdminStore((s) => s.admin?.permissions ?? EMPTY_PERMISSIONS);
   const canUpdate = permissions["content"]?.includes("update") ?? false;
@@ -52,34 +54,34 @@ export function BannersTable({ onEdit }: BannersTableProps) {
     mutationFn: deleteBanner,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: adminBannerSettingsKeys.banners() });
-      toast.success("Banner deleted");
+      toast.success(t("Banner deleted"));
     },
     onError: (err) => {
-      toast.error(err instanceof Error ? err.message : "Failed to delete banner");
+      toast.error(err instanceof Error ? err.message : t("Failed to delete banner"));
     },
   });
 
   if (isLoading) return <BannersTableSkeleton />;
   if (isError) return <ErrorState message={(error as Error)?.message} onRetry={refetch} />;
-  if (!data?.data.length) return <EmptyState title="No banners yet" description="Create your first banner to promote products." />;
+  if (!data?.data.length) return <EmptyState title={t("No banners yet")} description={t("Create your first banner to promote products.")} />;
 
   return (
     <div className="rounded-md border">
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-24">Image</TableHead>
-            <TableHead>Title</TableHead>
-            <TableHead>Position</TableHead>
-            <TableHead>Period</TableHead>
-            <TableHead className="w-16 text-center">Order</TableHead>
-            <TableHead className="w-20">Status</TableHead>
-            {(canUpdate || canDelete) && <TableHead className="w-24">Actions</TableHead>}
+            <TableHead className="w-24">{t("Image")}</TableHead>
+            <TableHead>{t("Title")}</TableHead>
+            <TableHead>{t("Position")}</TableHead>
+            <TableHead>{t("Period")}</TableHead>
+            <TableHead className="w-16 text-center">{t("Order")}</TableHead>
+            <TableHead className="w-20">{t("Status")}</TableHead>
+            {(canUpdate || canDelete) && <TableHead className="w-24">{t("Actions")}</TableHead>}
           </TableRow>
         </TableHeader>
         <TableBody>
           {data.data.map((banner) => {
-            const { variant, label } = badgeConfig(banner);
+            const { variant, label } = badgeConfig(banner, t);
             return (
               <TableRow key={banner.id}>
                 <TableCell>
@@ -112,12 +114,12 @@ export function BannersTable({ onEdit }: BannersTableProps) {
                           </AlertDialogTrigger>
                           <AlertDialogContent>
                             <AlertDialogHeader>
-                              <AlertDialogTitle>Delete banner?</AlertDialogTitle>
-                              <AlertDialogDescription>This permanently removes &ldquo;{banner.title}&rdquo;.</AlertDialogDescription>
+                              <AlertDialogTitle>{t("Delete banner?")}</AlertDialogTitle>
+                              <AlertDialogDescription>{t("This permanently removes")} &ldquo;{banner.title}&rdquo;.</AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
-                              <AlertDialogCancel>Cancel</AlertDialogCancel>
-                              <AlertDialogAction onClick={() => deleteMutation.mutate(banner.id)}>Delete</AlertDialogAction>
+                              <AlertDialogCancel>{t("Cancel")}</AlertDialogCancel>
+                              <AlertDialogAction onClick={() => deleteMutation.mutate(banner.id)}>{t("Delete")}</AlertDialogAction>
                             </AlertDialogFooter>
                           </AlertDialogContent>
                         </AlertDialog>

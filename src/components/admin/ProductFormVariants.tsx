@@ -4,6 +4,7 @@ import { useCallback, useMemo } from "react";
 import { useFieldArray, useFormContext, Controller } from "react-hook-form";
 import { Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslation } from "@/lib/i18n/client";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -23,6 +24,7 @@ interface VariantFormValues {
 }
 
 export function ProductFormVariants() {
+  const { t } = useTranslation();
   const { control, watch, getValues } = useFormContext();
 
   const variantsArray = useFieldArray({
@@ -47,7 +49,7 @@ export function ProductFormVariants() {
     (variantIndex: number) => {
       const currentOptions = getValues(`variants.${variantIndex}.options`) ?? [];
       if (currentOptions.length >= 10) {
-        toast.error("Maximum 10 options per variant");
+        toast.error(t("Maximum 10 options per variant"));
         return;
       }
       variantsArray.update(variantIndex, {
@@ -55,7 +57,7 @@ export function ProductFormVariants() {
         options: [...currentOptions, { option_name: "", option_value: "" }],
       });
     },
-    [variantsArray, getValues],
+    [variantsArray, getValues, t],
   );
 
   const removeOption = useCallback(
@@ -110,7 +112,7 @@ export function ProductFormVariants() {
   return (
     <div className="space-y-6">
       {visibleVariants.length === 0 && (
-        <p className="text-sm text-muted-foreground">No variants added yet.</p>
+        <p className="text-sm text-muted-foreground">{t("No variants added yet.")}</p>
       )}
 
       {variants.map((variant, index) => {
@@ -125,7 +127,7 @@ export function ProductFormVariants() {
             className="rounded-md border p-4"
           >
             <div className="mb-3 flex items-center justify-between">
-              <h4 className="text-sm font-semibold">Variant {index + 1}</h4>
+              <h4 className="text-sm font-semibold">{t("Variant")} {index + 1}</h4>
               <Button
                 type="button"
                 variant="ghost"
@@ -134,7 +136,7 @@ export function ProductFormVariants() {
                 onClick={() => removeVariant(index)}
               >
                 <Trash2 className="size-4" />
-                Remove
+                {t("Remove")}
               </Button>
             </div>
 
@@ -142,17 +144,17 @@ export function ProductFormVariants() {
 
             <div className="space-y-3">
               <div>
-                <Label className="mb-1 block text-xs text-muted-foreground">Options</Label>
+                <Label className="mb-1 block text-xs text-muted-foreground">{t("Options")}</Label>
                 {variant.options?.map((_, optIndex) => (
                   <div key={optIndex} className="mb-1 flex items-center gap-2">
                     <Input
                       {...control.register(`variants.${index}.options.${optIndex}.option_name`)}
-                      placeholder="Name (e.g. Color)"
+                      placeholder={t("Name (e.g. Color)")}
                       className="w-36"
                     />
                     <Input
                       {...control.register(`variants.${index}.options.${optIndex}.option_value`)}
-                      placeholder="Value (e.g. Red)"
+                      placeholder={t("Value (e.g. Red)")}
                       className="w-36"
                     />
                     <Button
@@ -174,36 +176,36 @@ export function ProductFormVariants() {
                   onClick={() => addOption(index)}
                 >
                   <Plus className="size-3" />
-                  Add Option
+                  {t("Add Option")}
                 </Button>
               </div>
 
               {isDuplicated && (
                 <p className="text-xs text-destructive">
-                  Duplicate option combination detected
+                  {t("Duplicate option combination detected")}
                 </p>
               )}
 
               <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
                 <div>
-                  <Label className="mb-1 block text-xs text-muted-foreground">SKU</Label>
+                  <Label className="mb-1 block text-xs text-muted-foreground">{t("SKU")}</Label>
                   <Input
                     {...control.register(`variants.${index}.sku`)}
-                    placeholder="SKU"
+                    placeholder={t("SKU")}
                   />
                 </div>
                 <div>
-                  <Label className="mb-1 block text-xs text-muted-foreground">Price</Label>
+                  <Label className="mb-1 block text-xs text-muted-foreground">{t("Price")}</Label>
                   <Input
                     type="number"
                     step="0.01"
                     min="0"
-                    placeholder="0.00"
+                    placeholder={t("0.00")}
                     {...control.register(`variants.${index}.price`, { valueAsNumber: true })}
                   />
                 </div>
                 <div>
-                  <Label className="mb-1 block text-xs text-muted-foreground">Discount %</Label>
+                  <Label className="mb-1 block text-xs text-muted-foreground">{t("Discount %")}</Label>
                   <Input
                     type="number"
                     min="0"
@@ -213,7 +215,7 @@ export function ProductFormVariants() {
                   />
                 </div>
                 <div>
-                  <Label className="mb-1 block text-xs text-muted-foreground">Stock</Label>
+                  <Label className="mb-1 block text-xs text-muted-foreground">{t("Stock")}</Label>
                   <Input
                     type="number"
                     min="0"
@@ -232,7 +234,7 @@ export function ProductFormVariants() {
                       checked={field.value ?? true}
                       onCheckedChange={field.onChange}
                     />
-                    <Label className="text-sm">Active</Label>
+                    <Label className="text-sm">{t("Active")}</Label>
                   </div>
                 )}
               />
@@ -244,7 +246,7 @@ export function ProductFormVariants() {
       {variants.length < 20 && (
         <Button type="button" variant="outline" onClick={addVariant}>
           <Plus className="size-4" />
-          Add Variant
+          {t("Add Variant")}
         </Button>
       )}
     </div>

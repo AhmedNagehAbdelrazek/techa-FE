@@ -5,6 +5,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
+import { useTranslation } from "@/lib/i18n/client";
 
 import {
   getPendingPayments,
@@ -86,6 +87,7 @@ export function PaymentsTableSkeleton() {
 const EMPTY_PERMISSIONS: Record<string, string[]> = {};
 
 export function PaymentsTable() {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const permissions = useAdminStore((s) => s.admin?.permissions ?? EMPTY_PERMISSIONS);
   const canUpdate = permissions["orders"]?.includes("update") ?? false;
@@ -105,10 +107,10 @@ export function PaymentsTable() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: adminOrdersKeys.all });
       queryClient.invalidateQueries({ queryKey: adminOrdersKeys.payments });
-      toast.success("Payment approved");
+      toast.success(t("Payment approved"));
     },
     onError: (err) => {
-      toast.error(err instanceof Error ? err.message : "Failed to approve payment");
+      toast.error(err instanceof Error ? err.message : t("Failed to approve payment"));
     },
   });
 
@@ -117,13 +119,13 @@ export function PaymentsTable() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: adminOrdersKeys.all });
       queryClient.invalidateQueries({ queryKey: adminOrdersKeys.payments });
-      toast.success("Payment rejected");
+      toast.success(t("Payment rejected"));
       setRejectDialogOpen(false);
       setRejectingPayment(null);
       setRejectionNote("");
     },
     onError: (err) => {
-      toast.error(err instanceof Error ? err.message : "Failed to reject payment");
+      toast.error(err instanceof Error ? err.message : t("Failed to reject payment"));
     },
   });
 
@@ -154,7 +156,7 @@ export function PaymentsTable() {
   if (isError) {
     return (
       <ErrorState
-        title="Failed to load payments"
+        title={t("Failed to load payments")}
         message={(error as Error)?.message}
         onRetry={() => refetch()}
       />
@@ -166,8 +168,8 @@ export function PaymentsTable() {
   if (payments.length === 0) {
     return (
       <EmptyState
-        title="No pending payments"
-        description="All payments have been reviewed."
+        title={t("No pending payments")}
+        description={t("All payments have been reviewed.")}
       />
     );
   }
@@ -178,13 +180,13 @@ export function PaymentsTable() {
         <Table>
           <TableHeader>
             <TableRow className="text-right">
-              <TableHead className="text-right">Order</TableHead>
-              <TableHead className="text-right">Customer</TableHead>
-              <TableHead className="text-right">Method</TableHead>
-              <TableHead className="text-right">Amount</TableHead>
-              <TableHead className="text-right">Status</TableHead>
-              <TableHead className="text-right">Date</TableHead>
-              <TableHead className="text-right">Screenshot</TableHead>
+              <TableHead className="text-right">{t("Order")}</TableHead>
+              <TableHead className="text-right">{t("Customer")}</TableHead>
+              <TableHead className="text-right">{t("Method")}</TableHead>
+              <TableHead className="text-right">{t("Amount")}</TableHead>
+              <TableHead className="text-right">{t("Status")}</TableHead>
+              <TableHead className="text-right">{t("Date")}</TableHead>
+              <TableHead className="text-right">{t("Screenshot")}</TableHead>
               {canUpdate && <TableHead className="w-40" />}
             </TableRow>
           </TableHeader>
@@ -210,7 +212,7 @@ export function PaymentsTable() {
       {totalPages > 1 && (
         <div className="flex items-center justify-between">
           <p className="text-sm text-muted-foreground">
-            Page {currentPage} of {totalPages} ({meta?.total ?? 0} payments)
+            {t("Page {{current}} of {{total}}", { current: currentPage, total: totalPages })} ({meta?.total ?? 0} {t("payments")})
           </p>
           <div className="flex items-center gap-1">
             <Button
@@ -254,29 +256,29 @@ export function PaymentsTable() {
       <Dialog open={rejectDialogOpen} onOpenChange={setRejectDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Reject Payment</DialogTitle>
+            <DialogTitle>{t("Reject Payment")}</DialogTitle>
             <DialogDescription>
               {rejectingPayment
-                ? `Reject payment for order ${rejectingPayment.Order.order_number}`
+                ? t("Reject payment for order {{orderNumber}}", { orderNumber: rejectingPayment.Order.order_number })
                 : ""}
             </DialogDescription>
           </DialogHeader>
           <Textarea
-            placeholder="Rejection reason..."
+            placeholder={t("Rejection reason...")}
             value={rejectionNote}
             onChange={(e) => setRejectionNote(e.target.value)}
             rows={3}
           />
           <DialogFooter>
             <Button variant="outline" onClick={() => setRejectDialogOpen(false)}>
-              Cancel
+              {t("Cancel")}
             </Button>
             <Button
               variant="destructive"
               onClick={handleReject}
               disabled={!rejectionNote.trim() || rejectMutation.isPending}
             >
-              {rejectMutation.isPending ? "Rejecting..." : "Reject"}
+              {rejectMutation.isPending ? t("Rejecting...") : t("Reject")}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -294,6 +296,7 @@ interface PaymentRowProps {
 }
 
 function PaymentRow({ payment, canUpdate, onApprove, onReject, isApproving }: PaymentRowProps) {
+  const { t } = useTranslation();
   const [screenshotOpen, setScreenshotOpen] = useState(false);
 
   return (
@@ -309,7 +312,7 @@ function PaymentRow({ payment, canUpdate, onApprove, onReject, isApproving }: Pa
       <TableCell>{formatPrice(payment.amount)}</TableCell>
       <TableCell>
         <Badge variant={PAYMENT_STATUS_VARIANTS[payment.status] ?? "outline"}>
-          {PAYMENT_STATUS_LABELS[payment.status] ?? payment.status}
+          {t(PAYMENT_STATUS_LABELS[payment.status] ?? payment.status)}
         </Badge>
       </TableCell>
       <TableCell className="text-xs text-muted-foreground">
@@ -320,17 +323,17 @@ function PaymentRow({ payment, canUpdate, onApprove, onReject, isApproving }: Pa
           <Dialog open={screenshotOpen} onOpenChange={setScreenshotOpen}>
             <DialogTrigger asChild>
               <Button variant="ghost" size="sm">
-                View
+                {t("View")}
               </Button>
             </DialogTrigger>
             <DialogContent className="max-w-lg">
               <DialogHeader>
-                <DialogTitle>Payment Screenshot</DialogTitle>
+                <DialogTitle>{t("Payment Screenshot")}</DialogTitle>
               </DialogHeader>
               <div className="relative aspect-video w-full overflow-hidden rounded-lg">
                 <Image
                   src={payment.proof_screenshot_url}
-                  alt="Payment proof screenshot"
+                  alt={t("Payment proof screenshot")}
                   fill
                   className="object-contain"
                   unoptimized
@@ -348,26 +351,26 @@ function PaymentRow({ payment, canUpdate, onApprove, onReject, isApproving }: Pa
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button size="sm" disabled={isApproving}>
-                  {isApproving ? "..." : "Approve"}
+                  {isApproving ? "..." : t("Approve")}
                 </Button>
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle>Approve payment?</AlertDialogTitle>
+                  <AlertDialogTitle>{t("Approve payment?")}</AlertDialogTitle>
                   <AlertDialogDescription>
-                    This will mark the payment as confirmed for order {payment.Order.order_number}.
+                    {t("This will mark the payment as confirmed for order {{orderNumber}}.", { orderNumber: payment.Order.order_number })}
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogCancel>{t("Cancel")}</AlertDialogCancel>
                   <AlertDialogAction onClick={onApprove}>
-                    Approve
+                    {t("Approve")}
                   </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
             <Button size="sm" variant="outline" onClick={onReject}>
-              Reject
+              {t("Reject")}
             </Button>
           </div>
         </TableCell>

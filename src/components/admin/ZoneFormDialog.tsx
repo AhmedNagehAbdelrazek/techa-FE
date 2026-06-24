@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useTranslation } from "@/lib/i18n/client";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -47,6 +48,7 @@ interface ZoneFormDialogProps {
 }
 
 export function ZoneFormDialog({ open, onOpenChange, initialData }: ZoneFormDialogProps) {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const [regions, setRegions] = useState<string[]>([]);
   const [regionInput, setRegionInput] = useState("");
@@ -87,10 +89,10 @@ export function ZoneFormDialog({ open, onOpenChange, initialData }: ZoneFormDial
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: adminCouponZoneKeys.zones() });
       onOpenChange(false);
-      toast.success("Zone created");
+      toast.success(t("Zone created"));
     },
     onError: (err) => {
-      toast.error(err instanceof Error ? err.message : "Failed to create zone");
+      toast.error(err instanceof Error ? err.message : t("Failed to create zone"));
     },
   });
 
@@ -102,10 +104,10 @@ export function ZoneFormDialog({ open, onOpenChange, initialData }: ZoneFormDial
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: adminCouponZoneKeys.zones() });
       onOpenChange(false);
-      toast.success("Zone updated");
+      toast.success(t("Zone updated"));
     },
     onError: (err) => {
-      toast.error(err instanceof Error ? err.message : "Failed to update zone");
+      toast.error(err instanceof Error ? err.message : t("Failed to update zone"));
     },
   });
 
@@ -113,7 +115,7 @@ export function ZoneFormDialog({ open, onOpenChange, initialData }: ZoneFormDial
 
   function onSubmit(data: FormValues) {
     if (regions.length === 0) {
-      toast.error("Add at least one region");
+      toast.error(t("Add at least one region"));
       return;
     }
     if (initialData) {
@@ -127,7 +129,7 @@ export function ZoneFormDialog({ open, onOpenChange, initialData }: ZoneFormDial
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>{initialData ? "Edit Zone" : "Add Zone"}</DialogTitle>
+          <DialogTitle>{initialData ? t("Edit Zone") : t("Add Zone")}</DialogTitle>
         </DialogHeader>
         <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -136,16 +138,16 @@ export function ZoneFormDialog({ open, onOpenChange, initialData }: ZoneFormDial
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Name *</FormLabel>
+                <FormLabel>{t("Name *")}</FormLabel>
                 <FormControl>
-                  <Input placeholder="Zone name" {...field} />
+                  <Input placeholder={t("Zone name")} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
           <FormItem>
-            <FormLabel>Regions *</FormLabel>
+            <FormLabel>{t("Regions *")}</FormLabel>
             <div className="flex flex-wrap gap-1.5 mb-2">
               {regions.map((region) => (
                 <Badge key={region} variant="secondary" className="gap-1">
@@ -158,13 +160,13 @@ export function ZoneFormDialog({ open, onOpenChange, initialData }: ZoneFormDial
             </div>
             <div className="flex gap-2">
               <Input
-                placeholder="Type a region and press Add"
+                placeholder={t("Type a region and press Add")}
                 value={regionInput}
                 onChange={(e) => setRegionInput(e.target.value)}
                 onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addRegion(); } }}
               />
               <Button type="button" variant="outline" onClick={addRegion} disabled={!regionInput.trim()}>
-                Add
+                {t("Add")}
               </Button>
             </div>
             <FormMessage />
@@ -178,7 +180,7 @@ export function ZoneFormDialog({ open, onOpenChange, initialData }: ZoneFormDial
                   <FormControl>
                     <Checkbox checked={field.value ?? true} onCheckedChange={field.onChange} />
                   </FormControl>
-                  <Label>Active</Label>
+                  <Label>{t("Active")}</Label>
                 </div>
                 <FormMessage />
               </FormItem>
@@ -186,10 +188,10 @@ export function ZoneFormDialog({ open, onOpenChange, initialData }: ZoneFormDial
           />
           <div className="flex justify-end gap-2">
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
-              Cancel
+              {t("Cancel")}
             </Button>
             <Button type="submit" disabled={isPending}>
-              {initialData ? "Update" : "Create"}
+              {initialData ? t("Update") : t("Create")}
             </Button>
           </div>
         </form>

@@ -8,6 +8,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { z } from "zod";
 import type { FieldErrors } from "react-hook-form";
+import { useTranslation } from "@/lib/i18n/client";
 
 import {
   createProduct,
@@ -95,6 +96,7 @@ interface ProductFormProps {
 }
 
 export function ProductForm({ product, mode }: ProductFormProps) {
+  const { t } = useTranslation();
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -171,11 +173,11 @@ export function ProductForm({ product, mode }: ProductFormProps) {
     mutationFn: (data: CreateProductPayload) => createProduct(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: adminProductsKeys.lists() });
-      toast.success("Product created successfully");
+      toast.success(t("Product created successfully"));
       router.push("/admin/products");
     },
     onError: (err) => {
-      toast.error(err instanceof Error ? err.message : "Failed to create product");
+      toast.error(err instanceof Error ? err.message : t("Failed to create product"));
     },
   });
 
@@ -187,11 +189,11 @@ export function ProductForm({ product, mode }: ProductFormProps) {
       queryClient.invalidateQueries({
         queryKey: adminProductsKeys.detail(product!.id),
       });
-      toast.success("Product updated successfully");
+      toast.success(t("Product updated successfully"));
       router.push("/admin/products");
     },
     onError: (err) => {
-      toast.error(err instanceof Error ? err.message : "Failed to update product");
+      toast.error(err instanceof Error ? err.message : t("Failed to update product"));
     },
   });
 
@@ -290,22 +292,22 @@ export function ProductForm({ product, mode }: ProductFormProps) {
       const tab = fieldTabMap[fieldName] ?? "basic-info";
       setActiveTab(tab);
       const fieldError = first[1];
-      const msg = (fieldError as { message?: string })?.message ?? "Please fix the form errors";
+      const msg = (fieldError as { message?: string })?.message ?? t("Please fix the form errors");
       toast.error(msg);
     }
     console.error(errors);
-  }, []);
+  }, [t]);
 
   return (
     <FormProvider {...form}>
       <form onSubmit={form.handleSubmit(onSubmit, onInvalid)}>
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="mb-6">
-            <TabsTrigger value="basic-info">Basic Info</TabsTrigger>
-            <TabsTrigger value="attributes">Attributes</TabsTrigger>
-            <TabsTrigger value="images">Images</TabsTrigger>
-            <TabsTrigger value="tags">Tags</TabsTrigger>
-            <TabsTrigger value="variants">Variants</TabsTrigger>
+            <TabsTrigger value="basic-info">{t("Basic Info")}</TabsTrigger>
+            <TabsTrigger value="attributes">{t("Attributes")}</TabsTrigger>
+            <TabsTrigger value="images">{t("Images")}</TabsTrigger>
+            <TabsTrigger value="tags">{t("Tags")}</TabsTrigger>
+            <TabsTrigger value="variants">{t("Variants")}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="basic-info">
@@ -336,14 +338,14 @@ export function ProductForm({ product, mode }: ProductFormProps) {
             onClick={() => router.push("/admin/products")}
             disabled={isPending}
           >
-            Cancel
+            {t("Cancel")}
           </Button>
           <Button type="submit" disabled={isPending}>
             {isPending
-              ? "Saving..."
+              ? t("Saving...")
               : mode === "create"
-                ? "Create Product"
-                : "Update Product"}
+                ? t("Create Product")
+                : t("Update Product")}
           </Button>
         </div>
       </form>

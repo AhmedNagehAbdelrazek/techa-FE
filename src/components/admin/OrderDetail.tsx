@@ -5,6 +5,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslation } from "@/lib/i18n/client";
 
 import { getOrderDetail, updateOrderStatus, adminOrdersKeys } from "@/lib/api/admin-orders";
 import { useAdminStore } from "@/lib/stores/admin.store";
@@ -79,6 +80,7 @@ interface OrderDetailProps {
 const EMPTY_PERMISSIONS: Record<string, string[]> = {};
 
 export function OrderDetail({ orderId }: OrderDetailProps) {
+  const { t } = useTranslation();
   const permissions = useAdminStore((s) => s.admin?.permissions ?? EMPTY_PERMISSIONS);
   const canUpdate = permissions["orders"]?.includes("update") ?? false;
   const [cancelOpen, setCancelOpen] = useState(false);
@@ -89,12 +91,12 @@ export function OrderDetail({ orderId }: OrderDetailProps) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: adminOrdersKeys.detail(orderId) });
       queryClient.invalidateQueries({ queryKey: adminOrdersKeys.lists() });
-      toast.success("Order cancelled");
+      toast.success(t("Order cancelled"));
       setCancelOpen(false);
       refetch();
     },
     onError: (err) => {
-      toast.error(err instanceof Error ? err.message : "Failed to cancel order");
+      toast.error(err instanceof Error ? err.message : t("Failed to cancel order"));
     },
   });
 
@@ -108,7 +110,7 @@ export function OrderDetail({ orderId }: OrderDetailProps) {
   if (isError) {
     return (
       <ErrorState
-        title="Failed to load order"
+        title={t("Failed to load order")}
         message={(error as Error)?.message}
         onRetry={() => refetch()}
       />
@@ -116,7 +118,7 @@ export function OrderDetail({ orderId }: OrderDetailProps) {
   }
 
   if (!order) {
-    return <ErrorState title="Order not found" message="The requested order does not exist." />;
+    return <ErrorState title={t("Order not found")} message={t("The requested order does not exist.")} />;
   }
 
   return (
@@ -132,7 +134,7 @@ export function OrderDetail({ orderId }: OrderDetailProps) {
           <div>
             <h1 className="text-2xl font-bold">{order.order_number}</h1>
             <p className="text-sm text-muted-foreground">
-              Placed on {formatDateTime(order.created_at)}
+              {t("Placed on {{date}}", { date: formatDateTime(order.created_at) })}
             </p>
           </div>
         </div>
@@ -142,20 +144,20 @@ export function OrderDetail({ orderId }: OrderDetailProps) {
             {order.status !== "cancelled" && order.status !== "delivered" && (
               <>
                 <Button variant="destructive" onClick={() => setCancelOpen(true)}>
-                  Cancel Order
+                  {t("Cancel Order")}
                 </Button>
                 <AlertDialog open={cancelOpen} onOpenChange={setCancelOpen}>
                   <AlertDialogContent>
                     <AlertDialogHeader>
-                      <AlertDialogTitle>Cancel this order?</AlertDialogTitle>
+                      <AlertDialogTitle>{t("Cancel this order?")}</AlertDialogTitle>
                       <AlertDialogDescription>
-                        This action cannot be undone. The order will be marked as cancelled.
+                        {t("This action cannot be undone. The order will be marked as cancelled.")}
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                      <AlertDialogCancel>Keep order</AlertDialogCancel>
+                      <AlertDialogCancel>{t("Keep order")}</AlertDialogCancel>
                       <AlertDialogAction onClick={() => cancelMutation.mutate()} disabled={cancelMutation.isPending}>
-                        {cancelMutation.isPending ? "Cancelling..." : "Yes, cancel order"}
+                        {cancelMutation.isPending ? t("Cancelling...") : t("Yes, cancel order")}
                       </AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>
@@ -171,18 +173,18 @@ export function OrderDetail({ orderId }: OrderDetailProps) {
         <div className="lg:col-span-2 space-y-6">
           {/* Customer Card */}
           <div className="rounded-lg border bg-card p-6">
-            <h2 className="mb-4 text-base font-semibold">Customer</h2>
+            <h2 className="mb-4 text-base font-semibold">{t("Customer")}</h2>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Name</span>
+                <span className="text-muted-foreground">{t("Name")}</span>
                 <span className="font-medium">{order.customer.full_name}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Email</span>
+                <span className="text-muted-foreground">{t("Email")}</span>
                 <span>{order.customer.email}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Phone</span>
+                <span className="text-muted-foreground">{t("Phone")}</span>
                 <span dir="ltr">{order.customer.phone}</span>
               </div>
             </div>
@@ -190,15 +192,15 @@ export function OrderDetail({ orderId }: OrderDetailProps) {
 
           {/* Items Table */}
           <div className="rounded-lg border bg-card p-6">
-            <h2 className="mb-4 text-base font-semibold">Items</h2>
+            <h2 className="mb-4 text-base font-semibold">{t("Items")}</h2>
             <Table>
               <TableHeader>
                 <TableRow className="text-right">
-                  <TableHead className="text-right">Product</TableHead>
-                  <TableHead className="text-right">Variant</TableHead>
-                  <TableHead className="text-right">Qty</TableHead>
-                  <TableHead className="text-right">Unit Price</TableHead>
-                  <TableHead className="text-right">Total</TableHead>
+                  <TableHead className="text-right">{t("Product")}</TableHead>
+                  <TableHead className="text-right">{t("Variant")}</TableHead>
+                  <TableHead className="text-right">{t("Qty")}</TableHead>
+                  <TableHead className="text-right">{t("Unit Price")}</TableHead>
+                  <TableHead className="text-right">{t("Total")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -216,22 +218,22 @@ export function OrderDetail({ orderId }: OrderDetailProps) {
             <Separator className="my-3" />
             <div className="space-y-1 text-sm">
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Subtotal</span>
+                <span className="text-muted-foreground">{t("Subtotal")}</span>
                 <span>{formatPrice(order.subtotal)}</span>
               </div>
               {order.discount > 0 && (
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Discount</span>
+                  <span className="text-muted-foreground">{t("Discount")}</span>
                   <span className="text-green-600">-{formatPrice(order.discount)}</span>
                 </div>
               )}
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Shipping</span>
+                <span className="text-muted-foreground">{t("Shipping")}</span>
                 <span>{formatPrice(order.shipping_charge)}</span>
               </div>
               <Separator className="my-1" />
               <div className="flex justify-between font-semibold">
-                <span>Total</span>
+                <span>{t("Total")}</span>
                 <span>{formatPrice(order.total)}</span>
               </div>
             </div>
@@ -239,10 +241,10 @@ export function OrderDetail({ orderId }: OrderDetailProps) {
 
           {/* Status Timeline */}
           <div className="rounded-lg border bg-card p-6">
-            <h2 className="mb-4 text-base font-semibold">Status History</h2>
+            <h2 className="mb-4 text-base font-semibold">{t("Status History")}</h2>
             <div className="space-y-3">
               {order.status_history.length === 0 ? (
-                <p className="text-sm text-muted-foreground">No status changes recorded.</p>
+                <p className="text-sm text-muted-foreground">{t("No status changes recorded.")}</p>
               ) : (
                 order.status_history.map((entry, i) => (
                   <div key={i} className="flex items-start gap-3">
@@ -257,13 +259,13 @@ export function OrderDetail({ orderId }: OrderDetailProps) {
                         {entry.from_status ? (
                           <>
                             <Badge variant={STATUS_VARIANTS[entry.from_status] ?? "outline"} className="text-xs">
-                              {STATUS_LABELS[entry.from_status] ?? entry.from_status}
+                              {t(STATUS_LABELS[entry.from_status] ?? entry.from_status)}
                             </Badge>
                             <span className="text-muted-foreground">→</span>
                           </>
                         ) : null}
                         <Badge variant={STATUS_VARIANTS[entry.to_status] ?? "outline"} className="text-xs">
-                          {STATUS_LABELS[entry.to_status] ?? entry.to_status}
+                          {t(STATUS_LABELS[entry.to_status] ?? entry.to_status)}
                         </Badge>
                       </div>
                       <p className="mt-1 text-xs text-muted-foreground">
@@ -293,7 +295,7 @@ export function OrderDetail({ orderId }: OrderDetailProps) {
 
           {/* Shipping Address */}
           <div className="rounded-lg border bg-card p-6">
-            <h2 className="mb-3 text-base font-semibold">Shipping Address</h2>
+            <h2 className="mb-3 text-base font-semibold">{t("Shipping Address")}</h2>
             <div className="space-y-1 text-sm">
               <p className="font-medium">{order.shipping_address.full_name}</p>
               <p dir="ltr">{order.shipping_address.phone}</p>

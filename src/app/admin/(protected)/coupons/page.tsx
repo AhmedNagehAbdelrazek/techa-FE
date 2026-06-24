@@ -3,6 +3,7 @@
 import { Suspense, useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { Plus } from "lucide-react";
+import { useTranslation } from "@/lib/i18n/client";
 
 import { CouponsTable } from "@/components/admin/CouponsTable";
 import { CouponFormDialog } from "@/components/admin/CouponFormDialog";
@@ -34,6 +35,7 @@ function CouponsPageSkeleton() {
 
 function AdminCouponsPageContent() {
   const searchParams = useSearchParams();
+  const { t } = useTranslation();
   const permissions = useAdminStore((s) => s.admin?.permissions ?? EMPTY_PERMISSIONS);
   const canCreate = permissions["coupons"]?.includes("create") ?? false;
 
@@ -55,11 +57,11 @@ function AdminCouponsPageContent() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Coupons</h1>
+        <h1 className="text-2xl font-bold">{t("Coupons")}</h1>
         {canCreate && (
           <Button onClick={handleAdd}>
             <Plus className="size-4" />
-            Add Coupon
+            {t("Add Coupon")}
           </Button>
         )}
       </div>

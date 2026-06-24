@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { z } from "zod";
+import { useTranslation } from "@/lib/i18n/client";
 
 import {
   createAdminCategory,
@@ -61,6 +62,7 @@ export function CategoryFormDialog({
   initialData,
   parentId,
 }: CategoryFormDialogProps) {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const slugManuallyEdited = useRef(false);
 
@@ -111,10 +113,10 @@ export function CategoryFormDialog({
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: adminTaxonomyKeys.categories() });
       onOpenChange(false);
-      toast.success("Category created");
+      toast.success(t("Category created"));
     },
     onError: (err) => {
-      toast.error(err instanceof Error ? err.message : "Failed to create category");
+      toast.error(err instanceof Error ? err.message : t("Failed to create category"));
     },
   });
 
@@ -132,10 +134,10 @@ export function CategoryFormDialog({
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: adminTaxonomyKeys.categories() });
       onOpenChange(false);
-      toast.success("Category updated");
+      toast.success(t("Category updated"));
     },
     onError: (err) => {
-      toast.error(err instanceof Error ? err.message : "Failed to update category");
+      toast.error(err instanceof Error ? err.message : t("Failed to update category"));
     },
   });
 
@@ -153,7 +155,7 @@ export function CategoryFormDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>{initialData ? "Edit Category" : "Add Category"}</DialogTitle>
+          <DialogTitle>{initialData ? t("Edit Category") : t("Add Category")}</DialogTitle>
         </DialogHeader>
         <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -162,10 +164,10 @@ export function CategoryFormDialog({
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Name *</FormLabel>
+                <FormLabel>{t("Name *")}</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Category name"
+                    placeholder={t("Category name")}
                     {...field}
                     onChange={(e) => {
                       field.onChange(e);
@@ -184,10 +186,10 @@ export function CategoryFormDialog({
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Slug</FormLabel>
+                <FormLabel>{t("Slug")}</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="category-slug"
+                    placeholder={t("category-slug")}
                     {...field}
                     onChange={(e) => {
                       field.onChange(e);
@@ -205,7 +207,7 @@ export function CategoryFormDialog({
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Image URL</FormLabel>
+                <FormLabel>{t("Image URL")}</FormLabel>
                 <FormControl>
                   <Input placeholder="https://..." {...field} value={field.value ?? ""} />
                 </FormControl>
@@ -218,7 +220,7 @@ export function CategoryFormDialog({
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Sort Order</FormLabel>
+                <FormLabel>{t("Sort Order")}</FormLabel>
                 <FormControl>
                   <Input type="number" min={0} {...field} />
                 </FormControl>
@@ -235,7 +237,7 @@ export function CategoryFormDialog({
                   <FormControl>
                     <Checkbox checked={field.value ?? true} onCheckedChange={field.onChange} />
                   </FormControl>
-                  <Label>Active</Label>
+                  <Label>{t("Active")}</Label>
                 </div>
                 <FormMessage />
               </FormItem>
@@ -243,10 +245,10 @@ export function CategoryFormDialog({
           />
           <div className="flex justify-end gap-2">
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
-              Cancel
+              {t("Cancel")}
             </Button>
             <Button type="submit" disabled={isPending}>
-              {initialData ? "Update" : "Create"}
+              {initialData ? t("Update") : t("Create")}
             </Button>
           </div>
         </form>

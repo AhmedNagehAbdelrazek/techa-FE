@@ -5,6 +5,7 @@ import { useFormContext } from "react-hook-form";
 import { toast } from "sonner";
 import { Upload, Trash2, ArrowUp, ArrowDown, Star } from "lucide-react";
 import Image from "next/image";
+import { useTranslation } from "@/lib/i18n/client";
 
 import { uploadMedia } from "@/lib/api/admin-products";
 import { Button } from "@/components/ui/button";
@@ -17,6 +18,7 @@ interface ImageEntry {
 }
 
 export function ProductFormImages() {
+  const { t } = useTranslation();
   const { watch, setValue } = useFormContext();
   const images: ImageEntry[] = watch("images") ?? [];
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -42,13 +44,13 @@ export function ProductFormImages() {
           ];
           setValue("images", newImages, { shouldDirty: true });
         } catch {
-          toast.error(`Failed to upload: ${file.name}`);
+          toast.error(t("Failed to upload: {name}", { name: file.name }));
         }
       }
       setUploadingIndex(null);
       if (fileInputRef.current) fileInputRef.current.value = "";
     },
-    [watch, setValue],
+    [watch, setValue, t],
   );
 
   const removeImage = useCallback(
@@ -97,7 +99,7 @@ export function ProductFormImages() {
           disabled={uploadingIndex !== null}
         >
           <Upload className="size-4" />
-          {uploadingIndex !== null ? "Uploading..." : "Upload Images"}
+          {uploadingIndex !== null ? t("Uploading...") : t("Upload Images")}
         </Button>
         <input
           ref={fileInputRef}
@@ -110,7 +112,7 @@ export function ProductFormImages() {
       </div>
 
       {images.length === 0 ? (
-        <p className="text-sm text-muted-foreground">No images uploaded yet.</p>
+        <p className="text-sm text-muted-foreground">{t("No images uploaded yet.")}</p>
       ) : (
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
           {images.map((image, index) => (
@@ -129,7 +131,7 @@ export function ProductFormImages() {
               </div>
               {image.is_primary && (
                 <div className="absolute top-2 left-2 rounded-full bg-primary px-2 py-0.5 text-[10px] font-medium text-primary-foreground">
-                  Primary
+                  {t("Primary")}
                 </div>
               )}
               <div className="absolute inset-0 flex items-center justify-center gap-1 bg-black/50 opacity-0 transition-opacity group-hover:opacity-100">

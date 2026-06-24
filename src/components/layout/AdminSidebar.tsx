@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/lib/i18n/client";
 import {
   LayoutDashboard,
   Package,
@@ -21,32 +22,33 @@ import {
   MessageSquare,
 } from "lucide-react";
 
-const navLinks = [
-  { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
-  { label: "Products", href: "/admin/products", icon: Package },
-  { label: "Categories", href: "/admin/categories", icon: FolderTree },
-  { label: "Brands", href: "/admin/brands", icon: Tag },
-  { label: "Tags", href: "/admin/tags", icon: Tags },
-  { label: "Orders", href: "/admin/orders", icon: ShoppingBag },
-  { label: "Payments", href: "/admin/payments", icon: CreditCard },
-  { label: "Coupons", href: "/admin/coupons", icon: Percent },
-  { label: "Reviews", href: "/admin/reviews", icon: MessageSquare },
-  { label: "Banners", href: "/admin/banners", icon: Image },
-  { label: "Delivery Zones", href: "/admin/delivery-zones", icon: MapPin },
-  { label: "Media", href: "/admin/media", icon: ImagePlus },
-  { label: "Settings", href: "/admin/settings", icon: Settings },
-  { label: "Admins", href: "/admin/admins", icon: Shield },
-  { label: "Roles", href: "/admin/roles", icon: ShieldCheck },
-];
-
 export function AdminSidebar() {
   const pathname = usePathname();
+  const { t } = useTranslation();
+
+  const navLinks = [
+    { label: t("Dashboard"), href: "/admin", icon: LayoutDashboard },
+    { label: t("Products"), href: "/admin/products", icon: Package },
+    { label: t("Categories"), href: "/admin/categories", icon: FolderTree },
+    { label: t("Brands"), href: "/admin/brands", icon: Tag },
+    { label: t("Tags"), href: "/admin/tags", icon: Tags },
+    { label: t("Orders"), href: "/admin/orders", icon: ShoppingBag },
+    { label: t("Payments"), href: "/admin/payments", icon: CreditCard },
+    { label: t("Coupons"), href: "/admin/coupons", icon: Percent },
+    { label: t("Reviews"), href: "/admin/reviews", icon: MessageSquare },
+    { label: t("Banners"), href: "/admin/banners", icon: Image },
+    { label: t("Delivery Zones"), href: "/admin/delivery-zones", icon: MapPin },
+    { label: t("Media"), href: "/admin/media", icon: ImagePlus },
+    { label: t("Settings"), href: "/admin/settings", icon: Settings },
+    { label: t("Admins"), href: "/admin/admins", icon: Shield },
+    { label: t("Roles"), href: "/admin/roles", icon: ShieldCheck },
+  ];
 
   return (
     <aside className="flex h-full w-64 flex-col border-l bg-background">
       <div className="flex h-14 items-center border-b px-4">
         <Link href="/admin" className="text-lg font-bold tracking-tight">
-          Techa Admin
+          {t("Techa Admin")}
         </Link>
       </div>
       <nav className="flex-1 overflow-y-auto p-3">

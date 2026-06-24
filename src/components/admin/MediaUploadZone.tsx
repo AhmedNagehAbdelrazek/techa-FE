@@ -5,6 +5,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Upload } from "lucide-react";
 
+import { useTranslation } from "@/lib/i18n/client";
 import { uploadMedia, adminBannerSettingsKeys } from "@/lib/api/admin-banners-settings-media";
 
 //   minimal upload zone — no drag-and-drop, just a styled file input
@@ -13,6 +14,7 @@ export function MediaUploadZoneSkeleton() {
 }
 
 export function MediaUploadZone() {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const inputRef = useRef<HTMLInputElement>(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -21,10 +23,10 @@ export function MediaUploadZone() {
     mutationFn: (files: File[]) => uploadMedia(files),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: adminBannerSettingsKeys.media() });
-      toast.success("Files uploaded");
+      toast.success(t("Files uploaded"));
     },
     onError: (err) => {
-      toast.error(err instanceof Error ? err.message : "Upload failed");
+      toast.error(err instanceof Error ? err.message : t("Upload failed"));
     },
   });
 
@@ -57,11 +59,11 @@ export function MediaUploadZone() {
         className="flex h-32 w-full cursor-pointer items-center justify-center rounded-lg border-2 border-dashed text-sm text-muted-foreground transition-colors hover:border-primary hover:text-primary disabled:opacity-50"
       >
         {isUploading ? (
-          "Uploading..."
+          t("Uploading...")
         ) : (
           <span className="flex flex-col items-center gap-1">
             <Upload className="size-5" />
-            Click to upload images
+            {t("Click to upload images")}
           </span>
         )}
       </button>

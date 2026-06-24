@@ -7,6 +7,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Search, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
+import { useTranslation } from "@/lib/i18n/client";
 
 import {
   getProducts,
@@ -92,6 +93,7 @@ interface ProductsTableProps {
 const EMPTY_PERMISSIONS: Record<string, string[]> = {};
 
 export function ProductsTable({ searchParams }: ProductsTableProps) {
+  const { t } = useTranslation();
   const router = useRouter();
   const queryClient = useQueryClient();
   const permissions = useAdminStore((s) => s.admin?.permissions ?? EMPTY_PERMISSIONS);
@@ -132,10 +134,10 @@ export function ProductsTable({ searchParams }: ProductsTableProps) {
     mutationFn: deleteProduct,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: adminProductsKeys.lists() });
-      toast.success("Product deactivated successfully");
+      toast.success(t("Product deactivated successfully"));
     },
     onError: (err) => {
-      toast.error(err instanceof Error ? err.message : "Failed to deactivate product");
+      toast.error(err instanceof Error ? err.message : t("Failed to deactivate product"));
     },
   });
 
@@ -145,10 +147,10 @@ export function ProductsTable({ searchParams }: ProductsTableProps) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: adminProductsKeys.lists() });
       setSelectedIds(new Set());
-      toast.success("Bulk update completed");
+      toast.success(t("Bulk update completed"));
     },
     onError: (err) => {
-      toast.error(err instanceof Error ? err.message : "Bulk update failed");
+      toast.error(err instanceof Error ? err.message : t("Bulk update failed"));
     },
   });
 
@@ -240,7 +242,7 @@ export function ProductsTable({ searchParams }: ProductsTableProps) {
   if (isError) {
     return (
       <ErrorState
-        title="Failed to load products"
+        title={t("Failed to load products")}
         message={(error as Error)?.message}
         onRetry={() => refetch()}
       />
@@ -255,7 +257,7 @@ export function ProductsTable({ searchParams }: ProductsTableProps) {
         <div className="relative flex-1 min-w-[200px] max-w-xs">
           <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
           <Input
-            placeholder="Search products..."
+            placeholder={t("Search products...")}
             className="pl-9"
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
@@ -267,10 +269,10 @@ export function ProductsTable({ searchParams }: ProductsTableProps) {
           onValueChange={(v) => updateUrlParam("category_id", v === "all" ? undefined : v)}
         >
           <SelectTrigger className="w-40">
-            <SelectValue placeholder="All Categories" />
+            <SelectValue placeholder={t("All Categories")} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Categories</SelectItem>
+            <SelectItem value="all">{t("All Categories")}</SelectItem>
             {categoryOptions?.map((cat) => (
               <SelectItem key={cat.id} value={cat.id}>{cat.name}</SelectItem>
             ))}
@@ -282,10 +284,10 @@ export function ProductsTable({ searchParams }: ProductsTableProps) {
           onValueChange={(v) => updateUrlParam("brand_id", v === "all" ? undefined : v)}
         >
           <SelectTrigger className="w-40">
-            <SelectValue placeholder="All Brands" />
+            <SelectValue placeholder={t("All Brands")} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Brands</SelectItem>
+            <SelectItem value="all">{t("All Brands")}</SelectItem>
             {brandOptions?.map((brand) => (
               <SelectItem key={brand.id} value={brand.id}>{brand.name}</SelectItem>
             ))}
@@ -297,12 +299,12 @@ export function ProductsTable({ searchParams }: ProductsTableProps) {
           onValueChange={(v) => updateUrlParam("is_active", v === "all" ? undefined : v)}
         >
           <SelectTrigger className="w-36">
-            <SelectValue placeholder="All Status" />
+            <SelectValue placeholder={t("All Status")} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Status</SelectItem>
-            <SelectItem value="true">Active</SelectItem>
-            <SelectItem value="false">Inactive</SelectItem>
+            <SelectItem value="all">{t("All Status")}</SelectItem>
+            <SelectItem value="true">{t("Active")}</SelectItem>
+            <SelectItem value="false">{t("Inactive")}</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -310,7 +312,7 @@ export function ProductsTable({ searchParams }: ProductsTableProps) {
       {selectedIds.size > 0 && canUpdate && (
         <div className="flex items-center gap-3 rounded-md border bg-muted/50 px-4 py-2">
           <span className="text-sm text-muted-foreground">
-            {selectedIds.size} selected
+            {t("{count} selected", { count: selectedIds.size })}
           </span>
           <Button
             size="sm"
@@ -318,7 +320,7 @@ export function ProductsTable({ searchParams }: ProductsTableProps) {
             onClick={() => bulkMutation.mutate({ ids: Array.from(selectedIds), action: "activate" })}
             disabled={bulkMutation.isPending}
           >
-            Activate
+            {t("Activate")}
           </Button>
           <Button
             size="sm"
@@ -326,16 +328,16 @@ export function ProductsTable({ searchParams }: ProductsTableProps) {
             onClick={() => bulkMutation.mutate({ ids: Array.from(selectedIds), action: "deactivate" })}
             disabled={bulkMutation.isPending}
           >
-            Deactivate
+            {t("Deactivate")}
           </Button>
         </div>
       )}
 
       {products.length === 0 ? (
         <EmptyState
-          title={hasActiveFilters ? "No products match your filters" : "No products yet"}
-          description={hasActiveFilters ? "Try adjusting your search or filters." : "Add your first product to get started."}
-          action={hasActiveFilters ? <Button variant="outline" onClick={clearFilters}>Clear Filters</Button> : undefined}
+          title={hasActiveFilters ? t("No products match your filters") : t("No products yet")}
+          description={hasActiveFilters ? t("Try adjusting your search or filters.") : t("Add your first product to get started.")}
+          action={hasActiveFilters ? <Button variant="outline" onClick={clearFilters}>{t("Clear Filters")}</Button> : undefined}
         />
       ) : (
         <div className="rounded-md border">
@@ -348,12 +350,12 @@ export function ProductsTable({ searchParams }: ProductsTableProps) {
                   </TableHead>
                 )}
                 <TableHead className="w-12" />
-                <TableHead className="text-right">Name</TableHead>
-                <TableHead className="text-right">Category</TableHead>
-                <TableHead className="text-right">Brand</TableHead>
-                <TableHead className="text-right">Price</TableHead>
-                <TableHead className="text-right">Stock</TableHead>
-                <TableHead className="text-right">Status</TableHead>
+                <TableHead className="text-right">{t("Name")}</TableHead>
+                <TableHead className="text-right">{t("Category")}</TableHead>
+                <TableHead className="text-right">{t("Brand")}</TableHead>
+                <TableHead className="text-right">{t("Price")}</TableHead>
+                <TableHead className="text-right">{t("Stock")}</TableHead>
+                <TableHead className="text-right">{t("Status")}</TableHead>
                 {(canUpdate || canDelete) && <TableHead className="w-32" />}
               </TableRow>
             </TableHeader>
@@ -379,7 +381,7 @@ export function ProductsTable({ searchParams }: ProductsTableProps) {
       {totalPages > 1 && (
         <div className="flex items-center justify-between">
           <p className="text-sm text-muted-foreground">
-            Page {currentPage} of {totalPages} ({meta?.total ?? 0} products)
+            {t("Page {current} of {total} ({count} products)", { current: currentPage, total: totalPages, count: meta?.total ?? 0 })}
           </p>
           <div className="flex items-center gap-1">
             <Button
@@ -443,6 +445,7 @@ function ProductRow({
   onDeactivate,
   isDeactivating,
 }: ProductRowProps) {
+  const { t } = useTranslation();
   const thumbnailUrl = product.primary_image?.url;
 
   const nameContent = canUpdate ? (
@@ -474,7 +477,7 @@ function ProductRow({
           />
         ) : (
           <div className="flex size-10 items-center justify-center rounded-md bg-muted text-xs text-muted-foreground">
-            N/A
+            {t("N/A")}
           </div>
         )}
       </TableCell>
@@ -498,7 +501,7 @@ function ProductRow({
       <TableCell className="text-right">{product.stock_qty}</TableCell>
       <TableCell>
         <Badge variant={product.is_active ? "default" : "secondary"}>
-          {product.is_active ? "Active" : "Inactive"}
+          {product.is_active ? t("Active") : t("Inactive")}
         </Badge>
       </TableCell>
       {(canUpdate || canDelete) && (
@@ -506,27 +509,27 @@ function ProductRow({
           <div className="flex items-center gap-1">
             {canUpdate && (
               <Button variant="ghost" size="sm" asChild>
-                <Link href={`/admin/products/${product.id}/edit`}>Edit</Link>
+                <Link href={`/admin/products/${product.id}/edit`}>{t("Edit")}</Link>
               </Button>
             )}
             {canDelete && (
               <AlertDialog>
                 <AlertDialogTrigger asChild>
                   <Button variant="ghost" size="sm" className="text-destructive">
-                    Deactivate
+                    {t("Deactivate")}
                   </Button>
                 </AlertDialogTrigger>
                 <AlertDialogContent>
                   <AlertDialogHeader>
-                    <AlertDialogTitle>Deactivate product?</AlertDialogTitle>
+                    <AlertDialogTitle>{t("Deactivate product?")}</AlertDialogTitle>
                     <AlertDialogDescription>
-                      This will hide &ldquo;{product.name}&rdquo; from the storefront. The product data is preserved and can be reactivated later.
+                      {t("This will hide \"{name}\" from the storefront. The product data is preserved and can be reactivated later.", { name: product.name })}
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogCancel>{t("Cancel")}</AlertDialogCancel>
                     <AlertDialogAction onClick={onDeactivate} disabled={isDeactivating}>
-                      Deactivate
+                      {t("Deactivate")}
                     </AlertDialogAction>
                   </AlertDialogFooter>
                 </AlertDialogContent>

@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { z } from "zod";
+import { useTranslation } from "@/lib/i18n/client";
 
 import { createBanner, updateBanner, adminBannerSettingsKeys, type AdminBanner } from "@/lib/api/admin-banners-settings-media";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -15,19 +16,17 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-const formSchema = z.object({
-  title: z.string().min(1, "Title is required").max(200),
-  description: z.string().max(500).optional().or(z.literal("")),
-  image_url: z.string().url("Must be a valid URL").min(1, "Image URL is required"),
-  link_url: z.string().optional().or(z.literal("")),
-  position: z.enum(["hero", "promo", "sidebar", "bottom"]),
-  sort_order: z.coerce.number().int().min(0).default(0),
-  starts_at: z.string().min(1, "Start date is required"),
-  ends_at: z.string().optional().or(z.literal("")), //   empty string = null = never expires
-  is_active: z.boolean().default(true),
-});
-
-type FormValues = z.infer<typeof formSchema>;
+type FormValues = {
+  title: string;
+  description?: string;
+  image_url: string;
+  link_url?: string;
+  position: "hero" | "promo" | "sidebar" | "bottom";
+  sort_order: number;
+  starts_at: string;
+  ends_at?: string;
+  is_active: boolean;
+};
 
 interface BannerFormDialogProps {
   open: boolean;
@@ -40,7 +39,20 @@ export function BannerFormDialogSkeleton() {
 }
 
 export function BannerFormDialog({ open, onOpenChange, initialData }: BannerFormDialogProps) {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
+
+  const formSchema = z.object({
+    title: z.string().min(1, t("Title is required")).max(200),
+    description: z.string().max(500).optional().or(z.literal("")),
+    image_url: z.string().url(t("Must be a valid URL")).min(1, t("Image URL is required")),
+    link_url: z.string().optional().or(z.literal("")),
+    position: z.enum(["hero", "promo", "sidebar", "bottom"]),
+    sort_order: z.coerce.number().int().min(0).default(0),
+    starts_at: z.string().min(1, t("Start date is required")),
+    ends_at: z.string().optional().or(z.literal("")),
+    is_active: z.boolean().default(true),
+  });
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -72,9 +84,9 @@ export function BannerFormDialog({ open, onOpenChange, initialData }: BannerForm
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: adminBannerSettingsKeys.banners() });
       onOpenChange(false);
-      toast.success("Banner created");
+      toast.success(t("Banner created"));
     },
-    onError: (err) => toast.error(err instanceof Error ? err.message : "Failed to create banner"),
+    onError: (err) => toast.error(err instanceof Error ? err.message : t("Failed to create banner")),
   });
 
   const updateMutation = useMutation({
@@ -85,9 +97,9 @@ export function BannerFormDialog({ open, onOpenChange, initialData }: BannerForm
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: adminBannerSettingsKeys.banners() });
       onOpenChange(false);
-      toast.success("Banner updated");
+      toast.success(t("Banner updated"));
     },
-    onError: (err) => toast.error(err instanceof Error ? err.message : "Failed to update banner"),
+    onError: (err) => toast.error(err instanceof Error ? err.message : t("Failed to update banner")),
   });
 
   const isPending = createMutation.isPending || updateMutation.isPending;
@@ -101,21 +113,21 @@ export function BannerFormDialog({ open, onOpenChange, initialData }: BannerForm
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>{initialData ? "Edit Banner" : "Add Banner"}</DialogTitle>
+          <DialogTitle>{initialData ? t("Edit Banner") : t("Add Banner")}</DialogTitle>
         </DialogHeader>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           {/*   no FormProvider wrappers — raw form elements keep it simple */}
           <div>
-            <Label htmlFor="title">Title *</Label>
-            <Input id="title" {...form.register("title")} placeholder="Summer Sale" />
+            <Label htmlFor="title">{t("Title *")}</Label>
+            <Input id="title" {...form.register("title")} placeholder={t("Summer Sale")} />
             {form.formState.errors.title && <p className="text-sm text-destructive">{form.formState.errors.title.message}</p>}
           </div>
           <div>
-            <Label htmlFor="description">Description</Label>
-            <Textarea id="description" {...form.register("description")} placeholder="Get 50% off on all items" />
+            <Label htmlFor="description">{t("Description")}</Label>
+            <Textarea id="description" {...form.register("description")} placeholder={t("Get 50% off on all items")} />
           </div>
           <div>
-            <Label htmlFor="image_url">Image URL *</Label>
+            <Label htmlFor="image_url">{t("Image URL *")}</Label>
             <div className="flex gap-2">
               <Input id="image_url" {...form.register("image_url")} placeholder="https://..." className="flex-1" />
               {form.watch("image_url") && (
@@ -125,45 +137,45 @@ export function BannerFormDialog({ open, onOpenChange, initialData }: BannerForm
             {form.formState.errors.image_url && <p className="text-sm text-destructive">{form.formState.errors.image_url.message}</p>}
           </div>
           <div>
-            <Label htmlFor="link_url">Link URL</Label>
-            <Input id="link_url" {...form.register("link_url")} placeholder="https://techa.com/sale" />
+            <Label htmlFor="link_url">{t("Link URL")}</Label>
+            <Input id="link_url" {...form.register("link_url")} placeholder={t("https://techa.com/sale")} />
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="position">Position *</Label>
+              <Label htmlFor="position">{t("Position *")}</Label>
               <Select onValueChange={(v) => form.setValue("position", v as "hero" | "promo" | "sidebar" | "bottom")} defaultValue={form.watch("position")}>
-                <SelectTrigger><SelectValue placeholder="Select position" /></SelectTrigger>
+                <SelectTrigger><SelectValue placeholder={t("Select position")} /></SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="hero">Hero</SelectItem>
-                  <SelectItem value="promo">Promo</SelectItem>
-                  <SelectItem value="sidebar">Sidebar</SelectItem>
-                  <SelectItem value="bottom">Bottom</SelectItem>
+                  <SelectItem value="hero">{t("Hero")}</SelectItem>
+                  <SelectItem value="promo">{t("Promo")}</SelectItem>
+                  <SelectItem value="sidebar">{t("Sidebar")}</SelectItem>
+                  <SelectItem value="bottom">{t("Bottom")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div>
-              <Label htmlFor="sort_order">Sort Order</Label>
+              <Label htmlFor="sort_order">{t("Sort Order")}</Label>
               <Input id="sort_order" type="number" {...form.register("sort_order")} placeholder="0" />
             </div>
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="starts_at">Start Date *</Label>
+              <Label htmlFor="starts_at">{t("Start Date *")}</Label>
               <Input id="starts_at" type="date" {...form.register("starts_at")} />
               {form.formState.errors.starts_at && <p className="text-sm text-destructive">{form.formState.errors.starts_at.message}</p>}
             </div>
             <div>
-              <Label htmlFor="ends_at">End Date</Label>
+              <Label htmlFor="ends_at">{t("End Date")}</Label>
               <Input id="ends_at" type="date" {...form.register("ends_at")} /> {/*   optional = never expires */}
             </div>
           </div>
           <div className="flex items-center gap-2">
             <input type="checkbox" id="is_active" checked={form.watch("is_active")} onChange={(e) => form.setValue("is_active", e.target.checked)} className="size-4" /> {/*   native checkbox */}
-            <Label htmlFor="is_active">Active</Label>
+            <Label htmlFor="is_active">{t("Active")}</Label>
           </div>
           <div className="flex justify-end gap-2">
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button>
-            <Button type="submit" disabled={isPending}>{initialData ? "Update" : "Create"}</Button>
+            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>{t("Cancel")}</Button>
+            <Button type="submit" disabled={isPending}>{initialData ? t("Update") : t("Create")}</Button>
           </div>
         </form>
       </DialogContent>

@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslation } from "@/lib/i18n/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Pencil, Trash2 } from "lucide-react";
@@ -30,6 +31,7 @@ interface Props {
 const EMPTY_PERMISSIONS: Record<string, string[]> = {};
 
 export function AdminRolesTable({ onEdit }: Props) {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const permissions = useAdminStore((s) => s.admin?.permissions ?? EMPTY_PERMISSIONS);
   const canUpdate = permissions["admins"]?.includes("update") ?? false;
@@ -44,16 +46,16 @@ export function AdminRolesTable({ onEdit }: Props) {
     mutationFn: deactivateRole,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: adminAdminsRolesKeys.roles() });
-      toast.success("Role deactivated");
+      toast.success(t("Role deactivated"));
     },
     onError: (err) => {
-      toast.error(err instanceof Error ? err.message : "Failed to deactivate role");
+      toast.error(err instanceof Error ? err.message : t("Failed to deactivate role"));
     },
   });
 
   if (isLoading) return <AdminRolesTableSkeleton />;
   if (isError) return <ErrorState message={(error as Error)?.message} onRetry={refetch} />;
-  if (!roles?.length) return <EmptyState title="No roles found." />;
+  if (!roles?.length) return <EmptyState title={t("No roles found.")} />;
 
   function permissionCount(role: AdminRole) {
     //   count total actions across all resource keys
@@ -65,9 +67,9 @@ export function AdminRolesTable({ onEdit }: Props) {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Name</TableHead>
-            <TableHead>Permissions</TableHead>
-            {(canUpdate || canDelete) && <TableHead className="w-24">Actions</TableHead>}
+            <TableHead>{t("Name")}</TableHead>
+            <TableHead>{t("Permissions")}</TableHead>
+            {(canUpdate || canDelete) && <TableHead className="w-24">{t("Actions")}</TableHead>}
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -92,15 +94,15 @@ export function AdminRolesTable({ onEdit }: Props) {
                         </AlertDialogTrigger>
                         <AlertDialogContent>
                           <AlertDialogHeader>
-                            <AlertDialogTitle>Deactivate role?</AlertDialogTitle>
+                            <AlertDialogTitle>{t("Deactivate role?")}</AlertDialogTitle>
                             <AlertDialogDescription>
-                              This will deactivate role &ldquo;{role.name}&rdquo;.
+                              {t("This will deactivate role {{name}}.", { name: role.name })}
                             </AlertDialogDescription>
                           </AlertDialogHeader>
                           <AlertDialogFooter>
-                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogCancel>{t("Cancel")}</AlertDialogCancel>
                             <AlertDialogAction onClick={() => deactivateMutation.mutate(role.id)}>
-                              Deactivate
+                              {t("Deactivate")}
                             </AlertDialogAction>
                           </AlertDialogFooter>
                         </AlertDialogContent>

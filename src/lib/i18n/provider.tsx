@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { useI18nStore } from "@/lib/stores/i18n.store";
+import { SUPPORTED_LOCALES, DEFAULT_LOCALE } from "./types";
 import type { Translations } from "./types";
 
 interface I18nProviderProps {
@@ -13,9 +15,9 @@ interface I18nProviderProps {
 export function I18nProvider({
   children,
   initialTranslations,
-  initialLocale,
 }: I18nProviderProps) {
   const { setTranslations, setLocale, locale } = useI18nStore();
+  const pathname = usePathname();
 
   useEffect(() => {
     if (initialTranslations) {
@@ -24,10 +26,12 @@ export function I18nProvider({
   }, [initialTranslations, setTranslations]);
 
   useEffect(() => {
-    if (initialLocale && initialLocale !== locale) {
-      setLocale(initialLocale);
+    const localeFromPath = pathname.split("/")[1];
+    const target = SUPPORTED_LOCALES.find((l) => l.code === localeFromPath)?.code ?? DEFAULT_LOCALE;
+    if (target !== locale) {
+      setLocale(target);
     }
-  }, [initialLocale, setLocale, locale]);
+  }, [pathname, setLocale, locale]);
 
   useEffect(() => {
     document.documentElement.lang = locale;

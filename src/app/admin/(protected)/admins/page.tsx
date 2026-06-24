@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Plus } from "lucide-react";
+import { useTranslation } from "@/lib/i18n/client";
 
 import { AdminAdminsTable } from "@/components/admin/AdminAdminsTable";
 import { AdminFormDialog } from "@/components/admin/AdminFormDialog";
@@ -13,6 +14,7 @@ const EMPTY_PERMISSIONS: Record<string, string[]> = {};
 
 export default function AdminAdminsPage() {
   useEffect(() => { document.title = "إدارة الأدمن — TechA"; }, []);
+  const { t } = useTranslation();
   const permissions = useAdminStore((s) => s.admin?.permissions ?? EMPTY_PERMISSIONS);
   const canCreate = permissions["admins"]?.includes("create") ?? false;
 
@@ -32,11 +34,11 @@ export default function AdminAdminsPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Admins</h1>
+        <h1 className="text-2xl font-bold">{t("Admins")}</h1>
         {canCreate && (
           <Button onClick={handleAdd}>
             <Plus className="size-4" />
-            Add Admin
+            {t("Add Admin")}
           </Button>
         )}
       </div>

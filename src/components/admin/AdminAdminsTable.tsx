@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslation } from "@/lib/i18n/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Pencil, ShieldOff, Shield } from "lucide-react";
@@ -31,6 +32,7 @@ interface Props {
 const EMPTY_PERMISSIONS: Record<string, string[]> = {};
 
 export function AdminAdminsTable({ onEdit }: Props) {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const permissions = useAdminStore((s) => s.admin?.permissions ?? EMPTY_PERMISSIONS);
   const currentAdmin = useAdminStore((s) => s.admin);
@@ -46,10 +48,10 @@ export function AdminAdminsTable({ onEdit }: Props) {
     mutationFn: deactivateAdmin,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: adminAdminsRolesKeys.admins() });
-      toast.success("Admin deactivated");
+      toast.success(t("Admin deactivated"));
     },
     onError: (err) => {
-      toast.error(err instanceof Error ? err.message : "Failed to deactivate admin");
+      toast.error(err instanceof Error ? err.message : t("Failed to deactivate admin"));
     },
   });
 
@@ -57,16 +59,16 @@ export function AdminAdminsTable({ onEdit }: Props) {
     mutationFn: (id: string) => updateAdmin(id, { is_active: true }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: adminAdminsRolesKeys.admins() });
-      toast.success("Admin reactivated");
+      toast.success(t("Admin reactivated"));
     },
     onError: (err) => {
-      toast.error(err instanceof Error ? err.message : "Failed to reactivate admin");
+      toast.error(err instanceof Error ? err.message : t("Failed to reactivate admin"));
     },
   });
 
   if (isLoading) return <AdminAdminsTableSkeleton />;
   if (isError) return <ErrorState message={(error as Error)?.message} onRetry={refetch} />;
-  if (!admins?.length) return <EmptyState title="No admins found." />;
+  if (!admins?.length) return <EmptyState title={t("No admins found.")} />;
 
   function roleLabel(admin: AdminAccount) {
     //   backend returns role as string in list, object in create/update
@@ -78,12 +80,12 @@ export function AdminAdminsTable({ onEdit }: Props) {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Name</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>Role</TableHead>
-            <TableHead className="w-20">Status</TableHead>
-            <TableHead className="w-28">Created</TableHead>
-            {(canUpdate || canDelete) && <TableHead className="w-24">Actions</TableHead>}
+            <TableHead>{t("Name")}</TableHead>
+            <TableHead>{t("Email")}</TableHead>
+            <TableHead>{t("Role")}</TableHead>
+            <TableHead className="w-20">{t("Status")}</TableHead>
+            <TableHead className="w-28">{t("Created")}</TableHead>
+            {(canUpdate || canDelete) && <TableHead className="w-24">{t("Actions")}</TableHead>}
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -94,7 +96,7 @@ export function AdminAdminsTable({ onEdit }: Props) {
               <TableCell className="capitalize text-muted-foreground">{roleLabel(admin)}</TableCell>
               <TableCell>
                 <Badge variant={admin.is_active ? "default" : "secondary"}>
-                  {admin.is_active ? "Active" : "Inactive"}
+                  {admin.is_active ? t("Active") : t("Inactive")}
                 </Badge>
               </TableCell>
               <TableCell className="text-muted-foreground">
@@ -117,17 +119,17 @@ export function AdminAdminsTable({ onEdit }: Props) {
                         </AlertDialogTrigger>
                         <AlertDialogContent>
                           <AlertDialogHeader>
-                            <AlertDialogTitle>Deactivate admin?</AlertDialogTitle>
+                            <AlertDialogTitle>{t("Deactivate admin?")}</AlertDialogTitle>
                             <AlertDialogDescription>
                               {currentAdmin?.id === admin.id
-                                ? "You are deactivating your own account. This cannot be undone."
-                                : `"${admin.name}" will no longer be able to log in.`}
+                                ? t("You are deactivating your own account. This cannot be undone.")
+                                : t('"{{name}}" will no longer be able to log in.', { name: admin.name })}
                             </AlertDialogDescription>
                           </AlertDialogHeader>
                           <AlertDialogFooter>
-                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogCancel>{t("Cancel")}</AlertDialogCancel>
                             <AlertDialogAction onClick={() => deactivateMutation.mutate(admin.id)}>
-                              Deactivate
+                              {t("Deactivate")}
                             </AlertDialogAction>
                           </AlertDialogFooter>
                         </AlertDialogContent>
@@ -142,15 +144,15 @@ export function AdminAdminsTable({ onEdit }: Props) {
                         </AlertDialogTrigger>
                         <AlertDialogContent>
                           <AlertDialogHeader>
-                            <AlertDialogTitle>Reactivate admin?</AlertDialogTitle>
+                            <AlertDialogTitle>{t("Reactivate admin?")}</AlertDialogTitle>
                             <AlertDialogDescription>
-                              This will reactivate &ldquo;{admin.name}&rdquo;.
+                              {t("This will reactivate {{name}}.", { name: admin.name })}
                             </AlertDialogDescription>
                           </AlertDialogHeader>
                           <AlertDialogFooter>
-                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogCancel>{t("Cancel")}</AlertDialogCancel>
                             <AlertDialogAction onClick={() => reactivateMutation.mutate(admin.id)}>
-                              Reactivate
+                              {t("Reactivate")}
                             </AlertDialogAction>
                           </AlertDialogFooter>
                         </AlertDialogContent>

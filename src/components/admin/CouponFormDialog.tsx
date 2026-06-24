@@ -7,6 +7,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { z } from "zod";
 import { Check, ChevronsUpDown } from "lucide-react";
+import { useTranslation } from "@/lib/i18n/client";
 
 import {
   createAdminCoupon,
@@ -74,6 +75,7 @@ interface CouponFormDialogProps {
 }
 
 export function CouponFormDialog({ open, onOpenChange, initialData }: CouponFormDialogProps) {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const [productSearch, setProductSearch] = useState("");
   const [productOpen, setProductOpen] = useState(false);
@@ -153,10 +155,10 @@ export function CouponFormDialog({ open, onOpenChange, initialData }: CouponForm
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: adminCouponZoneKeys.coupons() });
       onOpenChange(false);
-      toast.success("Coupon created");
+      toast.success(t("Coupon created"));
     },
     onError: (err) => {
-      toast.error(err instanceof Error ? err.message : "Failed to create coupon");
+      toast.error(err instanceof Error ? err.message : t("Failed to create coupon"));
     },
   });
 
@@ -177,10 +179,10 @@ export function CouponFormDialog({ open, onOpenChange, initialData }: CouponForm
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: adminCouponZoneKeys.coupons() });
       onOpenChange(false);
-      toast.success("Coupon updated");
+      toast.success(t("Coupon updated"));
     },
     onError: (err) => {
-      toast.error(err instanceof Error ? err.message : "Failed to update coupon");
+      toast.error(err instanceof Error ? err.message : t("Failed to update coupon"));
     },
   });
 
@@ -198,7 +200,7 @@ export function CouponFormDialog({ open, onOpenChange, initialData }: CouponForm
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>{initialData ? "Edit Coupon" : "Add Coupon"}</DialogTitle>
+          <DialogTitle>{initialData ? t("Edit Coupon") : t("Add Coupon")}</DialogTitle>
         </DialogHeader>
         <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -207,9 +209,9 @@ export function CouponFormDialog({ open, onOpenChange, initialData }: CouponForm
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Code *</FormLabel>
+                <FormLabel>{t("Code *")}</FormLabel>
                 <FormControl>
-                  <Input placeholder="e.g. SAVE20" {...field} />
+                  <Input placeholder={t("e.g. SAVE20")} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -220,7 +222,7 @@ export function CouponFormDialog({ open, onOpenChange, initialData }: CouponForm
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Product</FormLabel>
+                <FormLabel>{t("Product")}</FormLabel>
                 <Popover open={productOpen} onOpenChange={setProductOpen}>
                   <PopoverTrigger asChild>
                     <FormControl>
@@ -232,8 +234,8 @@ export function CouponFormDialog({ open, onOpenChange, initialData }: CouponForm
                         {selectedProduct
                           ? selectedProduct.name
                           : field.value === null
-                            ? "All Products"
-                            : "Search products..."}
+                            ? t("All Products")
+                            : t("Search products...")}
                         <ChevronsUpDown className="ml-2 size-4 shrink-0 opacity-50" />
                       </Button>
                     </FormControl>
@@ -241,12 +243,12 @@ export function CouponFormDialog({ open, onOpenChange, initialData }: CouponForm
                   <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0">
                     <Command>
                       <CommandInput
-                        placeholder="Search products..."
+                        placeholder={t("Search products...")}
                         value={productSearch}
                         onValueChange={setProductSearch}
                       />
                       <CommandList>
-                        <CommandEmpty>No products found.</CommandEmpty>
+                        <CommandEmpty>{t("No products found.")}</CommandEmpty>
                         <CommandGroup>
                           <CommandItem
                             value="__all__"
@@ -261,7 +263,7 @@ export function CouponFormDialog({ open, onOpenChange, initialData }: CouponForm
                                 field.value === null ? "opacity-100" : "opacity-0",
                               )}
                             />
-                            All Products
+                            {t("All Products")}
                           </CommandItem>
                           {productsData?.data.map((product) => (
                             <CommandItem
@@ -296,16 +298,16 @@ export function CouponFormDialog({ open, onOpenChange, initialData }: CouponForm
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Type *</FormLabel>
+                  <FormLabel>{t("Type *")}</FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select type" />
+                        <SelectValue placeholder={t("Select type")} />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="percentage">Percentage (%)</SelectItem>
-                      <SelectItem value="fixed">Fixed ($)</SelectItem>
+                      <SelectItem value="percentage">{t("Percentage (%)")}</SelectItem>
+                      <SelectItem value="fixed">{t("Fixed ($)")}</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -317,7 +319,7 @@ export function CouponFormDialog({ open, onOpenChange, initialData }: CouponForm
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Value *</FormLabel>
+                  <FormLabel>{t("Value *")}</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
@@ -336,7 +338,7 @@ export function CouponFormDialog({ open, onOpenChange, initialData }: CouponForm
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Min Order Amount</FormLabel>
+                <FormLabel>{t("Min Order Amount")}</FormLabel>
                 <FormControl>
                   <Input type="number" step="0.01" placeholder="0" {...field} />
                 </FormControl>
@@ -350,7 +352,7 @@ export function CouponFormDialog({ open, onOpenChange, initialData }: CouponForm
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Max Uses *</FormLabel>
+                  <FormLabel>{t("Max Uses *")}</FormLabel>
                   <FormControl>
                     <Input type="number" placeholder="100" {...field} />
                   </FormControl>
@@ -363,7 +365,7 @@ export function CouponFormDialog({ open, onOpenChange, initialData }: CouponForm
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Expiry Date *</FormLabel>
+                  <FormLabel>{t("Expiry Date *")}</FormLabel>
                   <FormControl>
                     <Input type="date" {...field} />
                   </FormControl>
@@ -381,7 +383,7 @@ export function CouponFormDialog({ open, onOpenChange, initialData }: CouponForm
                   <FormControl>
                     <Checkbox checked={field.value ?? true} onCheckedChange={field.onChange} />
                   </FormControl>
-                  <Label>Active</Label>
+                  <Label>{t("Active")}</Label>
                 </div>
                 <FormMessage />
               </FormItem>
@@ -389,10 +391,10 @@ export function CouponFormDialog({ open, onOpenChange, initialData }: CouponForm
           />
           <div className="flex justify-end gap-2">
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
-              Cancel
+              {t("Cancel")}
             </Button>
             <Button type="submit" disabled={isPending}>
-              {initialData ? "Update" : "Create"}
+              {initialData ? t("Update") : t("Create")}
             </Button>
           </div>
         </form>

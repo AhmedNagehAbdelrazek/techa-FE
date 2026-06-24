@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslation } from "@/lib/i18n/client";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Check, X, Trash2, ChevronLeft, ChevronRight } from "lucide-react";
@@ -67,6 +68,7 @@ const EMPTY_PERMISSIONS: Record<string, string[]> = {};
 export function ReviewsTable({ page, status }: ReviewsTableProps) {
   const router = useRouter();
   const queryClient = useQueryClient();
+  const { t } = useTranslation();
   const permissions = useAdminStore((s) => s.admin?.permissions ?? EMPTY_PERMISSIONS);
   const canApproveReject = permissions["reviews"]?.includes("update") ?? false;
   const canDelete = permissions["reviews"]?.includes("delete") ?? false;
@@ -80,10 +82,10 @@ export function ReviewsTable({ page, status }: ReviewsTableProps) {
     mutationFn: approveAdminReview,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: adminReviewKeys.all });
-      toast.success("Review approved");
+      toast.success(t("Review approved"));
     },
     onError: (err) => {
-      toast.error(err instanceof Error ? err.message : "Failed to approve review");
+      toast.error(err instanceof Error ? err.message : t("Failed to approve review"));
     },
   });
 
@@ -91,10 +93,10 @@ export function ReviewsTable({ page, status }: ReviewsTableProps) {
     mutationFn: rejectAdminReview,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: adminReviewKeys.all });
-      toast.success("Review rejected");
+      toast.success(t("Review rejected"));
     },
     onError: (err) => {
-      toast.error(err instanceof Error ? err.message : "Failed to reject review");
+      toast.error(err instanceof Error ? err.message : t("Failed to reject review"));
     },
   });
 
@@ -102,16 +104,16 @@ export function ReviewsTable({ page, status }: ReviewsTableProps) {
     mutationFn: deleteAdminReview,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: adminReviewKeys.all });
-      toast.success("Review deleted");
+      toast.success(t("Review deleted"));
     },
     onError: (err) => {
-      toast.error(err instanceof Error ? err.message : "Failed to delete review");
+      toast.error(err instanceof Error ? err.message : t("Failed to delete review"));
     },
   });
 
   if (isLoading) return <ReviewsTableSkeleton />;
   if (isError) return <ErrorState message={(error as Error)?.message} onRetry={refetch} />;
-  if (!data?.data.length) return <EmptyState title="No reviews found." />;
+  if (!data?.data.length) return <EmptyState title={t("No reviews found.")} />;
 
   const { data: reviews, meta } = data;
   const startRow = (meta.page - 1) * meta.limit + 1;
@@ -123,13 +125,13 @@ export function ReviewsTable({ page, status }: ReviewsTableProps) {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Product</TableHead>
-              <TableHead>Customer</TableHead>
-              <TableHead>Rating</TableHead>
-              <TableHead>Comment</TableHead>
-              <TableHead className="w-20">Status</TableHead>
-              <TableHead className="w-24">Date</TableHead>
-              {(canApproveReject || canDelete) && <TableHead className="w-28">Actions</TableHead>}
+              <TableHead>{t("Product")}</TableHead>
+              <TableHead>{t("Customer")}</TableHead>
+              <TableHead>{t("Rating")}</TableHead>
+              <TableHead>{t("Comment")}</TableHead>
+              <TableHead className="w-20">{t("Status")}</TableHead>
+              <TableHead className="w-24">{t("Date")}</TableHead>
+              {(canApproveReject || canDelete) && <TableHead className="w-28">{t("Actions")}</TableHead>}
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -147,7 +149,7 @@ export function ReviewsTable({ page, status }: ReviewsTableProps) {
                 </TableCell>
                 <TableCell>
                   <Badge variant={review.is_active ? "default" : "secondary"}>
-                    {review.is_active ? "Active" : "Inactive"}
+                    {review.is_active ? t("Active") : t("Inactive")}
                   </Badge>
                 </TableCell>
                 <TableCell className="text-sm text-muted-foreground">
@@ -162,7 +164,7 @@ export function ReviewsTable({ page, status }: ReviewsTableProps) {
                           size="icon"
                           className="size-7 text-green-600 hover:text-green-600"
                           onClick={() => approveMutation.mutate(review.id)}
-                          title="Approve"
+                          title={t("Approve")}
                         >
                           <Check className="size-3.5" />
                         </Button>
@@ -173,7 +175,7 @@ export function ReviewsTable({ page, status }: ReviewsTableProps) {
                           size="icon"
                           className="size-7 text-amber-600 hover:text-amber-600"
                           onClick={() => rejectMutation.mutate(review.id)}
-                          title="Reject"
+                          title={t("Reject")}
                         >
                           <X className="size-3.5" />
                         </Button>
@@ -185,24 +187,24 @@ export function ReviewsTable({ page, status }: ReviewsTableProps) {
                               variant="ghost"
                               size="icon"
                               className="size-7 text-destructive hover:text-destructive"
-                              title="Delete"
+                              title={t("Delete")}
                             >
                               <Trash2 className="size-3.5" />
                             </Button>
                           </AlertDialogTrigger>
                           <AlertDialogContent>
                             <AlertDialogHeader>
-                              <AlertDialogTitle>Delete review?</AlertDialogTitle>
+                              <AlertDialogTitle>{t("Delete review?")}</AlertDialogTitle>
                               <AlertDialogDescription>
-                                This action cannot be undone.
+                                {t("This action cannot be undone.")}
                               </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
-                              <AlertDialogCancel>Cancel</AlertDialogCancel>
+                              <AlertDialogCancel>{t("Cancel")}</AlertDialogCancel>
                               <AlertDialogAction
                                 onClick={() => deleteMutation.mutate(review.id)}
                               >
-                                Delete
+                                {t("Delete")}
                               </AlertDialogAction>
                             </AlertDialogFooter>
                           </AlertDialogContent>
@@ -218,7 +220,7 @@ export function ReviewsTable({ page, status }: ReviewsTableProps) {
       </div>
       <div className="flex items-center justify-between">
         <p className="text-sm text-muted-foreground">
-          Showing {startRow}–{endRow} of {meta.total}
+          {t("Showing {{start}}–{{end}} of {{total}}", { start: startRow, end: endRow, total: meta.total })}
         </p>
         <div className="flex items-center gap-2">
           <Button
@@ -232,7 +234,7 @@ export function ReviewsTable({ page, status }: ReviewsTableProps) {
             }}
           >
             <ChevronLeft className="size-4" />
-            Previous
+            {t("Previous")}
           </Button>
           <Button
             variant="outline"
@@ -244,7 +246,7 @@ export function ReviewsTable({ page, status }: ReviewsTableProps) {
               router.replace(`/admin/reviews?${params.toString()}`);
             }}
           >
-            Next
+            {t("Next")}
             <ChevronRight className="size-4" />
           </Button>
         </div>

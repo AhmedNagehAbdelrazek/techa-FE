@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useTranslation } from "@/lib/i18n/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -22,6 +23,7 @@ interface Props {
 }
 
 export function RoleFormDialog({ open, onOpenChange, initialData }: Props) {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
 
   const [name, setName] = useState("");
@@ -50,10 +52,10 @@ export function RoleFormDialog({ open, onOpenChange, initialData }: Props) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: adminAdminsRolesKeys.roles() });
       onOpenChange(false);
-      toast.success("Role created");
+      toast.success(t("Role created"));
     },
     onError: (err) => {
-      toast.error(err instanceof Error ? err.message : "Failed to create role");
+      toast.error(err instanceof Error ? err.message : t("Failed to create role"));
     },
   });
 
@@ -65,10 +67,10 @@ export function RoleFormDialog({ open, onOpenChange, initialData }: Props) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: adminAdminsRolesKeys.roles() });
       onOpenChange(false);
-      toast.success("Role updated");
+      toast.success(t("Role updated"));
     },
     onError: (err) => {
-      toast.error(err instanceof Error ? err.message : "Failed to update role");
+      toast.error(err instanceof Error ? err.message : t("Failed to update role"));
     },
   });
 
@@ -76,7 +78,7 @@ export function RoleFormDialog({ open, onOpenChange, initialData }: Props) {
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!name.trim()) { toast.error("Name is required"); return; }
+    if (!name.trim()) { toast.error(t("Name is required")); return; }
     if (initialData) updateMutation.mutate();
     else createMutation.mutate();
   }
@@ -85,15 +87,15 @@ export function RoleFormDialog({ open, onOpenChange, initialData }: Props) {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[500px] max-h-[80vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>{initialData ? "Edit Role" : "Create Role"}</DialogTitle>
+          <DialogTitle>{initialData ? t("Edit Role") : t("Create Role")}</DialogTitle>
         </DialogHeader>
         <form onSubmit={onSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="name">Name *</Label>
+            <Label htmlFor="name">{t("Name *")}</Label>
             <Input id="name" value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. content_manager" />
           </div>
           <div className="space-y-1">
-            <Label>Permissions</Label>
+            <Label>{t("Permissions")}</Label>
             {/*   grouped checkboxes, no abstraction */}
             {RESOURCE_KEYS.map((resource) => {
               const checked = permissions[resource] ?? [];
@@ -116,9 +118,9 @@ export function RoleFormDialog({ open, onOpenChange, initialData }: Props) {
             })}
           </div>
           <div className="flex justify-end gap-2">
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button>
+            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>{t("Cancel")}</Button>
             <Button type="submit" disabled={isPending}>
-              {initialData ? "Update" : "Create"}
+              {initialData ? t("Update") : t("Create")}
             </Button>
           </div>
         </form>

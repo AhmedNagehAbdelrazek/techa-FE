@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { ErrorState } from "@/components/ui/ErrorState";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { useTranslation } from "@/lib/i18n/client";
 import { MediaUploadZone } from "./MediaUploadZone";
 
 const EMPTY_PERMISSIONS: Record<string, string[]> = {};
@@ -40,6 +41,7 @@ function MediaGridSkeleton() {
 }
 
 export function MediaGrid() {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const permissions = useAdminStore((s) => s.admin?.permissions ?? EMPTY_PERMISSIONS);
   const canDelete = permissions["media"]?.includes("delete") ?? false;
@@ -57,13 +59,13 @@ export function MediaGrid() {
     mutationFn: deleteMedia,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: adminBannerSettingsKeys.media() });
-      toast.success("File deleted");
+      toast.success(t("File deleted"));
     },
     onError: (err: unknown) => {
       //   409 conflict check via message string
-      const msg = err instanceof Error ? err.message : "Failed to delete";
+      const msg = err instanceof Error ? err.message : t("Failed to delete");
       if (msg.includes("409") || msg.toLowerCase().includes("in use") || msg.toLowerCase().includes("conflict")) {
-        toast.error("This file is in use by other content. Remove all references first.");
+        toast.error(t("This file is in use by other content. Remove all references first."));
       } else {
         toast.error(msg);
       }
@@ -79,9 +81,9 @@ export function MediaGrid() {
   async function copyUrl(url: string) {
     try {
       await navigator.clipboard.writeText(url);
-      toast.success("URL copied to clipboard");
+      toast.success(t("URL copied to clipboard"));
     } catch {
-      toast.error("Failed to copy URL");
+      toast.error(t("Failed to copy URL"));
     }
   }
 
@@ -89,7 +91,7 @@ export function MediaGrid() {
     <div className="space-y-4">
       <MediaUploadZone />
       {!files.length ? (
-        <EmptyState title="No media yet" description="Upload images to use across your store." />
+        <EmptyState title={t("No media yet")} description={t("Upload images to use across your store.")} />
       ) : (
         <>
           <div className="grid grid-cols-3 gap-4 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6">
@@ -106,12 +108,12 @@ export function MediaGrid() {
                       </AlertDialogTrigger>
                       <AlertDialogContent>
                         <AlertDialogHeader>
-                          <AlertDialogTitle>Delete file?</AlertDialogTitle>
-                          <AlertDialogDescription>This permanently removes &ldquo;{file.filename}&rdquo;.</AlertDialogDescription>
+                          <AlertDialogTitle>{t("Delete file?")}</AlertDialogTitle>
+                          <AlertDialogDescription>{t("This permanently removes")} &ldquo;{file.filename}&rdquo;.</AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
-                          <AlertDialogCancel>Cancel</AlertDialogCancel>
-                          <AlertDialogAction onClick={() => deleteMutation.mutate(file.id)}>Delete</AlertDialogAction>
+                          <AlertDialogCancel>{t("Cancel")}</AlertDialogCancel>
+                          <AlertDialogAction onClick={() => deleteMutation.mutate(file.id)}>{t("Delete")}</AlertDialogAction>
                         </AlertDialogFooter>
                       </AlertDialogContent>
                     </AlertDialog>

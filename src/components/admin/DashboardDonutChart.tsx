@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslation } from "@/lib/i18n/client";
 import {
   PieChart,
   Pie,
@@ -50,14 +51,15 @@ export function DashboardDonutChart({
   error,
   onRetry,
 }: DashboardDonutChartProps) {
+  const { t } = useTranslation();
   if (loading) return <DashboardDonutChartSkeleton />;
 
   if (error) {
     return (
       <div className="rounded-lg border bg-card p-6">
-        <h3 className="mb-4 text-base font-semibold">Order Distribution</h3>
+        <h3 className="mb-4 text-base font-semibold">{t("Order Distribution")}</h3>
         <ErrorState
-          title="Failed to load chart"
+          title={t("Failed to load chart")}
           message={error.message}
           onRetry={onRetry}
         />
@@ -75,11 +77,11 @@ export function DashboardDonutChart({
 
   return (
     <div className="rounded-lg border bg-card p-6">
-      <h3 className="mb-4 text-base font-semibold">Order Distribution</h3>
+      <h3 className="mb-4 text-base font-semibold">{t("Order Distribution")}</h3>
 
       {chartData.length === 0 ? (
         <div className="flex min-h-[200px] items-center justify-center text-sm text-muted-foreground">
-          No orders found
+          {t("No orders found")}
         </div>
       ) : (
         <div className="flex items-center gap-6">

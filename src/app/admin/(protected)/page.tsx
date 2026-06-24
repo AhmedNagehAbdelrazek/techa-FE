@@ -4,6 +4,7 @@ import { Suspense, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { ShoppingCart, DollarSign, Users, Clock, CreditCard } from "lucide-react";
+import { useTranslation } from "@/lib/i18n/client";
 import { cn } from "@/lib/utils";
 import { getOrderStats } from "@/lib/api/admin";
 import { DashboardMetricCard } from "@/components/admin/DashboardMetricCard";
@@ -27,6 +28,7 @@ function PeriodSelector({
   value: string;
   onChange: (p: string) => void;
 }) {
+  const { t } = useTranslation();
   return (
     <div className="flex gap-1 rounded-lg bg-muted p-1" role="tablist">
       {PERIODS.map((p) => (
@@ -42,7 +44,7 @@ function PeriodSelector({
               : "text-muted-foreground hover:text-foreground",
           )}
         >
-          {PERIOD_LABELS[p]}
+          {t(PERIOD_LABELS[p])}
         </button>
       ))}
     </div>
@@ -50,6 +52,7 @@ function PeriodSelector({
 }
 
 function DashboardContent() {
+  const { t } = useTranslation();
   const searchParams = useSearchParams();
   const router = useRouter();
   const period = searchParams.get("period") ?? "30d";
@@ -74,14 +77,14 @@ function DashboardContent() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Dashboard</h1>
+        <h1 className="text-2xl font-bold">{t("Dashboard")}</h1>
         <PeriodSelector value={period} onChange={handlePeriodChange} />
       </div>
 
       {/* Metric Cards */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
         <DashboardMetricCard
-          label="Total Orders"
+          label={t("Total Orders")}
           value={stats?.total_orders.current ?? 0}
           previousValue={stats?.total_orders.previous}
           changePct={stats?.total_orders.change_pct}
@@ -89,7 +92,7 @@ function DashboardContent() {
           loading={statsLoading}
         />
         <DashboardMetricCard
-          label="Total Revenue"
+          label={t("Total Revenue")}
           value={stats?.total_revenue.current ?? 0}
           previousValue={stats?.total_revenue.previous}
           changePct={stats?.total_revenue.change_pct}
@@ -97,7 +100,7 @@ function DashboardContent() {
           loading={statsLoading}
         />
         <DashboardMetricCard
-          label="New Customers"
+          label={t("New Customers")}
           value={stats?.new_customers.current ?? 0}
           previousValue={stats?.new_customers.previous}
           changePct={stats?.new_customers.change_pct}
@@ -105,7 +108,7 @@ function DashboardContent() {
           loading={statsLoading}
         />
         <DashboardMetricCard
-          label="Pending Orders"
+          label={t("Pending Orders")}
           value={stats?.by_status.pending ?? 0}
           icon={Clock}
           href="/admin/orders?status=pending"
@@ -113,7 +116,7 @@ function DashboardContent() {
           Highlighted={true}
         />
         <DashboardMetricCard
-          label="Payments Awaiting Review"
+          label={t("Payments Awaiting Review")}
           value={stats?.pending_payments ?? 0}
           icon={CreditCard}
           href="/admin/payments"
@@ -126,13 +129,13 @@ function DashboardContent() {
       {statsError && !statsLoading && (
         <div className="rounded-lg border bg-card p-6">
           <p className="text-sm text-destructive">
-            Failed to load metrics: {(statsErrorObj as Error)?.message}
+            {t("Failed to load metrics:")} {(statsErrorObj as Error)?.message}
           </p>
           <button
             onClick={() => refetchStats()}
             className="mt-2 text-sm text-primary hover:underline"
           >
-            Try again
+            {t("Try again")}
           </button>
         </div>
       )}
@@ -154,9 +157,10 @@ function DashboardContent() {
 }
 
 export default function AdminDashboardPage() {
+  const { t } = useTranslation();
   useEffect(() => { document.title = "لوحة التحكم — TechA"; }, []);
   return (
-    <Suspense fallback={<div className="p-8 text-center">Loading...</div>}>
+    <Suspense fallback={<div className="p-8 text-center">{t("Loading...")}</div>}>
       <DashboardContent />
     </Suspense>
   );

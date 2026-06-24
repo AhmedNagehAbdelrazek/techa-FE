@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { z } from "zod";
+import { useTranslation } from "@/lib/i18n/client";
 
 import {
   createAdminBrand,
@@ -56,6 +57,7 @@ interface BrandFormDialogProps {
 }
 
 export function BrandFormDialog({ open, onOpenChange, initialData }: BrandFormDialogProps) {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const slugManuallyEdited = useRef(false);
 
@@ -105,10 +107,10 @@ export function BrandFormDialog({ open, onOpenChange, initialData }: BrandFormDi
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: adminTaxonomyKeys.brands() });
       onOpenChange(false);
-      toast.success("Brand created");
+      toast.success(t("Brand created"));
     },
     onError: (err) => {
-      toast.error(err instanceof Error ? err.message : "Failed to create brand");
+      toast.error(err instanceof Error ? err.message : t("Failed to create brand"));
     },
   });
 
@@ -126,10 +128,10 @@ export function BrandFormDialog({ open, onOpenChange, initialData }: BrandFormDi
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: adminTaxonomyKeys.brands() });
       onOpenChange(false);
-      toast.success("Brand updated");
+      toast.success(t("Brand updated"));
     },
     onError: (err) => {
-      toast.error(err instanceof Error ? err.message : "Failed to update brand");
+      toast.error(err instanceof Error ? err.message : t("Failed to update brand"));
     },
   });
 
@@ -147,7 +149,7 @@ export function BrandFormDialog({ open, onOpenChange, initialData }: BrandFormDi
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>{initialData ? "Edit Brand" : "Add Brand"}</DialogTitle>
+          <DialogTitle>{initialData ? t("Edit Brand") : t("Add Brand")}</DialogTitle>
         </DialogHeader>
         <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -156,10 +158,10 @@ export function BrandFormDialog({ open, onOpenChange, initialData }: BrandFormDi
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Name *</FormLabel>
+                <FormLabel>{t("Name *")}</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Brand name"
+                    placeholder={t("Brand name")}
                     {...field}
                     onChange={(e) => {
                       field.onChange(e);
@@ -178,10 +180,10 @@ export function BrandFormDialog({ open, onOpenChange, initialData }: BrandFormDi
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Slug</FormLabel>
+                <FormLabel>{t("Slug")}</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="brand-slug"
+                    placeholder={t("brand-slug")}
                     {...field}
                     onChange={(e) => {
                       field.onChange(e);
@@ -198,7 +200,7 @@ export function BrandFormDialog({ open, onOpenChange, initialData }: BrandFormDi
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Logo URL</FormLabel>
+                <FormLabel>{t("Logo URL")}</FormLabel>
                 <FormControl>
                   <Input placeholder="https://..." {...field} value={field.value ?? ""} />
                 </FormControl>
@@ -211,10 +213,10 @@ export function BrandFormDialog({ open, onOpenChange, initialData }: BrandFormDi
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Description</FormLabel>
+                <FormLabel>{t("Description")}</FormLabel>
                 <FormControl>
                   <Textarea
-                    placeholder="Brand description"
+                    placeholder={t("Brand description")}
                     className="min-h-[80px]"
                     {...field}
                     value={field.value ?? ""}
@@ -233,7 +235,7 @@ export function BrandFormDialog({ open, onOpenChange, initialData }: BrandFormDi
                   <FormControl>
                     <Checkbox checked={field.value ?? true} onCheckedChange={field.onChange} />
                   </FormControl>
-                  <Label>Active</Label>
+                  <Label>{t("Active")}</Label>
                 </div>
                 <FormMessage />
               </FormItem>
@@ -241,10 +243,10 @@ export function BrandFormDialog({ open, onOpenChange, initialData }: BrandFormDi
           />
           <div className="flex justify-end gap-2">
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
-              Cancel
+              {t("Cancel")}
             </Button>
             <Button type="submit" disabled={isPending}>
-              {initialData ? "Update" : "Create"}
+              {initialData ? t("Update") : t("Create")}
             </Button>
           </div>
         </form>

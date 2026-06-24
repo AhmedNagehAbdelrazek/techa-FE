@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslation } from "@/lib/i18n/client";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Pencil, Trash2, Plus, ChevronDown, ChevronUp } from "lucide-react";
@@ -66,25 +67,26 @@ function ZoneRates({
   canUpdate: boolean;
   onEditRate: (rate: AdminShippingRate) => void;
 }) {
+  const { t } = useTranslation();
   const { data: ratesData, isLoading: ratesLoading } = useQuery({
     queryKey: adminCouponZoneKeys.rates(zoneId),
     queryFn: () => getAdminRates(zoneId),
   });
 
   if (ratesLoading) return <Skeleton className="h-8 w-full" />;
-  if (!ratesData?.rates.length) return <p className="py-2 text-sm text-muted-foreground">No rates defined.</p>;
+  if (!ratesData?.rates.length) return <p className="py-2 text-sm text-muted-foreground">{t("No rates defined.")}</p>;
 
   return (
     <div className="py-2 space-y-1">
       {ratesData.rates.map((rate) => (
         <div key={rate.id} className="flex items-center justify-between rounded bg-muted/50 px-3 py-1.5 text-sm">
           <span>
-            ${rate.charge} ({rate.estimated_days_min}–{rate.estimated_days_max} days)
-            {rate.free_above_amount ? ` — Free above $${rate.free_above_amount}` : ""}
+            {t("{{charge}} ({{min}}–{{max}} days)", { charge: `$${rate.charge}`, min: rate.estimated_days_min, max: rate.estimated_days_max })}
+            {rate.free_above_amount ? t(" — Free above {{amount}}", { amount: `$${rate.free_above_amount}` }) : ""}
           </span>
           <div className="flex items-center gap-2">
             <Badge variant={rate.is_active ? "default" : "secondary"}>
-              {rate.is_active ? "Active" : "Inactive"}
+              {rate.is_active ? t("Active") : t("Inactive")}
             </Badge>
             {canUpdate && (
               <Button variant="ghost" size="icon" className="size-6" onClick={() => onEditRate(rate)}>
@@ -100,6 +102,7 @@ function ZoneRates({
 
 export function ZonesTable({ onEditZone, onAddRate, onEditRate }: ZonesTableProps) {
   const queryClient = useQueryClient();
+  const { t } = useTranslation();
   const permissions = useAdminStore((s) => s.admin?.permissions ?? EMPTY_PERMISSIONS);
   const canUpdate = permissions["product-sections"]?.includes("update") ?? false;
   const canDelete = permissions["product-sections"]?.includes("delete") ?? false;
@@ -123,16 +126,16 @@ export function ZonesTable({ onEditZone, onAddRate, onEditRate }: ZonesTableProp
     mutationFn: deactivateAdminZone,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: adminCouponZoneKeys.zones() });
-      toast.success("Zone deactivated");
+      toast.success(t("Zone deactivated"));
     },
     onError: (err) => {
-      toast.error(err instanceof Error ? err.message : "Failed to deactivate zone");
+      toast.error(err instanceof Error ? err.message : t("Failed to deactivate zone"));
     },
   });
 
   if (isLoading) return <ZonesTableSkeleton />;
   if (isError) return <ErrorState message={(error as Error)?.message} onRetry={refetch} />;
-  if (!data?.zones.length) return <EmptyState title="No delivery zones found." />;
+  if (!data?.zones.length) return <EmptyState title={t("No delivery zones found.")} />;
 
   return (
     <div className="rounded-md border">
@@ -140,10 +143,10 @@ export function ZonesTable({ onEditZone, onAddRate, onEditRate }: ZonesTableProp
         <TableHeader>
           <TableRow>
             <TableHead className="w-8" />
-            <TableHead>Name</TableHead>
-            <TableHead>Regions</TableHead>
-            <TableHead className="w-20">Status</TableHead>
-            {(canUpdate || canDelete) && <TableHead className="w-24">Actions</TableHead>}
+            <TableHead>{t("Name")}</TableHead>
+            <TableHead>{t("Regions")}</TableHead>
+            <TableHead className="w-20">{t("Status")}</TableHead>
+            {(canUpdate || canDelete) && <TableHead className="w-24">{t("Actions")}</TableHead>}
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -163,7 +166,7 @@ export function ZonesTable({ onEditZone, onAddRate, onEditRate }: ZonesTableProp
                 </TableCell>
                 <TableCell>
                   <Badge variant={zone.is_active ? "default" : "secondary"}>
-                    {zone.is_active ? "Active" : "Inactive"}
+                    {zone.is_active ? t("Active") : t("Inactive")}
                   </Badge>
                 </TableCell>
                 {(canUpdate || canDelete) && (
@@ -193,17 +196,17 @@ export function ZonesTable({ onEditZone, onAddRate, onEditRate }: ZonesTableProp
                           </AlertDialogTrigger>
                           <AlertDialogContent>
                             <AlertDialogHeader>
-                              <AlertDialogTitle>Deactivate zone?</AlertDialogTitle>
-                              <AlertDialogDescription>
-                                This will deactivate &ldquo;{zone.name}&rdquo; and all its shipping rates.
-                              </AlertDialogDescription>
+                            <AlertDialogTitle>{t("Deactivate zone?")}</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              {t("This will deactivate {{name}} and all its shipping rates.", { name: zone.name })}
+                            </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
-                              <AlertDialogCancel>Cancel</AlertDialogCancel>
+                              <AlertDialogCancel>{t("Cancel")}</AlertDialogCancel>
                               <AlertDialogAction
                                 onClick={() => deactivateMutation.mutate(zone.id)}
                               >
-                                Deactivate
+                                {t("Deactivate")}
                               </AlertDialogAction>
                             </AlertDialogFooter>
                           </AlertDialogContent>
@@ -218,11 +221,11 @@ export function ZonesTable({ onEditZone, onAddRate, onEditRate }: ZonesTableProp
                   <TableCell colSpan={5}>
                     <div className="px-2 py-1">
                       <div className="mb-2 flex items-center justify-between">
-                        <span className="text-sm font-medium">Shipping Rates</span>
+                        <span className="text-sm font-medium">{t("Shipping Rates")}</span>
                         {canUpdate && (
                           <Button variant="outline" size="sm" onClick={() => onAddRate(zone)}>
                             <Plus className="size-3.5" />
-                            Add Rate
+                            {t("Add Rate")}
                           </Button>
                         )}
                       </div>

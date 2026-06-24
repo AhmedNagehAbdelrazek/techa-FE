@@ -5,6 +5,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Pencil, Trash2, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
+import { useTranslation } from "@/lib/i18n/client";
 
 import {
   getAdminBrands,
@@ -67,6 +68,7 @@ const EMPTY_PERMISSIONS: Record<string, string[]> = {};
 
 export function BrandsTable({ page, search, onEdit }: BrandsTableProps) {
   const router = useRouter();
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const permissions = useAdminStore((s) => s.admin?.permissions ?? EMPTY_PERMISSIONS);
   const canUpdate = permissions["brands"]?.includes("update") ?? false;
@@ -81,16 +83,16 @@ export function BrandsTable({ page, search, onEdit }: BrandsTableProps) {
     mutationFn: deactivateAdminBrand,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: adminTaxonomyKeys.brands() });
-      toast.success("Brand deactivated");
+      toast.success(t("Brand deactivated"));
     },
     onError: (err) => {
-      toast.error(err instanceof Error ? err.message : "Failed to deactivate brand");
+      toast.error(err instanceof Error ? err.message : t("Failed to deactivate brand"));
     },
   });
 
   if (isLoading) return <BrandsTableSkeleton />;
   if (isError) return <ErrorState message={(error as Error)?.message} onRetry={refetch} />;
-  if (!data?.data.length) return <EmptyState title="No brands found." />;
+  if (!data?.data.length) return <EmptyState title={t("No brands found.")} />;
 
   const { data: brands, meta } = data;
   const startRow = (meta.page - 1) * meta.limit + 1;
@@ -102,12 +104,12 @@ export function BrandsTable({ page, search, onEdit }: BrandsTableProps) {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-12">Logo</TableHead>
-              <TableHead>Name</TableHead>
-              <TableHead>Slug</TableHead>
-              <TableHead>Description</TableHead>
-              <TableHead className="w-20">Status</TableHead>
-              {(canUpdate || canDelete) && <TableHead className="w-24">Actions</TableHead>}
+              <TableHead className="w-12">{t("Logo")}</TableHead>
+              <TableHead>{t("Name")}</TableHead>
+              <TableHead>{t("Slug")}</TableHead>
+              <TableHead>{t("Description")}</TableHead>
+              <TableHead className="w-20">{t("Status")}</TableHead>
+              {(canUpdate || canDelete) && <TableHead className="w-24">{t("Actions")}</TableHead>}
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -133,7 +135,7 @@ export function BrandsTable({ page, search, onEdit }: BrandsTableProps) {
                 </TableCell>
                 <TableCell>
                   <Badge variant={brand.is_active ? "default" : "secondary"}>
-                    {brand.is_active ? "Active" : "Inactive"}
+                    {brand.is_active ? t("Active") : t("Inactive")}
                   </Badge>
                 </TableCell>
                 {(canUpdate || canDelete) && (
@@ -162,17 +164,17 @@ export function BrandsTable({ page, search, onEdit }: BrandsTableProps) {
                           </AlertDialogTrigger>
                           <AlertDialogContent>
                             <AlertDialogHeader>
-                              <AlertDialogTitle>Deactivate brand?</AlertDialogTitle>
+                              <AlertDialogTitle>{t("Deactivate brand?")}</AlertDialogTitle>
                               <AlertDialogDescription>
-                                This will deactivate &ldquo;{brand.name}&rdquo;. Related products may be affected.
+                                {t("This will deactivate {{name}}. Related products may be affected.", { name: brand.name })}
                               </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
-                              <AlertDialogCancel>Cancel</AlertDialogCancel>
+                              <AlertDialogCancel>{t("Cancel")}</AlertDialogCancel>
                               <AlertDialogAction
                                 onClick={() => deactivateMutation.mutate(brand.id)}
                               >
-                                Deactivate
+                                {t("Deactivate")}
                               </AlertDialogAction>
                             </AlertDialogFooter>
                           </AlertDialogContent>
@@ -188,7 +190,7 @@ export function BrandsTable({ page, search, onEdit }: BrandsTableProps) {
       </div>
       <div className="flex items-center justify-between">
         <p className="text-sm text-muted-foreground">
-          Showing {startRow}–{endRow} of {meta.total}
+          {t("Showing {{start}}–{{end}} of {{total}}", { start: startRow, end: endRow, total: meta.total })}
         </p>
         <div className="flex items-center gap-2">
           <Button
@@ -202,7 +204,7 @@ export function BrandsTable({ page, search, onEdit }: BrandsTableProps) {
             }}
           >
             <ChevronLeft className="size-4" />
-            Previous
+            {t("Previous")}
           </Button>
           <Button
             variant="outline"
@@ -214,7 +216,7 @@ export function BrandsTable({ page, search, onEdit }: BrandsTableProps) {
               router.replace(`/admin/brands?${params.toString()}`);
             }}
           >
-            Next
+            {t("Next")}
             <ChevronRight className="size-4" />
           </Button>
         </div>

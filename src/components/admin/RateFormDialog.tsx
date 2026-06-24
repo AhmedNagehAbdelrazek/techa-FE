@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { useTranslation } from "@/lib/i18n/client";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -48,6 +49,7 @@ interface RateFormDialogProps {
 }
 
 export function RateFormDialog({ open, onOpenChange, zoneId, initialData }: RateFormDialogProps) {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
 
   const form = useForm<FormValues>({
@@ -99,10 +101,10 @@ export function RateFormDialog({ open, onOpenChange, zoneId, initialData }: Rate
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: adminCouponZoneKeys.rates(zoneId) });
       onOpenChange(false);
-      toast.success("Rate created");
+      toast.success(t("Rate created"));
     },
     onError: (err) => {
-      toast.error(err instanceof Error ? err.message : "Failed to create rate");
+      toast.error(err instanceof Error ? err.message : t("Failed to create rate"));
     },
   });
 
@@ -122,10 +124,10 @@ export function RateFormDialog({ open, onOpenChange, zoneId, initialData }: Rate
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: adminCouponZoneKeys.rates(zoneId) });
       onOpenChange(false);
-      toast.success("Rate updated");
+      toast.success(t("Rate updated"));
     },
     onError: (err) => {
-      toast.error(err instanceof Error ? err.message : "Failed to update rate");
+      toast.error(err instanceof Error ? err.message : t("Failed to update rate"));
     },
   });
 
@@ -143,7 +145,7 @@ export function RateFormDialog({ open, onOpenChange, zoneId, initialData }: Rate
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>{initialData ? "Edit Rate" : "Add Rate"}</DialogTitle>
+          <DialogTitle>{initialData ? t("Edit Rate") : t("Add Rate")}</DialogTitle>
         </DialogHeader>
         <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -152,9 +154,9 @@ export function RateFormDialog({ open, onOpenChange, zoneId, initialData }: Rate
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Charge *</FormLabel>
+                <FormLabel>{t("Charge *")}</FormLabel>
                 <FormControl>
-                  <Input type="number" step="0.01" placeholder="0" {...field} />
+                  <Input type="number" step="0.01" placeholder={t("0")} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -166,9 +168,9 @@ export function RateFormDialog({ open, onOpenChange, zoneId, initialData }: Rate
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Min Days *</FormLabel>
+                  <FormLabel>{t("Min Days *")}</FormLabel>
                   <FormControl>
-                    <Input type="number" min="1" placeholder="2" {...field} />
+                    <Input type="number" min="1" placeholder={t("2")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -179,9 +181,9 @@ export function RateFormDialog({ open, onOpenChange, zoneId, initialData }: Rate
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Max Days *</FormLabel>
+                  <FormLabel>{t("Max Days *")}</FormLabel>
                   <FormControl>
-                    <Input type="number" min="1" placeholder="5" {...field} />
+                    <Input type="number" min="1" placeholder={t("5")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -193,12 +195,12 @@ export function RateFormDialog({ open, onOpenChange, zoneId, initialData }: Rate
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Free Above Amount</FormLabel>
+                <FormLabel>{t("Free Above Amount")}</FormLabel>
                 <FormControl>
                   <Input
                     type="number"
                     step="0.01"
-                    placeholder="Leave empty for no free shipping"
+                    placeholder={t("Leave empty for no free shipping")}
                     {...field}
                     value={field.value ?? ""}
                     onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : null)}
@@ -214,9 +216,9 @@ export function RateFormDialog({ open, onOpenChange, zoneId, initialData }: Rate
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Min Order Amount</FormLabel>
+                  <FormLabel>{t("Min Order Amount")}</FormLabel>
                   <FormControl>
-                    <Input type="number" step="0.01" placeholder="0" {...field} />
+                    <Input type="number" step="0.01" placeholder={t("0")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -227,12 +229,12 @@ export function RateFormDialog({ open, onOpenChange, zoneId, initialData }: Rate
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Max Order Amount</FormLabel>
+                  <FormLabel>{t("Max Order Amount")}</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
                       step="0.01"
-                      placeholder="Leave empty for no max"
+                      placeholder={t("Leave empty for no max")}
                       {...field}
                       value={field.value ?? ""}
                       onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : null)}
@@ -245,10 +247,10 @@ export function RateFormDialog({ open, onOpenChange, zoneId, initialData }: Rate
           </div>
           <div className="flex justify-end gap-2">
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
-              Cancel
+              {t("Cancel")}
             </Button>
             <Button type="submit" disabled={isPending}>
-              {initialData ? "Update" : "Create"}
+              {initialData ? t("Update") : t("Create")}
             </Button>
           </div>
         </form>

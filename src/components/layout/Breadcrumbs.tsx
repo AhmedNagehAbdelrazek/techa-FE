@@ -3,26 +3,28 @@
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
-
-const segmentLabels: Record<string, string> = {
-  admin: "Dashboard",
-  products: "Products",
-  categories: "Categories",
-  brands: "Brands",
-  tags: "Tags",
-  orders: "Orders",
-  coupons: "Coupons",
-  reviews: "Reviews",
-  banners: "Banners",
-  "delivery-zones": "Delivery Zones",
-  media: "Media",
-  settings: "Settings",
-  admins: "Admins",
-  roles: "Roles",
-};
+import { useTranslation } from "@/lib/i18n/client";
 
 export function Breadcrumbs() {
   const pathname = usePathname();
+  const { t } = useTranslation();
+
+  const segmentLabels: Record<string, string> = {
+    admin: t("Dashboard"),
+    products: t("Products"),
+    categories: t("Categories"),
+    brands: t("Brands"),
+    tags: t("Tags"),
+    orders: t("Orders"),
+    coupons: t("Coupons"),
+    reviews: t("Reviews"),
+    banners: t("Banners"),
+    "delivery-zones": t("Delivery Zones"),
+    media: t("Media"),
+    settings: t("Settings"),
+    admins: t("Admins"),
+    roles: t("Roles"),
+  };
   const segments = pathname.split("/").filter(Boolean);
 
   if (segments.length <= 1) return null;
