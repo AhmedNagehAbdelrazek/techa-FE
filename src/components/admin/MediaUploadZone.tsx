@@ -7,7 +7,7 @@ import { Upload } from "lucide-react";
 
 import { uploadMedia, adminBannerSettingsKeys } from "@/lib/api/admin-banners-settings-media";
 
-// ponytail: minimal upload zone — no drag-and-drop, just a styled file input
+//   minimal upload zone — no drag-and-drop, just a styled file input
 export function MediaUploadZoneSkeleton() {
   return null;
 }

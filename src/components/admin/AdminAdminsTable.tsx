@@ -69,7 +69,7 @@ export function AdminAdminsTable({ onEdit }: Props) {
   if (!admins?.length) return <EmptyState title="No admins found." />;
 
   function roleLabel(admin: AdminAccount) {
-    // ponytail: backend returns role as string in list, object in create/update
+    //   backend returns role as string in list, object in create/update
     return typeof admin.role === "string" ? admin.role : admin.role?.name ?? "-";
   }
 

@@ -122,7 +122,7 @@ export function ProductGrid({ categorySlug, searchQuery }: ProductGridProps) {
           selectedBrands.filter((id) => id !== brandId),
         );
       } else if (key === "price") {
-        // ponytail: single atomic URL update instead of two separate replace calls
+        //   single atomic URL update instead of two separate replace calls
         const params = new URLSearchParams(searchParams.toString());
         params.delete("min_price");
         params.delete("max_price");
@@ -214,7 +214,7 @@ export function ProductGrid({ categorySlug, searchQuery }: ProductGridProps) {
             ))}
           </div>
         ) : products.length === 0 ? (
-          // ponytail: empty state only replaces grid content, filters stay visible
+          //   empty state only replaces grid content, filters stay visible
           <div className="mt-4">
             <EmptyState title="No products found" description="Try adjusting your filters" />
           </div>

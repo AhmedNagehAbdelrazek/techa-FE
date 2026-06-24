@@ -16,7 +16,7 @@ import { Label } from "@/components/ui/label";
 const formSchema = z.object({
   name: z.string().min(1, "Name is required").max(200),
   email: z.string().email("Invalid email format"),
-  // ponytail: password required on create, optional on edit — handled by context below
+  //   password required on create, optional on edit — handled by context below
   password: z.string().min(8, "Password must be at least 8 characters").optional().or(z.literal("")),
   role_id: z.string({ required_error: "Role is required" }).min(1, "Role is required"),
 });
@@ -49,7 +49,7 @@ export function AdminFormDialog({ open, onOpenChange, initialData }: Props) {
         if (typeof initialData.role === "object") {
           roleId = String(initialData.role.id);
         } else if (roles) {
-          // ponytail: role is a string from list — match name to find ID
+          //   role is a string from list — match name to find ID
           const match = roles.find((r) => r.name === initialData.role);
           if (match) roleId = match.id;
         }
@@ -105,7 +105,7 @@ export function AdminFormDialog({ open, onOpenChange, initialData }: Props) {
     }
   }
 
-  // ponytail: inline form, no FormProvider — simple enough
+  //   inline form, no FormProvider — simple enough
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[450px]">
@@ -132,7 +132,7 @@ export function AdminFormDialog({ open, onOpenChange, initialData }: Props) {
           </div>
           <div className="space-y-2">
             <Label htmlFor="role_id">Role *</Label>
-            {/* ponytail: native select — works with react-hook-form register, avoids shadcn Select complexity */}
+            {/*   native select — works with react-hook-form register, avoids shadcn Select complexity */}
             <select
               id="role_id"
               {...register("role_id")}

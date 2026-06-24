@@ -11,7 +11,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-// ponytail: hardcoded known resource keys — no need to fetch a schema
+//   hardcoded known resource keys — no need to fetch a schema
 const RESOURCE_KEYS = ["products", "orders", "categories", "brands", "tags", "coupons", "zones", "content", "settings", "media", "admins"] as const;
 const ACTIONS = ["read", "create", "update", "delete"] as const;
 
@@ -94,7 +94,7 @@ export function RoleFormDialog({ open, onOpenChange, initialData }: Props) {
           </div>
           <div className="space-y-1">
             <Label>Permissions</Label>
-            {/* ponytail: grouped checkboxes, no abstraction */}
+            {/*   grouped checkboxes, no abstraction */}
             {RESOURCE_KEYS.map((resource) => {
               const checked = permissions[resource] ?? [];
               return (

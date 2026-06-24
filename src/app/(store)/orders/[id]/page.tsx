@@ -30,7 +30,7 @@ import type { Order } from "@/lib/types/order";
 
 export default function OrderDetailPage() {
   const params = useParams<{ id: string }>();
-  useEffect(() => { document.title = `طلب #${params.id} — TechA`; }, []);
+  useEffect(() => { document.title = `طلب #${params.id} — TechA`; }, [params.id]);
   const router = useRouter();
   const [order, setOrder] = useState<Order | null>(null);
   const [loading, setLoading] = useState(true);

@@ -56,7 +56,7 @@ export function AdminRolesTable({ onEdit }: Props) {
   if (!roles?.length) return <EmptyState title="No roles found." />;
 
   function permissionCount(role: AdminRole) {
-    // ponytail: count total actions across all resource keys
+    //   count total actions across all resource keys
     return Object.values(role.permissions).reduce((sum, actions) => sum + actions.length, 0);
   }
 

@@ -34,7 +34,7 @@ export function WishlistPageClient() {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     loadWishlist();
@@ -60,7 +60,7 @@ export function WishlistPageClient() {
         });
       }
     },
-    [items, fetchWishlist],
+    [items, fetchWishlist, t],
   );
 
   const handleAddToCart = useCallback(
@@ -87,7 +87,7 @@ export function WishlistPageClient() {
         });
       }
     },
-    [items, fetchCart, fetchWishlist],
+    [items, fetchCart, fetchWishlist, t],
   );
 
   if (isLoading) {

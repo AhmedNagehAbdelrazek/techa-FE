@@ -43,7 +43,7 @@ export default function SettingsPage() {
     queryFn: getSettings,
   });
 
-  // ponytail: mutable values in local state — no form library, no zod validation for settings
+  //   mutable values in local state — no form library, no zod validation for settings
   const [values, setValues] = useState<Record<string, string | number | boolean>>({});
 
   // Sync values when data loads
@@ -70,7 +70,7 @@ export default function SettingsPage() {
     onError: (err) => toast.error(err instanceof Error ? err.message : "Failed to save settings"),
   });
 
-  // ponytail: inline image upload via hidden file input
+  //   inline image upload via hidden file input
   const handleUploadImage = useCallback(
     async (key: string) => {
       setUploadingKey(key);
@@ -123,7 +123,7 @@ export default function SettingsPage() {
           />
         ))}
       </div>
-      {/* ponytail: hidden file input for inline image upload */}
+      {/*   hidden file input for inline image upload */}
       <input type="file" ref={fileInputRef} className="hidden" accept="image/*" onChange={onFileSelected} />
     </div>
   );

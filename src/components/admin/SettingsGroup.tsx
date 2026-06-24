@@ -3,7 +3,7 @@
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-// ponytail: no Tooltip shadcn component — using native title
+//   no Tooltip shadcn component — using native title
 import type { Setting } from "@/lib/api/admin-banners-settings-media";
 
 interface SettingsGroupProps {
@@ -11,10 +11,10 @@ interface SettingsGroupProps {
   settings: Setting[];
   values: Record<string, string | number | boolean>;
   onChange: (key: string, value: string | number | boolean) => void;
-  onUploadImage: (key: string) => void; // ponytail: parent triggers file input
+  onUploadImage: (key: string) => void; //   parent triggers file input
 }
 
-// ponytail: single component, no separate InputRenderer abstraction
+//   single component, no separate InputRenderer abstraction
 function SettingInput({
   setting,
   value,
@@ -26,7 +26,7 @@ function SettingInput({
   onChange: (v: string | number | boolean) => void;
   onUploadImage: () => void;
 }) {
-  const baseCn = setting.is_active ? "" : "opacity-60 pointer-events-none"; // ponytail: no pointer-events for graying out, still editable via label
+  const baseCn = setting.is_active ? "" : "opacity-60 pointer-events-none"; //   no pointer-events for graying out, still editable via label
 
   switch (setting.type) {
     case "textarea":
@@ -35,7 +35,7 @@ function SettingInput({
       return (
         <input
           type="checkbox"
-          className="size-4" // ponytail: native checkbox
+          className="size-4" //   native checkbox
           checked={Boolean(value)}
           onChange={(e) => onChange(e.target.checked)}
         />
@@ -50,7 +50,7 @@ function SettingInput({
         </div>
       );
     case "color":
-      return <input type="color" className="size-10 cursor-pointer rounded border" value={String(value)} onChange={(e) => onChange(e.target.value)} />; // ponytail: native color input
+      return <input type="color" className="size-10 cursor-pointer rounded border" value={String(value)} onChange={(e) => onChange(e.target.value)} />; //   native color input
     case "number":
       return <Input type="number" className={baseCn} value={String(value)} onChange={(e) => onChange(Number(e.target.value))} />;
     default:

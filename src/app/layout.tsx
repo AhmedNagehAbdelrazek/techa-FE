@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Cairo, Inter } from 'next/font/google';
+import { cookies } from 'next/headers';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import { QueryProvider } from '@/components/providers/QueryProvider';
 import { TooltipProvider } from '@/components/providers/TooltipProvider';
@@ -29,13 +30,17 @@ export const metadata: Metadata = {
   description: 'Your Trusted Online Store',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = await cookies();
+  const locale = cookieStore.get("locale")?.value || "ar";
+  const dir = locale === "ar" ? "rtl" : "ltr";
+
   return (
-    <html lang="ar" dir="rtl" suppressHydrationWarning className={`${cairo.variable} ${inter.variable}`}>
+    <html lang={locale} dir={dir} suppressHydrationWarning className={`${cairo.variable} ${inter.variable}`}>
       <body className="font-sans antialiased" suppressHydrationWarning>
         <ThemeProvider
           defaultTheme="light"
@@ -44,7 +49,7 @@ export default function RootLayout({
         >
           <QueryProvider>
             <TooltipProvider>
-              <I18nProvider initialTranslations={translations}>
+              <I18nProvider initialTranslations={translations} initialLocale={locale}>
                 <AuthProvider>
                   {children}
                   <Toaster />

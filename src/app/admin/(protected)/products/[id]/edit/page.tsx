@@ -15,7 +15,7 @@ const EMPTY_PERMISSIONS: Record<string, string[]> = {};
 export default function AdminEditProductPage() {
   const params = useParams();
   const id = params.id as string;
-  useEffect(() => { document.title = `تعديل المنتج #${id} — TechA`; }, []);
+  useEffect(() => { document.title = `تعديل المنتج #${id} — TechA`; }, [id]);
   const permissions = useAdminStore((s) => s.admin?.permissions ?? EMPTY_PERMISSIONS);
   const canUpdate = permissions["products"]?.includes("update") ?? false;
 

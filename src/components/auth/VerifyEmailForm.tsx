@@ -88,7 +88,7 @@ export function VerifyEmailForm() {
       toast.error(t("Failed to resend code. Please try again."));
       setResendCooldown(0);
     }
-  }, [prefilledEmail, resendCooldown]);
+  }, [prefilledEmail, resendCooldown, t]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">

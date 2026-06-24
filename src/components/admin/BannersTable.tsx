@@ -36,7 +36,7 @@ function badgeConfig(banner: AdminBanner): { variant: "secondary" | "destructive
   return { variant: "default", label: "Active" };
 }
 
-// ponytail: No separate BannerRow component — inline rows keep it simple
+//   No separate BannerRow component — inline rows keep it simple
 export function BannersTable({ onEdit }: BannersTableProps) {
   const queryClient = useQueryClient();
   const permissions = useAdminStore((s) => s.admin?.permissions ?? EMPTY_PERMISSIONS);
@@ -83,7 +83,7 @@ export function BannersTable({ onEdit }: BannersTableProps) {
             return (
               <TableRow key={banner.id}>
                 <TableCell>
-                  <img src={banner.image_url} alt={banner.title} className="h-10 w-20 rounded object-cover" /> {/* ponytail: plain img, no Next/Image for external URLs */}
+                  <img src={banner.image_url} alt={banner.title} className="h-10 w-20 rounded object-cover" /> {/*   plain img, no Next/Image for external URLs */}
                 </TableCell>
                 <TableCell className="font-medium">{banner.title}</TableCell>
                 <TableCell className="capitalize text-muted-foreground">{banner.position}</TableCell>

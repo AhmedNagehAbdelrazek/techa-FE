@@ -16,7 +16,7 @@ import { MediaUploadZone } from "./MediaUploadZone";
 
 const EMPTY_PERMISSIONS: Record<string, string[]> = {};
 
-// ponytail: no shadcn Pagination — manual page buttons
+//   no shadcn Pagination — manual page buttons
 function PageNav({ page, totalPages, onPage }: { page: number; totalPages: number; onPage: (p: number) => void }) {
   if (totalPages <= 1) return null;
   return (
@@ -28,7 +28,7 @@ function PageNav({ page, totalPages, onPage }: { page: number; totalPages: numbe
   );
 }
 
-// ponytail: inline grid skeleton
+//   inline grid skeleton
 function MediaGridSkeleton() {
   return (
     <div className="grid grid-cols-3 gap-4 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6">
@@ -50,7 +50,7 @@ export function MediaGrid() {
   const { data, isLoading, isError, error, refetch } = useQuery({
     queryKey: [...adminBannerSettingsKeys.media(), page],
     queryFn: () => getMedia({ page, limit }),
-    placeholderData: (prev) => prev, // ponytail: keepPreviousData-equivalent
+    placeholderData: (prev) => prev, //   keepPreviousData-equivalent
   });
 
   const deleteMutation = useMutation({
@@ -60,7 +60,7 @@ export function MediaGrid() {
       toast.success("File deleted");
     },
     onError: (err: unknown) => {
-      // ponytail: 409 conflict check via message string
+      //   409 conflict check via message string
       const msg = err instanceof Error ? err.message : "Failed to delete";
       if (msg.includes("409") || msg.toLowerCase().includes("in use") || msg.toLowerCase().includes("conflict")) {
         toast.error("This file is in use by other content. Remove all references first.");
@@ -95,7 +95,7 @@ export function MediaGrid() {
           <div className="grid grid-cols-3 gap-4 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6">
             {files.map((file) => (
               <div key={file.id} className="group relative overflow-hidden rounded-lg border">
-                <img src={file.url} alt={file.filename} className="aspect-square w-full object-cover" /> {/* ponytail: plain img */}
+                <img src={file.url} alt={file.filename} className="aspect-square w-full object-cover" /> {/*   plain img */}
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-1 bg-black/60 opacity-0 transition-opacity group-hover:opacity-100">
                   {canDelete && (
                     <AlertDialog>

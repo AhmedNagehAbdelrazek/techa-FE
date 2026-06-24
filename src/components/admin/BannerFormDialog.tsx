@@ -23,7 +23,7 @@ const formSchema = z.object({
   position: z.enum(["hero", "promo", "sidebar", "bottom"]),
   sort_order: z.coerce.number().int().min(0).default(0),
   starts_at: z.string().min(1, "Start date is required"),
-  ends_at: z.string().optional().or(z.literal("")), // ponytail: empty string = null = never expires
+  ends_at: z.string().optional().or(z.literal("")), //   empty string = null = never expires
   is_active: z.boolean().default(true),
 });
 
@@ -36,7 +36,7 @@ interface BannerFormDialogProps {
 }
 
 export function BannerFormDialogSkeleton() {
-  return null; // ponytail: Dialog is small enough that a skeleton adds no value
+  return null; //   Dialog is small enough that a skeleton adds no value
 }
 
 export function BannerFormDialog({ open, onOpenChange, initialData }: BannerFormDialogProps) {
@@ -104,7 +104,7 @@ export function BannerFormDialog({ open, onOpenChange, initialData }: BannerForm
           <DialogTitle>{initialData ? "Edit Banner" : "Add Banner"}</DialogTitle>
         </DialogHeader>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          {/* ponytail: no FormProvider wrappers — raw form elements keep it simple */}
+          {/*   no FormProvider wrappers — raw form elements keep it simple */}
           <div>
             <Label htmlFor="title">Title *</Label>
             <Input id="title" {...form.register("title")} placeholder="Summer Sale" />
@@ -119,7 +119,7 @@ export function BannerFormDialog({ open, onOpenChange, initialData }: BannerForm
             <div className="flex gap-2">
               <Input id="image_url" {...form.register("image_url")} placeholder="https://..." className="flex-1" />
               {form.watch("image_url") && (
-                <img src={form.watch("image_url")} alt="Preview" className="size-10 rounded object-cover" /> // ponytail: inline preview
+                <img src={form.watch("image_url")} alt="Preview" className="size-10 rounded object-cover" /> //   inline preview
               )}
             </div>
             {form.formState.errors.image_url && <p className="text-sm text-destructive">{form.formState.errors.image_url.message}</p>}
@@ -154,11 +154,11 @@ export function BannerFormDialog({ open, onOpenChange, initialData }: BannerForm
             </div>
             <div>
               <Label htmlFor="ends_at">End Date</Label>
-              <Input id="ends_at" type="date" {...form.register("ends_at")} /> {/* ponytail: optional = never expires */}
+              <Input id="ends_at" type="date" {...form.register("ends_at")} /> {/*   optional = never expires */}
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <input type="checkbox" id="is_active" checked={form.watch("is_active")} onChange={(e) => form.setValue("is_active", e.target.checked)} className="size-4" /> {/* ponytail: native checkbox */}
+            <input type="checkbox" id="is_active" checked={form.watch("is_active")} onChange={(e) => form.setValue("is_active", e.target.checked)} className="size-4" /> {/*   native checkbox */}
             <Label htmlFor="is_active">Active</Label>
           </div>
           <div className="flex justify-end gap-2">

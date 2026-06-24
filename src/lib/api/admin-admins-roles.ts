@@ -1,6 +1,6 @@
 import { adminRequest } from "./AdminRequest";
 
-// ponytail: inline types, no separate types file
+//   inline types, no separate types file
 export interface AdminAccount {
   id: string;
   name: string;

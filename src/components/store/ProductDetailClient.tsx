@@ -82,7 +82,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
 
   const price = useMemo(() => {
     return computePrice(product, matchingVariant);
-  }, [currentPrice]);
+  }, [product, matchingVariant]);
 
   const stockQty = useMemo(
     () => computeStockQty(product, matchingVariant),

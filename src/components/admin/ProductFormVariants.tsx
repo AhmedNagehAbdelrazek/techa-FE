@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { useFieldArray, useFormContext, Controller } from "react-hook-form";
 import { Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
@@ -30,7 +30,7 @@ export function ProductFormVariants() {
     name: "variants",
   });
 
-  const variants: VariantFormValues[] = watch("variants") ?? [];
+  const variants: VariantFormValues[] = useMemo(() => watch("variants") ?? [], [watch]);
 
   const addVariant = useCallback(() => {
     variantsArray.append({

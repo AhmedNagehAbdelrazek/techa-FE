@@ -30,7 +30,7 @@ export function CartCouponInput() {
     } finally {
       setIsLoading(false);
     }
-  }, [code, applyCoupon]);
+  }, [code, applyCoupon, t]);
 
   const handleRemove = useCallback(async () => {
     try {
@@ -39,7 +39,7 @@ export function CartCouponInput() {
     } catch {
       toast.error(t("Failed to remove coupon"));
     }
-  }, [removeCoupon]);
+  }, [removeCoupon, t]);
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {

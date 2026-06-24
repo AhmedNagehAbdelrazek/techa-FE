@@ -42,7 +42,7 @@ export function AddToCartButton({ productId, variantId, quantity, disabled, disa
     } finally {
       setIsLoading(false);
     }
-  }, [disabled, isLoading, productId, variantId, quantity, addItem]);
+  }, [disabled, isLoading, productId, variantId, quantity, addItem, t]);
 
   const label = disableReason ?? (added ? t("Added!") : t("Add to Cart"));
 
