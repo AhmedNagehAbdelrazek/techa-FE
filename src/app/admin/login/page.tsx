@@ -7,8 +7,10 @@ import { setAdminToken } from "@/lib/api/admin-token";
 import { useAdminStore } from "@/lib/stores/admin.store";
 import { AUTH_COOKIE_NAME } from "@/lib/auth/constants";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "@/lib/i18n/client";
 
 export default function AdminLoginPage() {
+  const { t } = useTranslation();
   useEffect(() => { document.title = "تسجيل دخول الأدمن — TechA"; }, []);
   const router = useRouter();
   const { setAdmin, admin, isAuthenticated,_hydrated } = useAdminStore();
@@ -39,7 +41,7 @@ export default function AdminLoginPage() {
       router.push("/admin");
     } catch (err: unknown) {
       const message =
-        err instanceof Error ? err.message : "Invalid email or password";
+        err instanceof Error ? err.message : t("Invalid email or password");
       setError(message);
     } finally {
       setLoading(false);
@@ -50,9 +52,9 @@ export default function AdminLoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-muted/30">
       <div className="w-full max-w-sm rounded-lg border bg-card p-8 shadow-sm">
         <div className="mb-6 text-center">
-          <h1 className="text-2xl font-bold">Admin Login</h1>
+          <h1 className="text-2xl font-bold">{t("Admin Login")}</h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Sign in to manage your store
+            {t("Sign in to manage your store")}
           </p>
         </div>
 
@@ -62,7 +64,7 @@ export default function AdminLoginPage() {
               htmlFor="email"
               className="mb-1.5 block text-sm font-medium"
             >
-              Email
+              {t("Email")}
             </label>
             <input
               id="email"
@@ -71,7 +73,7 @@ export default function AdminLoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full rounded-md border bg-background px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary"
-              placeholder="admin@techa.com"
+              placeholder={t("admin@techa.com")}
             />
           </div>
 
@@ -80,7 +82,7 @@ export default function AdminLoginPage() {
               htmlFor="password"
               className="mb-1.5 block text-sm font-medium"
             >
-              Password
+              {t("Password")}
             </label>
             <input
               id="password"
@@ -100,7 +102,7 @@ export default function AdminLoginPage() {
           )}
 
           <Button type="submit" disabled={loading} className="w-full">
-            {loading ? "Signing in..." : "Sign in"}
+            {loading ? t("Signing in...") : t("Sign in")}
           </Button>
         </form>
       </div>

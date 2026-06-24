@@ -5,6 +5,7 @@ import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
+import { useTranslation } from "@/lib/i18n/client";
 import { getOrders } from "@/lib/api/orders";
 import { OrderCard } from "@/components/store/OrderCard";
 import { OrderStatusTabs } from "@/components/store/OrderStatusTabs";
@@ -12,6 +13,7 @@ import { Pagination } from "@/components/store/Pagination";
 import type { OrderListItem, Meta } from "@/lib/types/order";
 
 export default function OrdersPage() {
+  const { t } = useTranslation();
   useEffect(() => { document.title = "طلباتي — TechA"; }, []);
   const [orders, setOrders] = useState<OrderListItem[]>([]);
   const [meta, setMeta] = useState<Meta | null>(null);
@@ -33,11 +35,11 @@ export default function OrdersPage() {
       setMeta(res.meta);
     } catch {
       setError(true);
-      toast.error("Failed to load orders");
+      toast.error(t("Failed to load orders"));
     } finally {
       setLoading(false);
     }
-  }, [statusFilter, page]);
+  }, [statusFilter, page, t]);
 
   useEffect(() => {
     fetchOrders();
@@ -56,7 +58,7 @@ export default function OrdersPage() {
   return (
     <ProtectedRoute>
       <div className="mx-auto max-w-3xl px-4 py-8">
-        <h1 className="text-2xl font-bold">My Orders</h1>
+        <h1 className="text-2xl font-bold">{t("My Orders")}</h1>
 
         <div className="mt-4">
           <OrderStatusTabs active={statusFilter} onTabChange={handleTabChange} />
@@ -69,15 +71,15 @@ export default function OrdersPage() {
           </div>
         ) : error ? (
           <div className="mt-12 text-center">
-            <p className="text-muted-foreground">Failed to load orders</p>
+            <p className="text-muted-foreground">{t("Failed to load orders")}</p>
             <Button className="mt-4" onClick={fetchOrders}>
-              Retry
+              {t("Retry")}
             </Button>
           </div>
         ) : orders.length === 0 ? (
           <div className="mt-12 text-center">
             <p className="text-muted-foreground">
-              {statusFilter ? `No ${statusFilter} orders` : "No orders yet"}
+              {statusFilter ? t("No {{status}} orders", { status: statusFilter }) : t("No orders yet")}
             </p>
           </div>
         ) : (

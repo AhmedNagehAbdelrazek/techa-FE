@@ -21,6 +21,7 @@ import {
   AlertDialogCancel,
 } from "@/components/ui/alert-dialog";
 import { useAuthStore } from "@/lib/stores/auth.store";
+import { useTranslation } from "@/lib/i18n/client";
 
 interface ReviewListProps {
   productId: string;
@@ -28,9 +29,10 @@ interface ReviewListProps {
 }
 
 function RatingStars({ rating, size = "sm" }: { rating: number; size?: "sm" | "xs" }) {
+  const { t } = useTranslation();
   const cls = size === "sm" ? "h-4 w-4" : "h-3 w-3";
   return (
-    <div className="flex" aria-label={`${rating} out of 5 stars`}>
+    <div className="flex" aria-label={t("{{rating}} out of 5 stars", { rating })}>
       {[1, 2, 3, 4, 5].map((star) => {
         const filled = star <= Math.round(rating);
         return (
@@ -48,9 +50,10 @@ function RatingStars({ rating, size = "sm" }: { rating: number; size?: "sm" | "x
 }
 
 function StarRatingSelector({ value, onChange }: { value: number; onChange: (v: number) => void }) {
+  const { t } = useTranslation();
   const [hovered, setHovered] = useState(0);
   return (
-    <div className="flex" role="radiogroup" aria-label="Rating">
+    <div className="flex" role="radiogroup" aria-label={t("Rating")}>
       {[1, 2, 3, 4, 5].map((star) => {
         const active = hovered || value;
         return (
@@ -59,7 +62,7 @@ function StarRatingSelector({ value, onChange }: { value: number; onChange: (v: 
             type="button"
             role="radio"
             aria-checked={value === star}
-            aria-label={`${star} star${star > 1 ? "s" : ""}`}
+            aria-label={star > 1 ? t("{{star}} stars", { star }) : t("{{star}} star", { star })}
             className="cursor-pointer p-0.5 transition-transform hover:scale-110"
             onMouseEnter={() => setHovered(star)}
             onMouseLeave={() => setHovered(0)}
@@ -108,6 +111,7 @@ function ReviewCard({
   const [isSaving, setIsSaving] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const { t } = useTranslation();
 
   const isOwn = currentUserId !== null && currentUserId === review?.user?.id;
 
@@ -117,9 +121,9 @@ function ReviewCard({
     try {
       await onSaveEdit(review.id, { rating: editRating, comment: editComment.trim() });
       setIsEditing(false);
-      toast.success("Review updated successfully");
+      toast.success(t("Review updated successfully"));
     } catch {
-      toast.error("Failed to update review. Please try again.");
+      toast.error(t("Failed to update review. Please try again."));
     } finally {
       setIsSaving(false);
     }
@@ -136,9 +140,9 @@ function ReviewCard({
     setIsDeleting(true);
     try {
       await onDelete(review.id);
-      toast.success("Review deleted successfully");
+      toast.success(t("Review deleted successfully"));
     } catch {
-      toast.error("Failed to delete review. Please try again.");
+      toast.error(t("Failed to delete review. Please try again."));
     } finally {
       setIsDeleting(false);
       setDeleteOpen(false);
@@ -157,14 +161,14 @@ function ReviewCard({
           onChange={(e) => setEditComment(e.target.value)}
           className="mb-3 min-h-[80px] w-full rounded-md border bg-background p-3 text-sm outline-none focus:border-primary"
           maxLength={2000}
-          aria-label="Edit review comment"
+          aria-label={t("Edit review comment")}
         />
         <div className="flex justify-end gap-2">
           <Button type="button" variant="outline" size="sm" onClick={handleCancel}>
-            Cancel
+            {t("Cancel")}
           </Button>
           <Button type="button" size="sm" disabled={editRating < 1 || !editComment.trim() || isSaving} onClick={handleSave}>
-            {isSaving ? "Saving..." : "Save"}
+            {isSaving ? t("Saving...") : t("Save")}
           </Button>
         </div>
       </div>
@@ -177,7 +181,7 @@ function ReviewCard({
         <RatingStars rating={review.rating} size="xs" />
         {review.is_verified && (
           <Badge variant="secondary" className="text-[10px]">
-            Verified Purchase
+            {t("Verified Purchase")}
           </Badge>
         )}
       </div>
@@ -187,25 +191,25 @@ function ReviewCard({
       {isOwn && (
         <div className="flex gap-2">
           <Button type="button" variant="outline" size="xs" onClick={() => setIsEditing(true)}>
-            Edit
+            {t("Edit")}
           </Button>
           <AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>
             <AlertDialogTrigger asChild>
               <Button type="button" variant="outline" size="xs">
-                Delete
+                {t("Delete")}
               </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>Delete Review</AlertDialogTitle>
-                <AlertDialogDescription>
-                  Are you sure you want to delete this review? This action cannot be undone.
-                </AlertDialogDescription>
+            <AlertDialogTitle>{t("Delete Review")}</AlertDialogTitle>
+            <AlertDialogDescription>
+              {t("Are you sure you want to delete this review? This action cannot be undone.")}
+            </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogCancel>{t("Cancel")}</AlertDialogCancel>
                 <AlertDialogAction disabled={isDeleting} onClick={handleDelete}>
-                  {isDeleting ? "Deleting..." : "Delete"}
+                  {isDeleting ? t("Deleting...") : t("Delete")}
                 </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
@@ -230,6 +234,7 @@ export function ReviewList({ productId, initialReviews }: ReviewListProps) {
   const [formRating, setFormRating] = useState(0);
   const [formComment, setFormComment] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { t } = useTranslation();
 
   const distribution = computeDistribution(reviews);
 
@@ -258,29 +263,29 @@ export function ReviewList({ productId, initialReviews }: ReviewListProps) {
       id: `temp-${crypto.randomUUID()}`,
       rating: submittedRating,
       comment: submittedComment,
-      reviewer_name: user?.name ?? "You",
-      relative_date: "Just now",
+      reviewer_name: user?.name ?? t("You"),
+      relative_date: t("Just now"),
       is_verified: false,
       user: { id: user?.id ?? "", name: user?.name ?? "You", avatar_url: null },
     };
 
     setReviews((prev) => [temp, ...prev]);
     setCanReview(false);
-    setEligibilityReason("You have already reviewed this product.");
+    setEligibilityReason(t("You have already reviewed this product."));
     setFormRating(0);
     setFormComment("");
 
     try {
       const created = await createReview(productId, { rating: submittedRating, comment: submittedComment });
       setReviews((prev) => prev.map((r) => (r.id === temp.id ? { ...created, user: temp.user } : r)));
-      toast.success("Review submitted successfully");
+      toast.success(t("Review submitted successfully"));
     } catch {
       setReviews((prev) => prev.filter((r) => r.id !== temp.id));
       setCanReview(true);
       setEligibilityReason(null);
       setFormRating(submittedRating);
       setFormComment(submittedComment);
-      toast.error("Failed to submit review. Please try again.");
+      toast.error(t("Failed to submit review. Please try again."));
     } finally {
       setIsSubmitting(false);
     }
@@ -333,7 +338,7 @@ export function ReviewList({ productId, initialReviews }: ReviewListProps) {
       setPage(result.meta.page);
       setHasMore(result.meta.page < result.meta.totalPages);
     } catch {
-      toast.error("Failed to load reviews. Please try again.");
+      toast.error(t("Failed to load reviews. Please try again."));
     } finally {
       setIsLoading(false);
     }
@@ -343,7 +348,7 @@ export function ReviewList({ productId, initialReviews }: ReviewListProps) {
     <div className="space-y-6">
       {!isCheckingEligibility && isAuthenticated && canReview && (
         <div className="rounded-lg border p-4">
-          <h4 className="mb-3 text-sm font-semibold">Write a Review</h4>
+          <h4 className="mb-3 text-sm font-semibold">{t("Write a Review")}</h4>
           <div className="mb-3 flex items-center gap-2">
             <StarRatingSelector value={formRating} onChange={setFormRating} />
             {formRating > 0 && <span className="text-sm text-muted-foreground">{formRating}/5</span>}
@@ -351,10 +356,10 @@ export function ReviewList({ productId, initialReviews }: ReviewListProps) {
           <textarea
             value={formComment}
             onChange={(e) => setFormComment(e.target.value)}
-            placeholder="Share your thoughts about this product..."
+            placeholder={t("Share your thoughts about this product...")}
             className="mb-3 min-h-[80px] w-full rounded-md border bg-background p-3 text-sm outline-none focus:border-primary"
             maxLength={2000}
-            aria-label="Review comment"
+            aria-label={t("Review comment")}
           />
           <div className="flex justify-end">
             <Button
@@ -362,7 +367,7 @@ export function ReviewList({ productId, initialReviews }: ReviewListProps) {
               disabled={formRating < 1 || !formComment.trim() || isSubmitting}
               onClick={handleSubmitReview}
             >
-              {isSubmitting ? "Submitting..." : "Submit Review"}
+              {isSubmitting ? t("Submitting...") : t("Submit Review")}
             </Button>
           </div>
         </div>
@@ -373,7 +378,7 @@ export function ReviewList({ productId, initialReviews }: ReviewListProps) {
 
       {reviews.length > 0 && (
         <div className="rounded-lg border p-4">
-          <h3 className="mb-3 text-sm font-semibold">Rating Distribution</h3>
+          <h3 className="mb-3 text-sm font-semibold">{t("Rating Distribution")}</h3>
           {distribution.map(({ star, count }) => (
             <RatingDistributionBar
               key={star}
@@ -386,7 +391,7 @@ export function ReviewList({ productId, initialReviews }: ReviewListProps) {
       )}
 
       {reviews.length === 0 ? (
-        <p className="text-center text-sm text-muted-foreground">No reviews yet</p>
+        <p className="text-center text-sm text-muted-foreground">{t("No reviews yet")}</p>
       ) : (
         <div className="space-y-4">
           {reviews.map((review) => (
@@ -398,7 +403,7 @@ export function ReviewList({ productId, initialReviews }: ReviewListProps) {
       {hasMore && reviews.length > 0 && (
         <div className="flex justify-center">
           <Button type="button" variant="outline" disabled={isLoading} onClick={handleLoadMore}>
-            {isLoading ? "Loading..." : "Load more reviews"}
+            {isLoading ? t("Loading...") : t("Load more reviews")}
           </Button>
         </div>
       )}

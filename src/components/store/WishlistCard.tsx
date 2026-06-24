@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { Trash2, ShoppingCart, AlertCircle } from "lucide-react";
 import { formatPrice } from "@/lib/utils";
+import { useTranslation } from "@/lib/i18n/client";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { WishlistItemWithProduct } from "@/lib/types/wishlist";
@@ -22,6 +23,7 @@ export function WishlistCard({
   isRemoving,
   isAddingToCart,
 }: WishlistCardProps) {
+  const { t } = useTranslation();
   const hasDiscount = item.Product.discount_percent > 0;
   const discountedPrice = hasDiscount
     ? item.Product.price * (1 - item.Product.discount_percent / 100)
@@ -41,7 +43,7 @@ export function WishlistCard({
           />
         ) : (
           <div className="bg-muted flex h-full items-center justify-center">
-            <span className="text-muted-foreground text-sm">No image</span>
+            <span className="text-muted-foreground text-sm">{t("No image")}</span>
           </div>
         )}
         {hasDiscount && (
@@ -56,7 +58,7 @@ export function WishlistCard({
           disabled={isRemoving}
           onClick={() => onRemove(item.id)}
           className="absolute top-2 right-2 z-10"
-          aria-label="Remove from wishlist"
+          aria-label={t("Remove from wishlist")}
         >
           <Trash2 className="h-4 w-4 text-destructive" />
         </Button>
@@ -80,7 +82,7 @@ export function WishlistCard({
           {outOfStock ? (
             <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
               <AlertCircle className="h-3.5 w-3.5" />
-              <span>Out of Stock</span>
+              <span>{t("Out of Stock")}</span>
             </div>
           ) : (
             <Button
@@ -92,7 +94,7 @@ export function WishlistCard({
               onClick={() => onAddToCart(item.id)}
             >
               <ShoppingCart className="ml-1.5 h-4 w-4" />
-              {isAddingToCart ? "Adding..." : "Add to Cart"}
+              {isAddingToCart ? t("Adding...") : t("Add to Cart")}
             </Button>
           )}
         </div>

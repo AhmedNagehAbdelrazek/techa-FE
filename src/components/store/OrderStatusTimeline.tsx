@@ -1,6 +1,7 @@
 "use client";
 
 import { formatDateTime, cn } from "@/lib/utils";
+import { useTranslation } from "@/lib/i18n/client";
 import type { OrderStatusHistory } from "@/lib/types/order";
 
 interface OrderStatusTimelineProps {
@@ -9,16 +10,17 @@ interface OrderStatusTimelineProps {
 }
 
 export function OrderStatusTimeline({ statusHistory, currentStatus }: OrderStatusTimelineProps) {
+  const { t } = useTranslation();
   if (statusHistory.length === 0) return null;
 
   return (
-    <div className="relative" role="region" aria-label="Order status timeline">
-      <ol className="hidden" aria-label="Status steps">
+    <div className="relative" role="region" aria-label={t("Order status timeline")}>
+      <ol className="hidden" aria-label={t("Status steps")}>
         {statusHistory.map((entry, i) => {
           const label = entry.status || entry.to_status || "";
           return (
             <li key={i}>
-              Step {i + 1}: {label} — {formatDateTime(entry.changed_at)}
+              {t("Step {{number}}: {{label}} — {{date}}", { number: i + 1, label, date: formatDateTime(entry.changed_at) })}
             </li>
           );
         })}

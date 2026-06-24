@@ -3,6 +3,7 @@
 import { useState, useCallback } from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/lib/i18n/client";
 import type { ProductImage as ProductImageType } from "@/lib/types/product";
 
 interface ProductImagesProps {
@@ -12,6 +13,7 @@ interface ProductImagesProps {
 }
 
 export function ProductImages({ images, selectedVariantImages, productName }: ProductImagesProps) {
+  const { t } = useTranslation();
   const displayImages = (selectedVariantImages && selectedVariantImages.length > 0) ? selectedVariantImages : images;
   const sorted = [...displayImages].sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0));
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -26,7 +28,7 @@ export function ProductImages({ images, selectedVariantImages, productName }: Pr
   if (sorted.length === 0) {
     return (
       <div className="flex aspect-square items-center justify-center rounded-lg bg-muted">
-        <span className="text-sm text-muted-foreground">No image</span>
+        <span className="text-sm text-muted-foreground">{t("No image")}</span>
       </div>
     );
   }
@@ -40,7 +42,7 @@ export function ProductImages({ images, selectedVariantImages, productName }: Pr
       >
         {imgError ? (
           <div className="flex h-full items-center justify-center bg-muted">
-            <span className="text-sm text-muted-foreground">No image</span>
+            <span className="text-sm text-muted-foreground">{t("No image")}</span>
           </div>
         ) : (
           <Image
@@ -54,14 +56,14 @@ export function ProductImages({ images, selectedVariantImages, productName }: Pr
         )}
       </div>
       {sorted.length > 1 && (
-        <div className="flex gap-2 overflow-x-auto" role="tablist" aria-label="Product images">
+        <div className="flex gap-2 overflow-x-auto" role="tablist" aria-label={t("Product images")}>
           {sorted.map((img, index) => (
             <button
               key={img.id ?? index}
               type="button"
               role="tab"
               aria-selected={index === selectedIndex}
-              aria-label={img.alt_text ?? `Image ${index + 1}`}
+              aria-label={img.alt_text ?? t("Image {{index}}", { index: index + 1 })}
               className={cn(
                 "relative h-16 w-16 shrink-0 overflow-hidden rounded-md border transition-opacity",
                 index === selectedIndex ? "border-primary opacity-100 ring-1 ring-primary" : "opacity-60 hover:opacity-100",
@@ -70,7 +72,7 @@ export function ProductImages({ images, selectedVariantImages, productName }: Pr
             >
               <Image
                 src={img.url}
-                alt={img.alt_text ?? `Image ${index + 1}`}
+                alt={img.alt_text ?? t("Image {{index}}", { index: index + 1 })}
                 fill
                 className="object-cover"
                 loading="lazy"
@@ -80,7 +82,9 @@ export function ProductImages({ images, selectedVariantImages, productName }: Pr
         </div>
       )}
       <div aria-live="polite" className="sr-only">
-        {current?.alt_text ? `Selected image: ${current.alt_text}` : `Image ${selectedIndex + 1} of ${sorted.length}`}
+        {current?.alt_text
+          ? t("Selected image: {{alt}}", { alt: current.alt_text })
+          : t("Image {{index}} of {{total}}", { index: selectedIndex + 1, total: sorted.length })}
       </div>
     </div>
   );

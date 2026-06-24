@@ -5,12 +5,15 @@ import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { LocaleSwitcher } from "@/components/layout/LocaleSwitcher";
 import { useAdminStore } from "@/lib/stores/admin.store";
+import { useTranslation } from "@/lib/i18n/client";
 
 export function AdminTopBar() {
   const router = useRouter();
   const { admin, logout } = useAdminStore();
   const { theme, setTheme } = useTheme();
+  const { t } = useTranslation();
 
   function handleLogout() {
     logout();
@@ -21,6 +24,7 @@ export function AdminTopBar() {
     <header className="flex h-14 items-center justify-between border-b bg-background px-6">
       <div />
       <div className="flex items-center gap-3">
+        <LocaleSwitcher />
         {admin && (
           <>
             <div className="text-right">
@@ -40,7 +44,7 @@ export function AdminTopBar() {
           variant="ghost"
           size="icon"
           onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-          aria-label="Toggle dark mode"
+          aria-label={t("Toggle dark mode")}
         >
           {theme === "dark" ? <Sun className="size-4" /> : <Moon className="size-4" />}
         </Button>
@@ -48,7 +52,7 @@ export function AdminTopBar() {
           variant="ghost"
           size="icon"
           onClick={handleLogout}
-          aria-label="Logout"
+          aria-label={t("Logout")}
         >
           <LogOut className="size-4" />
         </Button>

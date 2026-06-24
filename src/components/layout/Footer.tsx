@@ -22,7 +22,7 @@ export function Footer() {
           <div>
             <h3 className="text-lg font-semibold">{siteName}</h3>
               <p className="mt-2 text-sm text-muted-foreground">
-                Your Trusted Online Store
+                {t("Your Trusted Online Store")}
               </p>
           </div>
 
@@ -65,7 +65,7 @@ export function Footer() {
         </div>
 
         <div className="mt-8 border-t pt-6 text-center text-sm text-muted-foreground">
-          &copy; {new Date().getFullYear()} {siteName}. All rights reserved.
+          &copy; {new Date().getFullYear()} {siteName}. {t("All rights reserved.")}
         </div>
       </div>
     </footer>

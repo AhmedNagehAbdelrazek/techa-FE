@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Heart, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/lib/i18n/client";
 import { Button } from "@/components/ui/button";
 import {
   AlertDialog,
@@ -27,6 +28,7 @@ interface WishlistButtonProps {
 
 export function WishlistButton({ productId, className }: WishlistButtonProps) {
   const router = useRouter();
+  const { t } = useTranslation();
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const wishlistItem = useWishlistStore((s) =>
     s.items.find((item) => item.product_id === productId) ?? null,
@@ -40,14 +42,14 @@ export function WishlistButton({ productId, className }: WishlistButtonProps) {
     setIsLoading(true);
     try {
       await addToWishlist(productId);
-      toast.success("Added to wishlist");
+      toast.success(t("Added to wishlist"));
       refreshWishlist();
     } catch {
-      toast.error("Failed to update wishlist");
+      toast.error(t("Failed to update wishlist"));
     } finally {
       setIsLoading(false);
     }
-  }, [productId, refreshWishlist]);
+  }, [productId, refreshWishlist, t]);
 
   const handleRemove = useCallback(async () => {
     if (!wishlistItem) return;
@@ -55,14 +57,14 @@ export function WishlistButton({ productId, className }: WishlistButtonProps) {
     setConfirmOpen(false);
     try {
       await removeFromWishlist(wishlistItem.id);
-      toast.success("Removed from wishlist");
+      toast.success(t("Removed from wishlist"));
       refreshWishlist();
     } catch {
-      toast.error("Failed to update wishlist");
+      toast.error(t("Failed to update wishlist"));
     } finally {
       setIsLoading(false);
     }
-  }, [wishlistItem, refreshWishlist]);
+  }, [wishlistItem, refreshWishlist, t]);
 
   const handleClick = useCallback(() => {
     if (!isAuthenticated) {
@@ -92,7 +94,7 @@ export function WishlistButton({ productId, className }: WishlistButtonProps) {
         size="icon"
         disabled={isLoading}
         onClick={handleClick}
-        aria-label={wishlistItem ? "Remove from wishlist" : "Add to wishlist"}
+        aria-label={wishlistItem ? t("Remove from wishlist") : t("Add to wishlist")}
         aria-pressed={!!wishlistItem}
         className={className}
       >
@@ -106,15 +108,15 @@ export function WishlistButton({ productId, className }: WishlistButtonProps) {
       <AlertDialog open={confirmOpen} onOpenChange={setConfirmOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Remove from wishlist?</AlertDialogTitle>
+            <AlertDialogTitle>{t("Remove from wishlist?")}</AlertDialogTitle>
             <AlertDialogDescription>
-              This item will be removed from your wishlist.
+              {t("This item will be removed from your wishlist.")}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>{t("Cancel")}</AlertDialogCancel>
             <AlertDialogAction onClick={handleRemove} disabled={isLoading}>
-              Remove
+              {t("Remove")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

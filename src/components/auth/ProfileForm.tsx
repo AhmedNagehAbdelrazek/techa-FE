@@ -12,6 +12,7 @@ import { FormField } from "@/components/forms/FormField";
 import { getMe, updateMe } from "@/lib/api/auth";
 import { uploadFile } from "@/lib/api/payments";
 import { useAuthStore } from "@/lib/stores/auth.store";
+import { useTranslation } from "@/lib/i18n/client";
 import { cn } from "@/lib/utils";
 
 const profileSchema = z.object({
@@ -27,6 +28,7 @@ type ProfileFormData = z.infer<typeof profileSchema>;
 export function ProfileForm() {
   const storeUser = useAuthStore((state) => state.user);
   const setUser = useAuthStore((state) => state.setUser);
+  const { t } = useTranslation();
   const [isLoadingProfile, setIsLoadingProfile] = useState(!storeUser);
   const [isSaving, setIsSaving] = useState(false);
   const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
@@ -65,14 +67,14 @@ export function ProfileForm() {
         });
         setAvatarPreview(user.avatarUrl);
       } catch {
-        toast.error("Failed to load profile. Please try again.");
+        toast.error(t("Failed to load profile. Please try again."));
       } finally {
         setIsLoadingProfile(false);
       }
     }
 
     fetchProfile();
-  }, [storeUser, setUser, reset]);
+  }, [storeUser, setUser, reset, t]);
 
   async function handleAvatarChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -80,13 +82,13 @@ export function ProfileForm() {
 
     const maxSize = 20 * 1024 * 1024;
     if (file.size > maxSize) {
-      toast.error("File size must be less than 20MB");
+      toast.error(t("File size must be less than 20MB"));
       return;
     }
 
     const allowedTypes = ["image/jpeg", "image/png", "image/webp", "image/gif"];
     if (!allowedTypes.includes(file.type)) {
-      toast.error("Only JPEG, PNG, WebP, and GIF files are accepted");
+      toast.error(t("Only JPEG, PNG, WebP, and GIF files are accepted"));
       return;
     }
 
@@ -98,10 +100,10 @@ export function ProfileForm() {
 
       const response = await updateMe({ avatar_url: url });
       setUser(response.user);
-      toast.success("Avatar updated successfully!");
+      toast.success(t("Avatar updated successfully!"));
     } catch {
       setAvatarPreview(storeUser?.avatarUrl ?? null);
-      toast.error("Failed to upload avatar. Please try again.");
+      toast.error(t("Failed to upload avatar. Please try again."));
     } finally {
       setIsUploadingAvatar(false);
       if (fileInputRef.current) {
@@ -119,9 +121,9 @@ export function ProfileForm() {
         phone: data.phone,
       });
       setUser(response.user);
-      toast.success("Profile updated successfully!");
+      toast.success(t("Profile updated successfully!"));
     } catch {
-      toast.error("Failed to update profile. Please try again.");
+      toast.error(t("Failed to update profile. Please try again."));
     } finally {
       setIsSaving(false);
     }
@@ -130,7 +132,7 @@ export function ProfileForm() {
   if (isLoadingProfile) {
     return (
       <div role="status" className="py-8 text-center text-sm text-muted-foreground">
-        Loading profile...
+        {t("Loading profile...")}
       </div>
     );
   }
@@ -148,7 +150,7 @@ export function ProfileForm() {
             {avatarPreview ? (
               <img
                 src={avatarPreview}
-                alt="Your avatar"
+                alt={t("Your avatar")}
                 className="size-full object-cover"
               />
             ) : (
@@ -160,7 +162,7 @@ export function ProfileForm() {
             onClick={() => fileInputRef.current?.click()}
             disabled={isUploadingAvatar}
             className="absolute bottom-0 right-0 size-7 rounded-full bg-primary text-primary-foreground flex items-center justify-center hover:bg-primary/90 transition-colors disabled:opacity-50"
-            aria-label="Upload avatar"
+            aria-label={t("Upload avatar")}
           >
             {isUploadingAvatar ? (
               <Loader2 className="size-4 animate-spin" />
@@ -174,40 +176,40 @@ export function ProfileForm() {
             accept="image/jpeg,image/png,image/webp,image/gif"
             className="hidden"
             onChange={handleAvatarChange}
-            aria-label="Choose avatar file"
+            aria-label={t("Choose avatar file")}
           />
         </div>
       </div>
 
-      <FormField label="Full Name" error={errors.full_name?.message} required>
+      <FormField label={t("Full Name")} error={errors.full_name?.message} required>
         <Input
           {...register("full_name")}
-          placeholder="Ahmed Ali"
-          aria-label="Full Name"
+          placeholder={t("Ahmed Ali")}
+          aria-label={t("Full Name")}
           error={!!errors.full_name}
         />
       </FormField>
 
-      <FormField label="Email" required>
+      <FormField label={t("Email")} required>
         <Input
           value={storeUser?.email || ""}
           disabled
-          aria-label="Email"
+          aria-label={t("Email")}
         />
       </FormField>
 
-      <FormField label="Phone" error={errors.phone?.message} required>
+      <FormField label={t("Phone")} error={errors.phone?.message} required>
         <Input
           {...register("phone")}
           type="tel"
           placeholder="+966501234567"
-          aria-label="Phone"
+          aria-label={t("Phone")}
           error={!!errors.phone}
         />
       </FormField>
 
       <Button type="submit" disabled={isSaving} className="w-full">
-        {isSaving ? "Saving..." : "Save Changes"}
+        {isSaving ? t("Saving...") : t("Save Changes")}
       </Button>
     </form>
   );
