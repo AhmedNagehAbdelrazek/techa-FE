@@ -2,6 +2,7 @@
 
 import { useCallback, useMemo } from "react";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/lib/i18n/client";
 import type { ProductVariant } from "@/lib/types/product";
 
 interface VariantSelectorProps {
@@ -15,6 +16,7 @@ function isColorValue(value: string): boolean {
 }
 
 export function VariantSelector({ variants, selectedOptions, onSelectionChange }: VariantSelectorProps) {
+  const { t } = useTranslation();
   const activeVariants = useMemo(() => variants.filter((v) => v.is_active), [variants]);
   const optionGroups = useMemo(() => {
     const groups = new Map<string, Set<string>>();
@@ -84,7 +86,7 @@ export function VariantSelector({ variants, selectedOptions, onSelectionChange }
   if (optionGroups.size === 0) return null;
 
   return (
-    <div className="space-y-4" role="group" aria-label="Product variants">
+    <div className="space-y-4" role="group" aria-label={t("Product variants")}>
       {Array.from(optionGroups.entries()).map(([groupName, values]) => {
         const isColorGroup = Array.from(values).every(isColorValue);
         return (
@@ -102,7 +104,7 @@ export function VariantSelector({ variants, selectedOptions, onSelectionChange }
                       key={value}
                       type="button"
                       disabled={!available || outOfStock}
-                      aria-label={`${groupName}: ${value}${outOfStock ? " (out of stock)" : ""}`}
+                      aria-label={outOfStock ? t("{{groupName}}: {{value}} (out of stock)", { groupName, value }) : t("{{groupName}}: {{value}}", { groupName, value })}
                       aria-pressed={selected}
                       className={cn(
                         "h-8 w-8 rounded-full border-2 transition-all",
@@ -120,7 +122,7 @@ export function VariantSelector({ variants, selectedOptions, onSelectionChange }
                     key={value}
                     type="button"
                     disabled={!available || outOfStock}
-                    aria-label={`${groupName}: ${value}${outOfStock ? " (out of stock)" : ""}`}
+                    aria-label={outOfStock ? t("{{groupName}}: {{value}} (out of stock)", { groupName, value }) : t("{{groupName}}: {{value}}", { groupName, value })}
                     aria-pressed={selected}
                     className={cn(
                       "rounded-md border px-3 py-1.5 text-sm transition-all",
@@ -141,8 +143,8 @@ export function VariantSelector({ variants, selectedOptions, onSelectionChange }
       })}
       <div aria-live="polite" className="sr-only">
         {matchingVariant
-          ? `Selected variant: ${matchingVariant.options.map((o) => `${o.option_name}: ${o.option_value}`).join(", ")}`
-          : "No variant fully selected"}
+          ? `${t("Selected variant:")} ${matchingVariant.options.map((o) => `${o.option_name}: ${o.option_value}`).join(", ")}`
+          : t("No variant fully selected")}
       </div>
     </div>
   );

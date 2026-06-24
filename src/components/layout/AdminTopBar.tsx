@@ -1,7 +1,8 @@
 "use client";
 
-import { User, LogOut } from "lucide-react";
+import { User, LogOut, Moon, Sun } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useAdminStore } from "@/lib/stores/admin.store";
@@ -9,6 +10,7 @@ import { useAdminStore } from "@/lib/stores/admin.store";
 export function AdminTopBar() {
   const router = useRouter();
   const { admin, logout } = useAdminStore();
+  const { theme, setTheme } = useTheme();
 
   function handleLogout() {
     logout();
@@ -34,6 +36,14 @@ export function AdminTopBar() {
             </Avatar>
           </>
         )}
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+          aria-label="Toggle dark mode"
+        >
+          {theme === "dark" ? <Sun className="size-4" /> : <Moon className="size-4" />}
+        </Button>
         <Button
           variant="ghost"
           size="icon"

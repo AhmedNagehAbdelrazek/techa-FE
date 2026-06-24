@@ -9,18 +9,19 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/layout/Logo";
 import { useAuthStore } from "@/lib/stores/auth.store";
-
-const navLinks = [
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
-  { label: "FAQs", href: "/faqs" },
-  { label: "Privacy Policy", href: "/privacy" },
-  { label: "Terms", href: "/terms" },
-];
+import { useTranslation } from "@/lib/i18n/client";
 
 export function MobileNav() {
+  const { t } = useTranslation();
   const router = useRouter();
   const { user, isAuthenticated } = useAuthStore();
+  const navLinks = [
+    { label: t("About"), href: "/about" },
+    { label: t("Contact"), href: "/contact" },
+    { label: t("FAQs"), href: "/faqs" },
+    { label: t("Privacy Policy"), href: "/privacy" },
+    { label: t("Terms"), href: "/terms" },
+  ];
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearch = (e: React.FormEvent) => {
@@ -52,7 +53,7 @@ export function MobileNav() {
             <div className="relative">
               <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
               <Input
-                placeholder="Search products..."
+                placeholder={t("Search products...")}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-9"
@@ -86,33 +87,33 @@ export function MobileNav() {
                     href="/account"
                     className="block rounded-md px-3 py-2 text-sm font-medium hover:bg-accent transition-colors"
                   >
-                    My Account
+                    {t("My Account")}
                   </Link>
                 </SheetClose>
                 <SheetClose asChild>
                   <Link
-                    href="/account/orders"
+                    href="/orders"
                     className="block rounded-md px-3 py-2 text-sm font-medium hover:bg-accent transition-colors"
                   >
-                    My Orders
+                    {t("My Orders")}
                   </Link>
                 </SheetClose>
                 <SheetClose asChild>
-                  <Link
-                    href="/logout"
-                    className="block rounded-md px-3 py-2 text-sm font-medium text-destructive hover:bg-accent transition-colors"
+                  <button
+                    onClick={() => { useAuthStore.getState().logout(); router.push("/"); }}
+                    className="block w-full rounded-md px-3 py-2 text-sm font-medium text-destructive hover:bg-accent transition-colors text-left"
                   >
-                    Logout
-                  </Link>
+                    {t("Logout")}
+                  </button>
                 </SheetClose>
               </div>
             ) : (
               <div className="flex flex-col gap-2">
                 <Button asChild variant="outline" className="w-full">
-                  <Link href="/login">Login</Link>
+                  <Link href="/login">{t("Login")}</Link>
                 </Button>
                 <Button asChild className="w-full">
-                  <Link href="/register">Register</Link>
+                  <Link href="/register">{t("Register")}</Link>
                 </Button>
               </div>
             )}

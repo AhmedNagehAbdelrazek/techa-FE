@@ -3,16 +3,18 @@
 import { useSearchParams, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { User, MapPin } from "lucide-react";
-
-const TABS = [
-  { value: "profile", label: "Profile", icon: User },
-  { value: "addresses", label: "Addresses", icon: MapPin },
-] as const;
+import { useTranslation } from "@/lib/i18n/client";
 
 export function AccountTabs() {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const { t } = useTranslation();
   const activeTab = searchParams.get("tab") || "profile";
+
+  const TABS = [
+    { value: "profile", label: t("Profile"), icon: User },
+    { value: "addresses", label: t("Addresses"), icon: MapPin },
+  ] as const;
 
   function handleTabChange(value: string) {
     router.replace(`/account?tab=${value}`, { scroll: false });

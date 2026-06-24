@@ -10,6 +10,7 @@ import { EmptyState } from "@/components/ui/EmptyState";
 import { ErrorState } from "@/components/ui/ErrorState";
 import Link from "next/link";
 import { WishlistCard, WishlistCardSkeleton } from "./WishlistCard";
+import { useTranslation } from "@/lib/i18n/client";
 import type { WishlistItemWithProduct } from "@/lib/types/wishlist";
 
 export function WishlistPageClient() {
@@ -20,6 +21,7 @@ export function WishlistPageClient() {
   const [addingIds, setAddingIds] = useState<Set<string>>(new Set());
   const fetchWishlist = useWishlistStore((s) => s.fetchWishlist);
   const fetchCart = useCartStore((s) => s.fetchCart);
+  const { t } = useTranslation();
 
   const loadWishlist = useCallback(async () => {
     setIsLoading(true);
@@ -28,7 +30,7 @@ export function WishlistPageClient() {
       const data = await getWishlistDetail();
       setItems(data);
     } catch {
-      setError("Failed to load wishlist");
+      setError(t("Failed to load wishlist"));
     } finally {
       setIsLoading(false);
     }
@@ -45,11 +47,11 @@ export function WishlistPageClient() {
       setItems((prev) => prev.filter((item) => item.id !== wishlistId));
       try {
         await removeFromWishlist(wishlistId);
-        toast.success("Removed from wishlist");
+        toast.success(t("Removed from wishlist"));
         fetchWishlist();
       } catch {
         setItems(previousItems);
-        toast.error("Failed to remove from wishlist");
+        toast.error(t("Failed to remove from wishlist"));
       } finally {
         setRemovingIds((prev) => {
           const next = new Set(prev);
@@ -72,11 +74,11 @@ export function WishlistPageClient() {
           variant_id: item.variant_id!,
           qty: 1,
         });
-        toast.success("Added to cart");
+        toast.success(t("Added to cart"));
         fetchCart();
         fetchWishlist();
       } catch {
-        toast.error("Failed to add to cart");
+        toast.error(t("Failed to add to cart"));
       } finally {
         setAddingIds((prev) => {
           const next = new Set(prev);
@@ -99,20 +101,20 @@ export function WishlistPageClient() {
   }
 
   if (error) {
-    return <ErrorState title="Unable to load wishlist" message={error} onRetry={loadWishlist} />;
+    return <ErrorState title={t("Unable to load wishlist")} message={error} onRetry={loadWishlist} />;
   }
 
   if (items.length === 0) {
     return (
       <EmptyState
-        title="Your wishlist is empty"
-        description="Save items you love by tapping the heart icon on any product."
+        title={t("Your wishlist is empty")}
+        description={t("Save items you love by tapping the heart icon on any product.")}
         action={
           <Link
             href="/"
             className="inline-flex items-center justify-center rounded-md bg-primary px-6 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
           >
-            Start Shopping
+            {t("Start Shopping")}
           </Link>
         }
       />

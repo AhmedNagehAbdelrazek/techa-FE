@@ -10,6 +10,7 @@ import { Button } from "@/components/forms/Button";
 import { Input } from "@/components/forms/Input";
 import { FormField } from "@/components/forms/FormField";
 import { resetPassword } from "@/lib/api/auth";
+import { useTranslation } from "@/lib/i18n/client";
 
 const resetSchema = z
   .object({
@@ -32,6 +33,7 @@ export function ResetPasswordForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const prefilledEmail = searchParams.get("email") || "";
+  const { t } = useTranslation();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
@@ -53,7 +55,7 @@ export function ResetPasswordForm() {
         code: data.code,
         new_password: data.new_password,
       });
-      toast.success("Password reset successfully! Please log in with your new password.");
+      toast.success(t("Password reset successfully! Please log in with your new password."));
       router.push("/login");
     } catch (error: unknown) {
       const apiError = error as {
@@ -61,7 +63,7 @@ export function ResetPasswordForm() {
       };
       const message = apiError.response?.data?.message;
       setError("code", {
-        message: message || "Invalid or expired code. Please try again.",
+        message: message || t("Invalid or expired code. Please try again."),
       });
     } finally {
       setIsSubmitting(false);
@@ -70,56 +72,56 @@ export function ResetPasswordForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      <FormField label="Email" error={errors.email?.message} required>
+      <FormField label={t("Email")} error={errors.email?.message} required>
         <Input
           {...register("email")}
           type="email"
-          placeholder="ahmed@example.com"
-          aria-label="Email"
+          placeholder={t("ahmed@example.com")}
+          aria-label={t("Email")}
           error={!!errors.email}
         />
       </FormField>
 
-      <FormField label="Reset Code" error={errors.code?.message} required>
+      <FormField label={t("Reset Code")} error={errors.code?.message} required>
         <Input
           {...register("code")}
-          placeholder="654321"
+          placeholder={t("654321")}
           maxLength={6}
-          aria-label="6-digit reset code"
+          aria-label={t("6-digit reset code")}
           error={!!errors.code}
         />
       </FormField>
 
       <FormField
-        label="New Password"
+        label={t("New Password")}
         error={errors.new_password?.message}
         required
       >
         <Input
           {...register("new_password")}
           type="password"
-          placeholder="Min. 8 characters"
-          aria-label="New Password"
+          placeholder={t("Min. 8 characters")}
+          aria-label={t("New Password")}
           error={!!errors.new_password}
         />
       </FormField>
 
       <FormField
-        label="Confirm New Password"
+        label={t("Confirm New Password")}
         error={errors.confirm_password?.message}
         required
       >
         <Input
           {...register("confirm_password")}
           type="password"
-          placeholder="Re-enter your new password"
-          aria-label="Confirm New Password"
+          placeholder={t("Re-enter your new password")}
+          aria-label={t("Confirm New Password")}
           error={!!errors.confirm_password}
         />
       </FormField>
 
       <Button type="submit" disabled={isSubmitting} className="w-full">
-        {isSubmitting ? "Resetting password..." : "Reset Password"}
+        {isSubmitting ? t("Resetting password...") : t("Reset Password")}
       </Button>
     </form>
   );

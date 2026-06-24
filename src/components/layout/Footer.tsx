@@ -2,17 +2,18 @@
 
 import Link from "next/link";
 import { useSettingsStore } from "@/lib/stores/settings.store";
-
-const footerLinks = [
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
-  { label: "FAQs", href: "/faqs" },
-  { label: "Privacy Policy", href: "/privacy" },
-  { label: "Terms", href: "/terms" },
-];
+import { useTranslation } from "@/lib/i18n/client";
 
 export function Footer() {
+  const { t } = useTranslation();
   const { siteName, socialLinks } = useSettingsStore();
+  const footerLinks = [
+    { label: t("About"), href: "/about" },
+    { label: t("Contact"), href: "/contact" },
+    { label: t("FAQs"), href: "/faqs" },
+    { label: t("Privacy Policy"), href: "/privacy" },
+    { label: t("Terms"), href: "/terms" },
+  ];
 
   return (
     <footer className="border-t bg-background">
@@ -20,13 +21,13 @@ export function Footer() {
         <div className="grid gap-8 sm:grid-cols-3">
           <div>
             <h3 className="text-lg font-semibold">{siteName}</h3>
-            <p className="mt-2 text-sm text-muted-foreground">
-              Your Trusted Online Store
-            </p>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Your Trusted Online Store
+              </p>
           </div>
 
           <div>
-            <h4 className="text-sm font-semibold mb-3">Links</h4>
+            <h4 className="text-sm font-semibold mb-3">{t("Links")}</h4>
             <ul className="space-y-2">
               {footerLinks.map((link) => (
                 <li key={link.href}>
@@ -42,7 +43,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="text-sm font-semibold mb-3">Follow Us</h4>
+            <h4 className="text-sm font-semibold mb-3">{t("Follow Us")}</h4>
             {Object.keys(socialLinks).length > 0 ? (
               <div className="flex gap-3">
                 {Object.entries(socialLinks).map(([platform, url]) => (
@@ -58,7 +59,7 @@ export function Footer() {
                 ))}
               </div>
             ) : (
-              <p className="text-sm text-muted-foreground">Coming soon</p>
+              <p className="text-sm text-muted-foreground">{t("Coming soon")}</p>
             )}
           </div>
         </div>

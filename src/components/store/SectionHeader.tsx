@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/lib/i18n/client";
 
 interface SectionHeaderProps {
   title: string;
@@ -8,6 +11,7 @@ interface SectionHeaderProps {
 }
 
 export function SectionHeader({ title, href, className }: SectionHeaderProps) {
+  const { t } = useTranslation();
   return (
     <div
       className={cn(
@@ -21,7 +25,7 @@ export function SectionHeader({ title, href, className }: SectionHeaderProps) {
           href={href}
           className="text-sm font-medium text-primary hover:underline"
         >
-          View All
+          {t("View All")}
         </Link>
       )}
     </div>

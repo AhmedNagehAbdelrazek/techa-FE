@@ -3,10 +3,13 @@
 import { useState, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Search, ShoppingCart, Heart, User, LogOut, Package, Settings } from "lucide-react";
+import { Search, ShoppingCart, Heart, User, LogOut, Package, Settings, Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
 import { NotificationBell } from "@/components/store/NotificationBell";
 import { Logo } from "@/components/layout/Logo";
 import { MobileNav } from "@/components/layout/MobileNav";
+import { LocaleSwitcher } from "@/components/layout/LocaleSwitcher";
+import { useTranslation } from "@/lib/i18n/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -31,6 +34,8 @@ export function Header() {
   const itemCount = useCartStore((s) => s.itemCount);
   const wishlistCount = useWishlistStore((s) => s.itemCount);
   const [searchQuery, setSearchQuery] = useState("");
+  const { theme, setTheme } = useTheme();
+  const { t } = useTranslation();
 
   const handleLogout = useCallback(async () => {
     try {
@@ -60,6 +65,16 @@ export function Header() {
           
 
           <div className="mr-auto flex items-center flex-row-reverse gap-2 md:mr-0">
+            <LocaleSwitcher />
+
+            <button
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              className="hover:bg-accent rounded-md p-2"
+              aria-label="Toggle dark mode"
+            >
+              {theme === "dark" ? <Sun className="size-5" /> : <Moon className="size-5" />}
+            </button>
+
             <Link
               href="/wishlist"
               className="hover:bg-accent relative rounded-md p-2"
@@ -112,13 +127,13 @@ export function Header() {
                     <DropdownMenuItem asChild>
                       <Link href="/orders" className="flex cursor-pointer items-center gap-2">
                         <Package className="size-4" />
-                        My Orders
+                        {t("My Orders")}
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
                       <Link href="/account" className="flex cursor-pointer items-center gap-2">
                         <Settings className="size-4" />
-                        My Account
+                        {t("My Account")}
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
@@ -127,7 +142,7 @@ export function Header() {
                       className="text-destructive flex cursor-pointer items-center gap-2"
                     >
                       <LogOut className="size-4" />
-                      Logout
+                      {t("Logout")}
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -135,10 +150,10 @@ export function Header() {
             ) : (
               <div className="flex items-center gap-2">
                 <Button variant="ghost" size="sm" asChild>
-                  <Link href="/login">Login</Link>
+                  <Link href="/login">{t("Login")}</Link>
                 </Button>
                 <Button size="sm" asChild>
-                  <Link href="/register">Register</Link>
+                  <Link href="/register">{t("Register")}</Link>
                 </Button>
               </div>
             )}
@@ -147,7 +162,7 @@ export function Header() {
             <div className="relative w-full">
               <Search className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2" />
               <Input
-                placeholder="Search products..."
+                placeholder={t("Search products...")}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-9"

@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { Star } from "lucide-react";
 import { cn, formatPrice } from "@/lib/utils";
+import { useTranslation } from "@/lib/i18n/client";
 import type { BrandBrief } from "@/lib/types/product";
 
 interface ProductInfoProps {
@@ -46,30 +46,28 @@ export function ProductInfo({
   currentPrice,
   aboutPoints,
 }: ProductInfoProps) {
+  const { t } = useTranslation();
   const hasDiscount = discountPercent > 0;
 
   return (
     <div className="space-y-4">
       {brand && (
-        <Link
-          href={`/brands/${brand.slug}`}
-          className="text-sm text-muted-foreground hover:text-primary hover:underline"
-        >
+        <span className="text-sm text-muted-foreground">
           {brand.name}
-        </Link>
+        </span>
       )}
       <h1 className="text-2xl font-bold leading-tight md:text-3xl">{name}</h1>
       <div className="flex items-center gap-2">
         <RatingStars average={ratingAvg} />
         {ratingCount > 0 && (
           <span className="text-sm text-muted-foreground">
-            {ratingAvg.toFixed(1)} ({ratingCount} reviews)
+            {ratingAvg.toFixed(1)} ({ratingCount} {t("reviews")})
           </span>
         )}
       </div>
       <div className="flex items-baseline gap-3">
         {(currentPrice <= 0 || currentPrice == undefined) ? (<>
-          <span className="font-bold underline text-blue-500">Please select an option</span>
+          <span className="font-bold underline text-blue-500">{t("Please select an option")}</span>
         </>) : (
           <>
           <span className="text-2xl font-bold">{formatPrice(currentPrice)}</span>
@@ -89,7 +87,7 @@ export function ProductInfo({
       </div>
       {aboutPoints.length > 0 && (
         <div>
-          <h2 className="mb-2 text-base font-semibold">About this item</h2>
+          <h2 className="mb-2 text-base font-semibold">{t("About this item")}</h2>
           <ul className="list-disc space-y-1 pl-5 text-sm text-muted-foreground">
             {aboutPoints.map((point, i) => (
               <li key={i}>{point}</li>

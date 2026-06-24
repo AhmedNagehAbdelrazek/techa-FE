@@ -5,6 +5,7 @@ import { Loader2, ShoppingCart, Check } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { useCartStore } from "@/lib/stores/cart.store";
+import { useTranslation } from "@/lib/i18n/client";
 
 interface AddToCartButtonProps {
   productId: string;
@@ -18,6 +19,7 @@ export function AddToCartButton({ productId, variantId, quantity, disabled, disa
   const [isLoading, setIsLoading] = useState(false);
   const [added, setAdded] = useState(false);
   const addItem = useCartStore((s) => s.addItem);
+  const { t } = useTranslation();
 
   const handleClick = useCallback(async () => {
     if (disabled || isLoading) return;
@@ -25,7 +27,7 @@ export function AddToCartButton({ productId, variantId, quantity, disabled, disa
     try {
       await addItem({ product_id: productId, variant_id: variantId, qty: quantity });
       setAdded(true);
-      toast.success("Added to cart");
+      toast.success(t("Added to cart"));
       setTimeout(() => setAdded(false), 2000);
     } catch (err: unknown) {
       const msg =
@@ -33,16 +35,16 @@ export function AddToCartButton({ productId, variantId, quantity, disabled, disa
           ? ((err as { response?: { data?: { message?: string } } }).response?.data?.message ?? "")
           : "";
       if (msg.toLowerCase().includes("stock") || msg.toLowerCase().includes("insufficient")) {
-        toast.error("Sorry, this item just went out of stock");
+        toast.error(t("Sorry, this item just went out of stock"));
       } else {
-        toast.error(msg || "Failed to add to cart");
+        toast.error(msg || t("Failed to add to cart"));
       }
     } finally {
       setIsLoading(false);
     }
   }, [disabled, isLoading, productId, variantId, quantity, addItem]);
 
-  const label = disableReason ?? (added ? "Added!" : "Add to Cart");
+  const label = disableReason ?? (added ? t("Added!") : t("Add to Cart"));
 
   return (
     <Button

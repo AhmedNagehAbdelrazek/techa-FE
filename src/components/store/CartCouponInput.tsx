@@ -7,9 +7,11 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { formatPrice } from "@/lib/utils";
 import { useCartStore } from "@/lib/stores/cart.store";
+import { useTranslation } from "@/lib/i18n/client";
 
 export function CartCouponInput() {
   const [code, setCode] = useState("");
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const coupon = useCartStore((s) => s.coupon);
   const applyCoupon = useCartStore((s) => s.applyCoupon);
@@ -22,9 +24,9 @@ export function CartCouponInput() {
     try {
       await applyCoupon(trimmed);
       setCode("");
-      toast.success("Coupon applied!");
+      toast.success(t("Coupon applied!"));
     } catch {
-      toast.error("Invalid or expired coupon code");
+      toast.error(t("Invalid or expired coupon code"));
     } finally {
       setIsLoading(false);
     }
@@ -33,9 +35,9 @@ export function CartCouponInput() {
   const handleRemove = useCallback(async () => {
     try {
       await removeCoupon();
-      toast.success("Coupon removed");
+      toast.success(t("Coupon removed"));
     } catch {
-      toast.error("Failed to remove coupon");
+      toast.error(t("Failed to remove coupon"));
     }
   }, [removeCoupon]);
 
@@ -51,15 +53,15 @@ export function CartCouponInput() {
 
   return (
     <div className="space-y-2">
-      <p className="text-sm font-medium">Coupon Code</p>
+      <p className="text-sm font-medium">{t("Coupon Code")}</p>
       {coupon ? (
         <div className="flex items-center gap-2 rounded-md border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700">
           <Check className="size-4 shrink-0" />
           <span className="flex-1">
             {coupon.code}
             {coupon.discount_type === "percentage"
-              ? ` (${coupon.discount_value}% off)`
-              : ` (${formatPrice(coupon.discount_value)} off)`}
+              ? ` (${coupon.discount_value}% ${t("off")})`
+              : ` (${formatPrice(coupon.discount_value)} ${t("off")})`}
           </span>
           <Button
             type="button"
@@ -67,7 +69,7 @@ export function CartCouponInput() {
             size="icon"
             className="size-6"
             onClick={handleRemove}
-            aria-label="Remove coupon"
+            aria-label={t("Remove coupon")}
           >
             <X className="size-3" />
           </Button>
@@ -78,8 +80,8 @@ export function CartCouponInput() {
             value={code}
             onChange={(e) => setCode(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Enter coupon code"
-            aria-label="Coupon code"
+            placeholder={t("Enter coupon code")}
+            aria-label={t("Coupon code")}
             className="flex-1"
           />
           <Button
@@ -88,7 +90,7 @@ export function CartCouponInput() {
             disabled={!code.trim() || isLoading}
             onClick={handleApply}
           >
-            {isLoading ? <Loader2 className="size-4 animate-spin" /> : "Apply"}
+            {isLoading ? <Loader2 className="size-4 animate-spin" /> : t("Apply")}
           </Button>
         </div>
       )}

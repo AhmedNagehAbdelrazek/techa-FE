@@ -4,6 +4,8 @@ import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import { QueryProvider } from '@/components/providers/QueryProvider';
 import { TooltipProvider } from '@/components/providers/TooltipProvider';
 import { AuthProvider } from '@/components/providers/AuthProvider';
+import { I18nProvider } from '@/lib/i18n/provider';
+import { translations } from '@/lib/i18n/translations';
 import { Toaster } from '@/components/ui/sonner';
 import './globals.css';
 
@@ -42,10 +44,12 @@ export default function RootLayout({
         >
           <QueryProvider>
             <TooltipProvider>
-              <AuthProvider>
-                {children}
-                <Toaster />
-              </AuthProvider>
+              <I18nProvider initialTranslations={translations}>
+                <AuthProvider>
+                  {children}
+                  <Toaster />
+                </AuthProvider>
+              </I18nProvider>
             </TooltipProvider>
           </QueryProvider>
         </ThemeProvider>

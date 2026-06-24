@@ -13,6 +13,7 @@ import { FormField } from "@/components/forms/FormField";
 import { login as loginApi } from "@/lib/api/auth";
 import { useAuthStore } from "@/lib/stores/auth.store";
 import { setToken } from "@/lib/api/token";
+import { useTranslation } from "@/lib/i18n/client";
 import type { ApiError } from "@/lib/types/auth";
 
 const loginSchema = z.object({
@@ -27,6 +28,7 @@ export function LoginForm() {
   const searchParams = useSearchParams();
   const next = searchParams.get("next") || "/account";
   const login = useAuthStore((state) => state.login);
+  const { t } = useTranslation();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
 
@@ -50,7 +52,7 @@ export function LoginForm() {
       });
       setToken(response.token);
       login(response.user);
-      toast.success("Welcome back!");
+      toast.success(t("Welcome back!"));
       router.push(next);
     } catch (error: unknown) {
       const apiError = error as {
@@ -61,16 +63,16 @@ export function LoginForm() {
 
       if (status === 403) {
         setError("email", {
-          message: message || "Please verify your email before logging in",
+          message: message || t("Please verify your email before logging in"),
         });
       } else if (status === 401) {
         setError("password", {
-          message: message || "Invalid email or password",
+          message: message || t("Invalid email or password"),
         });
       } else if (status === 429) {
-        toast.error(message || "Too many attempts. Please try again later.");
+        toast.error(message || t("Too many attempts. Please try again later."));
       } else {
-        toast.error(message || "Something went wrong. Please try again.");
+        toast.error(message || t("Something went wrong. Please try again."));
       }
     } finally {
       setIsSubmitting(false);
@@ -88,22 +90,22 @@ export function LoginForm() {
         </div>
       )}
 
-      <FormField label="Email" error={errors.email?.message} required>
+      <FormField label={t("Email")} error={errors.email?.message} required>
         <Input
           {...register("email")}
           type="email"
-          placeholder="ahmed@example.com"
-          aria-label="Email"
+          placeholder={t("ahmed@example.com")}
+          aria-label={t("Email")}
           error={!!errors.email}
         />
       </FormField>
 
-      <FormField label="Password" error={errors.password?.message} required>
+      <FormField label={t("Password")} error={errors.password?.message} required>
         <Input
           {...register("password")}
           type="password"
-          placeholder="Enter your password"
-          aria-label="Password"
+          placeholder={t("Enter your password")}
+          aria-label={t("Password")}
           error={!!errors.password}
         />
       </FormField>
@@ -113,21 +115,21 @@ export function LoginForm() {
           href="/forgot-password"
           className="text-sm text-primary hover:underline"
         >
-          Forgot password?
+          {t("Forgot password?")}
         </Link>
       </div>
 
       <Button type="submit" disabled={isSubmitting} className="w-full">
-        {isSubmitting ? "Logging in..." : "Log In"}
+        {isSubmitting ? t("Logging in...") : t("Log In")}
       </Button>
 
       <p className="text-center text-sm text-muted-foreground">
-        Don&apos;t have an account?{" "}
+        {t("Don't have an account?")}{" "}
         <Link
           href="/register"
           className="font-medium text-primary hover:underline"
         >
-          Create one
+          {t("Create one")}
         </Link>
       </p>
     </form>

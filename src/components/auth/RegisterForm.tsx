@@ -11,6 +11,7 @@ import { Button } from "@/components/forms/Button";
 import { Input } from "@/components/forms/Input";
 import { FormField } from "@/components/forms/FormField";
 import { register as registerApi } from "@/lib/api/auth";
+import { useTranslation } from "@/lib/i18n/client";
 import type { ApiError } from "@/lib/types/auth";
 
 const registerSchema = z
@@ -33,6 +34,7 @@ type RegisterFormData = z.infer<typeof registerSchema>;
 
 export function RegisterForm() {
   const router = useRouter();
+  const { t } = useTranslation();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
 
@@ -57,7 +59,7 @@ export function RegisterForm() {
         phone: data.phone,
       });
       toast.success(
-        "Account created! Please check your email for a verification code.",
+        t("Account created! Please check your email for a verification code."),
       );
       router.push("/verify-email");
     } catch (error: unknown) {
@@ -69,14 +71,14 @@ export function RegisterForm() {
 
       if (status === 409) {
         setError("email", {
-          message: message || "This email is already registered",
+          message: message || t("This email is already registered"),
         });
       } else if (status === 422) {
-        setServerError(message || "Please check your inputs");
+        setServerError(message || t("Please check your inputs"));
       } else if (status === 429) {
-        toast.error(message || "Too many attempts. Please try again later.");
+        toast.error(message || t("Too many attempts. Please try again later."));
       } else {
-        toast.error(message || "Something went wrong. Please try again.");
+        toast.error(message || t("Something went wrong. Please try again."));
       }
     } finally {
       setIsSubmitting(false);
@@ -94,70 +96,70 @@ export function RegisterForm() {
         </div>
       )}
 
-      <FormField label="Full Name" error={errors.full_name?.message} required>
+      <FormField label={t("Full Name")} error={errors.full_name?.message} required>
         <Input
           {...register("full_name")}
-          placeholder="Ahmed Ali"
-          aria-label="Full Name"
+          placeholder={t("Ahmed Ali")}
+          aria-label={t("Full Name")}
           error={!!errors.full_name}
         />
       </FormField>
 
-      <FormField label="Email" error={errors.email?.message} required>
+      <FormField label={t("Email")} error={errors.email?.message} required>
         <Input
           {...register("email")}
           type="email"
-          placeholder="ahmed@example.com"
-          aria-label="Email"
+          placeholder={t("ahmed@example.com")}
+          aria-label={t("Email")}
           error={!!errors.email}
         />
       </FormField>
 
-      <FormField label="Phone" error={errors.phone?.message} required>
+      <FormField label={t("Phone")} error={errors.phone?.message} required>
         <Input
           {...register("phone")}
           type="tel"
           placeholder="+966501234567"
-          aria-label="Phone"
+          aria-label={t("Phone")}
           error={!!errors.phone}
         />
       </FormField>
 
-      <FormField label="Password" error={errors.password?.message} required>
+      <FormField label={t("Password")} error={errors.password?.message} required>
         <Input
           {...register("password")}
           type="password"
-          placeholder="Min. 8 characters"
-          aria-label="Password"
+          placeholder={t("Min. 8 characters")}
+          aria-label={t("Password")}
           error={!!errors.password}
         />
       </FormField>
 
       <FormField
-        label="Confirm Password"
+        label={t("Confirm Password")}
         error={errors.confirm_password?.message}
         required
       >
         <Input
           {...register("confirm_password")}
           type="password"
-          placeholder="Re-enter your password"
-          aria-label="Confirm Password"
+          placeholder={t("Re-enter your password")}
+          aria-label={t("Confirm Password")}
           error={!!errors.confirm_password}
         />
       </FormField>
 
       <Button type="submit" disabled={isSubmitting} className="w-full">
-        {isSubmitting ? "Creating account..." : "Create Account"}
+        {isSubmitting ? t("Creating account...") : t("Create Account")}
       </Button>
 
       <p className="text-center text-sm text-muted-foreground">
-        Already have an account?{" "}
+        {t("Already have an account?")}{" "}
         <Link
           href="/login"
           className="font-medium text-primary hover:underline"
         >
-          Log in
+          {t("Log in")}
         </Link>
       </p>
     </form>

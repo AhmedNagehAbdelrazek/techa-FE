@@ -13,6 +13,7 @@ import {
   verifyEmail,
   resendVerification,
 } from "@/lib/api/auth";
+import { useTranslation } from "@/lib/i18n/client";
 
 const verifySchema = z.object({
   code: z
@@ -28,6 +29,7 @@ export function VerifyEmailForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const prefilledEmail = searchParams.get("email") || "";
+  const { t } = useTranslation();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [resendCooldown, setResendCooldown] = useState(0);
 
@@ -55,7 +57,7 @@ export function VerifyEmailForm() {
 
     try {
       await verifyEmail({ email: data.email, code: data.code });
-      toast.success("Email verified successfully! You can now log in.");
+      toast.success(t("Email verified successfully! You can now log in."));
       router.push("/login");
     } catch (error: unknown) {
       const apiError = error as {
@@ -63,7 +65,7 @@ export function VerifyEmailForm() {
       };
       const message = apiError.response?.data?.message;
       setError("code", {
-        message: message || "Invalid or expired code. Please try again.",
+        message: message || t("Invalid or expired code. Please try again."),
       });
     } finally {
       setIsSubmitting(false);
@@ -77,41 +79,41 @@ export function VerifyEmailForm() {
     try {
       const email = prefilledEmail;
       if (!email) {
-        toast.error("Email is required to resend the code.");
+        toast.error(t("Email is required to resend the code."));
         return;
       }
       await resendVerification({ email });
-      toast.success("Verification code sent to your email.");
+      toast.success(t("Verification code sent to your email."));
     } catch {
-      toast.error("Failed to resend code. Please try again.");
+      toast.error(t("Failed to resend code. Please try again."));
       setResendCooldown(0);
     }
   }, [prefilledEmail, resendCooldown]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      <FormField label="Email" error={errors.email?.message} required>
+      <FormField label={t("Email")} error={errors.email?.message} required>
         <Input
           {...register("email")}
           type="email"
-          placeholder="ahmed@example.com"
-          aria-label="Email"
+          placeholder={t("ahmed@example.com")}
+          aria-label={t("Email")}
           error={!!errors.email}
         />
       </FormField>
 
-      <FormField label="Verification Code" error={errors.code?.message} required>
+      <FormField label={t("Verification Code")} error={errors.code?.message} required>
         <Input
           {...register("code")}
-          placeholder="123456"
+          placeholder={t("123456")}
           maxLength={6}
-          aria-label="6-digit verification code"
+          aria-label={t("6-digit verification code")}
           error={!!errors.code}
         />
       </FormField>
 
       <Button type="submit" disabled={isSubmitting} className="w-full">
-        {isSubmitting ? "Verifying..." : "Verify Email"}
+        {isSubmitting ? t("Verifying...") : t("Verify Email")}
       </Button>
 
       <div className="text-center">
@@ -122,8 +124,8 @@ export function VerifyEmailForm() {
           className="text-sm text-primary hover:underline disabled:text-muted-foreground disabled:no-underline"
         >
           {resendCooldown > 0
-            ? `Resend code in ${resendCooldown}s`
-            : "Resend code"}
+            ? `${t("Resend code in")} ${resendCooldown}s`
+            : t("Resend code")}
         </button>
       </div>
     </form>

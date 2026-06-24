@@ -6,8 +6,14 @@ import { SUPPORTED_LOCALES } from "./types";
 export function useTranslation() {
   const { locale, translations, setLocale } = useI18nStore();
 
-  const t = (key: string): string => {
-    return translations[locale]?.[key] ?? key;
+  const t = (key: string, params?: Record<string, string | number>): string => {
+    let value = translations[locale]?.[key] ?? key;
+    if (params) {
+      for (const [k, v] of Object.entries(params)) {
+        value = value.replace(`{{${k}}}`, String(v));
+      }
+    }
+    return value;
   };
 
   const changeLocale = (newLocale: string) => {

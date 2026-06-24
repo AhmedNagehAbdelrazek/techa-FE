@@ -5,6 +5,7 @@ import { Trash2, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { formatPrice } from "@/lib/utils";
+import { useTranslation } from "@/lib/i18n/client";
 import type { CartItem } from "@/lib/types/cart";
 
 interface CartItemRowProps {
@@ -14,6 +15,7 @@ interface CartItemRowProps {
 }
 
 export function CartItemRow({ item, onUpdateQty, onRemove }: CartItemRowProps) {
+  const { t } = useTranslation();
   return (
     <div className="flex gap-4 border-b py-4 last:border-b-0">
       <div className="relative size-20 shrink-0 overflow-hidden rounded-md bg-muted">
@@ -27,7 +29,7 @@ export function CartItemRow({ item, onUpdateQty, onRemove }: CartItemRowProps) {
           />
         ) : (
           <div className="flex size-full items-center justify-center text-muted-foreground text-xs">
-            No image
+            {t("No image")}
           </div>
         )}
       </div>
@@ -42,7 +44,7 @@ export function CartItemRow({ item, onUpdateQty, onRemove }: CartItemRowProps) {
             {item.price_changed && (
               <Badge variant="outline" className="mt-1 gap-1 border-amber-300 bg-amber-50 text-amber-700 text-[10px]">
                 <AlertTriangle className="size-3" />
-                Price changed
+                {t("Price changed")}
               </Badge>
             )}
           </div>
@@ -60,7 +62,7 @@ export function CartItemRow({ item, onUpdateQty, onRemove }: CartItemRowProps) {
               className="size-7"
               disabled={item.qty <= 1}
               onClick={() => onUpdateQty(item.id, item.qty - 1)}
-              aria-label="Decrease quantity"
+              aria-label={t("Decrease quantity")}
             >
               -
             </Button>
@@ -71,7 +73,7 @@ export function CartItemRow({ item, onUpdateQty, onRemove }: CartItemRowProps) {
               size="icon"
               className="size-7"
               onClick={() => onUpdateQty(item.id, item.qty + 1)}
-              aria-label="Increase quantity"
+              aria-label={t("Increase quantity")}
             >
               +
             </Button>
@@ -79,7 +81,7 @@ export function CartItemRow({ item, onUpdateQty, onRemove }: CartItemRowProps) {
 
           <div className="flex items-center gap-2">
             <p className="text-xs text-muted-foreground">
-              {formatPrice(item.unit_price)} each
+              {formatPrice(item.unit_price)} {t("each")}
             </p>
             <Button
               type="button"
@@ -87,7 +89,7 @@ export function CartItemRow({ item, onUpdateQty, onRemove }: CartItemRowProps) {
               size="icon"
               className="size-7 text-destructive hover:text-destructive"
               onClick={() => onRemove(item.id)}
-              aria-label="Remove item"
+              aria-label={t("Remove item")}
             >
               <Trash2 className="size-4" />
             </Button>
