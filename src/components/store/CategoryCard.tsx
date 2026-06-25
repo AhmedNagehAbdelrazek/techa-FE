@@ -2,7 +2,6 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Monitor, Shirt, Home, Gamepad2, Dumbbell, Refrigerator } from "lucide-react";
-import type { Category } from "@/lib/types/category";
 
 interface CategoryCardProps {
   category: {

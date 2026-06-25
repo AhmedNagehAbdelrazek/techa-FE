@@ -3,26 +3,24 @@ import { CategoryCard } from "@/components/store/CategoryCard";
 import { ErrorState } from "@/components/ui/ErrorState";
 import { EmptyState } from "@/components/ui/EmptyState";
 import type { Metadata } from "next";
-import type { Category } from "@/lib/types/category";
-import { useCallback } from "react";
 
 export const metadata: Metadata = {
   title: "التصنيفات — TechA",
 };
 
+type TreeNode = { id: string; name: string; children: TreeNode[] };
+
+function flattenTree(node: TreeNode[], depth: number): { id: string; name: string; depth: number }[] {
+  const out: { id: string; name: string; depth: number }[] = [];
+  for (const cat of node) {
+    out.push({ id: cat.id, name: cat.name, depth });
+    if (cat.children.length) out.push(...flattenTree(cat.children, depth + 1));
+  }
+  return out;
+}
+
 export default async function CategoriesPage() {
   let categories;
-  const flattenTree = useCallback(function flatten(
-    node: Category[],
-    depth: number,
-  ): { id: string; name: string; depth: number }[] {
-    const out: { id: string; name: string; depth: number }[] = [];
-    for (const cat of node) {
-      out.push({ id: cat.id, name: cat.name, depth });
-      if (cat.children.length) out.push(...flatten(cat.children, depth + 1));
-    }
-    return out;
-  }, []);
 
   try {
     categories = await getCategoryTree();

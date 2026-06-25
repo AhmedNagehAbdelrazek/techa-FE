@@ -34,7 +34,11 @@ export function I18nProvider({
   }, [pathname, setLocale, locale]);
 
   useEffect(() => {
-    document.documentElement.lang = locale;
+    const target = SUPPORTED_LOCALES.find((l) => l.code === locale);
+    if (target) {
+      document.documentElement.lang = target.code;
+      document.documentElement.dir = target.direction;
+    }
   }, [locale]);
 
   return <>{children}</>;
