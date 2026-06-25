@@ -143,7 +143,7 @@ export function BannerFormDialog({ open, onOpenChange, initialData }: BannerForm
           <div className="grid grid-cols-2 gap-4">
             <div>
               <Label htmlFor="position">{t("Position *")}</Label>
-              <Select onValueChange={(v) => form.setValue("position", v as "hero" | "promo" | "sidebar" | "bottom " | "mid_page")} defaultValue={form.watch("position")}>
+              <Select onValueChange={(v) => form.setValue("position", v as "hero" | "promo" | "sidebar" | "bottom" | "mid_page")} defaultValue={form.watch("position")}>
                 <SelectTrigger><SelectValue placeholder={t("Select position")} /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="hero">{t("Hero")}</SelectItem>

@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <div className="container mx-auto max-w-3xl px-4 py-12">
-      <h1 className="mb-6 text-3xl font-bold">عن TechA</h1>
+      <h1 className="font-display mb-6 text-3xl font-bold tracking-wider">عن TechA</h1>
       <div className="space-y-4 text-muted-foreground">
         <p>
           TechA هو متجر إلكتروني متخصص في تقديم أحدث المنتجات التقنية بأفضل الأسعار.

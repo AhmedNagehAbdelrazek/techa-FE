@@ -15,17 +15,20 @@ export function SectionHeader({ title, href, className }: SectionHeaderProps) {
   return (
     <div
       className={cn(
-        "mb-6 flex items-center justify-between border-b border-border pb-3",
+        "mb-8 flex items-center justify-between",
         className,
       )}
     >
-      <h2 className="text-xl font-bold tracking-tight sm:text-2xl">{title}</h2>
+      <div className="flex items-center gap-3">
+        <span className="bg-primary/80 dark:bg-primary size-1 rounded-full" />
+        <h2 className="font-display text-lg font-bold tracking-wider sm:text-xl">{title}</h2>
+      </div>
       {href && (
         <Link
           href={href}
-          className="text-sm font-medium text-primary hover:underline"
+          className="text-sm font-medium text-primary hover:text-primary/80 transition-colors"
         >
-          {t("View All")}
+          {t("View All")} →
         </Link>
       )}
     </div>

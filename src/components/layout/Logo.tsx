@@ -21,7 +21,7 @@ export function Logo({ src, alt = "Techa", className }: LogoProps) {
           priority
         />
       ) : (
-        <span className="text-xl font-bold tracking-tight">{alt}</span>
+        <span className="font-display text-xl font-bold tracking-wider">{alt}</span>
       )}
     </Link>
   );

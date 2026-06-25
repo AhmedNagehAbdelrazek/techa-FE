@@ -48,7 +48,7 @@ export function ProductCard({ product }: ProductCardProps) {
     : product.price;
 
   return (
-    <div className="group bg-card relative isolate flex flex-col overflow-hidden rounded-lg border">
+    <div className="group bg-card relative isolate flex flex-col overflow-hidden rounded-lg border transition-shadow duration-300 dark:hover:shadow-[0_0_24px_-8px_hsl(183_100%_50%_/_0.25)] hover:shadow-md">
       <div className="relative aspect-square overflow-hidden">
         {product.primary_image ? (
           <Image
@@ -90,7 +90,7 @@ export function ProductCard({ product }: ProductCardProps) {
             <span className="text-muted-foreground text-xs">Out of Stock</span>
           ) : (
             <>
-              <span className="text-base font-bold">{formatPrice(discountedPrice)}</span>
+              <span className="font-display text-base font-bold">{formatPrice(discountedPrice)}</span>
               {hasDiscount && (
                 <span className="text-muted-foreground text-sm line-through">
                   {formatPrice(product.price)}

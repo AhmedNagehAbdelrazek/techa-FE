@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Cairo, Inter } from 'next/font/google';
+import { Cairo, Orbitron } from 'next/font/google';
 import { cookies } from 'next/headers';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import { QueryProvider } from '@/components/providers/QueryProvider';
@@ -16,9 +16,9 @@ const cairo = Cairo({
   display: 'swap',
 });
 
-const inter = Inter({
+const orbitron = Orbitron({
   subsets: ['latin'],
-  variable: '--font-inter',
+  variable: '--font-orbitron',
   display: 'swap',
 });
 
@@ -40,7 +40,7 @@ export default async function RootLayout({
   const dir = locale === "ar" ? "rtl" : "ltr";
 
   return (
-    <html lang={locale} dir={dir} suppressHydrationWarning className={`${cairo.variable} ${inter.variable}`}>
+    <html lang={locale} dir={dir} suppressHydrationWarning className={`${cairo.variable} ${orbitron.variable}`}>
       <body className="font-sans antialiased" suppressHydrationWarning>
         <ThemeProvider
           defaultTheme="light"

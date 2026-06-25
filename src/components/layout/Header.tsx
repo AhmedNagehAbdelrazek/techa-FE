@@ -57,7 +57,7 @@ export function Header() {
   };
 
   return (
-    <header className="bg-background sticky top-0 z-50 w-full border-b">
+    <header className="bg-background/80 dark:bg-background/95 sticky top-0 z-50 w-full border-b backdrop-blur-md shadow-xs dark:shadow-[0_1px_20px_-8px_hsl(183_100%_50%_/_0.15)]">
       <div className="mx-auto flex flex-row justify-between h-16 max-w-7xl items-center gap-4 px-4 sm:px-6 lg:px-8">
        
 
@@ -149,12 +149,12 @@ export function Header() {
               </>
             ) : (
               <div className="flex items-center gap-2">
-                <Button variant="ghost" size="sm" asChild>
-                  <Link href="/login">{t("Login")}</Link>
+                <Button variant="outline" size="sm" asChild className="hidden md:block">
+                  <Link href="/login" className="flex! flex-row justify-center items-center"><span>{t("Login")}</span></Link>
                 </Button>
-                <Button size="sm" asChild>
+                {/* <Button size="sm" asChild>
                   <Link href="/register">{t("Register")}</Link>
-                </Button>
+                </Button> */}
               </div>
             )}
           </div>
@@ -170,7 +170,7 @@ export function Header() {
             </div>
           </form>
         </div>
-         <div>
+         <div className="flex flex-row">
           <MobileNav />
           <Logo />
         </div>

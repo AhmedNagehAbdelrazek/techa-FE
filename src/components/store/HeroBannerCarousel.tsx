@@ -34,9 +34,9 @@ export function HeroBannerCarousel({ banners }: HeroBannerCarouselProps) {
                   priority
                 />
                 {banner.title && (
-                  <div className="absolute inset-0 flex items-end bg-gradient-to-t from-black/60 to-transparent p-8">
+                  <div className="absolute inset-0 flex items-end bg-gradient-to-t from-black/70 via-black/20 to-transparent p-8">
                     <div className="text-white">
-                      <h2 className="text-2xl font-bold sm:text-3xl lg:text-4xl">
+                      <h2 className="font-display text-2xl font-bold tracking-wider sm:text-3xl lg:text-4xl">
                         {banner.title}
                       </h2>
                       {banner.description && (
@@ -58,9 +58,9 @@ export function HeroBannerCarousel({ banners }: HeroBannerCarouselProps) {
                   priority
                 />
                 {banner.title && (
-                  <div className="absolute inset-0 flex items-end bg-gradient-to-t from-black/60 to-transparent p-8">
+                  <div className="absolute inset-0 flex items-end bg-gradient-to-t from-black/70 via-black/20 to-transparent p-8">
                     <div className="text-white">
-                      <h2 className="text-2xl font-bold sm:text-3xl lg:text-4xl">
+                      <h2 className="font-display text-2xl font-bold tracking-wider sm:text-3xl lg:text-4xl">
                         {banner.title}
                       </h2>
                       {banner.description && (

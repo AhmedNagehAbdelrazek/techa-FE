@@ -55,7 +55,7 @@ export default async function StoreLayout({
       <StoreInitializer />
       <div className="flex min-h-screen flex-col">
         <Header />
-        <main className="flex-1">{children}</main>
+        <main className="flex-1 animate-fade-in-up">{children}</main>
         <Footer />
       </div>
     </>

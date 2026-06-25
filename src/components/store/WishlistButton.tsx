@@ -20,7 +20,6 @@ import {
 import { useAuthStore } from "@/lib/stores/auth.store";
 import { useWishlistStore } from "@/lib/stores/wishlist.store";
 import { addToWishlist, removeFromWishlist } from "@/lib/api/wishlist";
-import React, { useId } from "react";
 
 interface WishlistButtonProps {
   productId: string;
