@@ -107,8 +107,8 @@ export function VariantSelector({ variants, selectedOptions, onSelectionChange }
                       aria-label={outOfStock ? t("{{groupName}}: {{value}} (out of stock)", { groupName, value }) : t("{{groupName}}: {{value}}", { groupName, value })}
                       aria-pressed={selected}
                       className={cn(
-                        "h-8 w-8 rounded-full border-2 transition-all",
-                        selected ? "border-primary ring-1 ring-primary" : "border-border",
+                        "w-10 h-10 rounded-full border-2 transition-all",
+                        selected ? "border-primary ring-2 ring-primary ring-offset-1" : "border-border hover:border-secondary",
                         (!available || outOfStock) && "cursor-not-allowed opacity-40 line-through",
                       )}
                       style={{ backgroundColor: value }}
@@ -125,10 +125,10 @@ export function VariantSelector({ variants, selectedOptions, onSelectionChange }
                     aria-label={outOfStock ? t("{{groupName}}: {{value}} (out of stock)", { groupName, value }) : t("{{groupName}}: {{value}}", { groupName, value })}
                     aria-pressed={selected}
                     className={cn(
-                      "rounded-md border px-3 py-1.5 text-sm transition-all",
+                      "rounded border px-3 py-1.5 text-sm transition-all",
                       selected
                         ? "border-primary bg-primary/10 text-primary"
-                        : "border-border hover:border-muted-foreground/40",
+                        : "border-border hover:border-secondary",
                       (!available || outOfStock) && "cursor-not-allowed opacity-40 line-through",
                     )}
                     onClick={() => handleSelect(groupName, value)}

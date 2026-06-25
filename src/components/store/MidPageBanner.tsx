@@ -18,39 +18,49 @@ export async function MidPageBanner() {
 
   const banner = banners[0];
 
-  const inner = (
-    <div className="relative aspect-[21/7] w-full overflow-hidden rounded-lg">
-      <Image
-        src={banner.image_url}
-        alt={banner.title}
-        fill
-        className="object-cover"
-        loading="lazy"
-      />
-      {banner.title && (
-        <div className="absolute inset-0 flex items-center bg-black/40 p-8">
-          <div className="max-w-xl text-white">
-            <h2 className="text-2xl font-bold sm:text-3xl lg:text-4xl">
-              {banner.title}
-            </h2>
-            {banner.description && (
-              <p className="mt-2 text-sm text-white/80 sm:text-base">
-                {banner.description}
-              </p>
-            )}
-          </div>
+  return (
+    <section className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <Link
+        href={banner.link_url ?? "#"}
+        className="md:col-span-2 relative h-[250px] rounded-xl overflow-hidden bg-muted group cursor-pointer"
+      >
+        <Image
+          src={banner.image_url}
+          alt={banner.title}
+          fill
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          loading="lazy"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 to-transparent flex flex-col justify-end p-5 text-primary-foreground">
+          {banner.title && (
+            <span className="text-xs font-semibold text-primary mb-1 uppercase tracking-wider">{banner.title}</span>
+          )}
+          {banner.description && (
+            <>
+              <h3 className="text-xl font-semibold mb-1">{banner.description}</h3>
+              <span className="text-sm flex items-center gap-1 group-hover:text-primary transition-colors">
+                Shop Furniture <span className="text-lg leading-none">→</span>
+              </span>
+            </>
+          )}
         </div>
-      )}
-    </div>
+      </Link>
+      <div className="relative h-[250px] rounded-xl overflow-hidden bg-primary/10 flex flex-col justify-center items-center text-center p-5">
+        <h3 className="text-lg font-bold text-primary mb-1">New Wardrobe</h3>
+        <p className="text-sm text-secondary mb-3">Essentials for every day.</p>
+        <button className="bg-card text-foreground text-xs font-semibold px-4 py-2 rounded hover:bg-muted transition-colors">
+          Explore
+        </button>
+      </div>
+    </section>
   );
-
-  if (banner.link_url) {
-    return <Link href={banner.link_url}>{inner}</Link>;
-  }
-
-  return inner;
 }
 
 export function MidPageBannerSkeleton() {
-  return <Skeleton className="aspect-[21/7] w-full rounded-lg" />;
+  return (
+    <section className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <Skeleton className="md:col-span-2 h-[250px] rounded-xl" />
+      <Skeleton className="h-[250px] rounded-xl" />
+    </section>
+  );
 }

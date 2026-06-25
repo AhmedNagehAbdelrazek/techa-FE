@@ -57,122 +57,131 @@ export function Header() {
   };
 
   return (
-    <header className="bg-background/80 dark:bg-background/95 sticky top-0 z-50 w-full border-b backdrop-blur-md shadow-xs dark:shadow-[0_1px_20px_-8px_hsl(183_100%_50%_/_0.15)]">
-      <div className="mx-auto flex flex-row justify-between h-16 max-w-7xl items-center gap-4 px-4 sm:px-6 lg:px-8">
-       
-
+    <header className="bg-card border-b border-border sticky top-0 z-50">
+      <div className="flex items-center justify-between px-4 md:px-8 py-3 w-full max-w-7xl mx-auto gap-4">
         <div className="flex items-center gap-4">
-          
-
-          <div className="mr-auto flex items-center flex-row-reverse gap-2 md:mr-0">
-            <LocaleSwitcher />
-
-            <button
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="hover:bg-accent rounded-md p-2"
-              aria-label="Toggle dark mode"
-            >
-              {theme === "dark" ? <Sun className="size-5" /> : <Moon className="size-5" />}
-            </button>
-
-            <Link
-              href="/wishlist"
-              className="hover:bg-accent relative rounded-md p-2"
-              aria-label="Wishlist"
-            >
-              <Heart className="size-5" />
-              {wishlistCount > 0 && (
-                <Badge
-                  variant="secondary"
-                  className="absolute -top-1 -right-1 flex size-4 items-center justify-center rounded-full p-0 text-[10px]"
-                >
-                  {wishlistCount > 99 ? "99+" : wishlistCount}
-                </Badge>
-              )}
-            </Link>
-
-            <Link
-              href="/cart"
-              className="hover:bg-accent relative rounded-md p-2"
-              aria-label="Cart"
-            >
-              <ShoppingCart className="size-5" />
-              {itemCount > 0 && (
-                <Badge
-                  variant="secondary"
-                  className="absolute -top-1 -right-1 flex size-4 items-center justify-center rounded-full p-0 text-[10px]"
-                >
-                  {itemCount > 99 ? "99+" : itemCount}
-                </Badge>
-              )}
-            </Link>
-
-            {isAuthenticated && user ? (
-              <>
-                <NotificationBell />
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <button className="hover:bg-accent rounded-full p-1" aria-label="User menu">
-                      <Avatar className="size-8">
-                        <AvatarImage src={user.avatarUrl ?? undefined} />
-                        <AvatarFallback>
-                          <User className="size-4" />
-                        </AvatarFallback>
-                      </Avatar>
-                    </button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-48">
-                    <div className="px-2 py-1.5 text-sm font-medium">{user.name}</div>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem asChild>
-                      <Link href="/orders" className="flex cursor-pointer items-center gap-2">
-                        <Package className="size-4" />
-                        {t("My Orders")}
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                      <Link href="/account" className="flex cursor-pointer items-center gap-2">
-                        <Settings className="size-4" />
-                        {t("My Account")}
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem
-                      onClick={handleLogout}
-                      className="text-destructive flex cursor-pointer items-center gap-2"
-                    >
-                      <LogOut className="size-4" />
-                      {t("Logout")}
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </>
-            ) : (
-              <div className="flex items-center gap-2">
-                <Button variant="outline" size="sm" asChild className="hidden md:block">
-                  <Link href="/login" className="flex! flex-row justify-center items-center"><span>{t("Login")}</span></Link>
-                </Button>
-                {/* <Button size="sm" asChild>
-                  <Link href="/register">{t("Register")}</Link>
-                </Button> */}
-              </div>
-            )}
-          </div>
-          <form onSubmit={handleSearch} className="hidden max-w-md flex-1 md:flex">
-            <div className="relative w-full">
-              <Search className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2" />
-              <Input
-                placeholder={t("Search products...")}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-9"
-              />
-            </div>
-          </form>
-        </div>
-         <div className="flex flex-row">
           <MobileNav />
           <Logo />
+        </div>
+
+        <form onSubmit={handleSearch} className="hidden md:flex flex-1 max-w-xl relative">
+          <div className="absolute left-3 top-1/2 -translate-y-1/2 text-secondary">
+            <Search className="h-4 w-4" />
+          </div>
+          <Input
+            placeholder={t("Search for products, brands and more...")}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="pl-10 pr-20 h-10 bg-card border-border rounded text-sm"
+          />
+          <button
+            type="submit"
+            className="absolute right-0 top-0 bottom-0 px-4 bg-primary text-primary-foreground text-xs font-semibold rounded-r hover:opacity-90 transition-opacity"
+          >
+            {t("Search")}
+          </button>
+        </form>
+
+        <nav className="hidden lg:flex items-center gap-4">
+          <Link href="#" className="text-xs font-semibold text-secondary hover:text-primary transition-colors">
+            {t("Deals")}
+          </Link>
+          <Link href="#" className="text-xs font-semibold text-primary border-b-2 border-primary pb-0.5">
+            {t("Best Sellers")}
+          </Link>
+          <Link href="#" className="text-xs font-semibold text-secondary hover:text-primary transition-colors">
+            {t("New Arrivals")}
+          </Link>
+        </nav>
+
+        <div className="flex items-center gap-1">
+          <button
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            className="p-2 text-secondary hover:text-primary hover:bg-muted rounded transition-colors"
+            aria-label="Toggle dark mode"
+          >
+            {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+          </button>
+
+          <Link
+            href="/wishlist"
+            className="p-2 text-secondary hover:text-primary hover:bg-muted rounded transition-colors relative"
+            aria-label="Wishlist"
+          >
+            <Heart className="h-5 w-5" />
+            {wishlistCount > 0 && (
+              <Badge
+                variant="secondary"
+                className="absolute -top-0.5 -right-0.5 flex size-4 items-center justify-center rounded-full p-0 text-[10px]"
+              >
+                {wishlistCount > 99 ? "99+" : wishlistCount}
+              </Badge>
+            )}
+          </Link>
+
+          <Link
+            href="/cart"
+            className="p-2 text-secondary hover:text-primary hover:bg-muted rounded transition-colors relative"
+            aria-label="Cart"
+          >
+            <ShoppingCart className="h-5 w-5" />
+            {itemCount > 0 && (
+              <Badge
+                variant="secondary"
+                className="absolute -top-0.5 -right-0.5 flex size-4 items-center justify-center rounded-full p-0 text-[10px]"
+              >
+                {itemCount > 99 ? "99+" : itemCount}
+              </Badge>
+            )}
+          </Link>
+
+          {isAuthenticated && user ? (
+            <>
+              <NotificationBell />
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className="p-1 text-secondary hover:text-primary hover:bg-muted rounded-full transition-colors" aria-label="User menu">
+                    <Avatar className="size-8">
+                      <AvatarImage src={user.avatarUrl ?? undefined} />
+                      <AvatarFallback>
+                        <User className="h-4 w-4" />
+                      </AvatarFallback>
+                    </Avatar>
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <div className="px-2 py-1.5 text-sm font-medium">{user.name}</div>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link href="/orders" className="flex cursor-pointer items-center gap-2">
+                      <Package className="h-4 w-4" />
+                      {t("My Orders")}
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/account" className="flex cursor-pointer items-center gap-2">
+                      <Settings className="h-4 w-4" />
+                      {t("My Account")}
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    onClick={handleLogout}
+                    className="text-destructive flex cursor-pointer items-center gap-2"
+                  >
+                    <LogOut className="h-4 w-4" />
+                    {t("Logout")}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </>
+          ) : (
+            <Button variant="default" size="sm" asChild className="hidden sm:flex">
+              <Link href="/login">{t("Login")}</Link>
+            </Button>
+          )}
+
+          <LocaleSwitcher />
         </div>
       </div>
     </header>

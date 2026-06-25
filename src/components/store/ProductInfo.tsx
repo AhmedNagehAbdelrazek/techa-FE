@@ -27,7 +27,7 @@ function RatingStars({ average }: { average: number }) {
             key={star}
             className={cn(
               "h-4 w-4",
-              filled ? "fill-yellow-400 text-yellow-400" : half ? "fill-yellow-400 text-yellow-400" : "fill-none text-muted-foreground/30",
+              filled ? "fill-primary text-primary" : half ? "fill-primary text-primary" : "fill-none text-muted-foreground/30",
             )}
           />
         );
@@ -51,16 +51,16 @@ export function ProductInfo({
 
   return (
     <div className="space-y-4">
-      {brand && (
-        <span className="text-sm text-muted-foreground">
-          {brand.name}
-        </span>
-      )}
-      <h1 className="text-2xl font-bold leading-tight md:text-3xl">{name}</h1>
+        {brand && (
+          <span className="text-sm text-secondary">
+            {brand.name}
+          </span>
+        )}
+        <h1 className="text-3xl font-bold leading-tight md:text-4xl">{name}</h1>
       <div className="flex items-center gap-2">
         <RatingStars average={ratingAvg} />
         {ratingCount > 0 && (
-          <span className="text-sm text-muted-foreground">
+          <span className="text-sm text-secondary">
             {ratingAvg.toFixed(1)} ({ratingCount} {t("reviews")})
           </span>
         )}
@@ -76,7 +76,7 @@ export function ProductInfo({
             <span className="text-lg text-muted-foreground line-through">
               {formatPrice(price)}
             </span>
-            <span className="rounded bg-destructive/10 px-2 py-0.5 text-sm font-semibold text-destructive">
+            <span className="rounded bg-destructive/10 px-2 py-0.5 text-sm font-semibold text-destructive leading-none">
               -{discountPercent}%
             </span>
           </>

@@ -20,19 +20,20 @@ export function QuantitySelector({ value, onChange, max, disabled = false }: Qua
   return (
     <div className="flex items-center gap-2">
       <span className="text-sm font-medium">{t("Quantity:")}</span>
-      <div className="flex items-center">
+      <div className="flex items-center border border-border rounded">
         <Button
           type="button"
-          variant="outline"
+          variant="ghost"
           size="icon-xs"
           disabled={disabled || atMin}
           onClick={() => onChange(value - 1)}
           aria-label={t("Decrease quantity")}
+          className="rounded-none text-secondary hover:text-primary"
         >
           <Minus className="h-3 w-3" />
         </Button>
         <span
-          className="flex h-8 w-10 items-center justify-center text-sm font-medium tabular-nums"
+          className="flex h-8 w-12 items-center justify-center text-sm font-medium tabular-nums border-x border-border"
           aria-live="polite"
           aria-label={`${t("Quantity:")} ${value}`}
         >
@@ -40,11 +41,12 @@ export function QuantitySelector({ value, onChange, max, disabled = false }: Qua
         </span>
         <Button
           type="button"
-          variant="outline"
+          variant="ghost"
           size="icon-xs"
           disabled={disabled || atMax}
           onClick={() => onChange(value + 1)}
           aria-label={t("Increase quantity")}
+          className="rounded-none text-secondary hover:text-primary"
         >
           <Plus className="h-3 w-3" />
         </Button>

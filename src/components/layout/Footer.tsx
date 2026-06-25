@@ -8,64 +8,66 @@ export function Footer() {
   const { t } = useTranslation();
   const { siteName, socialLinks } = useSettingsStore();
   const footerLinks = [
-    { label: t("About"), href: "/about" },
-    { label: t("Contact"), href: "/contact" },
-    { label: t("FAQs"), href: "/faqs" },
-    { label: t("Privacy Policy"), href: "/privacy" },
-    { label: t("Terms"), href: "/terms" },
+    { label: t("Customer Service"), children: [
+      { label: t("Contact"), href: "/contact" },
+      { label: t("FAQs"), href: "/faqs" },
+      { label: t("Returns"), href: "/returns" },
+    ]},
+    { label: t("About Us"), children: [
+      { label: t("About"), href: "/about" },
+      { label: t("Careers"), href: "/careers" },
+      { label: t("Press"), href: "/press" },
+    ]},
+    { label: t("Legal"), children: [
+      { label: t("Privacy Policy"), href: "/privacy" },
+      { label: t("Terms"), href: "/terms" },
+    ]},
   ];
 
   return (
-    <footer className="border-t bg-background dark:shadow-[0_-1px_30px_-12px_hsl(183_100%_50%_/_0.1)]">
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid gap-8 sm:grid-cols-3">
-          <div>
-            <h3 className="font-display text-lg font-bold tracking-wider">{siteName}</h3>
-              <p className="mt-2 text-sm text-muted-foreground">
-                {t("Your Trusted Online Store")}
-              </p>
-          </div>
-
-          <div>
-            <h4 className="text-sm font-semibold mb-3">{t("Links")}</h4>
-            <ul className="space-y-2">
-              {footerLinks.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="text-sm font-semibold mb-3">{t("Follow Us")}</h4>
-            {Object.keys(socialLinks).length > 0 ? (
-              <div className="flex gap-3">
-                {Object.entries(socialLinks).map(([platform, url]) => (
-                  <Link
-                    key={platform}
-                    href={url}
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors capitalize"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {platform}
-                  </Link>
-                ))}
-              </div>
-            ) : (
-              <p className="text-sm text-muted-foreground">{t("Coming soon")}</p>
-            )}
-          </div>
+    <footer className="bg-muted border-t border-border mt-12">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 px-4 md:px-8 py-10 max-w-7xl mx-auto">
+        <div className="flex flex-col gap-2">
+          <span className="text-lg font-bold text-foreground">{siteName}</span>
+          <p className="text-sm text-secondary">
+            {t("Efficiency, reliability, and accessibility. Your trusted platform for seamless shopping.")}
+          </p>
         </div>
-
-        <div className="mt-8 border-t pt-6 text-center text-sm text-muted-foreground">
-          &copy; {new Date().getFullYear()} {siteName}. {t("All rights reserved.")}
+        {footerLinks.map((group) => (
+          <div key={group.label} className="flex flex-col gap-2">
+            <h4 className="text-xs font-bold text-foreground uppercase tracking-wider">{group.label}</h4>
+            {group.children.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-sm text-secondary hover:text-primary hover:underline decoration-primary transition-colors"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
+        ))}
+      </div>
+      <div className="border-t border-border/50">
+        <div className="px-4 md:px-8 py-4 max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-2">
+          <p className="text-sm text-secondary">
+            &copy; {new Date().getFullYear()} {siteName}. {t("Efficiency, reliability, and accessibility.")}
+          </p>
+          {Object.keys(socialLinks).length > 0 && (
+            <div className="flex gap-3">
+              {Object.entries(socialLinks).map(([platform, url]) => (
+                <Link
+                  key={platform}
+                  href={url}
+                  className="text-sm text-secondary hover:text-primary transition-colors capitalize"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {platform}
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </footer>

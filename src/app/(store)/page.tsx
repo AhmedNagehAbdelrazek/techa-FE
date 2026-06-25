@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   return (
-    <div className="container mx-auto space-y-16 px-4 py-8">
+    <div className="max-w-7xl mx-auto space-y-12 px-4 md:px-8 py-6">
       <Suspense fallback={<HeroBannerSkeleton />}>
         <HeroBanner />
       </Suspense>

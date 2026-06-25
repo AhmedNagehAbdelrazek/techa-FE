@@ -24,7 +24,7 @@ export function HeroBannerCarousel({ banners }: HeroBannerCarouselProps) {
             {banner.link_url ? (
               <Link
                 href={banner.link_url}
-                className="relative block aspect-[21/9] w-full overflow-hidden rounded-lg"
+                className="relative block h-[400px] md:h-[500px] w-full overflow-hidden rounded-xl"
               >
                 <Image
                   src={banner.image_url}
@@ -33,23 +33,29 @@ export function HeroBannerCarousel({ banners }: HeroBannerCarouselProps) {
                   className="object-cover"
                   priority
                 />
-                {banner.title && (
-                  <div className="absolute inset-0 flex items-end bg-gradient-to-t from-black/70 via-black/20 to-transparent p-8">
-                    <div className="text-white">
-                      <h2 className="font-display text-2xl font-bold tracking-wider sm:text-3xl lg:text-4xl">
+                <div className="absolute inset-0 bg-gradient-to-r from-foreground/80 via-foreground/50 to-transparent" />
+                <div className="absolute inset-0 flex items-center px-6 md:px-8 max-w-2xl">
+                  <div className="text-primary-foreground">
+                    {banner.title && (
+                      <span className="inline-block bg-primary text-primary-foreground text-xs font-semibold px-2 py-1 rounded mb-3 uppercase tracking-wider">
                         {banner.title}
-                      </h2>
-                      {banner.description && (
-                        <p className="mt-2 text-sm text-white/80 sm:text-base">
+                      </span>
+                    )}
+                    {banner.description && (
+                      <>
+                        <h1 className="text-3xl md:text-4xl font-bold leading-tight mb-3">
                           {banner.description}
-                        </p>
-                      )}
-                    </div>
+                        </h1>
+                        <button className="inline-flex items-center justify-center bg-primary text-primary-foreground text-sm font-semibold px-6 py-3 rounded hover:opacity-90 transition-opacity">
+                          Shop the Sale
+                        </button>
+                      </>
+                    )}
                   </div>
-                )}
+                </div>
               </Link>
             ) : (
-              <div className="relative aspect-[21/9] w-full overflow-hidden rounded-lg">
+              <div className="relative h-[400px] md:h-[500px] w-full overflow-hidden rounded-xl">
                 <Image
                   src={banner.image_url}
                   alt={banner.title}
@@ -57,20 +63,26 @@ export function HeroBannerCarousel({ banners }: HeroBannerCarouselProps) {
                   className="object-cover"
                   priority
                 />
-                {banner.title && (
-                  <div className="absolute inset-0 flex items-end bg-gradient-to-t from-black/70 via-black/20 to-transparent p-8">
-                    <div className="text-white">
-                      <h2 className="font-display text-2xl font-bold tracking-wider sm:text-3xl lg:text-4xl">
+                <div className="absolute inset-0 bg-gradient-to-r from-foreground/80 via-foreground/50 to-transparent" />
+                <div className="absolute inset-0 flex items-center px-6 md:px-8 max-w-2xl">
+                  <div className="text-primary-foreground">
+                    {banner.title && (
+                      <span className="inline-block bg-primary text-primary-foreground text-xs font-semibold px-2 py-1 rounded mb-3 uppercase tracking-wider">
                         {banner.title}
-                      </h2>
-                      {banner.description && (
-                        <p className="mt-2 text-sm text-white/80 sm:text-base">
+                      </span>
+                    )}
+                    {banner.description && (
+                      <>
+                        <h1 className="text-3xl md:text-4xl font-bold leading-tight mb-3">
                           {banner.description}
-                        </p>
-                      )}
-                    </div>
+                        </h1>
+                        <button className="inline-flex items-center justify-center bg-primary text-primary-foreground text-sm font-semibold px-6 py-3 rounded hover:opacity-90 transition-opacity">
+                          Shop the Sale
+                        </button>
+                      </>
+                    )}
                   </div>
-                )}
+                </div>
               </div>
             )}
           </CarouselItem>

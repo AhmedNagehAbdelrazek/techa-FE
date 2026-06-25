@@ -1,18 +1,16 @@
 "use client";
 
 import { useMemo, useState, useCallback } from "react";
-import { Separator } from "@/components/ui/separator";
 import { ProductImages } from "./ProductImages";
 import { ProductInfo } from "./ProductInfo";
 import { StockStatus } from "./StockStatus";
 import { QuantitySelector } from "./QuantitySelector";
 import { VariantSelector } from "./VariantSelector";
 import { AddToCartButton } from "./AddToCartButton";
-import { WishlistButton } from "./WishlistButton";
 import { ProductAttributes } from "./ProductAttributes";
 import { ReviewList } from "./ReviewList";
 import type { ProductDetail, ProductVariant } from "@/lib/types/product";
-import type { CouponValidationResponse } from "@/lib/api/coupons";
+import { Truck, ShieldCheck } from "lucide-react";
 
 interface ProductDetailClientProps {
   product: ProductDetail;
@@ -68,7 +66,6 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
   }, [product.variants]);
   const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>(defaultOptions);
   const [quantity, setQuantity] = useState(1);
-  const [appliedCoupon, setAppliedCoupon] = useState<CouponValidationResponse | null>(null);
 
   const matchingVariant = useMemo(
     () => computeMatchingVariant(product.variants, selectedOptions),
@@ -103,25 +100,21 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
     (options: Record<string, string>) => {
       setSelectedOptions(options);
       setQuantity(1);
-      if (appliedCoupon) {
-        const newVariant = computeMatchingVariant(product.variants, options);
-        if (newVariant) {
-          setAppliedCoupon(null);
-        }
-      }
     },
-    [product.variants, appliedCoupon],
+    [],
   );
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="grid gap-8 md:grid-cols-2">
-        <ProductImages
-          images={product.images}
-          selectedVariantImages={matchingVariant?.images}
-          productName={product.name}
-        />
-        <div className="flex flex-col gap-6">
+    <div className="max-w-7xl mx-auto px-4 md:px-8 py-6">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-8">
+        <div className="lg:col-span-7">
+          <ProductImages
+            images={product.images}
+            selectedVariantImages={matchingVariant?.images}
+            productName={product.name}
+          />
+        </div>
+        <div className="lg:col-span-5 flex flex-col gap-5">
           <ProductInfo
             name={product.name}
             brand={product.brand}
@@ -150,40 +143,43 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
             disabled={isOutOfStock || !hasFullSelection}
           />
 
-          <div className="flex items-start gap-2">
-            <div className="flex-1">
-              <AddToCartButton
-                productId={product.id}
-                variantId={matchingVariant?.id ?? ""}
-                quantity={safeQuantity}
-                disabled={addToCartDisabled}
-                disableReason={disableReason}
-              />
-            </div>
-            <WishlistButton productId={product.id} />
+          <div className="flex flex-col gap-3">
+            <AddToCartButton
+              productId={product.id}
+              variantId={matchingVariant?.id ?? ""}
+              quantity={safeQuantity}
+              disabled={addToCartDisabled}
+              disableReason={disableReason}
+            />
+            <button className="w-full border border-foreground text-foreground bg-card hover:bg-muted text-sm font-semibold py-3 px-5 rounded transition-colors flex items-center justify-center gap-2">
+              <span className="text-lg">⚡</span>
+              Buy Now
+            </button>
           </div>
 
-          {/* <CouponInput
-            productId={product.id}
-            variantId={matchingVariant?.id}
-            appliedCoupon={appliedCoupon}
-            onCouponApplied={setAppliedCoupon}
-          /> */}
+          <div className="flex items-center gap-4 border-t border-border pt-4 text-sm text-secondary">
+            <span className="flex items-center gap-1.5">
+              <Truck className="h-4 w-4" /> Free Delivery
+            </span>
+            <span className="flex items-center gap-1.5">
+              <ShieldCheck className="h-4 w-4" /> 1 Year Warranty
+            </span>
+          </div>
         </div>
       </div>
 
-      {(product.attributes.details.length > 0 || product.attributes.specs.length > 0) && (
-        <>
-          <Separator className="my-10" />
-          <ProductAttributes attributes={product.attributes} />
-        </>
-      )}
-
-      <Separator className="my-10" />
-      <section>
-        <h2 className="mb-6 text-xl font-bold">Customer Reviews</h2>
-        <ReviewList productId={product.id} initialReviews={product.reviews} />
-      </section>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        {(product.attributes.details.length > 0 || product.attributes.specs.length > 0) && (
+          <div className="bg-card border border-border rounded-lg p-5">
+            <h2 className="text-xl font-semibold mb-4">Detailed Specifications</h2>
+            <ProductAttributes attributes={product.attributes} />
+          </div>
+        )}
+        <div className="bg-card border border-border rounded-lg p-5">
+          <h2 className="text-xl font-semibold mb-4">Customer Reviews</h2>
+          <ReviewList productId={product.id} initialReviews={product.reviews} />
+        </div>
+      </div>
     </div>
   );
 }

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "@/lib/i18n/client";
+import { ArrowRight } from "lucide-react";
 
 interface SectionHeaderProps {
   title: string;
@@ -13,22 +14,14 @@ interface SectionHeaderProps {
 export function SectionHeader({ title, href, className }: SectionHeaderProps) {
   const { t } = useTranslation();
   return (
-    <div
-      className={cn(
-        "mb-8 flex items-center justify-between",
-        className,
-      )}
-    >
-      <div className="flex items-center gap-3">
-        <span className="bg-primary/80 dark:bg-primary size-1 rounded-full" />
-        <h2 className="font-display text-lg font-bold tracking-wider sm:text-xl">{title}</h2>
-      </div>
+    <div className={cn("flex items-center justify-between mb-4", className)}>
+      <h2 className="text-xl font-semibold text-foreground">{title}</h2>
       {href && (
         <Link
           href={href}
-          className="text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+          className="text-sm font-semibold text-primary hover:underline flex items-center gap-1"
         >
-          {t("View All")} →
+          {t("View All")} <ArrowRight className="h-4 w-4" />
         </Link>
       )}
     </div>

@@ -40,7 +40,7 @@ function RatingStars({ rating, size = "sm" }: { rating: number; size?: "sm" | "x
             key={star}
             className={cn(
               cls,
-              filled ? "fill-yellow-400 text-yellow-400" : "fill-none text-muted-foreground/30",
+              filled ? "fill-primary text-primary" : "fill-none text-muted-foreground/30",
             )}
           />
         );
@@ -71,7 +71,7 @@ function StarRatingSelector({ value, onChange }: { value: number; onChange: (v: 
             <Star
               className={cn(
                 "h-6 w-6",
-                star <= active ? "fill-yellow-400 text-yellow-400" : "fill-none text-muted-foreground/30",
+                star <= active ? "fill-primary text-primary" : "fill-none text-muted-foreground/30",
               )}
             />
           </button>
@@ -86,8 +86,8 @@ function RatingDistributionBar({ label, count, max }: { label: string; count: nu
   return (
     <div className="flex items-center gap-2 text-sm">
       <span className="w-8 text-right">{label}</span>
-      <div className="h-2 flex-1 overflow-hidden rounded-full bg-muted">
-        <div className="h-full rounded-full bg-yellow-400 transition-all" style={{ width: `${pct}%` }} />
+        <div className="h-2 flex-1 overflow-hidden rounded-full bg-muted">
+          <div className="h-full rounded-full bg-primary transition-all" style={{ width: `${pct}%` }} />
       </div>
       <span className="w-6 text-right text-muted-foreground">{count}</span>
     </div>

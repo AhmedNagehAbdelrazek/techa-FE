@@ -36,7 +36,7 @@ export function ProductImages({ images, selectedVariantImages, productName }: Pr
   return (
     <div className="flex flex-col gap-4">
       <div
-        className="relative aspect-square overflow-hidden rounded-lg border"
+        className="relative aspect-square overflow-hidden rounded-lg border border-border bg-muted"
         role="img"
         aria-label={current?.alt_text ?? productName}
       >
@@ -49,7 +49,7 @@ export function ProductImages({ images, selectedVariantImages, productName }: Pr
             src={current.url}
             alt={current?.alt_text ?? productName}
             fill
-            className="object-cover"
+            className="object-contain p-4"
             priority
             onError={() => setImgError(true)}
           />
