@@ -20,6 +20,7 @@ import {
 import { useAuthStore } from "@/lib/stores/auth.store";
 import { useWishlistStore } from "@/lib/stores/wishlist.store";
 import { addToWishlist, removeFromWishlist } from "@/lib/api/wishlist";
+import React, { useId } from "react";
 
 interface WishlistButtonProps {
   productId: string;
@@ -30,8 +31,8 @@ export function WishlistButton({ productId, className }: WishlistButtonProps) {
   const router = useRouter();
   const { t } = useTranslation();
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
-  const wishlistItem = useWishlistStore((s) =>
-    s.items.find((item) => item.product_id === productId) ?? null,
+  const wishlistItem = useWishlistStore(
+    (s) => s.items.find((item) => item.product_id === productId) ?? null,
   );
   const isStoreLoading = useWishlistStore((s) => s.isLoading);
   const refreshWishlist = useWishlistStore((s) => s.refreshWishlist);
@@ -90,7 +91,7 @@ export function WishlistButton({ productId, className }: WishlistButtonProps) {
     <>
       <Button
         type="button"
-        variant="outline"
+        variant="noBackground"
         size="icon"
         disabled={isLoading}
         onClick={handleClick}
@@ -100,8 +101,8 @@ export function WishlistButton({ productId, className }: WishlistButtonProps) {
       >
         <Heart
           className={cn(
-            "h-4 w-4 transition-colors",
-            wishlistItem ? "fill-destructive text-destructive" : "",
+            "h-4 w-4 mix-blend-difference transition-colors",
+            wishlistItem ? "fill-destructive text-destructive stroke-amber-50 stroke-1" : "",
           )}
         />
       </Button>

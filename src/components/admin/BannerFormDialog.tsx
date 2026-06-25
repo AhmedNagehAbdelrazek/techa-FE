@@ -21,7 +21,7 @@ type FormValues = {
   description?: string;
   image_url: string;
   link_url?: string;
-  position: "hero" | "promo" | "sidebar" | "bottom";
+  position: "hero" | "promo" | "sidebar" | "bottom" | "mid_page";
   sort_order: number;
   starts_at: string;
   ends_at?: string;
@@ -47,7 +47,7 @@ export function BannerFormDialog({ open, onOpenChange, initialData }: BannerForm
     description: z.string().max(500).optional().or(z.literal("")),
     image_url: z.string().url(t("Must be a valid URL")).min(1, t("Image URL is required")),
     link_url: z.string().optional().or(z.literal("")),
-    position: z.enum(["hero", "promo", "sidebar", "bottom"]),
+    position: z.enum(["hero", "promo", "sidebar", "bottom", "mid_page"]),
     sort_order: z.coerce.number().int().min(0).default(0),
     starts_at: z.string().min(1, t("Start date is required")),
     ends_at: z.string().optional().or(z.literal("")),
@@ -67,7 +67,7 @@ export function BannerFormDialog({ open, onOpenChange, initialData }: BannerForm
           description: initialData.description ?? "",
           image_url: initialData.image_url,
           link_url: initialData.link_url ?? "",
-          position: initialData.position as "hero" | "promo" | "sidebar" | "bottom",
+          position: initialData.position as "hero" | "promo" | "sidebar" | "bottom" | "mid_page",
           sort_order: initialData.sort_order,
           starts_at: initialData.starts_at?.split("T")[0],
           ends_at: initialData.ends_at?.split("T")[0] ?? "",
@@ -143,13 +143,14 @@ export function BannerFormDialog({ open, onOpenChange, initialData }: BannerForm
           <div className="grid grid-cols-2 gap-4">
             <div>
               <Label htmlFor="position">{t("Position *")}</Label>
-              <Select onValueChange={(v) => form.setValue("position", v as "hero" | "promo" | "sidebar" | "bottom")} defaultValue={form.watch("position")}>
+              <Select onValueChange={(v) => form.setValue("position", v as "hero" | "promo" | "sidebar" | "bottom " | "mid_page")} defaultValue={form.watch("position")}>
                 <SelectTrigger><SelectValue placeholder={t("Select position")} /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="hero">{t("Hero")}</SelectItem>
                   <SelectItem value="promo">{t("Promo")}</SelectItem>
                   <SelectItem value="sidebar">{t("Sidebar")}</SelectItem>
                   <SelectItem value="bottom">{t("Bottom")}</SelectItem>
+                  <SelectItem value="mid_page">{t("Mid Page")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>

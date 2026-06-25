@@ -55,7 +55,7 @@ export function ProductCard({ product }: ProductCardProps) {
             src={product.primary_image.url}
             alt={product.primary_image.alt_text ?? product.name}
             fill
-            className={cn("object-contain transition-transform group-hover:scale-105", isOutOfStock && "opacity-50")}
+            className={cn("object-cover transition-transform group-hover:scale-105", isOutOfStock && "opacity-50")}
             loading="lazy"
           />
         ) : (
@@ -74,7 +74,7 @@ export function ProductCard({ product }: ProductCardProps) {
               Out of Stock
             </span>
           )}
-          <WishlistButton productId={product.id} className={"z-99 border-0 shadow-none"} />
+          <WishlistButton productId={product.id} className={"z-99 border-0 shadow-none hover:bg-blend-difference! "} />
         </div>
       </div>
       <div className="flex flex-1 flex-col gap-1.5 p-3">
