@@ -6,7 +6,6 @@ const backendUrl = rawBackendUrl.replace(/\/api\/v1\/?$/, "");
 
 const nextConfig: NextConfig = {
   experimental: {},
-  outputFileTracingRoot: "/pnpm-lock.yaml",
   images: {
     remotePatterns: [
       {
