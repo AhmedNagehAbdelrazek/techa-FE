@@ -79,6 +79,15 @@ export async function getProducts(params?: Record<string, string | number | bool
   };
 }
 
+export async function searchProducts(q: string) {
+  // 🐴 ponytail: inline response type, matches only what the dropdown needs
+  const res = await request.get<{
+    data: { id: string; name: string; slug: string; image: string; available: boolean }[];
+    meta: { page: number; limit: number; total: number; totalPages: number };
+  }>(`/api/products/search?q=${encodeURIComponent(q)}&page=1&limit=5`);
+  return res.data;
+}
+
 export async function getProductBySlug(slug: string): Promise<ProductDetail | null> {
   try {
     return await request.get<ProductDetail>(`/api/products/${slug}`);

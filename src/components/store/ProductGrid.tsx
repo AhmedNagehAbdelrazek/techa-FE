@@ -78,7 +78,7 @@ export function ProductGrid({ categorySlug, searchQuery }: ProductGridProps) {
     staleTime: 5 * 60 * 1000,
   });
 
-// ponytail: flat DFS yield — one function, no extra file
+//   flat DFS yield — one function, no extra file
 const flattenTree = useCallback(function flatten(node: Category[], depth: number): { id: string; name: string; depth: number }[] {
   const out: { id: string; name: string; depth: number }[] = [];
   for (const cat of node) {

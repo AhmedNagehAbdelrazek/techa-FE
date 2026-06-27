@@ -5,6 +5,7 @@ import { Loader2, ShoppingCart, Check } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { useCartStore } from "@/lib/stores/cart.store";
+import { useAuthDialogStore } from "@/lib/stores/auth-dialog.store";
 import { useTranslation } from "@/lib/i18n/client";
 
 interface AddToCartButtonProps {
@@ -19,6 +20,7 @@ export function AddToCartButton({ productId, variantId, quantity, disabled, disa
   const [isLoading, setIsLoading] = useState(false);
   const [added, setAdded] = useState(false);
   const addItem = useCartStore((s) => s.addItem);
+  const openAuthDialog = useAuthDialogStore((s) => s.open);
   const { t } = useTranslation();
 
   const handleClick = useCallback(async () => {
@@ -30,10 +32,14 @@ export function AddToCartButton({ productId, variantId, quantity, disabled, disa
       toast.success(t("Added to cart"));
       setTimeout(() => setAdded(false), 2000);
     } catch (err: unknown) {
-      const msg =
-        err && typeof err === "object" && "response" in err
-          ? ((err as { response?: { data?: { message?: string } } }).response?.data?.message ?? "")
-          : "";
+      const apiErr = err && typeof err === "object" && "response" in err
+        ? (err as { response?: { status?: number; data?: { message?: string } } })
+        : null;
+      if (apiErr?.response?.status === 401) {
+        openAuthDialog();
+        return;
+      }
+      const msg = apiErr?.response?.data?.message ?? "";
       if (msg.toLowerCase().includes("stock") || msg.toLowerCase().includes("insufficient")) {
         toast.error(t("Sorry, this item just went out of stock"));
       } else {
@@ -42,7 +48,7 @@ export function AddToCartButton({ productId, variantId, quantity, disabled, disa
     } finally {
       setIsLoading(false);
     }
-  }, [disabled, isLoading, productId, variantId, quantity, addItem, t]);
+  }, [disabled, isLoading, productId, variantId, quantity, addItem, openAuthDialog, t]);
 
   const label = disableReason ?? (added ? t("Added!") : t("Add to Cart"));
 

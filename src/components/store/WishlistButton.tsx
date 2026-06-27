@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { useRouter } from "next/navigation";
 import { Heart, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -18,6 +17,7 @@ import {
   AlertDialogCancel,
 } from "@/components/ui/alert-dialog";
 import { useAuthStore } from "@/lib/stores/auth.store";
+import { useAuthDialogStore } from "@/lib/stores/auth-dialog.store";
 import { useWishlistStore } from "@/lib/stores/wishlist.store";
 import { addToWishlist, removeFromWishlist } from "@/lib/api/wishlist";
 
@@ -27,9 +27,9 @@ interface WishlistButtonProps {
 }
 
 export function WishlistButton({ productId, className }: WishlistButtonProps) {
-  const router = useRouter();
   const { t } = useTranslation();
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+  const openAuthDialog = useAuthDialogStore((s) => s.open);
   const wishlistItem = useWishlistStore(
     (s) => s.items.find((item) => item.product_id === productId) ?? null,
   );
@@ -68,7 +68,7 @@ export function WishlistButton({ productId, className }: WishlistButtonProps) {
 
   const handleClick = useCallback(() => {
     if (!isAuthenticated) {
-      router.push("/login");
+      openAuthDialog();
       return;
     }
     if (wishlistItem) {
@@ -76,7 +76,7 @@ export function WishlistButton({ productId, className }: WishlistButtonProps) {
     } else {
       handleAdd();
     }
-  }, [isAuthenticated, wishlistItem, router, handleAdd]);
+  }, [isAuthenticated, wishlistItem, openAuthDialog, handleAdd]);
 
   if (isStoreLoading) {
     return (

@@ -23,7 +23,11 @@ const loginSchema = z.object({
 
 type LoginFormData = z.infer<typeof loginSchema>;
 
-export function LoginForm() {
+interface LoginFormProps {
+  onSuccess?: () => void;
+}
+
+export function LoginForm({ onSuccess }: LoginFormProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const next = searchParams.get("next") || "/account";
@@ -53,7 +57,11 @@ export function LoginForm() {
       setToken(response.token);
       login(response.user);
       toast.success(t("Welcome back!"));
-      router.push(next);
+      if (onSuccess) {
+        onSuccess();
+      } else {
+        router.push(next);
+      }
     } catch (error: unknown) {
       const apiError = error as {
         response?: { status: number; data?: ApiError };

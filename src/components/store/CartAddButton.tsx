@@ -1,12 +1,12 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { useRouter } from "next/navigation";
 import { Loader2, ShoppingCart, Check } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { useCartStore } from "@/lib/stores/cart.store";
 import { useAuthStore } from "@/lib/stores/auth.store";
+import { useAuthDialogStore } from "@/lib/stores/auth-dialog.store";
 
 interface CartAddButtonProps {
   productId: string;
@@ -17,15 +17,15 @@ interface CartAddButtonProps {
 }
 
 export function CartAddButton({ productId, variantId, qty, disabled, disableReason }: CartAddButtonProps) {
-  const router = useRouter();
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+  const openAuthDialog = useAuthDialogStore((s) => s.open);
   const addItem = useCartStore((s) => s.addItem);
   const [isLoading, setIsLoading] = useState(false);
   const [added, setAdded] = useState(false);
 
   const handleClick = useCallback(async () => {
     if (!isAuthenticated) {
-      router.push(`/login?next=${encodeURIComponent(window.location.pathname)}`);
+      openAuthDialog();
       return;
     }
     if (disabled || isLoading) return;
@@ -40,7 +40,7 @@ export function CartAddButton({ productId, variantId, qty, disabled, disableReas
     } finally {
       setIsLoading(false);
     }
-  }, [isAuthenticated, disabled, isLoading, addItem, productId, variantId, qty, router]);
+  }, [isAuthenticated, disabled, isLoading, addItem, openAuthDialog, productId, variantId, qty]);
 
   const label = disableReason ?? (added ? "Added!" : "Add to Cart");
 

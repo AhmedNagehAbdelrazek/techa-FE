@@ -2,6 +2,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { SettingsHydrator } from "@/components/stores/SettingsHydrator";
 import { StoreInitializer } from "@/components/stores/StoreInitializer";
+import { LoginDialog } from "@/components/auth/LoginDialog";
 import { request } from "@/lib/api/Request";
 
 async function getSettings() {
@@ -53,6 +54,7 @@ export default async function StoreLayout({
     <>
       <SettingsHydrator {...hydrated} />
       <StoreInitializer />
+      <LoginDialog />
       <div className="flex min-h-screen flex-col">
         <Header />
         <main className="flex-1 animate-fade-in-up">{children}</main>

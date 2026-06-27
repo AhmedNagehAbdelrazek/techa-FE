@@ -179,14 +179,14 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
             </button>
           </div>
 
-          <div className="flex items-center gap-4 border-t border-border pt-4 text-sm text-secondary">
+          {/* <div className="flex items-center gap-4 border-t border-border pt-4 text-sm text-secondary">
             <span className="flex items-center gap-1.5">
               <Truck className="h-4 w-4" /> Free Delivery
             </span>
             <span className="flex items-center gap-1.5">
               <ShieldCheck className="h-4 w-4" /> 1 Year Warranty
             </span>
-          </div>
+          </div> */}
         </div>
       </div>
 

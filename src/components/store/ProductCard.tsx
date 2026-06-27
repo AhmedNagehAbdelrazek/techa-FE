@@ -24,11 +24,22 @@ interface ProductCardProps {
   currencySymbol?: string;
 }
 
-// ponytail: inline matching — same logic as ProductDetailClient, no shared helper
-function matchingVariant(variants: ProductVariant[], options: Record<string, string>): ProductVariant | null {
+// inline matching — same logic as ProductDetailClient, no shared helper
+function matchingVariant(
+  variants: ProductVariant[],
+  options: Record<string, string>,
+): ProductVariant | null {
   const keys = Object.keys(options);
   if (keys.length === 0) return variants.find((v) => v.is_active && v.options.length === 0) ?? null;
-  return variants.find((v) => v.is_active && keys.every((k) => v.options.some((o) => o.option_name === k && o.option_value === options[k]))) ?? null;
+  return (
+    variants.find(
+      (v) =>
+        v.is_active &&
+        keys.every((k) =>
+          v.options.some((o) => o.option_name === k && o.option_value === options[k]),
+        ),
+    ) ?? null
+  );
 }
 
 function RatingStars({ average, count }: { average: number; count: number }) {
@@ -47,7 +58,7 @@ function RatingStars({ average, count }: { average: number; count: number }) {
                   ? "fill-primary text-primary"
                   : half
                     ? "fill-primary text-primary"
-                    : "fill-none text-muted-foreground/30",
+                    : "text-muted-foreground/30 fill-none",
               )}
             />
           );
@@ -84,7 +95,7 @@ export function ProductCard({ product }: ProductCardProps) {
       acc[o.option_name] = o.option_value;
       return acc;
     }, {});
-    // ponytail: reset only on sheet open, not every render
+    //   reset only on sheet open, not every render
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
@@ -96,60 +107,71 @@ export function ProductCard({ product }: ProductCardProps) {
     }
   };
 
-  const variant = useMemo(() => matchingVariant(variants, selectedOptions), [variants, selectedOptions]);
+  const variant = useMemo(
+    () => matchingVariant(variants, selectedOptions),
+    [variants, selectedOptions],
+  );
   const stockQty = variants.length > 0 ? (variant?.stock_qty ?? 0) : product.stock_qty;
   const currentPrice = variant
-    ? (variant.price ?? product.price) * (1 - (variant.discount_percent ?? product.discount_percent) / 100)
+    ? (variant.price ?? product.price) *
+      (1 - (variant.discount_percent ?? product.discount_percent) / 100)
     : discountedPrice;
   const maxQty = Math.max(0, stockQty);
   const safeQty = maxQty > 0 ? Math.min(qty, maxQty) : 0;
 
   return (
     <>
-      <div className="group bg-card relative isolate flex flex-col overflow-hidden rounded-lg border border-surface-variant/50 transition-shadow duration-200 hover:shadow-sm">
-        <div className="relative aspect-square bg-muted overflow-hidden">
-          {product.primary_image ? (
-            <Image
-              src={product.primary_image.url}
-              alt={product.primary_image.alt_text ?? product.name}
-              fill
-              className={cn("object-cover transition-transform duration-300 group-hover:scale-105", isOutOfStock && "opacity-50")}
-              loading="lazy"
-            />
-          ) : (
-            <div className="flex h-full items-center justify-center">
-              <span className="text-muted-foreground text-sm">No image</span>
-            </div>
-          )}
+      <div className="group bg-card border-surface-variant/50 relative isolate flex flex-col overflow-hidden rounded-lg border transition-shadow duration-200 hover:shadow-sm">
+        <div className="bg-muted relative aspect-square overflow-hidden">
+          <Link href={`/product/${product.slug}`} className="cursor-pointer">
+            {product.primary_image ? (
+              <Image
+                src={product.primary_image.url}
+                alt={product.primary_image.alt_text ?? product.name}
+                fill
+                className={cn(
+                  "object-cover transition-transform duration-300 group-hover:scale-105",
+                  isOutOfStock && "opacity-50",
+                )}
+                loading="lazy"
+              />
+            ) : (
+              <div className="flex h-full items-center justify-center">
+                <span className="text-muted-foreground text-sm">No image</span>
+              </div>
+            )}
+          </Link>
           <div className="absolute top-2 left-2 flex flex-col gap-1">
             {hasDiscount && !isOutOfStock && (
-              <span className="bg-destructive/10 text-destructive font-semibold text-[10px] px-1.5 py-0.5 rounded leading-none">
+              <span className="bg-destructive/10 text-destructive rounded px-1.5 py-0.5 text-[10px] leading-none font-semibold">
                 -{product.discount_percent}%
               </span>
             )}
             {product.rating_avg >= 4.5 && !isOutOfStock && (
-              <span className="bg-primary text-primary-foreground font-semibold text-[10px] px-1.5 py-0.5 rounded leading-none">
+              <span className="bg-primary text-primary-foreground rounded px-1.5 py-0.5 text-[10px] leading-none font-semibold">
                 Best Seller
               </span>
             )}
             {isOutOfStock && (
-              <span className="bg-muted-foreground text-primary-foreground text-[10px] px-1.5 py-0.5 rounded leading-none">
+              <span className="bg-muted-foreground text-primary-foreground rounded px-1.5 py-0.5 text-[10px] leading-none">
                 Out of Stock
               </span>
             )}
           </div>
           <WishlistButton
             productId={product.id}
-            className="absolute top-2 right-2 p-1.5 text-secondary hover:text-primary bg-background/80 backdrop-blur-sm rounded-full opacity-0 group-hover:opacity-100 transition-opacity border-0 shadow-none"
+            className="text-secondary hover:text-primary bg-background/80 absolute top-2 right-2 rounded-full border-0 p-1.5 opacity-0 shadow-none backdrop-blur-sm transition-opacity group-hover:opacity-100"
           />
         </div>
+
         <div className="flex flex-1 flex-col gap-1.5 p-3">
           {product.brand && <p className="text-secondary text-xs">{product.brand.name}</p>}
-          <Link href={`/product/${product.slug}`}>
-            <h3 className="line-clamp-2 text-sm font-semibold leading-snug hover:text-primary transition-colors">
+          <Link href={`/product/${product.slug}`} className="cursor-pointer">
+            <h3 className="hover:text-primary line-clamp-2 text-sm leading-snug font-semibold transition-colors">
               {product.name}
             </h3>
           </Link>
+
           <RatingStars average={product.rating_avg} count={product.rating_count} />
           <div className="mt-auto flex items-end justify-between pt-1">
             <div>
@@ -157,9 +179,11 @@ export function ProductCard({ product }: ProductCardProps) {
                 <span className="text-secondary text-xs">Out of Stock</span>
               ) : (
                 <>
-                  <span className="text-lg font-bold leading-tight">{formatPrice(discountedPrice)}</span>
+                  <span className="text-lg leading-tight font-bold">
+                    {formatPrice(discountedPrice)}
+                  </span>
                   {hasDiscount && (
-                    <span className="text-secondary text-xs line-through block">
+                    <span className="text-secondary block text-xs line-through">
                       {formatPrice(product.price)}
                     </span>
                   )}
@@ -169,7 +193,7 @@ export function ProductCard({ product }: ProductCardProps) {
             <button
               aria-label="Add to Cart"
               onClick={() => handleOpenChange(true)}
-              className="w-9 h-9 rounded-full bg-primary text-primary-foreground flex items-center justify-center hover:opacity-90 transition-opacity active:scale-95 shrink-0"
+              className="bg-primary text-primary-foreground hidden h-9 w-9 shrink-0 items-center justify-center rounded-full transition-opacity hover:opacity-90 active:scale-95 md:flex"
             >
               <ShoppingCart className="h-4 w-4" />
             </button>
@@ -178,17 +202,24 @@ export function ProductCard({ product }: ProductCardProps) {
       </div>
 
       <Sheet open={open} onOpenChange={handleOpenChange}>
-        <SheetContent side="right" className="w-full max-w-sm flex flex-col gap-1">
+        <SheetContent side="right" className="flex w-full max-w-md flex-col gap-1 p-4">
           <SheetHeader>
             <SheetTitle>{detail?.name ?? product.name}</SheetTitle>
           </SheetHeader>
           {!detail ? (
-            <div className="flex-1 flex items-center justify-center text-sm text-muted-foreground">Loading…</div>
+            <div className="text-muted-foreground flex flex-1 items-center justify-center text-sm">
+              Loading…
+            </div>
           ) : (
-            <div className="flex-1 flex flex-col gap-4 overflow-y-auto p-1">
+            <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-1">
               {detail.images[0] && (
-                <div className="relative aspect-square w-full max-h-64 bg-muted rounded-lg overflow-hidden shrink-0">
-                  <Image src={detail.images[0].url} alt={detail.images[0].alt_text ?? detail.name} fill className="object-cover" />
+                <div className="bg-muted relative aspect-square max-h-64 w-full shrink-0 overflow-hidden rounded-lg">
+                  <Image
+                    src={detail.images[0].url}
+                    alt={detail.images[0].alt_text ?? detail.name}
+                    fill
+                    className="object-cover"
+                  />
                 </div>
               )}
               <ProductInfo
@@ -215,7 +246,7 @@ export function ProductCard({ product }: ProductCardProps) {
               )}
             </div>
           )}
-          <div className="p-4 border-t">
+          <div className="border-t p-4">
             <AddToCartButton
               productId={detail?.id ?? product.id}
               variantId={variant?.id ?? ""}
@@ -231,8 +262,8 @@ export function ProductCard({ product }: ProductCardProps) {
 
 export function ProductCardSkeleton() {
   return (
-    <div className="flex flex-col overflow-hidden rounded-lg border border-surface-variant/50">
-      <Skeleton className="aspect-square w-full bg-muted" />
+    <div className="border-surface-variant/50 flex flex-col overflow-hidden rounded-lg border">
+      <Skeleton className="bg-muted aspect-square w-full" />
       <div className="space-y-2 p-3">
         <Skeleton className="h-3 w-1/3 rounded" />
         <Skeleton className="h-4 w-5/6 rounded" />
