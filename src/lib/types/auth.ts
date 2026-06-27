@@ -2,6 +2,7 @@ export interface ApiError {
   status: string;
   message: string;
   code: string;
+  errors?: Record<string, string>;
 }
 
 export interface User {
@@ -20,6 +21,7 @@ export interface RegisterPayload {
   email: string;
   password: string;
   phone: string;
+  countryCode: string;
 }
 
 export interface LoginPayload {

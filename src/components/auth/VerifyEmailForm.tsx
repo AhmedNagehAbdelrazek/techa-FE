@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/forms/Button";
 import { FormField } from "@/components/forms/FormField";
 import { Input } from "@/components/forms/Input";
+import { OtpInput } from "@/components/auth/OtpInput";
 import {
   verifyEmail,
   resendVerification,
@@ -36,6 +37,8 @@ export function VerifyEmailForm() {
   const {
     register,
     handleSubmit,
+    setValue,
+    watch,
     setError,
     formState: { errors },
   } = useForm<VerifyFormData>({
@@ -43,7 +46,8 @@ export function VerifyEmailForm() {
     defaultValues: { email: prefilledEmail, code: "" },
   });
 
-  // Countdown timer for resend
+  const codeValue = watch("code");
+
   useEffect(() => {
     if (resendCooldown <= 0) return;
     const timer = setInterval(() => {
@@ -77,7 +81,7 @@ export function VerifyEmailForm() {
     setResendCooldown(60);
 
     try {
-      const email = prefilledEmail;
+      const email = prefilledEmail || watch("email");
       if (!email) {
         toast.error(t("Email is required to resend the code."));
         return;
@@ -88,7 +92,7 @@ export function VerifyEmailForm() {
       toast.error(t("Failed to resend code. Please try again."));
       setResendCooldown(0);
     }
-  }, [prefilledEmail, resendCooldown, t]);
+  }, [prefilledEmail, watch, resendCooldown, t]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -99,16 +103,20 @@ export function VerifyEmailForm() {
           placeholder={t("ahmed@example.com")}
           aria-label={t("Email")}
           error={!!errors.email}
+          disabled={true}
         />
       </FormField>
 
-      <FormField label={t("Verification Code")} error={errors.code?.message} required>
-        <Input
-          {...register("code")}
-          placeholder={t("123456")}
-          maxLength={6}
-          aria-label={t("6-digit verification code")}
+      <FormField
+        label={t("Verification Code")}
+        error={errors.code?.message}
+        required
+      >
+        <OtpInput
+          value={codeValue}
+          onChange={(val) => setValue("code", val, { shouldValidate: true })}
           error={!!errors.code}
+          disabled={isSubmitting}
         />
       </FormField>
 
