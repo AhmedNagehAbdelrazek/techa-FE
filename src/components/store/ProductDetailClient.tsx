@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import { ProductImages } from "./ProductImages";
 import { ProductInfo } from "./ProductInfo";
 import { StockStatus } from "./StockStatus";
@@ -9,8 +10,10 @@ import { VariantSelector } from "./VariantSelector";
 import { AddToCartButton } from "./AddToCartButton";
 import { ProductAttributes } from "./ProductAttributes";
 import { ReviewList } from "./ReviewList";
+import { useCartStore } from "@/lib/stores/cart.store";
 import type { ProductDetail, ProductVariant } from "@/lib/types/product";
 import { Truck, ShieldCheck } from "lucide-react";
+import { toast } from "sonner";
 
 interface ProductDetailClientProps {
   product: ProductDetail;
@@ -96,6 +99,22 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
   const addToCartDisabled = isOutOfStock || !hasFullSelection;
   const disableReason = !hasFullSelection && hasVariants ? "Please select options" : undefined;
 
+  const router = useRouter();
+  const addItem = useCartStore((s) => s.addItem);
+  const [buying, setBuying] = useState(false);
+
+  const handleBuyNow = useCallback(async () => {
+    if (addToCartDisabled || buying) return;
+    setBuying(true);
+    try {
+      await addItem({ product_id: product.id, variant_id: matchingVariant?.id ?? "", qty: safeQuantity });
+      router.push("/cart");
+    } catch {
+      toast.error("Failed to add to cart");
+      setBuying(false);
+    }
+  }, [addToCartDisabled, buying, addItem, product.id, matchingVariant, safeQuantity, router]);
+
   const handleVariantChange = useCallback(
     (options: Record<string, string>) => {
       setSelectedOptions(options);
@@ -151,9 +170,13 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
               disabled={addToCartDisabled}
               disableReason={disableReason}
             />
-            <button className="w-full border border-foreground text-foreground bg-card hover:bg-muted text-sm font-semibold py-3 px-5 rounded transition-colors flex items-center justify-center gap-2">
+            <button
+              onClick={handleBuyNow}
+              disabled={addToCartDisabled || buying}
+              className="w-full border border-foreground text-foreground bg-card hover:bg-muted text-sm font-semibold py-3 px-5 rounded transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
               <span className="text-lg">⚡</span>
-              Buy Now
+              {buying ? "Adding…" : "Buy Now"}
             </button>
           </div>
 

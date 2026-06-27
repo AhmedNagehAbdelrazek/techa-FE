@@ -3,7 +3,17 @@
 import { useState, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Search, ShoppingCart, Heart, User, LogOut, Package, Settings, Moon, Sun } from "lucide-react";
+import {
+  Search,
+  ShoppingCart,
+  Heart,
+  User,
+  LogOut,
+  Package,
+  Settings,
+  Moon,
+  Sun,
+} from "lucide-react";
 import { useTheme } from "next-themes";
 import { NotificationBell } from "@/components/store/NotificationBell";
 import { Logo } from "@/components/layout/Logo";
@@ -57,131 +67,146 @@ export function Header() {
   };
 
   return (
-    <header className="bg-card border-b border-border sticky top-0 z-50">
-      <div className="flex items-center justify-between px-4 md:px-8 py-3 w-full max-w-7xl mx-auto gap-4">
-        <div className="flex items-center gap-4">
-          <MobileNav />
-          <Logo />
-        </div>
-
-        <form onSubmit={handleSearch} className="hidden md:flex flex-1 max-w-xl relative">
-          <div className="absolute left-3 top-1/2 -translate-y-1/2 text-secondary">
-            <Search className="h-4 w-4" />
+    <header className="bg-card border-border sticky top-0 z-50 border-b">
+      <div className="flex w-full items-center justify-between gap-4 px-4 py-3 md:px-8">
+        <div className="flex items-center gap-10">
+          <div className="flex items-center gap-4">
+            <MobileNav />
+            <Logo />
           </div>
-          <Input
-            placeholder={t("Search for products, brands and more...")}
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 pr-20 h-10 bg-card border-border rounded text-sm"
-          />
-          <button
-            type="submit"
-            className="absolute right-0 top-0 bottom-0 px-4 bg-primary text-primary-foreground text-xs font-semibold rounded-r hover:opacity-90 transition-opacity"
-          >
-            {t("Search")}
-          </button>
-        </form>
 
-        <nav className="hidden lg:flex items-center gap-4">
-          <Link href="#" className="text-xs font-semibold text-secondary hover:text-primary transition-colors">
-            {t("Deals")}
-          </Link>
-          <Link href="#" className="text-xs font-semibold text-primary border-b-2 border-primary pb-0.5">
-            {t("Best Sellers")}
-          </Link>
-          <Link href="#" className="text-xs font-semibold text-secondary hover:text-primary transition-colors">
-            {t("New Arrivals")}
-          </Link>
-        </nav>
+          <form onSubmit={handleSearch} className="relative hidden max-w-xl flex-1 md:flex">
+            <div className="text-secondary absolute top-1/2 left-3 -translate-y-1/2">
+              <Search className="h-4 w-4" />
+            </div>
+            <Input
+              placeholder={t("Search for products, brands and more...")}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="bg-card border-border h-10 rounded pr-20 pl-10 text-sm"
+            />
+            <button
+              type="submit"
+              className="bg-primary text-primary-foreground absolute top-0 right-0 bottom-0 rounded-r px-4 text-xs font-semibold transition-opacity hover:opacity-90"
+            >
+              {t("Search")}
+            </button>
+          </form>
+        </div>
+        <div className="flex items-center gap-4">
+          <nav className="hidden items-center gap-4 lg:flex">
+            <Link
+              href="#"
+              className="text-secondary hover:text-primary text-xs font-semibold transition-colors"
+            >
+              {t("Deals")}
+            </Link>
+            <Link
+              href="#"
+              className="text-primary border-primary border-b-2 pb-0.5 text-xs font-semibold"
+            >
+              {t("Best Sellers")}
+            </Link>
+            <Link
+              href="#"
+              className="text-secondary hover:text-primary text-xs font-semibold transition-colors"
+            >
+              {t("New Arrivals")}
+            </Link>
+          </nav>
 
-        <div className="flex items-center gap-1">
-          <button
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="p-2 text-secondary hover:text-primary hover:bg-muted rounded transition-colors"
-            aria-label="Toggle dark mode"
-          >
-            {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-          </button>
+          <div className="flex items-center gap-1">
+            <button
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              className="text-secondary hover:text-primary hover:bg-muted rounded p-2 transition-colors"
+              aria-label="Toggle dark mode"
+            >
+              {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+            </button>
 
-          <Link
-            href="/wishlist"
-            className="p-2 text-secondary hover:text-primary hover:bg-muted rounded transition-colors relative"
-            aria-label="Wishlist"
-          >
-            <Heart className="h-5 w-5" />
-            {wishlistCount > 0 && (
-              <Badge
-                variant="secondary"
-                className="absolute -top-0.5 -right-0.5 flex size-4 items-center justify-center rounded-full p-0 text-[10px]"
-              >
-                {wishlistCount > 99 ? "99+" : wishlistCount}
-              </Badge>
+            <Link
+              href="/wishlist"
+              className="text-secondary hover:text-primary hover:bg-muted relative rounded p-2 transition-colors"
+              aria-label="Wishlist"
+            >
+              <Heart className="h-5 w-5" />
+              {wishlistCount > 0 && (
+                <Badge
+                  variant="secondary"
+                  className="absolute -top-0.5 -right-0.5 flex size-4 items-center justify-center rounded-full p-0 text-[10px]"
+                >
+                  {wishlistCount > 99 ? "99+" : wishlistCount}
+                </Badge>
+              )}
+            </Link>
+
+            <Link
+              href="/cart"
+              className="text-secondary hover:text-primary hover:bg-muted relative rounded p-2 transition-colors"
+              aria-label="Cart"
+            >
+              <ShoppingCart className="h-5 w-5" />
+              {itemCount > 0 && (
+                <Badge
+                  variant="secondary"
+                  className="absolute -top-0.5 -right-0.5 flex size-4 items-center justify-center rounded-full p-0 text-[10px]"
+                >
+                  {itemCount > 99 ? "99+" : itemCount}
+                </Badge>
+              )}
+            </Link>
+
+            {isAuthenticated && user ? (
+              <>
+                <NotificationBell />
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button
+                      className="text-secondary hover:text-primary hover:bg-muted rounded-full p-1 transition-colors"
+                      aria-label="User menu"
+                    >
+                      <Avatar className="size-8">
+                        <AvatarImage src={user.avatarUrl ?? undefined} />
+                        <AvatarFallback>
+                          <User className="h-4 w-4" />
+                        </AvatarFallback>
+                      </Avatar>
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-48">
+                    <div className="px-2 py-1.5 text-sm font-medium">{user.name}</div>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild>
+                      <Link href="/orders" className="flex cursor-pointer items-center gap-2">
+                        <Package className="h-4 w-4" />
+                        {t("My Orders")}
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/account" className="flex cursor-pointer items-center gap-2">
+                        <Settings className="h-4 w-4" />
+                        {t("My Account")}
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem
+                      onClick={handleLogout}
+                      className="text-destructive flex cursor-pointer items-center gap-2"
+                    >
+                      <LogOut className="h-4 w-4" />
+                      {t("Logout")}
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </>
+            ) : (
+              <Button variant="default" size="sm" asChild className="hidden sm:flex">
+                <Link href="/login">{t("Login")}</Link>
+              </Button>
             )}
-          </Link>
 
-          <Link
-            href="/cart"
-            className="p-2 text-secondary hover:text-primary hover:bg-muted rounded transition-colors relative"
-            aria-label="Cart"
-          >
-            <ShoppingCart className="h-5 w-5" />
-            {itemCount > 0 && (
-              <Badge
-                variant="secondary"
-                className="absolute -top-0.5 -right-0.5 flex size-4 items-center justify-center rounded-full p-0 text-[10px]"
-              >
-                {itemCount > 99 ? "99+" : itemCount}
-              </Badge>
-            )}
-          </Link>
-
-          {isAuthenticated && user ? (
-            <>
-              <NotificationBell />
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <button className="p-1 text-secondary hover:text-primary hover:bg-muted rounded-full transition-colors" aria-label="User menu">
-                    <Avatar className="size-8">
-                      <AvatarImage src={user.avatarUrl ?? undefined} />
-                      <AvatarFallback>
-                        <User className="h-4 w-4" />
-                      </AvatarFallback>
-                    </Avatar>
-                  </button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-48">
-                  <div className="px-2 py-1.5 text-sm font-medium">{user.name}</div>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem asChild>
-                    <Link href="/orders" className="flex cursor-pointer items-center gap-2">
-                      <Package className="h-4 w-4" />
-                      {t("My Orders")}
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link href="/account" className="flex cursor-pointer items-center gap-2">
-                      <Settings className="h-4 w-4" />
-                      {t("My Account")}
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem
-                    onClick={handleLogout}
-                    className="text-destructive flex cursor-pointer items-center gap-2"
-                  >
-                    <LogOut className="h-4 w-4" />
-                    {t("Logout")}
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </>
-          ) : (
-            <Button variant="default" size="sm" asChild className="hidden sm:flex">
-              <Link href="/login">{t("Login")}</Link>
-            </Button>
-          )}
-
-          <LocaleSwitcher />
+            <LocaleSwitcher />
+          </div>
         </div>
       </div>
     </header>
