@@ -12,7 +12,7 @@ import { ProductAttributes } from "./ProductAttributes";
 import { ReviewList } from "./ReviewList";
 import { useCartStore } from "@/lib/stores/cart.store";
 import type { ProductDetail, ProductVariant } from "@/lib/types/product";
-import { Truck, ShieldCheck } from "lucide-react";
+
 import { toast } from "sonner";
 
 interface ProductDetailClientProps {
