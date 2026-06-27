@@ -3,7 +3,7 @@
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { getProducts } from "@/lib/api/products";
+import { getProducts, getOnSaleProducts } from "@/lib/api/products";
 import { getBrands } from "@/lib/api/brands";
 import { getCategoryTree } from "@/lib/api/categories";
 import type { Category } from "@/lib/types/category";
@@ -27,9 +27,10 @@ import { Search } from "lucide-react";
 interface ProductGridProps {
   categorySlug?: string;
   searchQuery?: string;
+  onSale?: boolean;
 }
 
-export function ProductGrid({ categorySlug, searchQuery }: ProductGridProps) {
+export function ProductGrid({ categorySlug, searchQuery, onSale }: ProductGridProps) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
@@ -61,8 +62,8 @@ export function ProductGrid({ categorySlug, searchQuery }: ProductGridProps) {
   }, [currentPage, currentSort, categorySlug, searchQuery, selectedCategories, selectedBrands, minPrice, maxPrice, selectedRating, inStock]);
 
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["products", queryParams],
-    queryFn: () => getProducts(queryParams),
+    queryKey: [onSale ? "on-sale-products" : "products", queryParams],
+    queryFn: () => onSale ? getOnSaleProducts(queryParams) : getProducts(queryParams),
     placeholderData: keepPreviousData,
   });
 
