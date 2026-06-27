@@ -129,7 +129,6 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
         <div className="lg:col-span-7">
           <ProductImages
             images={product.images}
-            selectedVariantImages={matchingVariant?.images}
             productName={product.name}
           />
         </div>

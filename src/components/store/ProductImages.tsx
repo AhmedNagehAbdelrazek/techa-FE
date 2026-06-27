@@ -49,7 +49,7 @@ export function ProductImages({ images, selectedVariantImages, productName }: Pr
             src={current.url}
             alt={current?.alt_text ?? productName}
             fill
-            className="object-contain p-4"
+            className="object-cover"
             priority
             onError={() => setImgError(true)}
           />
