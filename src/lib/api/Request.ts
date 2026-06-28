@@ -1,8 +1,10 @@
 import axios, { type AxiosInstance, type AxiosRequestConfig } from "axios";
-import { API_BASE_URL } from "./endpoints";
+import { API_BASE_URL, AUTH_REFRESH_URL } from "./endpoints";
 import { setupAuthInterceptor } from "./interceptors/auth.interceptor";
 import { setupErrorInterceptor } from "./interceptors/error.interceptor";
 import { RefreshQueue } from "./queue";
+import { setToken, getRefreshToken } from "./token";
+import { useAuthStore } from "@/lib/stores/auth.store";
 
 class Request {
   private instance: AxiosInstance;
@@ -12,7 +14,9 @@ class Request {
     this.refreshQueue = new RefreshQueue();
     this.instance = axios.create({ baseURL, withCredentials: true });
     setupAuthInterceptor(this.instance);
-    setupErrorInterceptor(this.instance, this.refreshQueue);
+    setupErrorInterceptor(this.instance, this.refreshQueue, AUTH_REFRESH_URL, setToken, getRefreshToken, () =>
+      useAuthStore.getState().logout(),
+    );  // ponytail: send refreshToken, de-auth on fail
   }
 
   async get<T>(url: string, config?: AxiosRequestConfig): Promise<T> {

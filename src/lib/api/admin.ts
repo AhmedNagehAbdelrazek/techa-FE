@@ -7,6 +7,7 @@ interface AdminLoginPayload {
 
 interface AdminLoginResponse {
   token: string;
+  refreshToken?: string;
   admin: {
     id: string;
     name: string;

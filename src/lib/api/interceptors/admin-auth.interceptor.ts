@@ -1,7 +1,7 @@
 import type { AxiosInstance } from "axios";
 import { getAdminToken } from "../admin-token";
 
-const PUBLIC_PATHS = ["/api/admin/auth/login"];
+const PUBLIC_PATHS = ["/api/admin/auth/login", "/api/admin/auth/refresh-token"];
 
 function isPublicPath(path: string): boolean {
   return PUBLIC_PATHS.some((p) => path.startsWith(p));

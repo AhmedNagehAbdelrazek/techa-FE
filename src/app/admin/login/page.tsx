@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { adminLogin } from "@/lib/api/admin";
-import { setAdminToken } from "@/lib/api/admin-token";
+import { setAdminToken, setAdminRefreshToken } from "@/lib/api/admin-token";
 import { useAdminStore } from "@/lib/stores/admin.store";
 import { AUTH_COOKIE_NAME } from "@/lib/auth/constants";
 import { Button } from "@/components/ui/button";
@@ -34,6 +34,7 @@ export default function AdminLoginPage() {
       const res = await adminLogin({ email, password });
 
       setAdminToken(res.token);
+      if (res.refreshToken) setAdminRefreshToken(res.refreshToken);  // ponytail: store for refresh
       setAdmin(res.admin);
 
       document.cookie = `${AUTH_COOKIE_NAME}=${res.token}; path=/; max-age=86400; SameSite=Lax`;

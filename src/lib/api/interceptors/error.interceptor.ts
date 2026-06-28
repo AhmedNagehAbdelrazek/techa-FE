@@ -5,6 +5,10 @@ import { setToken } from "../token";
 export function setupErrorInterceptor(
   instance: AxiosInstance,
   refreshQueue: RefreshQueue,
+  refreshUrl = "/api/auth/refresh",
+  setTokenFn = setToken,
+  getRefreshTokenFn?: () => string | null,
+  onRefreshFail?: () => void,
 ): void {
   instance.interceptors.response.use(
     (response) => response,
@@ -19,16 +23,22 @@ export function setupErrorInterceptor(
 
       if (!refreshQueue.pending) {
         refreshQueue.start();
+        console.log("refreshing token");
         try {
+          const body = getRefreshTokenFn ? { refreshToken: getRefreshTokenFn() } : undefined;  // ponytail: send stored refreshToken
           const refreshResponse = await instance.post<{ token?: string }>(
-            "/api/auth/refresh",
+            refreshUrl,
+            body,
           );
           if (refreshResponse.data?.token) {
-            setToken(refreshResponse.data.token);
+            setTokenFn(refreshResponse.data.token);
           }
           refreshQueue.resolveAll(true);
+          console.log("token refreshed");
         } catch (refreshError) {
+          console.log("refresh error");
           refreshQueue.rejectAll(refreshError);
+          onRefreshFail?.();  // ponytail: de-authenticate on refresh failure
           return Promise.reject(refreshError);
         }
       }

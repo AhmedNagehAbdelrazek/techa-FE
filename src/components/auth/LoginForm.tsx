@@ -12,7 +12,7 @@ import { Input } from "@/components/forms/Input";
 import { FormField } from "@/components/forms/FormField";
 import { login as loginApi } from "@/lib/api/auth";
 import { useAuthStore } from "@/lib/stores/auth.store";
-import { setToken } from "@/lib/api/token";
+import { setToken, setRefreshToken } from "@/lib/api/token";
 import { useTranslation } from "@/lib/i18n/client";
 import type { ApiError } from "@/lib/types/auth";
 
@@ -55,6 +55,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
         password: data.password,
       });
       setToken(response.token);
+      if (response.refreshToken) setRefreshToken(response.refreshToken);  // ponytail: store for refresh
       login(response.user);
       toast.success(t("Welcome back!"));
       if (onSuccess) {

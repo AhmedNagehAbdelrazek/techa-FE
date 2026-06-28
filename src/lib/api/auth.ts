@@ -24,6 +24,7 @@ interface ApiUser {
 
 interface ApiAuthResponse {
   token: string;
+  refreshToken?: string;
   user: ApiUser;
 }
 
@@ -71,7 +72,7 @@ export async function resendVerification(payload: ResendVerificationPayload) {
 
 export async function login(payload: LoginPayload) {
   const data = await request.post<ApiAuthResponse>("/api/auth/login", payload);
-  return { token: data.token, user: mapUser(data.user) };
+  return { token: data.token, refreshToken: data.refreshToken, user: mapUser(data.user) };
 }
 
 export async function getMe() {

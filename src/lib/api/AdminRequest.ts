@@ -1,13 +1,22 @@
 import axios, { type AxiosInstance, type AxiosRequestConfig } from "axios";
-import { API_BASE_URL } from "./endpoints";
+import { API_BASE_URL, ADMIN_AUTH_REFRESH_URL } from "./endpoints";
 import { setupAdminAuthInterceptor } from "./interceptors/admin-auth.interceptor";
+import { setupErrorInterceptor } from "./interceptors/error.interceptor";
+import { RefreshQueue } from "./queue";
+import { setAdminToken, getAdminRefreshToken } from "./admin-token";
+import { useAdminStore } from "@/lib/stores/admin.store";
 
 class AdminRequest {
   private instance: AxiosInstance;
+  private refreshQueue: RefreshQueue;
 
   constructor(baseURL: string) {
+    this.refreshQueue = new RefreshQueue();
     this.instance = axios.create({ baseURL, withCredentials: true });
     setupAdminAuthInterceptor(this.instance);
+    setupErrorInterceptor(this.instance, this.refreshQueue, ADMIN_AUTH_REFRESH_URL, setAdminToken, getAdminRefreshToken, () =>
+      useAdminStore.getState().logout(),
+    );  // ponytail: send refreshToken, de-auth on fail
   }
 
   async get<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
