@@ -6,6 +6,12 @@ const backendUrl = rawBackendUrl.replace(/\/api\/v1\/?$/, "");
 
 const nextConfig: NextConfig = {
   experimental: {},
+  webpack: (config, { dev }) => {
+    if (dev) {
+      config.cache = false;
+    }
+    return config;
+  },
   images: {
     remotePatterns: [
       {

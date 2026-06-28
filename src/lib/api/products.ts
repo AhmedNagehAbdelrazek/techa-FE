@@ -23,6 +23,7 @@ interface ApiProduct {
   rating_avg: number;
   rating_count: number;
   is_featured: boolean;
+  is_in_stock: boolean;
   stock_qty: number;
   createdat: string;
 }
@@ -104,12 +105,17 @@ export async function getOnSaleProducts(params?: Record<string, string | number 
 }
 
 export async function searchProducts(q: string) {
-  // 🐴 ponytail: inline response type, matches only what the dropdown needs
   const res = await request.get<{
-    data: { id: string; name: string; slug: string; image: string; available: boolean }[];
-    meta: { page: number; limit: number; total: number; totalPages: number };
+    data: ApiProduct[];
+    meta: ApiMeta;
   }>(`/api/products/search?q=${encodeURIComponent(q)}&page=1&limit=5`);
-  return res.data;
+  return res.data.map((p) => ({
+    id: p.id,
+    name: p.name,
+    slug: p.slug,
+    image: p.primary_image?.url ?? "",
+    available: p.is_in_stock,
+  }));
 }
 
 export async function getProductBySlug(slug: string): Promise<ProductDetail | null> {
