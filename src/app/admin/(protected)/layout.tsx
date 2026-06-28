@@ -6,18 +6,18 @@ import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { AdminAuthInitializer } from "@/components/admin/AdminAuthInitializer";
 import { useAdminStore } from "@/lib/stores/admin.store";
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const { admin, isAuthenticated,_hydrated } = useAdminStore((s) => s);
-  const router = useRouter();
 
   useEffect(() => {
     if ((!admin || !isAuthenticated) && _hydrated) {
-      router.replace("/admin/login");
+      // ponytail: hard redirect — router.replace is unreliable here because
+      // logout is triggered outside React (axios interceptor), and cross-layout-group
+      // navigations from useEffect can be swallowed by Next.js router internals.
+      window.location.href = "/admin/login";
     }
-    
-  }, [admin, isAuthenticated, router ,_hydrated]);
+  }, [admin, isAuthenticated, _hydrated]);
 
   return (
     <div className="flex h-screen overflow-hidden">

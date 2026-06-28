@@ -19,13 +19,18 @@ export function setupErrorInterceptor(
         return Promise.reject(error);
       }
 
+      // ponytail: don't retry a failing refresh endpoint itself
+      if (refreshUrl && originalRequest.url?.endsWith(refreshUrl)) {
+        onRefreshFail?.();
+        return Promise.reject(error);
+      }
+
       originalRequest._retry = true;
 
       if (!refreshQueue.pending) {
         refreshQueue.start();
-        console.log("refreshing token");
         try {
-          const body = getRefreshTokenFn ? { refreshToken: getRefreshTokenFn() } : undefined;  // ponytail: send stored refreshToken
+          const body = getRefreshTokenFn ? { refreshToken: getRefreshTokenFn() } : undefined;
           const refreshResponse = await instance.post<{ token?: string }>(
             refreshUrl,
             body,
@@ -34,11 +39,10 @@ export function setupErrorInterceptor(
             setTokenFn(refreshResponse.data.token);
           }
           refreshQueue.resolveAll(true);
-          console.log("token refreshed");
+          return instance(originalRequest);  // ponytail: this request triggered refresh, retry directly
         } catch (refreshError) {
-          console.log("refresh error");
           refreshQueue.rejectAll(refreshError);
-          onRefreshFail?.();  // ponytail: de-authenticate on refresh failure
+          onRefreshFail?.();
           return Promise.reject(refreshError);
         }
       }
